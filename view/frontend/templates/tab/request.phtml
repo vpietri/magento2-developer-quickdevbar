@@ -1,0 +1,7 @@
+<?php
+?>
+<table class="qdn_table_2col">
+<?php foreach ($block->getRequestData() as $data):?>
+    <tr><th><?php echo $data['name'];?></th><td><?php echo $block->formatValue($data['value']);?></td>
+<?php endforeach;?>
+</table>

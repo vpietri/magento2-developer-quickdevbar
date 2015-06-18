@@ -1,0 +1,25 @@
+<?php if($block->isUserAllowed()):?>
+<div>
+<div id="qdb-bar" style="display: none;">
+    <div class="qdb-container ui-tabs" data-mage-init='{"tabs":{"active": false, "openedState":"ui-tabs-active", "collapsible": true, "ajaxContent": true}}' role="tablist" style="display: block;">
+        <ul class="ui-tabs-nav">
+            <?php foreach($block->getTabBlocks() as $tabBlock): ?>
+                <li data-role="collapsible" data-collapsible="true" >
+                    <a href="<?php echo $tabBlock->getTabUrl() ?>" tabindex="-1" data-toggle="switch" role="tab" data-ajax="<?php echo $tabBlock->isAjax() ?>">
+                    <?php echo $tabBlock->getTitle() ?>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <?php foreach($block->getTabBlocks() as $tabBlock): ?>
+            <div class="qdb-panel"  data-role="content" role="tabpanel" id="<?php echo $tabBlock->getId() ?>" aria-hidden="true" style="display: none;">
+                <?php echo ($tabBlock->isAjax()=="true") ? $tabBlock->getHtmlLoader() : $tabBlock->toHtml(); ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+<div id="qdb-bar-anchor">
+<img src="<?php echo $block->getViewFileUrl('ADM_QuickDevBar::images/qdb-icon.png') ?>" alt="<?php echo __('QuickDevBar'); ?>" title="<?php echo __('Click to toggle the Quick Development Toolbar'); ?>"/>&nbsp;
+</div>
+</div>
+<?php endif;?>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+    <system>
+        <section id="dev" translate="label">
+            <group id="restrict" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Developer Client Restrictions</label>
+                <field id="toolbar_header" translate="label comment" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Header for Quick Dev Bar</label>
+                     <frontend_type>text</frontend_type>
+                    <!-- <backend_model>Magento\Developer\Model\Config\Backend\AllowedIps</backend_model> -->
+                    <comment>You can define a specific pattern that will be check (with preg_match) in request headers to allow toolbar usage.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

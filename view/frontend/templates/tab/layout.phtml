@@ -1,0 +1,14 @@
+<?php
+?>
+<table class="qdn_table_2col">
+<tr>
+    <th>Handles</th>
+    <td>
+    <?php foreach ($block->getHandles() as $handle): ?>
+    <?php echo $handle; ?></br>
+    <?php endforeach;?>
+    </td>
+  </tr>
+</table>
+
+<?php echo $block->getContent() ?>

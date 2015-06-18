@@ -1,0 +1,22 @@
+<?php
+?>
+<div id="qdn-profiler-container">
+<?php echo __('Cannot find profiler table or profiler is not enabled.'); ?>
+</div>
+
+<script type="text/javascript">
+
+require([
+    'jquery'
+], function($){
+    var tableProfiler = $('table').last();
+    var captionProfiler = tableProfiler.find('caption').html();
+
+    if (captionProfiler && captionProfiler.match('Code Profiler ')) {
+        $('#qdn-profiler-container').html('');
+        tableProfiler.removeAttr('border').removeAttr('cellspacing').removeAttr('cellpadding');
+        tableProfiler.addClass('qdn_table');
+        tableProfiler.appendTo($('#qdn-profiler-container'));
+    }
+});
+</script>

@@ -1,0 +1,57 @@
+<?php
+//$_helper = Mage::helper('wee_developertoolbar');
+$_profiler = $block->getSqlProfiler();
+?>
+<?php if ($block->getQueryProfiles()): ?>
+<table class="qdn_table_2col">
+  <tr>
+    <th><?php echo __('Executed'); ?></th>
+    </td>
+    <td>
+      <?php echo sprintf('%s queries in %s seconds', $_profiler->getTotalNumQueries(), $_profiler->getTotalElapsedSecs()); ?>
+    </td>
+  </tr>
+  <tr>
+    <th><?php echo __('Average query length'); ?></th>
+    <td>
+      <?php echo sprintf('%s seconds', $_profiler->getTotalNumQueries() &&  $_profiler->getTotalElapsedSecs() ? $_profiler->getTotalElapsedSecs()/$_profiler->getTotalNumQueries() : 0); ?>
+    </td>
+  </tr>
+  <tr>
+    <th><?php echo __('Queries per second'); ?></th>
+    <td>
+      <?php echo ($_profiler->getTotalNumQueries() && $_profiler->getTotalElapsedSecs() ?  $_profiler->getTotalNumQueries()/$_profiler->getTotalElapsedSecs() : 0); ?>
+    </td>
+  </tr>
+  <tr>
+    <th><?php echo __('Longest query length'); ?></th>
+    <td>
+      <?php echo $block->getLongestQueryTime(); ?>
+    </td>
+  </tr>
+  <tr>
+    <th><?php echo __('Longest query'); ?></th>
+    <td>
+      <?php echo $block->formatSql($block->getLongestQuery()); ?>
+    </td>
+  </tr>
+</table>
+
+<ol class="qdb_list">
+<?php
+  $i = 0;
+  foreach ($block->getQueryProfiles() as $query): ?>
+    <li class="<?php echo ($i % 2 ? 'even' : 'odd')?>">
+      <?php echo $block->formatSql($query->getQuery()); ?>
+      <span class="info">
+      <?php echo __('Elapsed seconds:'); ?> <?php echo $query->getElapsedSecs() ?>
+      </span>
+    </li>
+    <?php $i++; ?>
+  <?php endforeach ?>
+</ol>
+<?php else:?>
+SQL profiler is not active<br/>
+You should set a new key for $config array in file app/etc/config.php<br/>
+$config[db][connection][default][profiler] = 1
+<?php  endif ?>

@@ -1,0 +1,189 @@
+/**
+  */
+
+#qdb-bar {
+    position: absolute;
+    left: 0;
+    top: 1px;
+    z-index: 1000;
+    margin-left: 30px;
+    /* background: none repeat scroll 0 0 #fff */
+}
+#qdb-bar-anchor {
+    position: absolute;
+    top: 1px;
+    z-index: 1000;
+}
+
+#qdb-bar-anchor img {
+    padding-left: 5px;
+}
+
+#qdb-bar  * {
+  font-size: 12px;
+}
+
+div.qdb-container {
+    width: 1200px;
+}
+
+div.qdb-container ul {
+    margin: 0px;
+}
+
+
+div.qdb-panel {
+    max-height: 600px;
+    overflow: auto;
+    background: none repeat scroll 0 0 #fff
+}
+
+
+/**
+  * Tabs
+  * ---------------
+  */
+#qdb-bar div.ui-tabs {
+    padding: 0 0 20px 0;
+}
+#qdb-bar div.ui-tabs > ul {
+    padding-left: 5px;
+}
+#qdb-bar div.ui-tabs > ul > li {
+    position: relative;
+    z-index: 98;
+    display:inline-block;
+    border: 1px solid #ccc;
+    margin-bottom: 3px;
+    padding: 5px 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: #f7f7f7;
+    box-shadow: none;
+}
+
+#qdb-bar div.ui-tabs li.ui-tabs-active {
+    background-color: #fff;
+    /* border-bottom: 1px solid #fff; */
+    z-index: 100;
+}
+
+#qdb-bar div.ui-tabs > ul a {
+    text-decoration: none;
+    color: #004276;
+    font-weight: bold;
+    font-size: 1.1em;
+    box-shadow: none;
+}
+
+#qdb-bar div.ui-tabs .ui-state-hover > a {
+    box-shadow: none;
+}
+
+#qdb-bar div.ui-tabs .ui-tabs-active > a {
+    color: #cc0000;
+    box-shadow: none;
+}
+
+#qdb-bar div.ui-tabs > div {
+    position: relative;
+    border: 1px solid #CCC;
+    padding: 20px;
+    z-index: 99;
+    font-size: 1.1em;
+}
+
+/**
+  * Table
+  * ---------------
+  */
+
+table.qdn_table {
+  border: 1px solid #ccc;
+}
+
+
+table.qdn_table tr {
+  border: 1px solid #ccc;
+}
+
+table.qdn_table tr td, table.qdn_table tr th {
+  padding: 5px;    
+}
+
+table.qdn_table tr th {
+  color: #004276;
+  white-space: nowrap;    
+}
+
+
+table.qdn_table tr.even {
+  background:#DDDDDD;
+}
+
+/**
+  * Table 2 column
+  * ---------------
+  */
+
+table.qdn_table_2col tr td, table.qdn_table_2col tr th {
+  padding: 2px;    
+}
+
+table.qdn_table_2col tr td{
+    max-width: 250px;
+}
+
+table.qdn_table_2col tr th{
+    max-width: 50px;
+    color: #004276;
+}
+
+/**
+  * List
+  * ---------------
+  */
+
+ol.qdb_list {
+  list-style-type: decimal-leading-zero;
+  padding:20px 0px 0px 0px;
+}
+
+ol.qdb_list li {
+  padding:5px 10px;
+  margin:0px 0px 10px 0px;
+  display: block;
+  border: 1px solid #ccc
+}
+
+ol.qdb_list li.even {
+  background:#DDDDDD;
+}
+
+
+ol.qdb_list li span.info {
+    color: #666666;
+    display: block;
+    font-size: 10px;
+}
+
+/**
+ * SQL
+ */
+span.sqlmain, span.sqlword, span.sqljoin {
+  font-weight:bold;
+}
+
+span.sqlmain {
+  color:#004276;
+}
+
+span.sqlword {
+  color:#cc00c0;
+}
+
+span.sqljoin {
+  color:#FF5200;
+}
+

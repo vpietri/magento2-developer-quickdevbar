@@ -1,0 +1,34 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="before.body.end">
+            <block class="ADM\QuickDevBar\Block\Toolbar" name="quick.dev.nav" as="quick.dev.nav" template="toolbar.phtml">
+              <block class="ADM\QuickDevBar\Block\Tab\Request" name="qdb.tab.request" as="qdb.tab.request" template="tab/request.phtml"/>
+              <block class="ADM\QuickDevBar\Block\Tab\Layout" name="qdb.tab.layout" as="qdb.tab.layout" template="tab/layout.phtml"/>
+              <block class="ADM\QuickDevBar\Block\Tab\DefaultTab" name="qdb.tab.profiler" as="qdb.tab.profiler" template="tab/profiler.phtml">
+                <!-- Set a title with the basic class  DefaultTab -->
+                <action method="setTitle">
+                  <argument name="title" xsi:type="string">Profiler</argument>
+                </action>
+              </block>
+              <block class="ADM\QuickDevBar\Block\Tab\Observer" name="qdb.tab.observer" as="qdb.tab.observer" template="tab/observer.phtml"/>
+              <block class="ADM\QuickDevBar\Block\Tab\Event" name="qdb.tab.event" as="qdb.tab.event" template="tab/event.phtml"/>
+              <block class="ADM\QuickDevBar\Block\Tab\Sql" name="qdb.tab.sql" as="qdb.tab.sql" template="tab/sql.phtml"/>
+              <block class="ADM\QuickDevBar\Block\Tab\Log" name="qdb.tab.log" as="qdb.tab.log" template="tab/log.phtml"/>
+              <block class="ADM\QuickDevBar\Block\Tab\PhpInfo" name="qdb.tab.phpinfo" as="qdb.tab.phpinfo">
+                <!-- Use the standard router quickdevbar/index/tab to load the block -->
+                <action method="setIsAjax">
+                  <argument name="is_ajax" xsi:type="string">1</argument>
+                </action>
+                <!-- Or you can define your own route -->
+                <!--             
+                <action method="setAjaxUrl">
+                  <argument name="ajax_url" xsi:type="string">quickdevbar/index/phpInfo</argument>
+                </action>
+                -->
+              </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
+
+

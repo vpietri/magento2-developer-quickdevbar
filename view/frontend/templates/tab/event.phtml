@@ -1,0 +1,19 @@
+<?php
+?>
+<p>
+<?php echo __('List only events dispatched when Magento generate this page')?>
+</p>
+
+<table class="qdn_table">
+<tr>
+    <th>Event</th>
+</tr>
+<?php
+  $i = 0;
+  foreach ($this->getEvents() as $event): ?>
+  <tr class="<?php echo ($i % 2 ? 'even' : 'odd')?>">
+    <td><?php echo $event['event']; ?></td>
+  </tr>
+    <?php $i++; ?>
+  <?php endforeach ?>
+</table>
