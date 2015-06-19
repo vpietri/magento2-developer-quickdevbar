@@ -10,19 +10,25 @@ class Reset extends \ADM\QuickDevBar\Controller\AjaxBlock
      */
     public function execute()
     {
-        $logKey = $this->getRequest()->getParam('log_key', '');
-        $this->_view->loadLayout();
-
-        $logFiles = $this->_qdnHelper->getLogFiles();
-        if($logKey and !empty($logFiles[$logKey])) {
-            $filePath = BP . $logFiles[$logKey];
-            if(file_exists($filePath)) {
-                unlink($filePath);
-            }
-        }
-
+        $fileKey = $this->getRequest()->getParam('log_key', '');
         $output = '';
 
+        $file = $this->_qdbHelper->getLogFiles($fileKey);
+        if ($file) {
+            if(!empty($file['is_empty'])) {
+                if (!unlink($file['is_empty'])) {
+                    $output = 'Cannot reset file.';
+                } else {
+                    $output = 'File empty.';
+                }
+            } else {
+                $output = 'Cannot find file to reset.';
+            }
+        } else {
+            $output = $file['path'];
+        }
+
+        $this->_view->loadLayout();
         $resultRaw = $this->_resultRawFactory->create();
         return $resultRaw->setContents($output);
     }

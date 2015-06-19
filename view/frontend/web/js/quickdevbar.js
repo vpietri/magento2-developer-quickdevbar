@@ -1,23 +1,39 @@
 
 /* */
-require(["jquery",
+define(["jquery",
          /*"jquery/jquery.ui",*/
-         "jquery/jquery.tabs"
+         "jquery/jquery.tabs",
+         "filtertable"
 ], function($){
-    'use strict';
     
-    $(function() {
-        
-            var toggleEffect = "blind" /** Vertical */
-            var toggleEffect = "slide" /** Horizontal left*/
-            var toggleEffect = "drop" /** Horizontal left and disappear*/
-                
-            $('#qdb-bar').toggle(toggleEffect);
+    $.widget('mage.quickDevBar', {
+        options: {
+            toggleEffect: "drop",
+            stripedClassname: "striped",
+            classToStrip: "qdn_table.striped",
+            classToFilter: "qdn_table.filterable"
+            // toggleEffect = "blind" /** Vertical */
+            // toggleEffect = "slide" /** Horizontal left*/
+            // toggleEffect = "drop" /** Horizontal left and disappear*/
+        },
 
-            $('#qdb-bar-anchor').click(function(event) {
+        _create: function() {
+            this.element.toggle(this.options.toggleEffect);
+
+            $('#qdb-bar-anchor').on('click', $.proxy(function(event) {
                 event.preventDefault();
-                $('#qdb-bar').toggle(toggleEffect);
+                this.element.toggle(this.options.toggleEffect);
+            }, this));
+            
+            $('table.' + this.options.classToStrip + ' tr:even').addClass(this.options.stripedClassname);
+            $('table.' + this.options.classToFilter).filterTable({
+                label: 'Search filter:',
+                minRows: 10,
+                visibleClass: '', 
+                callback: $.proxy(function(term, table) {
+                    table.find('tr').removeClass(this.options.stripedClassname).filter(':visible:even').addClass(this.options.stripedClassname);
+                }, this)
             });
-           
+        }
     });
 });

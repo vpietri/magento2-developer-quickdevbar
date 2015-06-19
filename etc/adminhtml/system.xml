@@ -11,7 +11,7 @@
                 <label>Developer Client Restrictions</label>
                 <field id="toolbar_header" translate="label comment" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Header for Quick Dev Bar</label>
-                     <frontend_type>text</frontend_type>
+                     <!-- <frontend_type>text</frontend_type> -->
                     <!-- <backend_model>Magento\Developer\Model\Config\Backend\AllowedIps</backend_model> -->
                     <comment>You can define a specific pattern that will be check (with preg_match) in request headers to allow toolbar usage.</comment>
                 </field>

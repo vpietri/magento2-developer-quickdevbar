@@ -16,6 +16,7 @@ require([
         $('#qdn-profiler-container').html('');
         tableProfiler.removeAttr('border').removeAttr('cellspacing').removeAttr('cellpadding');
         tableProfiler.addClass('qdn_table');
+        tableProfiler.addClass('filterable');
         tableProfiler.appendTo($('#qdn-profiler-container'));
     }
 });

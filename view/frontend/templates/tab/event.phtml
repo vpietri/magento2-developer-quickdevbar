@@ -3,17 +3,22 @@
 <p>
 <?php echo __('List only events dispatched when Magento generate this page')?>
 </p>
-
-<table class="qdn_table">
+<?php if($this->getEvents()):?>
+<table class="qdn_table striped filterable">
+<thead>
 <tr>
     <th>Event</th>
 </tr>
+</thead>
+<tbody>
 <?php
   $i = 0;
   foreach ($this->getEvents() as $event): ?>
-  <tr class="<?php echo ($i % 2 ? 'even' : 'odd')?>">
+  <tr style="border: 1px solid black">
     <td><?php echo $event['event']; ?></td>
   </tr>
     <?php $i++; ?>
   <?php endforeach ?>
+</tbody>
 </table>
+<?php endif;?>

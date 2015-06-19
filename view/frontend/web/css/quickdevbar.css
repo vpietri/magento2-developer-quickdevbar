@@ -1,4 +1,6 @@
 /**
+  *  Toolbar global style
+  * ---------------
   */
 
 #qdb-bar {
@@ -6,9 +8,15 @@
     left: 0;
     top: 1px;
     z-index: 1000;
-    margin-left: 30px;
+    margin-left: 35px;
     /* background: none repeat scroll 0 0 #fff */
 }
+
+#qdb-bar  * {
+  font-family: "Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;
+  font-size: 12px;
+}
+
 #qdb-bar-anchor {
     position: absolute;
     top: 1px;
@@ -19,10 +27,6 @@
     padding-left: 5px;
 }
 
-#qdb-bar  * {
-  font-size: 12px;
-}
-
 div.qdb-container {
     width: 1200px;
 }
@@ -31,13 +35,11 @@ div.qdb-container ul {
     margin: 0px;
 }
 
-
 div.qdb-panel {
     max-height: 600px;
     overflow: auto;
     background: none repeat scroll 0 0 #fff
 }
-
 
 /**
   * Tabs
@@ -95,12 +97,31 @@ div.qdb-panel {
 }
 
 /**
+  * Loader
+  * ---------------
+  */
+
+.qdn-loading-mask p {
+    color: #004276;
+    text-align: center;
+    font-weight:bold;
+}
+
+
+.qdn-loading-mask img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/**
   * Table
   * ---------------
   */
 
 table.qdn_table {
   border: 1px solid #ccc;
+  width: 100%;  
 }
 
 
@@ -114,12 +135,12 @@ table.qdn_table tr td, table.qdn_table tr th {
 
 table.qdn_table tr th {
   color: #004276;
-  white-space: nowrap;    
+  white-space: nowrap;
+  text-align: left; 
 }
 
-
-table.qdn_table tr.even {
-  background:#DDDDDD;
+table.qdn_table tbody tr.striped { 
+    background-color: #f0f8ff;
 }
 
 /**
@@ -127,8 +148,13 @@ table.qdn_table tr.even {
   * ---------------
   */
 
+table.qdn_table_2col {
+  width: 100%;  
+}
+
 table.qdn_table_2col tr td, table.qdn_table_2col tr th {
-  padding: 2px;    
+    padding: 2px;    
+    text-align: left;
 }
 
 table.qdn_table_2col tr td{
@@ -141,35 +167,8 @@ table.qdn_table_2col tr th{
 }
 
 /**
-  * List
-  * ---------------
-  */
-
-ol.qdb_list {
-  list-style-type: decimal-leading-zero;
-  padding:20px 0px 0px 0px;
-}
-
-ol.qdb_list li {
-  padding:5px 10px;
-  margin:0px 0px 10px 0px;
-  display: block;
-  border: 1px solid #ccc
-}
-
-ol.qdb_list li.even {
-  background:#DDDDDD;
-}
-
-
-ol.qdb_list li span.info {
-    color: #666666;
-    display: block;
-    font-size: 10px;
-}
-
-/**
  * SQL
+  * ---------------
  */
 span.sqlmain, span.sqlword, span.sqljoin {
   font-weight:bold;
@@ -187,3 +186,8 @@ span.sqljoin {
   color:#FF5200;
 }
 
+span.sqlinfo {
+    color: #666666;
+    display: block;
+    font-size: 10px;
+}

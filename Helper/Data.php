@@ -7,6 +7,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     protected $_httpHeader;
 
+    protected $_defaultLogFiles = array('exception'=>'exception.log', 'system'=>'system.log', 'debug'=>'debug.log');
+
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
@@ -54,10 +56,47 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
 
-    public function getLogFiles()
+    public function getLogFiles($key=false)
     {
-        return array('system'=>'system.log', 'exception'=>'exception.log', 'debug'=>'debug.log');
+        $logFiles = array();
+        foreach ($this->_defaultLogFiles as $fileKey=>$fileName) {
+            $filepath = BP . '/var/log/' . $fileName;
+            $logFiles[$fileKey] = array('id'=>$fileName
+                    , 'name' => $fileName
+                    , 'path' => $filepath
+                    , 'reset' => $this->_canResetFile($filepath)
+                    , 'size' => $this->_getFileSize($filepath)
+                    );
+        }
+
+        if (!$key) {
+            return $logFiles;
+        } elseif (!empty($logFiles[$key]))  {
+            return $logFiles[$key];
+        } else {
+            return false;
+        }
     }
+
+    protected  function _canResetFile($filepath)
+    {
+        if (is_file($filepath) and is_writable($filepath)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected  function _getFileSize($filepath)
+    {
+
+        if (is_file($filepath) and file_exists($filepath)) {
+            return filesize($filepath);
+        } else {
+            return 0;
+        }
+    }
+
 
 
     /**

@@ -13,6 +13,8 @@ class AjaxBlock extends Index
      */
     protected $_layoutFactory;
 
+    protected $_qdbHelper;
+
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Controller\Result\RawFactory $resultRawFactory
@@ -25,6 +27,7 @@ class AjaxBlock extends Index
         \Magento\Framework\View\LayoutFactory $layoutFactory
     ) {
         parent::__construct($context, $qdnHelper);
+        $this->_qdbHelper = $qdnHelper;
         $this->_resultRawFactory = $resultRawFactory;
         $this->_layoutFactory = $layoutFactory;
     }

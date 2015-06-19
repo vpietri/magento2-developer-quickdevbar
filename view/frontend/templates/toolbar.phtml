@@ -1,10 +1,10 @@
 <?php if($block->isUserAllowed()):?>
 <div>
-<div id="qdb-bar" style="display: none;">
+<div id="qdb-bar" style="display: none;" data-mage-init='{"quickDevBar":{"toggleEffect":"slide"}}'>
     <div class="qdb-container ui-tabs" data-mage-init='{"tabs":{"active": false, "openedState":"ui-tabs-active", "collapsible": true, "ajaxContent": true}}' role="tablist" style="display: block;">
         <ul class="ui-tabs-nav">
             <?php foreach($block->getTabBlocks() as $tabBlock): ?>
-                <li data-role="collapsible" data-collapsible="true" >
+                <li data-role="collapsible" data-collapsible="true" class="<?php echo $tabBlock->getClass() ?>">
                     <a href="<?php echo $tabBlock->getTabUrl() ?>" tabindex="-1" data-toggle="switch" role="tab" data-ajax="<?php echo $tabBlock->isAjax() ?>">
                     <?php echo $tabBlock->getTitle() ?>
                     </a>
@@ -13,7 +13,7 @@
         </ul>
         <?php foreach($block->getTabBlocks() as $tabBlock): ?>
             <div class="qdb-panel"  data-role="content" role="tabpanel" id="<?php echo $tabBlock->getId() ?>" aria-hidden="true" style="display: none;">
-                <?php echo ($tabBlock->isAjax()=="true") ? $tabBlock->getHtmlLoader() : $tabBlock->toHtml(); ?>
+                <?php echo ($tabBlock->isAjax()=="true") ? $tabBlock->getHtmlBigLoader() : $tabBlock->toHtml(); ?>
             </div>
         <?php endforeach; ?>
     </div>

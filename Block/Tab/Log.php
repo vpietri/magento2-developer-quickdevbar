@@ -36,7 +36,7 @@ class Log extends DefaultTab
 
     public function getTailLines()
     {
-        return 30;
+        return 20;
     }
 
     public function getLogFiles()
@@ -46,7 +46,7 @@ class Log extends DefaultTab
 
     public function getJsonLogFiles()
     {
-        return $this->_jsonHelper->jsonEncode($this->getLogFiles());
+        return $this->_jsonHelper->jsonEncode($this->_qdbHelper->getLogFiles());
     }
 
     public function getLogContent($file)

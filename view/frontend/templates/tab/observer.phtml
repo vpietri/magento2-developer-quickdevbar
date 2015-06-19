@@ -3,7 +3,9 @@
 <p>
 <?php echo __('List only observer that intercept dispatched events when Magento generate this page')?>
 </p>
-<table class="qdn_table">
+<?php if($this->getObservers()):?>
+<table class="qdn_table striped filterable">
+<thead>
 <tr>
     <th>Event</th>
     <th>Name</th>
@@ -11,10 +13,12 @@
     <th>Method</th>
     <th>Class</th>
 </tr>
+</thead>
+<tbody>
 <?php
   $i = 0;
   foreach ($this->getObservers() as $observer): ?>
-  <tr class="<?php echo ($i % 2 ? 'even' : 'odd')?>">
+  <tr>
     <td><?php echo $observer['event']; ?></td>
     <td><?php echo $observer['name']; ?></td>
     <td><?php echo $observer['call_number']; ?></td>
@@ -23,4 +27,6 @@
   </tr>
     <?php $i++; ?>
   <?php endforeach ?>
+</tbody>
 </table>
+<?php endif;?>

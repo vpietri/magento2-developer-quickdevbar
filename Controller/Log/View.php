@@ -10,9 +10,16 @@ class View extends \ADM\QuickDevBar\Controller\AjaxBlock
      */
     public function execute()
     {
-        $fileName = $this->getRequest()->getParam('file', '');
+        $fileKey = $this->getRequest()->getParam('log_key', '');
+        $lines = $this->getRequest()->getParam('tail', 20);
+        $file = $this->_qdbHelper->getLogFiles($fileKey);
+        if ($file) {
+            $output = $this->_qdbHelper->tailFile($file['path'], $lines);
+        } else {
+            $output = __('No log file.');
+        }
+
         $this->_view->loadLayout();
-        $output = $fileName;
 
         $resultRaw = $this->_resultRawFactory->create();
         return $resultRaw->setContents($output);

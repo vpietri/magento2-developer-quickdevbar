@@ -15,6 +15,11 @@ class DefaultTab extends \Magento\Framework\View\Element\Template
         return ($this->getData('id')) ? $this->getData('id') : $this->getNameInLayout();
     }
 
+    public function getClass()
+    {
+        return str_replace('.', '-', $this->getId());
+    }
+
     public function isAjax()
     {
         return (($this->hasData('ajax_url') || $this->hasData('is_ajax'))? "true" : "false");
@@ -37,14 +42,26 @@ class DefaultTab extends \Magento\Framework\View\Element\Template
         }
     }
 
-    public function getHtmlLoader()
+    public function getHtmlBigLoader()
     {
-        $html = '<div id="loading-mask">';
-        $html .= '<p class="loader" id="loading_mask_loader">';
-        $html .= '<img src="' . $this->getViewFileUrl('images/loader-1.gif') .'">';
-        $html .= '<br/>'.__('Please wait. Content is loading.');
-        $html .= '</p></div>';
+        return $this->getHtmlLoader($this->getViewFileUrl('images/loader-1.gif'), 'big');
+    }
+
+
+    public function getHtmlSmallLoader()
+    {
+        return $this->getHtmlLoader($this->getViewFileUrl('images/loader-2.gif'), 'small', false);
+    }
+
+    public function getHtmlLoader($imgSrc, $class, $showText = true)
+    {
+        $html = '<div class="qdn-loading-mask ' . $class . '">';
+        $html .= $showText  ? '<p>' . __('Please wait.') . '</p>' : '';
+        $html .= '<img src="' . $imgSrc .'">';
+        $html .= $showText  ? '<p>' . __('Content is loading ...') . '</p>' : '';
+        $html .= '</div>';
 
         return $html;
     }
+
 }

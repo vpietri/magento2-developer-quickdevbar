@@ -4,100 +4,64 @@
 <button type="button" onClick="javascript:resetAllLogs();return false;" class="qdb_button">Reset all Logs</button>
 <br/>
 <br/>
-
 <?php foreach ($block->getLogFiles() as $logKey=>$logFile):?>
-    <h3><?php echo $logFile ?>&nbsp;<button type="button" onClick="javascript:resetLog('<?php echo $logKey ?>');return false;" class="qdb_button">Reset</button></h3>
+    <h3><?php echo $logFile['name'] ?>&nbsp;<button type="button" onClick="javascript:resetLog('<?php echo $logKey ?>');return false;" class="qdb_button">Reset</button></h3>
     Tail the <?php echo $block->getTailLines() ?> last lines
     <pre id= "content-<?php echo $logKey ?>" style="border:1px solid;padding:5px;background:#fffcd8;">
     </pre>
     <br/>
 <?php endforeach;?>
+<div id='log-loader' style="display:none"><?php echo $block->getHtmlSmallLoader()?></div>
 <script type="text/javascript">
 <!--
-
 require([
          'jquery'
      ], function($){
+
         var logFiles = <?php echo $block->getJsonLogFiles() ?>;
+        var loaded = false;
 
-
-        $.each(logFiles, function(key, file){
-            $('#' + file).on('click', function() {
-                loadLogContent(key);
-            });
+        $('.ui-tabs-nav li.qdb-tab-log').on( "beforeOpen", function( event) {
+            if (!loaded) {
+                $.each(logFiles, function(key, logfile){
+                    if (logfile.size>0) {
+                        loadLogContent(key);
+                    }
+                });
+                loaded = true;
+            }
         });
 
-
-        /*
-        $('.ui-tabs-nav li[aria-controls="qdb.tab.log"]').on( "beforeOpen", function( event) {
-            var target = $(event.target);
-            console.log(target);
-            logFiles.each(function(file){
-                loadLogContent(file);
-            });
-        });
-        */
-
-        console.log($('.ui-tabs-nav li[aria-controls="qdb.tab.log"]'), 'aria');
-        console.log($('#qdb.tab.log'), 'dom');
-
-        $('.ui-tabs-nav li').on( "beforeOpen", function( event) {
-            var target = $(event.target);
-            console.log(target);
-        });
-
-
-
-        /*
-        $('#qdb.tab.sql').on( "beforeOpen", function( event) {
-            var target = $(event.target);
-            console.log(event);
-            logFiles.each(function(file){
-                loadLogContent(file);
-            });
-        });
-        */
-
-        /*
-        var tabActive = $$('li#<?php echo $block->getIdContainer() ?>').first();
-
-        if (tabActive && tabActive.hasClassName('active')) {
-            logFiles.each(function(file){
-                loadLogContent(file);
-            });
+        showLoader = function(target) {
+            target.html($('#log-loader').html());
         }
-        */
 
         loadLogContent = function(key)
         {
-            $.ajax({
-                type: "GET",
-                url: '<?php echo $block->getUrlLog('view') ?>',
-                data: "log_key=" + key, // appears as $_GET['id'] @ your backend side
-                done: function(response) {
-                      // data is ur summary
-                     $('#content-' +  key ).html(response);
-                }
-              });
+            var target =  $('#content-' +  key );
+            var jqxhr = $.get('<?php echo $block->getUrlLog('view') ?>', {isAjax:1,log_key:key,tail:<?php echo $block->getTailLines(); ?>});
+            jqxhr.beforeSend= showLoader(target);
+            jqxhr.done(function(response) {
+                target.html(response);
+          });
         }
 
         resetAllLogs = function()
         {
             $.each(logFiles, function(key, logfile){
-                resetLog(logfile);
+                resetLog(key);
             });
         }
 
         resetLog = function(key)
         {
-            $.get('<?php echo $block->getUrlLog('reset') ?>', {log_key:key}).done(function(response) {
-                      // data is ur summary
-                     $('#content-' +  key ).html(response);
-                });
-            //loadLogContent(logfile);
+            var target =  $('#content-' +  key );
+            var jqxhr = $.get('<?php echo $block->getUrlLog('reset') ?>', {isAjax:1,log_key:key});
+            jqxhr.beforeSend= showLoader(target);
+            jqxhr.done(function(response) {
+                target.html(response);
+            });
         }
-     });
-
-
+});
 //-->
 </script>
