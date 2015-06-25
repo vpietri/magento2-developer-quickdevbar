@@ -17,6 +17,10 @@
   font-size: 12px;
 }
 
+#qdb-bar  input {
+  width: auto;
+}
+
 #qdb-bar-anchor {
     position: absolute;
     top: 1px;
@@ -45,33 +49,53 @@ div.qdb-panel {
   * Tabs
   * ---------------
   */
-#qdb-bar div.ui-tabs {
+div.qdb-ui-tabs, div.qdb-ui-subtabs {
     padding: 0 0 20px 0;
 }
-#qdb-bar div.ui-tabs > ul {
+div.qdb-ui-tabs > ul, div.qdb-ui-subtabs > ul {
     padding-left: 5px;
 }
-#qdb-bar div.ui-tabs > ul > li {
+
+div.qdb-ui-tabs > ul > li, div.qdb-ui-subtabs > ul > li {
     position: relative;
     z-index: 98;
     display:inline-block;
-    border: 1px solid #ccc;
+    background-color: #f7f7f7;
+}
+
+div.qdb-ui-tabs > ul > li {
     margin-bottom: 3px;
     padding: 5px 10px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
-    border-radius: 10px;
-    background-color: #f7f7f7;
+    border-radius: 10px;    
+    border: 1px solid #ccc;
     box-shadow: none;
 }
 
-#qdb-bar div.ui-tabs li.ui-tabs-active {
+
+div.qdb-ui-subtabs > ul > li {
+    margin: 0 3px;
+    padding: 7px 10px;
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+
+div.qdb-ui-tabs li.ui-tabs-active, div.qdb-ui-subtabs li.ui-tabs-active {
     background-color: #fff;
-    /* border-bottom: 1px solid #fff; */
     z-index: 100;
 }
 
-#qdb-bar div.ui-tabs > ul a {
+div.qdb-ui-subtabs li.ui-tabs-active {
+    border-bottom: 1px solid #fff;
+}
+
+div.qdb-ui-tabs > ul a, div.qdb-ui-subtabs > ul a  {
     text-decoration: none;
     color: #004276;
     font-weight: bold;
@@ -79,21 +103,29 @@ div.qdb-panel {
     box-shadow: none;
 }
 
-#qdb-bar div.ui-tabs .ui-state-hover > a {
+div.qdb-ui-tabs .ui-state-hover > a, div.qdb-ui-subtabs .ui-state-hover > a {
     box-shadow: none;
 }
 
-#qdb-bar div.ui-tabs .ui-tabs-active > a {
+div.qdb-ui-tabs .ui-tabs-active > a, div.qdb-ui-subtabs .ui-tabs-active > a {
     color: #cc0000;
     box-shadow: none;
 }
 
-#qdb-bar div.ui-tabs > div {
+div.qdb-ui-tabs > div, div.qdb-ui-subtabs > div {
     position: relative;
     border: 1px solid #CCC;
-    padding: 20px;
     z-index: 99;
     font-size: 1.1em;
+}
+
+div.qdb-ui-tabs > div {
+    padding: 10px;
+    box-shadow: -1px 10px 15px 0 rgba(0, 0, 0, 0.7);
+}
+
+div.qdb-ui-subtabs > div {
+    padding: 10px;
 }
 
 /**
@@ -120,6 +152,7 @@ div.qdb-panel {
   */
 
 table.qdn_table {
+  border-collapse: collapse;
   border: 1px solid #ccc;
   width: 100%;  
 }
@@ -170,7 +203,7 @@ table.qdn_table_2col tr th{
  * SQL
   * ---------------
  */
-span.sqlmain, span.sqlword, span.sqljoin {
+span.sqlmain, span.sqlword, span.sqlother {
   font-weight:bold;
 }
 
@@ -182,7 +215,7 @@ span.sqlword {
   color:#cc00c0;
 }
 
-span.sqljoin {
+span.sqlother {
   color:#FF5200;
 }
 

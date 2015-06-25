@@ -1,8 +1,10 @@
 <?php
 
-namespace ADM\QuickDevBar\Block\Tab;
+namespace ADM\QuickDevBar\Block\Tab\Content;
 
-class Event extends DefaultTab
+use \ADM\QuickDevBar\Block\Tab;
+
+class Event extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 {
     protected $_manager;
 

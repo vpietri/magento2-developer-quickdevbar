@@ -1,8 +1,8 @@
 <?php
 
-namespace ADM\QuickDevBar\Block\Tab;
+namespace ADM\QuickDevBar\Block\Tab\Content;
 
-class Layout extends DefaultTab
+class Layout extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 {
     protected $_structure;
 
@@ -18,7 +18,7 @@ class Layout extends DefaultTab
 
         $this->_structure = $structure;
 
-        $this->setTemplate('ADM_QuickDevBar::tab/layout.phtml');
+        //$this->setTemplate('ADM_QuickDevBar::tab/layout.phtml');
 
         parent::__construct($context, $data);
     }
@@ -29,23 +29,11 @@ class Layout extends DefaultTab
         return $this->getLayout()->getUpdate()->getHandles();
     }
 
-    public function getContent()
+    public function getHtmlBlocksHierarchy()
     {
         $html = '';
         $layout = $this->getLayout();
 
-//         $xml = $layout->getUpdate()->asSimplexml();
-//         $html .= '<ul>';
-//         foreach ($xml->body as $xmlNode) {
-//             if($xmlNode->hasChildren()) {
-//                     foreach ($xmlNode->children() as $k => $child) {
-//                         $html .= '<li>' . $child->getElementName() . ' ('.$child->getName().')</li>';
-//                     }
-//             }
-//         }
-//         $html .= '</ul>';
-
-        $html .= '<strong>Blocks hierarchy</strong><br/>';
         $blocks = $layout->getAllBlocks();
         $containers = array('CONTAINER'=>array());
         foreach ($blocks as $alias=>$block) {
@@ -59,9 +47,6 @@ class Layout extends DefaultTab
             }
 
             $containers[$type][$parentName] = $parentName;
-//             $ancestortName = $this->getAncestor($alias);
-//             $containers['CONTAINER'][$ancestortName] = $ancestortName;
-
         }
 
         $html .= '<ul>';
@@ -75,16 +60,15 @@ class Layout extends DefaultTab
         }
         $html .= '</ul>';
 
-        //Other blocks
-        $html .= '<strong>Other block</strong><br/>';
-        $html .= '<ul>';
-        $containers = $layout->getUpdate()->getContainers();
-        foreach ($containers as $containerAlias=>$containerLable) {
-            $html .= '<li>' . $containerAlias . '</li>';
-        }
-        $html .= '</ul>';
-
         return $html;
+    }
+
+
+    public function getContainers()
+    {
+        $containers = $this->getLayout()->getUpdate()->getContainers();
+
+        return $containers;
     }
 
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace ADM\QuickDevBar\Block\Tab;
+namespace ADM\QuickDevBar\Block\Tab\Content;
 
-class Log extends DefaultTab
+class Log extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 {
 
     protected $_jsonHelper;

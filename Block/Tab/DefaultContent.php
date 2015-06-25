@@ -2,8 +2,27 @@
 
 namespace ADM\QuickDevBar\Block\Tab;
 
-class DefaultTab extends \Magento\Framework\View\Element\Template
+class DefaultContent extends \Magento\Framework\View\Element\Template
 {
+
+//     protected $_jsonHelper;
+
+//     /**
+//      * @param \Magento\Framework\View\Element\Template\Context $context
+//      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
+//      * @param array $data
+//      */
+//     public function __construct(
+//             \Magento\Framework\View\Element\Template\Context $context,
+//             \Magento\Framework\Json\Helper\Data $jsonHelper,
+//             array $data = []
+//     ) {
+//         $this->_jsonHelper = $jsonHelper;
+
+//         parent::__construct($context, $data);
+//     }
+
+
 
     public function getTitle()
     {
@@ -17,12 +36,22 @@ class DefaultTab extends \Magento\Framework\View\Element\Template
 
     public function getClass()
     {
-        return str_replace('.', '-', $this->getId());
+        $class = str_replace('.', '-', $this->getId());
+        if ($this->isAjax(false)) {
+            $class .= ' use-ajax';
+        }
+
+        return $class;
     }
 
-    public function isAjax()
+    public function isAjax($asString=true)
     {
-        return (($this->hasData('ajax_url') || $this->hasData('is_ajax'))? "true" : "false");
+        $return = (($this->hasData('ajax_url') || $this->hasData('is_ajax'))? true : false);
+        if ($asString) {
+            $return = ($return) ? "true" : "false";
+        }
+
+        return $return;
     }
 
     public function getTabUrl()
@@ -62,6 +91,33 @@ class DefaultTab extends \Magento\Framework\View\Element\Template
         $html .= '</div>';
 
         return $html;
+    }
+
+
+    protected $_mainTabs;
+
+    public function getTabBlocks()
+    {
+        if (is_null($this->_mainTabs)) {
+            $this->_mainTabs = $this->getLayout()->getChildBlocks($this->getNameInLayout());
+        }
+
+        return $this->_mainTabs;
+    }
+
+    public function getStore()
+    {
+        return $this->_storeManager->getStore();
+    }
+
+    public function getWebsite()
+    {
+        return $this->_storeManager->getWebsite();
+    }
+
+    public function getGroup()
+    {
+        return $this->_storeManager->getGroup();
     }
 
 }

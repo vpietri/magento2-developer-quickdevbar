@@ -1,8 +1,8 @@
 <?php
 
-namespace ADM\QuickDevBar\Block\Tab;
+namespace ADM\QuickDevBar\Block\Tab\Content;
 
-class Observer extends DefaultTab
+class Observer extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 {
     protected $_invoker;
 

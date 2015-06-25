@@ -1,0 +1,21 @@
+<?php
+?>
+
+<div class="qdb-container <?php echo $block->getUiTabClass() ?>"
+data-mage-init='{"tabs":<?php echo $block->getJsonTabConfig(); ?>}'
+role="tablist" style="display: block;">
+    <ul class="ui-tabs-nav">
+        <?php foreach($block->getTabBlocks() as $tabBlock): ?>
+            <li data-role="collapsible<?php echo $block->getSubTabSuffix();?>" data-collapsible="true" class="<?php echo $tabBlock->getClass() ?>">
+                <a href="<?php echo $tabBlock->getTabUrl() ?>" tabindex="-1" data-toggle="switch" role="tab" data-ajax="<?php echo $tabBlock->isAjax() ?>">
+                <?php echo $tabBlock->getTitle() ?>
+                </a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    <?php foreach($block->getTabBlocks() as $tabBlock): ?>
+        <div class="qdb-panel"  data-role="content<?php echo $block->getSubTabSuffix();?>" role="tabpanel" id="<?php echo $tabBlock->getId() ?>" >
+            <?php echo ($tabBlock->isAjax(false)) ? $tabBlock->getHtmlBigLoader() : $tabBlock->toHtml(); ?>
+        </div>
+    <?php endforeach; ?>
+</div>

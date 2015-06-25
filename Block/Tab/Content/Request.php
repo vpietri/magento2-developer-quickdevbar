@@ -1,8 +1,8 @@
 <?php
 
-namespace ADM\QuickDevBar\Block\Tab;
+namespace ADM\QuickDevBar\Block\Tab\Content;
 
-class Request extends DefaultTab
+class Request extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 {
 
     public function getTitle()

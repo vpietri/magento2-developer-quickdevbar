@@ -1,0 +1,30 @@
+<?php
+?>
+<table class="qdn_table_2col">
+<tr>
+    <th><?php echo __('Handles'); ?></th>
+    <td>
+    <?php foreach ($block->getHandles() as $handle): ?>
+    <?php echo $handle; ?></br>
+    <?php endforeach;?>
+    </td>
+</tr>
+<tr>
+    <th><?php echo __('Blocks hierarchy'); ?></th>
+    <td>
+    WARNING: This is an indicative tree list could not be the reality.
+    <br/>
+    <?php echo $block->getHtmlBlocksHierarchy(); ?></br>
+    </td>
+</tr>
+<tr>
+    <th><?php echo __('Containers'); ?></th>
+    <td>
+    <ul>
+        <?php foreach($block->getContainers() as $containerAlias=>$containerLable): ?>
+        <li><?php echo $containerAlias; ?></li>
+        <?php endforeach; ?>
+    </ul>
+    </td>
+</tr>
+</table>

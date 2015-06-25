@@ -34,6 +34,16 @@ define(["jquery",
                     table.find('tr').removeClass(this.options.stripedClassname).filter(':visible:even').addClass(this.options.stripedClassname);
                 }, this)
             });
+            
+            
+            var loadedTab = {};
+            $('.ui-tabs-nav li.use-ajax').on( "beforeOpen", function( event) {
+                if (!loadedTab[event.target]) {
+                    loadedTab[event.target] = true;
+                    console.log(event.target, 'loaded');
+                }
+            });
+            
         }
     });
 });
