@@ -42,6 +42,9 @@ In order to install it run the below command on the root directory:
 
 # Changelog
 
+0.1.2
+* Add sub-tab and reorganize existing tabs
+
 0.1.1
 * Javascript cleaning to meet coding standards
 * Add [sunnywalker/filterTable](https://github.com/sunnywalker/jQuery.FilterTable)

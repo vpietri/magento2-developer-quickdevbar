@@ -15,8 +15,8 @@ class Reset extends \ADM\QuickDevBar\Controller\AjaxBlock
 
         $file = $this->_qdbHelper->getLogFiles($fileKey);
         if ($file) {
-            if(!empty($file['is_empty'])) {
-                if (!unlink($file['is_empty'])) {
+            if(!empty($file['size'])) {
+                if (!unlink($file['path'])) {
                     $output = 'Cannot reset file.';
                 } else {
                     $output = 'File empty.';

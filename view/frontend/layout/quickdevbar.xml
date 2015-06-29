@@ -14,12 +14,12 @@
                       <argument name="is_ajax" xsi:type="string">1</argument>
                     </action>
                     -->
+                    <block class="ADM\QuickDevBar\Block\Tab\Content\Request" name="qdb.tab.request" as="qdb.tab.request" template="tab/info/request.phtml"/>
                     <block class="ADM\QuickDevBar\Block\Tab\DefaultContent" name="qdb.tab.store" as="qdb.tab.store" template="tab/info/store.phtml">
                         <action method="setTitle">
                           <argument name="title" xsi:type="string">Store</argument>
                         </action>                    
                     </block>
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Request" name="qdb.tab.request" as="qdb.tab.request" template="tab/info/request.phtml"/>
                     <block class="ADM\QuickDevBar\Block\Tab\Content\Layout" name="qdb.tab.layout" as="qdb.tab.layout" template="tab/info/layout.phtml"/>
                     <block class="ADM\QuickDevBar\Block\Tab\DefaultContent" name="qdb.tab.profiler" as="qdb.tab.profiler" template="tab/info/profiler.phtml">
                         <!-- Set a title with the basic class  Content -->
