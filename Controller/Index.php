@@ -7,20 +7,40 @@ use Magento\Framework\Exception\NotFoundException;
 
 class Index extends \Magento\Framework\App\Action\Action
 {
-    protected $_qdnHelper;
+    /**
+     * @var \ADM\QuickDevBar\Helper\Data
+     */
+    protected $_qdbHelper;
 
     /**
-     * @param \Magento\Backend\App\Action\Context $context
+     * @var \Magento\Framework\Controller\Result\RawFactory
+     */
+    protected $_resultRawFactory;
+
+    /**
+     * @var \Magento\Framework\View\LayoutFactory
+     */
+    protected $_layoutFactory;
+
+
+    /**
+     *
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \ADM\QuickDevBar\Helper\Data $qdbHelper
      * @param \Magento\Framework\Controller\Result\RawFactory $resultRawFactory
      * @param \Magento\Framework\View\LayoutFactory $layoutFactory
      */
     public function __construct(
             \Magento\Framework\App\Action\Context $context,
-            \ADM\QuickDevBar\Helper\Data $qdnHelper
+            \ADM\QuickDevBar\Helper\Data $qdbHelper,
+            \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
+            \Magento\Framework\View\LayoutFactory $layoutFactory
     ) {
-        $this->_qdnHelper = $qdnHelper;
-
         parent::__construct($context);
+
+        $this->_qdbHelper = $qdbHelper;
+        $this->_resultRawFactory = $resultRawFactory;
+        $this->_layoutFactory = $layoutFactory;
     }
 
     /**
@@ -33,17 +53,6 @@ class Index extends \Magento\Framework\App\Action\Action
             throw new NotFoundException(__('Page not found.'));
         }
 
-//         if ($request->isDispatched() && !$this->_isAllowed()) {
-//             $this->_response->setStatusHeader(403, '1.1', 'Forbidden');
-//             if (!$this->_auth->isLoggedIn()) {
-//                 return $this->_redirect('*/auth/login');
-//             }
-//             $this->_view->loadLayout(['default', 'adminhtml_denied'], true, true, false);
-//             $this->_view->renderLayout();
-//             $this->_request->setDispatched(true);
-//             return $this->_response;
-//         }
-
         return parent::dispatch($request);
     }
 
@@ -55,6 +64,6 @@ class Index extends \Magento\Framework\App\Action\Action
      */
     protected function _isAllowed()
     {
-        return $this->_qdnHelper->isToolbarAccessAllowed();
+        return $this->_qdbHelper->isToolbarAccessAllowed();
     }
 }

@@ -18,7 +18,8 @@ class Observer extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 
     public function getTitle()
     {
-        return 'Observers';
+        $observers = $this->getObservers();
+        return 'Observers (' . count($observers) . ')';
     }
 
     public function getObservers()

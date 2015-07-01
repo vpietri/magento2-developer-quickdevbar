@@ -1,38 +1,34 @@
 <?php
-namespace ADM\QuickDevBar\Controller\Index;
+namespace ADM\QuickDevBar\Controller\Action;
 
-class Config extends ADM\QuickDevBar\Controller\Index
+class Cache extends \ADM\QuickDevBar\Controller\Index
 {
-    protected $_mergeService;
-
-    /**
-     * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Framework\View\Asset\MergeService $mergeService
-     */
-    public function __construct(
-            \Magento\Framework\Model\Context $context,
-            \Magento\Framework\View\Asset\MergeService $mergeService,
-    ) {
-        $this->_mergeService = $mergeService;
-        parent::__construct($context);
-    }
-
-
-
 
     public function execute()
     {
-        Mage::app()->getCacheInstance()->flush();
-        Mage::app()->cleanCache();
-        //Mage::getModel('core/design_package')->cleanMergedJsCss();
-        $this->_mergeService->cleanMergedJsCss();
-        Mage::getModel('catalog/product_image')->clearCache();
+        $ctrlMsg = $this->_qdbHelper->getControllerMessage();
+        $output = '';
+        try {
 
-        $cacheTypes = array_keys(Mage::helper('core')->getCacheTypes());
-        $enable = array();
-        foreach ($cacheTypes as $type) {
-            $enable[$type] = 0;
+            $cacheFrontEndPool = $this->_qdbHelper->getCacheFrontendPool();
+            $this->_eventManager->dispatch('adminhtml_cache_flush_all');
+            foreach ($cacheFrontEndPool as $cacheFrontend) {
+                $cacheFrontend->getBackend()->clean();
+            }
+
+            $output = 'Cache cleaned';
+
+        } catch ( \Exception $e) {
+            $output = $e->getMessage();
+            $error = true;
         }
-        Mage::app()->saveUseCache($enable);
+
+        if ($ctrlMsg) {
+            $output = $ctrlMsg . ' (' . $output .')';
+        }
+
+        $this->_view->loadLayout();
+        $resultRaw = $this->_resultRawFactory->create();
+        return $resultRaw->setContents($output);
     }
 }

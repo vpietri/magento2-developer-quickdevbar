@@ -1,7 +1,6 @@
 
 /* */
 define(["jquery",
-         /*"jquery/jquery.ui",*/
          "jquery/jquery.tabs",
          "filtertable"
 ], function($){
@@ -12,9 +11,6 @@ define(["jquery",
             stripedClassname: "striped",
             classToStrip: "qdn_table.striped",
             classToFilter: "qdn_table.filterable"
-            // toggleEffect = "blind" /** Vertical */
-            // toggleEffect = "slide" /** Horizontal left*/
-            // toggleEffect = "drop" /** Horizontal left and disappear*/
         },
 
         _create: function() {
@@ -37,13 +33,23 @@ define(["jquery",
             
             
             var loadedTab = {};
-            $('.ui-tabs-nav li.use-ajax').on( "beforeOpen", function( event) {
+            $('.qdb-ui-tabs > .ui-tabs-nav > li.use-ajax').on( "beforeOpen", function( event) {
+                console.log(event.target, 'beforeOpen');
                 if (!loadedTab[event.target]) {
                     loadedTab[event.target] = true;
-                    console.log(event.target, 'loaded');
                 }
             });
             
+            $('div.qdb-container').addClass('qdb-container-collapsed');
+            $('.qdb-ui-tabs > .ui-tabs-nav > li').on( "dimensionsChanged", function( event) {
+                if ($('div.qdb-container')) {
+                    if( $(event.target).hasClass('ui-tabs-active')) {
+                        $('div.qdb-container').removeClass('qdb-container-collapsed');
+                    } else {
+                        $('div.qdb-container').addClass('qdb-container-collapsed');
+                    }
+                }
+            });
         }
     });
 });

@@ -51,6 +51,11 @@
                   </block>
                   <block class="ADM\QuickDevBar\Block\Tab\Content\Sql" name="qdb.tab.sql" as="qdb.tab.sql" template="tab/sql.phtml"/>
                   <block class="ADM\QuickDevBar\Block\Tab\Content\Log" name="qdb.tab.log" as="qdb.tab.log" template="tab/log.phtml"/>
+                  <block class="ADM\QuickDevBar\Block\Tab\DefaultContent" name="qdb.tab.action" as="qdb.tab.action" template="tab/action.phtml">
+                    <action method="setTitle">
+                      <argument name="title" xsi:type="string">Actions</argument>
+                    </action>                    
+                  </block>                  
               </block>
             </block>
         </referenceContainer>

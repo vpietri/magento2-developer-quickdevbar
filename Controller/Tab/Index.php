@@ -1,7 +1,7 @@
 <?php
 namespace ADM\QuickDevBar\Controller\Tab;
 
-class Index extends \ADM\QuickDevBar\Controller\AjaxBlock
+class Index extends \ADM\QuickDevBar\Controller\Index
 {
     /**
      * Gets most viewed products list

@@ -1,0 +1,69 @@
+<?php
+?>
+<table  class="qdn_table">
+    <tr>
+        <th>Template hints</th>
+        <td><button type="button" onClick="javascript:actionConfig('hints', 'toggle', 'auto');return false;" class="qdb-action">Toggle</button></td>
+        <td id="process-hints"></td>
+    </tr>
+    <tr>
+        <th>Translate inline</th>
+        <td><button type="button" onClick="javascript:actionConfig('translate', 'toggle', 'auto');return false;" class="qdb-action">Toggle</button></td>
+        <td id="process-translate"></td>
+    </tr>
+    <tr>
+        <th>Flush Cache Storage</th>
+        <td><button type="button" onClick="javascript:actionCache();return false;" class="qdb-action">Flush</button></td>
+        <td id="process-cache"></td>
+    </tr>
+</table>
+
+
+<div id='action-loader' style="display:none"><?php echo $block->getHtmlSmallLoader(false)?></div>
+<script type="text/javascript">
+<!--
+require([
+         'jquery'
+     ], function($){
+
+        var baseConfigUrl = '<?php echo $block->getUrl('quickdevbar/action/configUpdate/'); ?>';
+        var baseCacheUrl = '<?php echo $block->getUrl('quickdevbar/action/cache/'); ?>';
+        var loaded = false;
+
+        showLoader = function(target) {
+            target.html($('#action-loader').html());
+        }
+
+        actionConfig = function(key, value, scope)
+        {
+            var target =  $('#process-' +  key );
+            showLoader(target);
+
+            var jqxhr = $.get(baseConfigUrl, {"isAjax":1,"config":{"key":key, "value":value, "scope":scope}});
+            jqxhr.beforeSend= showLoader(target);
+            jqxhr.done(function(response) {
+                target.html(response);
+            });
+            jqxhr.fail(function(response) {
+                target.html('Error');
+            });
+        }
+
+        actionCache = function()
+        {
+            var target =  $('#process-cache');
+            showLoader(target);
+
+            var jqxhr = $.get(baseCacheUrl);
+            jqxhr.beforeSend= showLoader(target);
+            jqxhr.done(function(response) {
+                target.html(response);
+            });
+            jqxhr.fail(function(response) {
+                target.html('Error');
+            });
+        }
+
+});
+//-->
+</script>

@@ -1,7 +1,7 @@
 <?php
 namespace ADM\QuickDevBar\Controller\Log;
 
-class Reset extends \ADM\QuickDevBar\Controller\AjaxBlock
+class Reset extends \ADM\QuickDevBar\Controller\Index
 {
     /**
      * Gets most viewed products list

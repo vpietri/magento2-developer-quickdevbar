@@ -71,15 +71,15 @@ class DefaultContent extends \Magento\Framework\View\Element\Template
         }
     }
 
-    public function getHtmlBigLoader()
+    public function getHtmlBigLoader($showText = true)
     {
-        return $this->getHtmlLoader($this->getViewFileUrl('images/loader-1.gif'), 'big');
+        return $this->getHtmlLoader($this->getViewFileUrl('ADM_QuickDevBar::images/loader-64.gif'), 'big', $showText);
     }
 
 
-    public function getHtmlSmallLoader()
+    public function getHtmlSmallLoader($showText)
     {
-        return $this->getHtmlLoader($this->getViewFileUrl('images/loader-2.gif'), 'small', false);
+        return $this->getHtmlLoader($this->getViewFileUrl('ADM_QuickDevBar::images/loader-32.gif'), 'small', $showText);
     }
 
     public function getHtmlLoader($imgSrc, $class, $showText = true)

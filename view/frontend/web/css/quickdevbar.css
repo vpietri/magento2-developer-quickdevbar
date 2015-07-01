@@ -31,6 +31,36 @@
     padding-left: 5px;
 }
 
+/**
+  * Button
+  */
+
+button.qdb-action {
+    background: none repeat scroll 0 0 #004276;
+    border: 1px solid #004276;
+    box-sizing: border-box;
+    color: #f7f7f7;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 700;
+    padding: 3px 5px;
+    vertical-align: middle;
+}
+
+button.qdb-action:hover {
+    background: none repeat scroll 0 0 #f7f7f7;
+    color: #004276;
+
+}
+
+button.qdb-action span {
+    text-align: center;
+    color: #f7f7f7;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+
 
 /**
   * Tabs
@@ -38,6 +68,10 @@
   */
 div.qdb-container {
      width: 1200px;
+}
+
+div.qdb-container-collapsed {
+     width: auto;
 }
 
 div.qdb-panel  div.qdb-container {
@@ -63,6 +97,7 @@ div.qdb-ui-tabs, div.qdb-ui-subtabs {
     padding: 0 0 20px 0;
 }
 div.qdb-ui-tabs > ul, div.qdb-ui-subtabs > ul {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
     padding-left: 5px;
 }
 
@@ -208,13 +243,10 @@ table.qdn_table_2col tr td, table.qdn_table_2col tr th {
     text-align: left;
 }
 
-table.qdn_table_2col tr td{
-    max-width: 250px;
-}
-
 table.qdn_table_2col tr th{
-    max-width: 50px;
     color: #004276;
+    white-space:nowrap;
+    width: 150px
 }
 
 /**

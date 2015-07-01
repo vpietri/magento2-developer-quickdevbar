@@ -3,8 +3,16 @@ Developer Toolbar for Magento2
 
 # About
 
-This is an handmade toolbar by a developer for developers. As it is my first extension on Magento 2 I would appreciate any feedback and idea to improve this toolbar. 
+This is an handmade toolbar by a developer for developers. As it is my first extension on Magento 2 I would appreciate any feedback and idea to improve this toolbar so get in touch via the [issue tracker on GitHub](https://github.com/vpietri/magento2-developer-quickdevbar/issues). 
 Feel free to fork and pull request. Structure of this toolbar is extremly simple you just need to add a new block in the layout to get your tab running. 
+
+# Screenshots
+
+Info tab
+![](doc/images/qdb_screen1.png)
+
+Queries Tab
+![](doc/images/qdb_screen2.png)
 
 # Requirements
 
@@ -41,6 +49,10 @@ In order to install it run the below command on the root directory:
 * Basic actions: Clear cache, Rebuit index, ...  
 
 # Changelog
+
+0.1.3
+* Add action tab
+* Controller structure cleaning 
 
 0.1.2
 * Add sub-tab and reorganize existing tabs
