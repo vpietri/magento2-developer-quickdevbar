@@ -13,6 +13,7 @@ class Cache extends \ADM\QuickDevBar\Controller\Index
             $cacheFrontEndPool = $this->_qdbHelper->getCacheFrontendPool();
             $this->_eventManager->dispatch('adminhtml_cache_flush_all');
             foreach ($cacheFrontEndPool as $cacheFrontend) {
+                $cacheFrontend->clean();
                 $cacheFrontend->getBackend()->clean();
             }
 
