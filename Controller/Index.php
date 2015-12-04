@@ -35,9 +35,9 @@ class Index extends \Magento\Framework\App\Action\Action
             \ADM\QuickDevBar\Helper\Data $qdbHelper,
             \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
             \Magento\Framework\View\LayoutFactory $layoutFactory
+
     ) {
         parent::__construct($context);
-
         $this->_qdbHelper = $qdbHelper;
         $this->_resultRawFactory = $resultRawFactory;
         $this->_layoutFactory = $layoutFactory;
@@ -56,7 +56,6 @@ class Index extends \Magento\Framework\App\Action\Action
         return parent::dispatch($request);
     }
 
-
     /**
      * Determine if action is allowed
      *
@@ -65,5 +64,10 @@ class Index extends \Magento\Framework\App\Action\Action
     protected function _isAllowed()
     {
         return $this->_qdbHelper->isToolbarAccessAllowed();
+    }
+
+    public function execute()
+    {
+
     }
 }

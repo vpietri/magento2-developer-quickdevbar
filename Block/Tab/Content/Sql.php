@@ -14,7 +14,7 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\DefaultContent
     protected $_resource;
 
     public function __construct(\Magento\Framework\View\Element\Template\Context $context,
-                                      \Magento\Framework\App\Resource $resource
+                                      \Magento\Framework\App\ResourceConnection $resource
                                     , array $data = [])
     {
 

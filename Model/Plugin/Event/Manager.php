@@ -24,10 +24,14 @@ class Manager
      * @param string $eventName
      * @param array $data
      */
-    public function beforeDispatch($interceptor, $eventName, $data)
+    //public function beforeDispatch($interceptor, $eventName, $data)
+    public function beforeDispatch($interceptor, $eventName)
     {
         if (!isset($this->_events[$eventName])) {
-            $this->_events[$eventName] = array('event'=>$eventName, 'nbr'=>0, 'args'=>array_keys($data));
+            $this->_events[$eventName] = array('event'=>$eventName,
+                    'nbr'=>0,
+                    //'args'=>array_keys($data)
+                    );
         }
         $this->_events[$eventName]['nbr']++;
     }

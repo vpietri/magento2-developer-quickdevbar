@@ -35,7 +35,7 @@ class ConfigUpdate extends \ADM\QuickDevBar\Controller\Index
             \ADM\QuickDevBar\Helper\Data $qdbHelper,
             \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
             \Magento\Framework\View\LayoutFactory $layoutFactory,
-            \Magento\Config\Model\Resource\Config $resourceConfig,
+            \Magento\Config\Model\ResourceModel\Config $resourceConfig,
             \Magento\Store\Model\StoreManagerInterface $storeManager,
             \Magento\Framework\Controller\Result\ForwardFactory $resultForwardFactory
     ) {

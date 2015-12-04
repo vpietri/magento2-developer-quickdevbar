@@ -2,6 +2,9 @@
 ?>
 <div id="qdn-profiler-container">
 <?php echo __('Cannot find profiler table or profiler is not enabled.'); ?>
+<br/>
+You have to add a SetEnv MAGE_PROFILER "html" to your .htaccess (do not use "csvfile" nor "firebug" to have profiler displayed in tab).
+Be careful with .htacces directive you can have $_SERVER['REDIRECT_MAGE_PROFILER'] set instead of  $_SERVER['MAGE_PROFILER'] prefer apache2.conf.
 </div>
 
 <script type="text/javascript">

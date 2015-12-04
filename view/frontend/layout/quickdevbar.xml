@@ -33,11 +33,11 @@
                           <argument name="is_ajax" xsi:type="string">1</argument>
                         </action>
                         <!-- Or you can define your own route -->
-                        <!--             
+                        <!--  -->  
                         <action method="setAjaxUrl">
-                          <argument name="ajax_url" xsi:type="string">quickdevbar/index/phpInfo</argument>
+                          <argument name="ajax_url" xsi:type="string">quickdevbar/tab/phpInfo</argument>
                         </action>
-                        -->
+                        <!--   -->
                     </block>
                   </block>
                   <block class="ADM\QuickDevBar\Block\Tab\Sub" name="qdb.tab.dispatch" as="qdb.tab.dispatch" template="tabs.phtml">

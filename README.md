@@ -9,10 +9,14 @@ Feel free to fork and pull request. Structure of this toolbar is extremly simple
 # Screenshots
 
 Info tab
-![](doc/images/qdb_screen1.png)
+![](doc/images/qdb_screen_request.png)
 
 Queries Tab
-![](doc/images/qdb_screen2.png)
+![](doc/images/qdb_screen_queries.png)
+
+Queries Tab
+![](doc/images/qdb_screen_dispatch.png)
+
 
 # Requirements
 
@@ -46,12 +50,13 @@ In order to install it run the below command on the root directory:
 
 * Back office toolbar
 * Layout improvement display
-* Basic actions: Clear cache, Rebuit index, ...  
+* Basic actions: Rebuit index, ...  
 
 # Changelog
 
 0.1.3
-* Add action tab
+* Compatibility with Magento 2.0.0 Publication
+* Add action tab (Template hints, Translate inline, Flush Cache Storage)
 * Controller structure cleaning 
 
 0.1.2

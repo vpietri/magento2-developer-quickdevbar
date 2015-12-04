@@ -12,9 +12,13 @@ class PhpInfo extends \ADM\QuickDevBar\Controller\Index
     public function execute()
     {
 
-         $output = $this->_layoutFactory->create()
-             ->createBlock('ADM\QuickDevBar\Block\Tab\PhpInfo')
+        try {
+            $output = $this->_layoutFactory->create()
+             ->createBlock('ADM\QuickDevBar\Block\Tab\Content\PhpInfo')
              ->toHtml();
+        } catch (Exception $e) {
+            $output = $e->getMessage();
+        }
 
         $resultRaw = $this->_resultRawFactory->create();
         return $resultRaw->setContents($output);
