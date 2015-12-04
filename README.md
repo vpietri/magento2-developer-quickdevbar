@@ -14,7 +14,7 @@ Info tab
 Queries Tab
 ![](doc/images/qdb_screen_queries.png)
 
-Queries Tab
+Dispatch Tab
 ![](doc/images/qdb_screen_dispatch.png)
 
 
