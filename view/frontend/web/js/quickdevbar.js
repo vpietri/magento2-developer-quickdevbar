@@ -31,6 +31,7 @@ define(["jquery",
                 }, this)
             });
             
+            $('ul.tree li:last-child').addClass('last');
             
             var loadedTab = {};
             $('.qdb-ui-tabs > .ui-tabs-nav > li.use-ajax').on( "beforeOpen", function( event) {

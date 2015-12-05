@@ -4,117 +4,113 @@ namespace ADM\QuickDevBar\Block\Tab\Content;
 
 class Layout extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 {
-    protected $_structure;
+    protected $_elements = array();
 
     public function getTitle()
     {
         return 'Layout';
     }
 
-    public function __construct(\Magento\Framework\View\Element\Template\Context $context,
-            \Magento\Framework\View\Layout\Data\Structure $structure,
-            array $data = [])
-    {
-
-        $this->_structure = $structure;
-
-        //$this->setTemplate('ADM_QuickDevBar::tab/layout.phtml');
-
-        parent::__construct($context, $data);
-    }
-
-
+    /**
+     * @return array
+     */
     public function getHandles()
     {
         return $this->getLayout()->getUpdate()->getHandles();
     }
 
-    public function getHtmlBlocksHierarchy()
+    /**
+     * TODO: Find a better way to access the layout structure
+     * @see: https://github.com/balloz/magento2-developer-toolbar/blob/master/Block/Panel/Layout.php
+     *
+     * But by now seems no other way
+     * @see: https://github.com/magento/magento2/issues/748
+     *
+     * @return array
+     */
+    public function getTreeBlocksHierarchy()
     {
-        $html = '';
         $layout = $this->getLayout();
 
-        $blocks = $layout->getAllBlocks();
-        $containers = array('CONTAINER'=>array());
-        foreach ($blocks as $alias=>$block) {
-            $parentName = $layout->getParentName($alias);
-            if ($layout->isBlock($parentName)) {
-                $type = 'BLOCK';
-            } elseif ($layout->isContainer($parentName)) {
-                $type = 'CONTAINER';
-            } else {
-                $type = 'UNKNOWN';
-            }
+        $reflection = new \ReflectionClass($layout);
 
-            $containers[$type][$parentName] = $parentName;
+        $structure = $reflection->getProperty('structure');
+        $structure->setAccessible(true);
+        $structure = $structure->getValue($layout);
+
+        $this->_elements = $structure->exportElements();
+        if ($this->_elements) {
+            $treeBlocks = $this->buildTreeBlocks();
+        } else {
+            $treeBlocks = array();
         }
 
-        $html .= '<ul>';
+        return $treeBlocks;
+    }
 
-        //Could not use
-        //$containers = $layout->getUpdate()->getContainers();
-        foreach ($containers['CONTAINER'] as $containerAlias) {
-            $html .= '<li>' . $containerAlias .
-                    $this->getHtmlTreeBlocks($containerAlias) .
-                    '</li>';
+    /**
+     *
+     * @param array $elements
+     * @param string $name
+     * @param string $alias
+     */
+    protected function buildTreeBlocks($name = 'root', $alias = '')
+    {
+        $element = $this->getElementByName($name);
+        if ($element) {
+            $treeBlocks = array(
+                    'name'  =>$name,
+                    'alias'  =>$alias,
+                    'type'  => $element['type'],
+                    'label' => isset($element['label']) ? $element['label'] : ''
+            );
+
+            if (isset($element['children'])) {
+                foreach ($element['children'] as $childName => $childAlias) {
+                    $treeBlocks['children'][] = $this->buildTreeBlocks($childName, $childAlias);
+                }
+            }
+        } else {
+            $treeBlocks = array();
+        }
+
+        return $treeBlocks;
+    }
+
+    /**
+     *
+     * @param unknown_type $name
+     *
+     * @return Ambigous <boolean, array>
+     */
+    public function getElementByName($name)
+    {
+        return (!empty($this->_elements[$name])) ? $this->_elements[$name] : false;
+    }
+
+    /**
+     *
+     * @param array $treeBlocks
+     * @param int $level
+     *
+     * @return string
+     */
+    public function getHtmlBlocksHierarchy($treeBlocks=array(), $level=0)
+    {
+        if(empty($treeBlocks)) {
+            $treeBlocks = array($this->getTreeBlocksHierarchy());
+        }
+
+        $html = '<ul ' . (($level==1) ? 'class="tree"' : '') . '>';
+        foreach ($treeBlocks as $treeNode) {
+            $html .= '<li class="' . $treeNode['type'] . '">' . $treeNode['name'];
+            if (!empty($treeNode['children'])) {
+                $level++;
+                $html .= $this->getHtmlBlocksHierarchy($treeNode['children'], $level);
+            }
+            $html .= '</li>';
         }
         $html .= '</ul>';
-
         return $html;
     }
-
-
-    public function getContainers()
-    {
-        $containers = $this->getLayout()->getUpdate()->getContainers();
-
-        return $containers;
-    }
-
-
-    public function getAncestor($alias)
-    {
-        $parentName = $this->getLayout()->getParentName($alias);
-        if($parentName and $parentName!='root') {
-            return $this->getAncestor($parentName);
-        } else {
-            return $alias;
-        }
-    }
-
-
-    public function getHtmlTreeBlocks($alias)
-    {
-        $layout = $this->getLayout();
-
-        $out = '';
-        $children = $layout->getChildBlocks($alias);
-        if ($children) {
-            $out .= '<ul>';
-            foreach ($children as $childAlias=>$childBlock) {
-                $out .= '<li>' . $childAlias;
-                $subChildren = $layout->getChildBlocks($childAlias);
-                if ($subChildren){
-                    $out .= $this->getHtmlTreeBlocks($childAlias);
-                }
-                $out .= '</li>';
-            }
-            $out .= '</ul>';
-        }
-        return $out;
-    }
-
-//     protected function printBlockProperties(Mage_Core_Block_Abstract $block)
-//     {
-//         $properties = '<ul class="blockProperties" style="display:none;">';
-//         $properties .= '<li><strong>Class:</strong> '.get_class($block).'</li>';
-//         if ($block->getTemplate()) {
-//             $properties .= '<li><strong>Template:</strong> '.$block->getTemplate().'</li>';
-//         }
-//         $properties .= '</ul>';
-//         return $properties;
-//     }
-
-
-
 }

@@ -36,13 +36,19 @@ In order to install it run the below command on the root directory:
 
 # Installation
 
-- Add the module to composer:
+- Install the module with composer
 
         composer require vpietri/adm-quickdevbar
 
-- Add the new entry in `app/etc/config.php`, under the 'modules' section:
+- Update Magento setup
+```
+php bin/magento setup:upgrade
+```
 
-        'ADM_QuickDevBar' => 1,
+- Update Magento data version
+```
+php bin/magento setup:db-data:upgrade
+```
 
 - Clear cache
 
@@ -50,9 +56,13 @@ In order to install it run the below command on the root directory:
 
 * Back office toolbar
 * Layout improvement display
-* Basic actions: Rebuit index, ...  
+* Basic actions: Rebuit index, ...
 
 # Changelog
+
+0.1.4
+* Fix bug on composer.json with registration.php
+* Clean layout display
 
 0.1.3
 * Compatibility with Magento 2.0.0 Publication

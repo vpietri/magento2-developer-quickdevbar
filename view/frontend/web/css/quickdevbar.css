@@ -64,6 +64,10 @@ button.qdb-action span {
     font-weight: 700;
 }
 
+button.qdb-action:not(.primary) {
+    box-shadow: none;
+}
+
 /**
   * Tabs
   * ---------------
@@ -127,7 +131,6 @@ div.qdb-ui-tabs li.ui-tabs-active, div.qdb-ui-subtabs li.ui-tabs-active {
 div.qdb-ui-tabs > ul a, div.qdb-ui-subtabs > ul a  {
     text-decoration: none;
     color: #004276;
-    font-weight: bold;
     font-size: 1.1em;
     box-shadow: none;
     padding: 7px 10px;
@@ -167,12 +170,47 @@ div.qdb-ui-subtabs > div {
 }
 
 
+/**
+  * Loader
+  * @see: http://odyniec.net/articles/turning-lists-into-trees/
+  * ---------------
+  */
+
+ul.tree,ul.tree ul {
+    list-style-type: none;
+    background: url(../images/vline.png) repeat-y;
+    margin: 0;
+    padding: 0;
+}
+
+ul.tree ul {
+    margin-left: 10px;
+}
+
+ul.tree li {
+    margin: 0;
+    padding: 0 12px;
+    line-height: 20px;
+    background: url(../images/node.png) no-repeat;
+    color: #004276;
+}
+
+ul.tree li.container {
+    font-weight: bold;
+}
+
+ul.tree li.block {
+    font-weight: normal;
+}
+
+ul.tree li.last {
+    background: #fff url(../images/lastnode.png) no-repeat;
+}
 
 /**
   * Loader
   * ---------------
   */
-
 .qdn-loading-mask p {
     color: #004276;
     text-align: center;
