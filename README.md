@@ -22,8 +22,9 @@ Dispatch Tab
 
 - Magento Composer Installer: To copy the module contents under app/code/ folder.
 In order to install it run the below command on the root directory:
-
-        composer require magento/magento-composer-installer
+```
+composer require magento/magento-composer-installer
+```
 
 - Add the VCS repository: So that composer can find the module. Add the following lines in your composer.json
 
@@ -37,8 +38,9 @@ In order to install it run the below command on the root directory:
 # Installation
 
 - Install the module with composer
-
-        composer require vpietri/adm-quickdevbar
+```
+composer require vpietri/adm-quickdevbar
+```
 
 - Update Magento setup
 ```
@@ -51,12 +53,14 @@ php bin/magento setup:db-data:upgrade
 ```
 
 - Clear cache
+```
+php bin/magento cache:flush
+```
 
 # Coming soon
 
 * Back office toolbar
-* Layout improvement display
-* Basic actions: Rebuit index, ...
+* New actions: Rebuit index, Search config...
 
 # Changelog
 
