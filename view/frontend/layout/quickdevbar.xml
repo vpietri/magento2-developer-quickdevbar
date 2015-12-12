@@ -1,12 +1,12 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <body>
-      <referenceContainer name="qdb.tab.info">
-        <block class="ADM\QuickDevBar\Block\Tab\DefaultContent" name="qdb.tab.store" as="qdb.tab.store" template="tab/info/store.phtml">
+      <referenceBlock name="qdb.tab.info">
+        <block class="ADM\QuickDevBar\Block\Tab\DefaultContent" name="qdb.tab.store" as="qdb.tab.store" after="qdb.tab.request" template="tab/info/store.phtml">
             <action method="setTitle">
               <argument name="title" xsi:type="string">Store</argument>
             </action>                    
         </block>      
-        <block class="ADM\QuickDevBar\Block\Tab\Content\PhpInfo" name="qdb.tab.phpinfo" as="qdb.tab.phpinfo">
+        <block class="ADM\QuickDevBar\Block\Tab\Content\PhpInfo" name="qdb.tab.phpinfo" after="qdb.tab.store"  as="qdb.tab.phpinfo">
             <!-- Use the standard router quickdevbar/index/tab to load the block -->
             <action method="setIsAjax">
               <argument name="is_ajax" xsi:type="string">1</argument>
@@ -18,6 +18,6 @@
             </action>
             <!--   -->
         </block>
-      </referenceContainer> 
+      </referenceBlock> 
     </body>
 </page>
