@@ -3,26 +3,42 @@ Developer Toolbar for Magento2
 
 # About
 
-This is an handmade toolbar by a developer for developers. As it is my first extension on Magento 2 I would appreciate any feedback and idea to improve this toolbar so get in touch via the [issue tracker on GitHub](https://github.com/vpietri/magento2-developer-quickdevbar/issues). 
-Feel free to fork and pull request.
+Hope this debug toolbar can speed up Magento2 development module. Any feedback and idea to improve this toolbar will be appreciate so get in touch via the [issue tracker on GitHub](https://github.com/vpietri/magento2-developer-quickdevbar/issues). Feel free to fork and pull request.
 Structure of this toolbar is extremly simple you just need to add a new block in the layout to get your tab running. 
 
-# Screenshots
+# Features
 
-Info tab
+## Panels
+
+- Info : Information about controller, route, action and store. A dedicated tab output a phpinfo.
+- Design : List handles called and display layout structure of nested blocks and containers
+- Profile : View current observers, all events dispatched and collections, models loaded
+- Queries :  Statistics about executed queries and detailed query listing with syntax highlighting of main SQL keywords
+- Logs : Display log files with ability to reset these files
+- Actions : Easily toggle template hints and inline translation and flush cache
+
+## Screenshots
+
+- Info tab
 ![](doc/images/qdb_screen_request.png)
 
-Queries Tab
+- Queries Tab
 ![](doc/images/qdb_screen_queries.png)
 
-Profile Tab
+- Profile Tab
 ![](doc/images/qdb_screen_dispatch.png)
 
+# Installation
 
-# Requirements
+## Manual
 
-- Magento Composer Installer: To copy the module contents under app/code/ folder.
-In order to install it run the below command on the root directory:
+Copy files under app/code/ADM/QuickDevBar folder.
+
+## Composer
+
+In the root directory
+
+- Magento composer installer
 ```
 composer require magento/magento-composer-installer
 ```
@@ -36,12 +52,12 @@ composer require magento/magento-composer-installer
         }],
 
 
-# Installation
-
-- Install the module with composer
+- Install the module
 ```
 composer require vpietri/adm-quickdevbar
 ```
+
+## Cleaning
 
 - Update Magento setup
 ```
