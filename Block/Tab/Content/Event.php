@@ -6,14 +6,18 @@ use \ADM\QuickDevBar\Block\Tab;
 
 class Event extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 {
-    protected $_manager;
+    /**
+     *
+     * @var \ADM\QuickDevBar\Helper\Register
+     */
+    protected $_qdbHelperRegister;
 
     public function __construct(\Magento\Framework\View\Element\Template\Context $context,
-            \ADM\QuickDevBar\Model\Plugin\Event\Manager $manager,
+            \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
             array $data = [])
     {
 
-        $this->_manager = $manager;
+        $this->_qdbHelperRegister = $qdbHelperRegister;
 
         parent::__construct($context, $data);
     }
@@ -27,6 +31,6 @@ class Event extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 
     public function getEvents()
     {
-        return $this->_manager->getEvents();
+        return $this->_qdbHelperRegister->getEvents();
     }
 }

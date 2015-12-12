@@ -5,25 +5,6 @@ namespace ADM\QuickDevBar\Block\Tab;
 class DefaultContent extends \Magento\Framework\View\Element\Template
 {
 
-//     protected $_jsonHelper;
-
-//     /**
-//      * @param \Magento\Framework\View\Element\Template\Context $context
-//      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
-//      * @param array $data
-//      */
-//     public function __construct(
-//             \Magento\Framework\View\Element\Template\Context $context,
-//             \Magento\Framework\Json\Helper\Data $jsonHelper,
-//             array $data = []
-//     ) {
-//         $this->_jsonHelper = $jsonHelper;
-
-//         parent::__construct($context, $data);
-//     }
-
-
-
     public function getTitle()
     {
         return ($this->getData('title')) ? $this->getData('title') : $this->getNameInLayout();
@@ -59,11 +40,9 @@ class DefaultContent extends \Magento\Framework\View\Element\Template
         if ($this->getData('tab_url')) {
             return $this->getData('tab_url');
         } else {
-            $tabUrl = $this->getData('ajax_url');
-            $isAjax = $this->getData('is_ajax');
-            if ($tabUrl) {
-                return $this->getUrl($tabUrl);
-            } elseif ($isAjax) {
+            if ($this->getData('ajax_url')) {
+                return $this->getUrl($this->getData('ajax_url'));
+            } elseif ($this->getData('is_ajax')) {
                 return $this->getUrl('quickdevbar/tab/index', array('block'=>$this->getNameInLayout())) . '?isAjax=1';
             } else {
                 return '#'.$this->getId();

@@ -1,0 +1,78 @@
+<?php
+//$_helper = Mage::helper('wee_developertoolbar');
+$_profiler = $block->getSqlProfiler();
+?>
+<?php if ($block->getQueryProfiles()): ?>
+<table class="qdn_table_2col">
+  <tr>
+    <th><?php echo __('Executed'); ?></th>
+    </td>
+    <td>
+      <?php echo sprintf('%s queries in %s', $_profiler->getTotalNumQueries(), $this->formatSqlTime($_profiler->getTotalElapsedSecs())); ?>
+    </td>
+  </tr>
+  <tr>
+    <th><?php echo __('Type'); ?></th>
+    <td>
+      <?php echo sprintf('%s SELECT - %s INSERT - %s UPDATE - %s DELETE - %s TRANSACTION',
+              $_profiler->getTotalNumQueries(Zend_Db_Profiler::SELECT),
+              $_profiler->getTotalNumQueries(Zend_Db_Profiler::INSERT),
+              $_profiler->getTotalNumQueries(Zend_Db_Profiler::UPDATE),
+              $_profiler->getTotalNumQueries(Zend_Db_Profiler::DELETE),
+              $_profiler->getTotalNumQueries(Zend_Db_Profiler::TRANSACTION)); ?>
+    </td>
+  </tr>
+  <tr>
+    <th><?php echo __('Average'); ?></th>
+    <td>
+      <?php echo sprintf('%s', $_profiler->getTotalNumQueries() &&  $_profiler->getTotalElapsedSecs() ?  $this->formatSqlTime($_profiler->getTotalElapsedSecs()/$_profiler->getTotalNumQueries()) : 0); ?>
+    </td>
+  </tr>
+  <tr>
+    <th><?php echo __('Queries/second'); ?></th>
+    <td>
+      <?php echo ($_profiler->getTotalNumQueries() && $_profiler->getTotalElapsedSecs() ?  $_profiler->getTotalNumQueries()/$_profiler->getTotalElapsedSecs() : 0); ?>
+    </td>
+  </tr>
+  <tr>
+    <th><?php echo __('Longest'); ?></th>
+    <td>
+      <?php echo  $this->formatSqlTime($block->getLongestQueryTime()); ?>
+    </td>
+  </tr>
+  <tr>
+    <th><?php echo __('Longest'); ?></th>
+    <td>
+      <?php echo $block->formatSql($block->getLongestQuery()); ?>
+    </td>
+  </tr>
+</table>
+
+<table class="qdn_table striped filterable sortable tablesorter">
+<thead>
+<tr>
+    <th>#</th>
+    <th class="{sorter: false}">SQL</th>
+    <th class="{sorter: 'float'}">Time</th>
+</tr>
+</thead>
+<tbody>
+<?php
+  $i = 0;
+  foreach ($block->getQueryProfiles() as $i => $query): ?>
+    <tr>
+      <td><?php echo $i;?></td>
+      <td class="sqlquery"><?php echo $block->formatSql($query->getQuery()); ?></td>
+      <td class="sqltimer"><?php echo  $this->formatSqlTime($query->getElapsedSecs()); ?></td>
+    </tr>
+    <?php $i++; ?>
+  <?php endforeach ?>
+</tbody>
+</table>
+
+
+<?php else:?>
+SQL profiler is not active<br/>
+You should set a new key for $config array in file app/etc/env.php<br/>
+$config[db][connection][default][profiler] = 1
+<?php  endif ?>

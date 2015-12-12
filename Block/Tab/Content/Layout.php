@@ -6,10 +6,6 @@ class Layout extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 {
     protected $_elements = array();
 
-    public function getTitle()
-    {
-        return 'Layout';
-    }
 
     /**
      * @return array

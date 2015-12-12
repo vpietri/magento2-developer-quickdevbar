@@ -1,0 +1,23 @@
+<?php
+?>
+<?php if($this->getCollections()):?>
+<table class="qdn_table striped filterable">
+<thead>
+<tr>
+    <th>Collection</th>
+    <th>Call Number</th>
+</tr>
+</thead>
+<tbody>
+<?php
+  $i = 0;
+  foreach ($this->getCollections() as $collection): ?>
+  <tr>
+    <td><?php echo $collection['name']; ?></td>
+    <td><?php echo $collection['nbr']; ?></td>
+  </tr>
+    <?php $i++; ?>
+  <?php endforeach ?>
+</tbody>
+</table>
+<?php endif;?>

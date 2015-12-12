@@ -96,5 +96,13 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\DefaultContent
         return $this->_longestQuery;
     }
 
+    public function formatSqlTime($time)
+    {
+        $decimals = 2;
+        $formatedTime = number_format(round(1000*$time,$decimals),$decimals);
+
+        return $formatedTime . 'ms';
+    }
+
 
 }

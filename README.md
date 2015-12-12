@@ -4,7 +4,8 @@ Developer Toolbar for Magento2
 # About
 
 This is an handmade toolbar by a developer for developers. As it is my first extension on Magento 2 I would appreciate any feedback and idea to improve this toolbar so get in touch via the [issue tracker on GitHub](https://github.com/vpietri/magento2-developer-quickdevbar/issues). 
-Feel free to fork and pull request. Structure of this toolbar is extremly simple you just need to add a new block in the layout to get your tab running. 
+Feel free to fork and pull request.
+Structure of this toolbar is extremly simple you just need to add a new block in the layout to get your tab running. 
 
 # Screenshots
 
@@ -14,7 +15,7 @@ Info tab
 Queries Tab
 ![](doc/images/qdb_screen_queries.png)
 
-Dispatch Tab
+Profile Tab
 ![](doc/images/qdb_screen_dispatch.png)
 
 
@@ -57,12 +58,13 @@ php bin/magento setup:db-data:upgrade
 php bin/magento cache:flush
 ```
 
-# Coming soon
-
-* Back office toolbar
-* New actions: Rebuit index, Search config...
-
 # Changelog
+
+0.1.5
+* Back office toolbar
+* Reorganize tabs
+* Add list of collection and model instanciated
+* Add [Christian Bach's tablesorter plugin](https://github.com/christianbach/tablesorter)
 
 0.1.4
 * Fix bug on composer.json with registration.php

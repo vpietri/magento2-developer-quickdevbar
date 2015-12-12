@@ -4,14 +4,18 @@ namespace ADM\QuickDevBar\Block\Tab\Content;
 
 class Observer extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 {
-    protected $_invoker;
+    /**
+     *
+     * @var \ADM\QuickDevBar\Helper\Register
+     */
+    protected $_qdbHelperRegister;
 
     public function __construct(\Magento\Framework\View\Element\Template\Context $context,
-            \ADM\QuickDevBar\Model\Plugin\Event\Invoker $invoker,
+            \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
             array $data = [])
     {
 
-        $this->_invoker = $invoker;
+        $this->_qdbHelperRegister = $qdbHelperRegister;
 
         parent::__construct($context, $data);
     }
@@ -24,6 +28,6 @@ class Observer extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 
     public function getObservers()
     {
-        return $this->_invoker->getObservers();
+        return $this->_qdbHelperRegister->getObservers();
     }
 }

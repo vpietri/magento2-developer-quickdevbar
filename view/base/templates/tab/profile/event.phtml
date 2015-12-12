@@ -1,0 +1,28 @@
+<?php
+?>
+<p>
+<?php echo __('List only events dispatched when Magento generate this page')?>
+</p>
+<?php if($this->getEvents()):?>
+<table class="qdn_table striped filterable">
+<thead>
+<tr>
+    <th>Event</th>
+    <th>Data</th>
+    <th>Call Number</th>
+</tr>
+</thead>
+<tbody>
+<?php
+  $i = 0;
+  foreach ($this->getEvents() as $event): ?>
+  <tr>
+    <td><?php echo $event['event']; ?></td>
+    <td><?php echo (!empty($event['args']) ? '<ul><li>'.implode('</li><li>', $event['args']).'</li></ul>' : ''); ?></td>
+    <td><?php echo $event['nbr']; ?></td>
+  </tr>
+    <?php $i++; ?>
+  <?php endforeach ?>
+</tbody>
+</table>
+<?php endif;?>

@@ -1,63 +1,23 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceContainer name="before.body.end">
-            <block class="ADM\QuickDevBar\Block\Toolbar" name="quick.dev.toolbar" as="quick.dev.toolbar" template="toolbar.phtml">
-              <block class="ADM\QuickDevBar\Block\Tab\Main" name="quick.dev.maintabs" as="quick.dev.maintabs" template="tabs.phtml">
-                  <block class="ADM\QuickDevBar\Block\Tab\Sub" name="qdb.tab.info" as="qdb.tab.info" template="tabs.phtml">
-                    <!-- Set a title with the basic class  Content -->
-                    <action method="setTitle">
-                      <argument name="title" xsi:type="string">Info</argument>
-                    </action>
-                    <!-- Full subtab  cannot be in ajax mode by now ... cannot have data-mage-init with ajax :-( -->
-                    <!--                     
-                    <action method="setIsAjax">
-                      <argument name="is_ajax" xsi:type="string">1</argument>
-                    </action>
-                    -->
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Request" name="qdb.tab.request" as="qdb.tab.request" template="tab/info/request.phtml"/>
-                    <block class="ADM\QuickDevBar\Block\Tab\DefaultContent" name="qdb.tab.store" as="qdb.tab.store" template="tab/info/store.phtml">
-                        <action method="setTitle">
-                          <argument name="title" xsi:type="string">Store</argument>
-                        </action>                    
-                    </block>
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Layout" name="qdb.tab.layout" as="qdb.tab.layout" template="tab/info/layout.phtml"/>
-                    <block class="ADM\QuickDevBar\Block\Tab\DefaultContent" name="qdb.tab.profiler" as="qdb.tab.profiler" template="tab/info/profiler.phtml">
-                        <!-- Set a title with the basic class  Content -->
-                        <action method="setTitle">
-                          <argument name="title" xsi:type="string">Profiler</argument>
-                        </action>
-                    </block>                      
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\PhpInfo" name="qdb.tab.phpinfo" as="qdb.tab.phpinfo">
-                        <!-- Use the standard router quickdevbar/index/tab to load the block -->
-                        <action method="setIsAjax">
-                          <argument name="is_ajax" xsi:type="string">1</argument>
-                        </action>
-                        <!-- Or you can define your own route -->
-                        <!--  -->  
-                        <action method="setAjaxUrl">
-                          <argument name="ajax_url" xsi:type="string">quickdevbar/tab/phpInfo</argument>
-                        </action>
-                        <!--   -->
-                    </block>
-                  </block>
-                  <block class="ADM\QuickDevBar\Block\Tab\Sub" name="qdb.tab.dispatch" as="qdb.tab.dispatch" template="tabs.phtml">
-                    <!-- Set a title with the basic class  Content -->
-                    <action method="setTitle">
-                      <argument name="title" xsi:type="string">Dispatching</argument>
-                    </action>
-
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Observer" name="qdb.tab.observer" as="qdb.tab.observer" template="tab/observer.phtml"/>
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Event" name="qdb.tab.event" as="qdb.tab.event" template="tab/event.phtml"/>
-                  </block>
-                  <block class="ADM\QuickDevBar\Block\Tab\Content\Sql" name="qdb.tab.sql" as="qdb.tab.sql" template="tab/sql.phtml"/>
-                  <block class="ADM\QuickDevBar\Block\Tab\Content\Log" name="qdb.tab.log" as="qdb.tab.log" template="tab/log.phtml"/>
-                  <block class="ADM\QuickDevBar\Block\Tab\DefaultContent" name="qdb.tab.action" as="qdb.tab.action" template="tab/action.phtml">
-                    <action method="setTitle">
-                      <argument name="title" xsi:type="string">Actions</argument>
-                    </action>                    
-                  </block>                  
-              </block>
-            </block>
-        </referenceContainer>
+      <referenceContainer name="qdb.tab.info">
+        <block class="ADM\QuickDevBar\Block\Tab\DefaultContent" name="qdb.tab.store" as="qdb.tab.store" template="tab/info/store.phtml">
+            <action method="setTitle">
+              <argument name="title" xsi:type="string">Store</argument>
+            </action>                    
+        </block>      
+        <block class="ADM\QuickDevBar\Block\Tab\Content\PhpInfo" name="qdb.tab.phpinfo" as="qdb.tab.phpinfo">
+            <!-- Use the standard router quickdevbar/index/tab to load the block -->
+            <action method="setIsAjax">
+              <argument name="is_ajax" xsi:type="string">1</argument>
+            </action>
+            <!-- Or you can define your own route -->
+            <!--  -->  
+            <action method="setAjaxUrl">
+              <argument name="ajax_url" xsi:type="string">quickdevbar/tab/phpInfo</argument>
+            </action>
+            <!--   -->
+        </block>
+      </referenceContainer> 
     </body>
 </page>

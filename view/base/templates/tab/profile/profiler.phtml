@@ -1,0 +1,36 @@
+<?php
+?>
+<div id="qdn-profiler-container">
+<?php echo __('Cannot find profiler table or profiler is not enabled.'); ?>
+<br/>
+You have to add a SetEnv MAGE_PROFILER "html" to your .htaccess (do not use "csvfile" nor "firebug" to have profiler displayed in tab).
+Be careful with .htacces directive you can have $_SERVER['<b>REDIRECT_</b>MAGE_PROFILER'] set instead of  $_SERVER['MAGE_PROFILER'] prefer apache2.conf.
+</div>
+
+<script type="text/javascript">
+require([
+    'jquery'
+], function($){
+    var tableProfiler = $('table').last();
+    var captionProfiler = tableProfiler.find('caption').html();
+
+    var header = tableProfiler.find('tr').first();
+    tableProfiler.prepend("<thead><th>#</th>" + header.html() +"</thead>");
+    header.remove();
+    tableProfiler.find('tbody tr').each(function(i, tr) {
+    	$(tr).prepend("<td>"+i+"</td>");
+    });
+
+    if (captionProfiler && captionProfiler.match('Code Profiler ')) {
+        $('#qdn-profiler-container').html('');
+        tableProfiler.removeAttr('border')
+                     .removeAttr('cellspacing')
+                     .removeAttr('cellpadding');
+        tableProfiler.addClass('qdn_table')
+                     .addClass('filterable')
+                     .addClass('sortable')
+                     .addClass('striped');
+        tableProfiler.appendTo($('#qdn-profiler-container'));
+    }
+});
+</script>

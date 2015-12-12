@@ -4,14 +4,20 @@ namespace ADM\QuickDevBar\Model\Plugin\Event;
 
 class Manager
 {
-    protected $_events;
+    /**
+     *
+     * @var \ADM\QuickDevBar\Helper\Register
+     */
+    protected $_qdbHelperRegister;
 
-    protected $_logger;
 
+    /**
+     * @param \ADM\QuickDevBar\Helper\Data $qdbHelper
+     */
     public function __construct(
-            \Psr\Log\LoggerInterface $logger
+        \ADM\QuickDevBar\Helper\Register $qdbHelperRegister
     ) {
-        $this->_logger = $logger;
+        $this->_qdbHelperRegister = $qdbHelperRegister;
     }
 
     /**
@@ -25,21 +31,8 @@ class Manager
      * @param array $data
      */
     //public function beforeDispatch($interceptor, $eventName, $data)
-    public function beforeDispatch($interceptor, $eventName)
+    public function beforeDispatch($interceptor, $eventName, $data=array())
     {
-        if (!isset($this->_events[$eventName])) {
-            $this->_events[$eventName] = array('event'=>$eventName,
-                    'nbr'=>0,
-                    //'args'=>array_keys($data)
-                    );
-        }
-        $this->_events[$eventName]['nbr']++;
+        $this->_qdbHelperRegister->addEvent($eventName, $data);
     }
-
-    public function getEvents()
-    {
-        return $this->_events;
-    }
-
-
 }

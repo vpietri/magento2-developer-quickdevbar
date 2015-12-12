@@ -1,0 +1,23 @@
+<?php
+?>
+<?php if($this->getModels()):?>
+<table class="qdn_table striped filterable">
+<thead>
+<tr>
+    <th>Event</th>
+    <th>Call Number</th>
+</tr>
+</thead>
+<tbody>
+<?php
+  $i = 0;
+  foreach ($this->getModels() as $model): ?>
+  <tr>
+    <td><?php echo $model['name']; ?></td>
+    <td><?php echo $model['nbr']; ?></td>
+  </tr>
+    <?php $i++; ?>
+  <?php endforeach ?>
+</tbody>
+</table>
+<?php endif;?>
