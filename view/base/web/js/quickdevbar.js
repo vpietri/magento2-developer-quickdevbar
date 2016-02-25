@@ -1,7 +1,7 @@
 
 /* */
 define(["jquery",
-         "jquery/jquery.tabs",
+         "magetabs",
          "filtertable",
          "metadata",
          "tablesorter"
