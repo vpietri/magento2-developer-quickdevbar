@@ -31,7 +31,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @var array
      */
-    protected $_defaultLogFiles = array('exception'=>'exception.log', 'system'=>'system.log', 'debug'=>'debug.log');
+    protected $_defaultLogFiles = ['exception'=>'exception.log', 'system'=>'system.log', 'debug'=>'debug.log'];
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -96,15 +96,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function getLogFiles($key=false)
     {
-        $logFiles = array();
+        $logFiles = [];
         foreach ($this->_defaultLogFiles as $fileKey=>$fileName) {
             $filepath = BP . '/var/log/' . $fileName;
-            $logFiles[$fileKey] = array('id'=>$fileName
+            $logFiles[$fileKey] = ['id'=>$fileName
                     , 'name' => $fileName
                     , 'path' => $filepath
                     , 'reset' => $this->_canResetFile($filepath)
                     , 'size' => $this->_getFileSize($filepath)
-                    );
+                    ];
         }
 
         if (!$key) {

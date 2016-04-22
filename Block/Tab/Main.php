@@ -50,13 +50,13 @@ class Main extends DefaultContent
 
     protected function _getTabConfig()
     {
-        $config = array( "active"=>$this->_tab_active,
+        $config = [ "active"=>$this->_tab_active,
                 "openedState"=>$this->_tab_openState,
                 "collapsibleElement"=>"[data-role=collapsible".$this->getSubTabSuffix()."]",
                 "content"=>"[data-role=content".$this->getSubTabSuffix()."]",
                 "collapsible" => $this->_tab_collapsible,
                 "ajaxContent" => true
-        );
+        ];
 
         return $config;
     }

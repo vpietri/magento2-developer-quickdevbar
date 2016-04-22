@@ -76,6 +76,9 @@ php bin/magento cache:flush
 
 # Changelog
 
+0.1.5.2
+* Fit to PHP coding standards
+
 0.1.5.1
 * Fix tab bug in backoffice
 

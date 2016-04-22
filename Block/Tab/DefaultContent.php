@@ -43,7 +43,7 @@ class DefaultContent extends \Magento\Framework\View\Element\Template
             if ($this->getData('ajax_url')) {
                 return $this->getUrl($this->getData('ajax_url'));
             } elseif ($this->getData('is_ajax')) {
-                return $this->getUrl('quickdevbar/tab/index', array('block'=>$this->getNameInLayout())) . '?isAjax=1';
+                return $this->getUrl('quickdevbar/tab/index', ['block'=>$this->getNameInLayout()]) . '?isAjax=1';
             } else {
                 return '#'.$this->getId();
             }

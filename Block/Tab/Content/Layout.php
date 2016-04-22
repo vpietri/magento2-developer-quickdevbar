@@ -4,7 +4,7 @@ namespace ADM\QuickDevBar\Block\Tab\Content;
 
 class Layout extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 {
-    protected $_elements = array();
+    protected $_elements = [];
 
 
     /**
@@ -38,7 +38,7 @@ class Layout extends \ADM\QuickDevBar\Block\Tab\DefaultContent
         if ($this->_elements) {
             $treeBlocks = $this->buildTreeBlocks();
         } else {
-            $treeBlocks = array();
+            $treeBlocks = [];
         }
 
         return $treeBlocks;
@@ -54,12 +54,12 @@ class Layout extends \ADM\QuickDevBar\Block\Tab\DefaultContent
     {
         $element = $this->getElementByName($name);
         if ($element) {
-            $treeBlocks = array(
+            $treeBlocks = [
                     'name'  =>$name,
                     'alias'  =>$alias,
                     'type'  => $element['type'],
                     'label' => isset($element['label']) ? $element['label'] : ''
-            );
+            ];
 
             if (isset($element['children'])) {
                 foreach ($element['children'] as $childName => $childAlias) {
@@ -67,7 +67,7 @@ class Layout extends \ADM\QuickDevBar\Block\Tab\DefaultContent
                 }
             }
         } else {
-            $treeBlocks = array();
+            $treeBlocks = [];
         }
 
         return $treeBlocks;
@@ -91,10 +91,10 @@ class Layout extends \ADM\QuickDevBar\Block\Tab\DefaultContent
      *
      * @return string
      */
-    public function getHtmlBlocksHierarchy($treeBlocks=array(), $level=0)
+    public function getHtmlBlocksHierarchy($treeBlocks=[], $level=0)
     {
         if(empty($treeBlocks)) {
-            $treeBlocks = array($this->getTreeBlocksHierarchy());
+            $treeBlocks = [$this->getTreeBlocksHierarchy()];
         }
 
         $html = '<ul ' . (($level==1) ? 'class="tree"' : '') . '>';

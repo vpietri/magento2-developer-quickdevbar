@@ -35,8 +35,6 @@ class ConfigSearch extends \ADM\QuickDevBar\Controller\Index
     ) {
         parent::__construct($context, $qdbHelper, $resultRawFactory, $layoutFactory);
 
-        //$this->_configStructure = $configStructure;
-
         $this->_tabs = $configStructure->getTabs();
     }
 
@@ -44,9 +42,6 @@ class ConfigSearch extends \ADM\QuickDevBar\Controller\Index
 
     public function execute()
     {
-        //$tabs = $this->_configStructure->getTabs();
-
-        var_dump(get_class($this->_tabs));
         $this->_tabs->rewind();
         foreach ($this->_tabs as $tab) {
             echo $tab->getLabel();

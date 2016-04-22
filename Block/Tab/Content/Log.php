@@ -15,10 +15,10 @@ class Log extends \ADM\QuickDevBar\Block\Tab\DefaultContent
      * @param array $data
      */
     public function __construct(
-            \Magento\Framework\View\Element\Template\Context $context,
-            \Magento\Framework\Json\Helper\Data $jsonHelper,
-            \ADM\QuickDevBar\Helper\Data $qdbHelper,
-            array $data = []
+       \Magento\Framework\View\Element\Template\Context $context,
+       \Magento\Framework\Json\Helper\Data $jsonHelper,
+       \ADM\QuickDevBar\Helper\Data $qdbHelper,
+       array $data = []
     ) {
         $this->_jsonHelper = $jsonHelper;
 

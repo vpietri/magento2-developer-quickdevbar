@@ -55,7 +55,7 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\DefaultContent
         if ($profiler) {
             return $profiler->getQueryProfiles();
         } else {
-            return array();
+            return [];
         }
     }
 

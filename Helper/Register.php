@@ -38,10 +38,10 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     public function addEvent($eventName, $data)
     {
         if (!isset($this->_events[$eventName])) {
-            $this->_events[$eventName] = array('event'=>$eventName,
+            $this->_events[$eventName] = ['event'=>$eventName,
                     'nbr'=>0,
                     'args'=>array_keys($data)
-                    );
+                    ];
         }
         $this->_events[$eventName]['nbr']++;
 
@@ -70,7 +70,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $class = get_class($collection);
         if (empty($this->_collections[$class])) {
-            $this->_collections[$class] = array('name'=>$class, 'nbr'=>0);
+            $this->_collections[$class] = ['name'=>$class, 'nbr'=>0];
         }
         $this->_collections[$class]['nbr']++;
     }
@@ -85,7 +85,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $class = get_class($model);
         if (empty($this->_models[$class])) {
-            $this->_models[$class] = array('name'=>$class, 'nbr'=>0);
+            $this->_models[$class] = ['name'=>$class, 'nbr'=>0];
         }
         $this->_models[$class]['nbr']++;
     }

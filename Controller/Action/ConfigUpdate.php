@@ -61,7 +61,7 @@ class ConfigUpdate extends \ADM\QuickDevBar\Controller\Index
                 $configKey = $config['key'];
             }
 
-            $scopeList = array('default', 'websites', 'stores', 'auto');
+            $scopeList = ['default', 'websites', 'stores', 'auto'];
             if (empty($config['scope']) or !in_array($config['scope'], $scopeList)) {
                 throw new \Exception('Scope is missing');
             } else {

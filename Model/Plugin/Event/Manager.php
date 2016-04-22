@@ -31,7 +31,7 @@ class Manager
      * @param array $data
      */
     //public function beforeDispatch($interceptor, $eventName, $data)
-    public function beforeDispatch($interceptor, $eventName, $data=array())
+    public function beforeDispatch($interceptor, $eventName, $data=[])
     {
         $this->_qdbHelperRegister->addEvent($eventName, $data);
     }

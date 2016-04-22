@@ -22,24 +22,24 @@ class Request extends \ADM\QuickDevBar\Block\Tab\DefaultContent
         $request = $this->getRequest();
 
 
-        $requestData[] = array('name'=>'Base Url', 'value'=>$request->getDistroBaseUrl());
-        $requestData[] = array('name'=>'Path Info', 'value'=>$request->getPathInfo());
-        $requestData[] = array('name'=>'Module Name', 'value'=>$request->getModuleName());
-        $requestData[] = array('name'=>'Controller', 'value'=>$request->getControllerName());
-        $requestData[] = array('name'=>'Action', 'value'=>$request->getActionName());
-        $requestData[] = array('name'=>'Full Action', 'value'=>$request->getFullActionName());
-        $requestData[] = array('name'=>'Route', 'value'=>$request->getRouteName());
+        $requestData[] = ['name'=>'Base Url', 'value'=>$request->getDistroBaseUrl()];
+        $requestData[] = ['name'=>'Path Info', 'value'=>$request->getPathInfo()];
+        $requestData[] = ['name'=>'Module Name', 'value'=>$request->getModuleName()];
+        $requestData[] = ['name'=>'Controller', 'value'=>$request->getControllerName()];
+        $requestData[] = ['name'=>'Action', 'value'=>$request->getActionName()];
+        $requestData[] = ['name'=>'Full Action', 'value'=>$request->getFullActionName()];
+        $requestData[] = ['name'=>'Route', 'value'=>$request->getRouteName()];
 
         if ($request->getBeforeForwardInfo()) {
-            $requestData[] = array('name'=>'Before Forward', 'value'=>$request->getBeforeForwardInfo());
+            $requestData[] = ['name'=>'Before Forward', 'value'=>$request->getBeforeForwardInfo()];
         }
 
         if ($request->getParams()) {
-            $requestData[] = array('name'=>'Params', 'value'=>$request->getParams());
+            $requestData[] = ['name'=>'Params', 'value'=>$request->getParams()];
         }
-        $requestData[] = array('name'=>'Client IP', 'value'=>$request->getClientIp());
-        $requestData[] = array('name'=>'Magento', 'value'=>\Magento\Framework\AppInterface::VERSION);
-        $requestData[] = array('name'=>'Mage Mode', 'value'=>$this->_appState->getMode());
+        $requestData[] = ['name'=>'Client IP', 'value'=>$request->getClientIp()];
+        $requestData[] = ['name'=>'Magento', 'value'=>\Magento\Framework\AppInterface::VERSION];
+        $requestData[] = ['name'=>'Mage Mode', 'value'=>$this->_appState->getMode()];
 
 
         return $requestData;
