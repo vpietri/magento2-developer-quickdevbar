@@ -74,7 +74,17 @@ php bin/magento setup:db-data:upgrade
 php bin/magento cache:flush
 ```
 
+## Setup
+
+The toolbar is displayed by default if your web server is on your local development environment with the standard IPv4 address: 127.0.0.1. If not you can specify your IP on define an part of your http header in the config.   
+
+
 # Changelog
+
+0.1.6
+* UI improvement
+* Add Block subtab
+* Add icon from [iconsdb.com](http://www.iconsdb.com/)
 
 0.1.5.2
 * Fit to PHP coding standards

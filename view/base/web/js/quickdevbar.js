@@ -65,6 +65,27 @@ define(["jquery",
                     }
                 }
             });
-        }
+        },
+        
+        /**
+         * https://wiki.eclipse.org/Eclipse_Web_Interface
+         */
+        callJsEclipseSocEWI: function(file, line)
+        {
+            var url= 'http://localhost:34567/?command=org.eclipse.soc.ewi.examples.commands.openfile&path='+file+'&line='+line;
+            try
+            {
+              var xhr_object = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+              xhr_object.open("post", url, false);
+              xhr_object.send();
+            }
+            catch(e)
+            {
+              //uncaught exception: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIXMLHttpRequest.send]
+              //console.log(e);
+              if( e.name!='NS_ERROR_FAILURE' && e.result!=2147500037)
+                window.location = url;
+            }
+        }        
     });
 });

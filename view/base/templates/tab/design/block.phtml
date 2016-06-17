@@ -1,20 +1,20 @@
 <?php
 ?>
-<?php if($this->getModels()):?>
+<?php if($this->getBlocks()):?>
 <table class="qdn_table striped filterable">
 <thead>
 <tr>
-    <th>Event</th>
+    <th>Block</th>
     <th>Call Number</th>
 </tr>
 </thead>
 <tbody>
 <?php
   $i = 0;
-  foreach ($this->getModels() as $model): ?>
+  foreach ($this->getBlocks() as $block): ?>
   <tr>
-    <td><?php echo $model['class']; ?></td>
-    <td><?php echo $model['nbr']; ?></td>
+    <td><?php echo $block['class']; ?></td>
+    <td><?php echo $block['nbr']; ?></td>
   </tr>
     <?php $i++; ?>
   <?php endforeach ?>

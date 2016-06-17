@@ -4,7 +4,7 @@ namespace ADM\QuickDevBar\Block\Tab\Content;
 
 use \ADM\QuickDevBar\Block\Tab;
 
-class Collection extends \ADM\QuickDevBar\Block\Tab\DefaultContent
+class Block extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 {
     /**
      *
@@ -24,13 +24,13 @@ class Collection extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 
     public function getTitleBadge()
     {
-        $collections = $this->getCollections();
-        return count($collections);
+        $blocks = $this->getBlocks();
+        return count($blocks);
     }
 
 
-    public function getCollections()
+    public function getBlocks()
     {
-        return $this->_qdbHelperRegister->getCollections();
+        return $this->_qdbHelperRegister->getBlocks();
     }
 }

@@ -10,6 +10,11 @@ class DefaultContent extends \Magento\Framework\View\Element\Template
         return ($this->getData('title')) ? $this->getData('title') : $this->getNameInLayout();
     }
 
+    public function getTitleBadge()
+    {
+        return false;
+    }
+
     public function getId()
     {
         return ($this->getData('id')) ? $this->getData('id') : $this->getNameInLayout();

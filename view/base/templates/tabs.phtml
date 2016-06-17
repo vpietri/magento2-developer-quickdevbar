@@ -7,7 +7,13 @@ role="tablist" style="display: block;">
         <?php foreach($block->getTabBlocks() as $tabBlock): ?>
             <li data-role="collapsible<?php echo $block->getSubTabSuffix();?>" data-collapsible="true" class="<?php echo $tabBlock->getClass() ?>">
                 <a href="<?php echo $tabBlock->getTabUrl() ?>" tabindex="-1" data-toggle="switch" role="tab" data-ajax="<?php echo $tabBlock->isAjax() ?>">
+                <?php if($tabBlock->getTitleImage()):?>
+                    <img  class="qdb-img" src="<?php echo $block->getViewFileUrl($tabBlock->getTitleImage()) ?>">
+                <?php endif;?>
                 <?php echo $tabBlock->getTitle() ?>
+                <?php if($tabBlock->getTitleBadge()):?>
+                    <span class="qdb-tab-badge"><?php echo $tabBlock->getTitleBadge();?></span>
+                <?php endif;?>
                 </a>
             </li>
         <?php endforeach; ?>

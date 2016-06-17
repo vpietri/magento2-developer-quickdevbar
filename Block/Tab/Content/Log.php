@@ -27,13 +27,6 @@ class Log extends \ADM\QuickDevBar\Block\Tab\DefaultContent
         parent::__construct($context, $data);
     }
 
-
-
-    public function getTitle()
-    {
-        return 'Logs';
-    }
-
     public function getTailLines()
     {
         return 20;

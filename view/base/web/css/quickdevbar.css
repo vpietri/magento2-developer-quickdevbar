@@ -2,7 +2,7 @@
   *  Toolbar global style
   * ---------------
   */
-#qdb-bar, #qdb-bar-anchor {
+#qdb-bar {
     position: fixed;
     left: 0px;
     top: 0px;
@@ -17,8 +17,10 @@
 }
 
 #qdb-bar-anchor {
-     height: 30px;
-     border: 1px solid #ccc;
+    left: 2px;
+    position: fixed;
+    top: 5px;
+    z-index: 10001;
 }
 
 #qdb-bar  * {
@@ -29,11 +31,6 @@
 #qdb-bar  input {
   width: auto;
 }
-
-#qdb-bar-anchor {
-    background: none repeat scroll 0 0 #fff;
-}
-
 
 /**
   * Button
@@ -113,6 +110,19 @@ div.qdb-ui-tabs > ul > li, div.qdb-ui-subtabs > ul > li {
     margin-bottom:0px;
 }
 
+li .qdb-tab-badge {
+    background-color: #f0f8ff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-left: 4px;
+    padding: 1px 2px;
+}
+
+li img.qdb-img {
+    padding: 1px;
+    vertical-align: bottom;
+}
+
 div.qdb-ui-tabs > ul > li {
     border-left: 1px solid white;
     margin-left: -2px;
@@ -128,6 +138,13 @@ div.qdb-ui-tabs li.ui-tabs-active, div.qdb-ui-subtabs li.ui-tabs-active {
     z-index: 100;
     border-bottom: 1px solid #fff;
 }
+
+li.ui-tabs-active .qdb-tab-badge {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #eb5202;
+    color: #004276;
+}
+
 
 div.qdb-ui-tabs > ul a, div.qdb-ui-subtabs > ul a  {
     text-decoration: none;

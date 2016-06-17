@@ -20,10 +20,10 @@ class Observer extends \ADM\QuickDevBar\Block\Tab\DefaultContent
         parent::__construct($context, $data);
     }
 
-    public function getTitle()
+    public function getTitleBadge()
     {
         $observers = $this->getObservers();
-        return 'Observers (' . count($observers) . ')';
+        return count($observers);
     }
 
     public function getObservers()

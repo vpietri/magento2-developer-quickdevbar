@@ -22,10 +22,10 @@ class Model extends \ADM\QuickDevBar\Block\Tab\DefaultContent
         parent::__construct($context, $data);
     }
 
-    public function getTitle()
+    public function getTitleBadge()
     {
         $models = $this->getModels();
-        return 'Models (' . count($models) . ')';
+        return count($models);
     }
 
 

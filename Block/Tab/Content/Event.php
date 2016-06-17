@@ -22,10 +22,10 @@ class Event extends \ADM\QuickDevBar\Block\Tab\DefaultContent
         parent::__construct($context, $data);
     }
 
-    public function getTitle()
+    public function getTitleBadge()
     {
         $events = $this->getEvents();
-        return 'Events (' . count($events) . ')';
+        return count($events);
     }
 
 

@@ -14,6 +14,9 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
 
     protected $_models;
 
+    protected $_blocks;
+
+
     public function addObserver($observerConfig, $wrapper)
     {
         $data = $observerConfig;
@@ -55,6 +58,10 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
                 $this->addModel($data['object']);
                 break;
 
+            case 'core_layout_block_create_after':
+                $this->addBlock($data['block']);
+                break;
+
             default:
                 break;
 
@@ -70,7 +77,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $class = get_class($collection);
         if (empty($this->_collections[$class])) {
-            $this->_collections[$class] = ['name'=>$class, 'nbr'=>0];
+            $this->_collections[$class] = ['class'=>$class, 'nbr'=>0];
         }
         $this->_collections[$class]['nbr']++;
     }
@@ -85,7 +92,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $class = get_class($model);
         if (empty($this->_models[$class])) {
-            $this->_models[$class] = ['name'=>$class, 'nbr'=>0];
+            $this->_models[$class] = ['class'=>$class, 'nbr'=>0];
         }
         $this->_models[$class]['nbr']++;
     }
@@ -93,6 +100,24 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     public function getModels()
     {
         return $this->_models;
+    }
+
+
+
+    public function addBlock($block)
+    {
+        $class = get_class($block);
+        if (empty($this->_blocks[$class])) {
+//             $reflection = new \ReflectionClass($block);
+//             $this->_blocks[$class] = ['class'=>$class, 'file'=>$reflection->getFileName() ,  'nbr'=>0];
+            $this->_blocks[$class] = ['class'=>$class, 'nbr'=>0];
+        }
+        $this->_blocks[$class]['nbr']++;
+    }
+
+    public function getBlocks()
+    {
+        return $this->_blocks;
     }
 
 }

@@ -24,15 +24,13 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\DefaultContent
         parent::__construct($context, $data);
     }
 
-
-    public function getTitle()
+    public function getTitleBadge()
     {
-        $title = 'Queries';
         if ($this->getSqlProfiler()) {
-            $title .= ' (' . $this->getSqlProfiler()->getTotalNumQueries() . ')';
+            return $this->getSqlProfiler()->getTotalNumQueries();
+        } else {
+            return false;
         }
-
-        return $title;
     }
 
     public function getSqlProfiler()
