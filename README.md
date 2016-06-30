@@ -81,6 +81,9 @@ The toolbar is displayed by default if your web server is on your local developm
 
 # Changelog
 
+0.1.6.1
+* Fix compatibility bugs with 2.1
+
 0.1.6
 * UI improvement
 * Add Block subtab
