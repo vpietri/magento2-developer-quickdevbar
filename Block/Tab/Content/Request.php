@@ -4,6 +4,10 @@ namespace ADM\QuickDevBar\Block\Tab\Content;
 
 class Request extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 {
+    /**
+     * @var \Magento\Framework\App\ProductMetadataInterface
+     */
+    protected $_productMetadata;
 
     public function getTitle()
     {
@@ -11,8 +15,10 @@ class Request extends \ADM\QuickDevBar\Block\Tab\DefaultContent
     }
 
     public function __construct(\Magento\Framework\View\Element\Template\Context $context,
+            \Magento\Framework\App\ProductMetadataInterface $productMetadata,
             array $data = [])
     {
+        $this->_productMetadata   = $productMetadata;
         parent::__construct($context, $data);
     }
 
@@ -38,7 +44,7 @@ class Request extends \ADM\QuickDevBar\Block\Tab\DefaultContent
             $requestData[] = ['name'=>'Params', 'value'=>$request->getParams()];
         }
         $requestData[] = ['name'=>'Client IP', 'value'=>$request->getClientIp()];
-        $requestData[] = ['name'=>'Magento', 'value'=>\Magento\Framework\AppInterface::VERSION];
+        $requestData[] = ['name'=>'Magento', 'value'=>$this->_productMetadata->getVersion()];
         $requestData[] = ['name'=>'Mage Mode', 'value'=>$this->_appState->getMode()];
 
 

@@ -2,6 +2,15 @@
   *  Toolbar global style
   * ---------------
   */
+
+#qdb-bar-anchor {
+    left: 2px;
+    position: fixed;
+    top: 5px;
+    z-index: 10001;
+    cursor: pointer;
+}
+
 #qdb-bar {
     position: fixed;
     left: 0px;
@@ -10,17 +19,9 @@
     background: none repeat scroll 0 0 #ddd;
 }
 
-
 #qdb-bar {
     height: 35px;
     text-align: left;
-}
-
-#qdb-bar-anchor {
-    left: 2px;
-    position: fixed;
-    top: 5px;
-    z-index: 10001;
 }
 
 #qdb-bar  * {

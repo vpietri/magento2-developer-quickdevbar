@@ -7,16 +7,6 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
-    protected $_scopeConfig;
-
-    /**
-     * @var \Magento\Framework\HTTP\Header
-     */
-    protected $_httpHeader;
-
-    /**
      * @var \Magento\Framework\App\Cache\Frontend\Pool
      */
     protected $_cacheFrontendPool;
@@ -38,14 +28,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function __construct(
             \Magento\Framework\App\Helper\Context $context,
-            \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-            \Magento\Framework\HTTP\Header $httpHeader,
             \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
     ) {
-        $this->_scopeConfig = $scopeConfig;
-
-        $this->_httpHeader = $httpHeader;
-
         $this->_cacheFrontendPool = $cacheFrontendPool;
 
         parent::__construct($context);
@@ -59,7 +43,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function getConfig($path, $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $scopeCode = null)
     {
-        return $this->_scopeConfig->getValue($path, $scopeType, $scopeCode);
+        return $this->scopeConfig->getValue($path, $scopeType, $scopeCode);
     }
 
 
