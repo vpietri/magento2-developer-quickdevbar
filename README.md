@@ -26,7 +26,7 @@ Structure of this toolbar is extremly simple you just need to add a new block in
 ![](doc/images/qdb_screen_queries.png)
 
 - Profile Tab
-![](doc/images/qdb_screen_dispatch.png)
+[![Video](doc/images/qdb_screen_dispatch.youtube.png)](https://www.youtube.com/watch?v=7p2Y_dqBfCM)
 
 # Installation
 
