@@ -53,9 +53,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $allow = false;
         $allowedIps = $this->getConfig('dev/restrict/allow_ips');
         $toolbarHeader = $this->getConfig('dev/restrict/toolbar_header');
-        $ip_list = array("127.0.0.1", "::1");
-        $clientIp = $this->_getRequest()->getClientIp();
 
+        $localIpsList = array("127.0.0.1", "::1");
+        $clientIp = $this->_getRequest()->getClientIp();
 
         if( !empty($allowedIps) ) {
             if (!empty($clientIp)) {
@@ -64,7 +64,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     $allow = true;
                 }
             }
-        } elseif ($clientIp && in_array($clientIp , $ip_list)) {
+        } elseif ($clientIp && in_array($clientIp , $localIpsList)) {
             $allow = true;
         }
 
