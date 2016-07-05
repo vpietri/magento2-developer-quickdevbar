@@ -51,27 +51,34 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
 
         $allow = false;
-        $allowedIps = $this->getConfig('dev/restrict/allow_ips');
-        $toolbarHeader = $this->getConfig('dev/restrict/toolbar_header');
+        $enable = $this->getConfig('dev/quickdevbar/enable');
 
-        $localIpsList = array("127.0.0.1", "::1");
-        $clientIp = $this->_getRequest()->getClientIp();
+        if ($enable) {
 
-        if( !empty($allowedIps) ) {
-            if (!empty($clientIp)) {
-                $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
-                if (array_search($clientIp, $allowedIps) !== false) {
+            if($enable>1) {
+                $allowedIps = $this->getConfig('dev/quickdevbar/allow_ips');
+                $toolbarHeader = $this->getConfig('dev/quickdevbar/toolbar_header');
+
+                $localIpsList = array("127.0.0.1", "::1");
+                $clientIp = $this->_getRequest()->getClientIp();
+
+                if( !empty($allowedIps) ) {
+                    if (!empty($clientIp)) {
+                        $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
+                        if (array_search($clientIp, $allowedIps) !== false) {
+                            $allow = true;
+                        }
+                    }
+                } elseif ($clientIp && in_array($clientIp , $localIpsList)) {
                     $allow = true;
                 }
-            }
-        } elseif ($clientIp && in_array($clientIp , $localIpsList)) {
-            $allow = true;
-        }
 
-        if(!empty($toolbarHeader)) {
-        		if(!preg_match('/' . $toolbarHeader . '/', $this->_httpHeader->getHttpUserAgent(true))) {
-        		    $allow = false;
-        		}
+                if(!empty($toolbarHeader) ) {
+                		$allow = preg_match('/' . $toolbarHeader . '/', $this->_httpHeader->getHttpUserAgent(true));
+                }
+            } else {
+                $allow = true;
+            }
         }
 
         return $allow;

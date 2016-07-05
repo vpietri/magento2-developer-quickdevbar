@@ -4,18 +4,32 @@
  * Copyright © 2015 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */-->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="dev" translate="label">
-            <group id="restrict" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Developer Client Restrictions</label>
-                <field id="toolbar_header" translate="label comment" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Header for Quick Dev Bar</label>
-                     <!-- <frontend_type>text</frontend_type> -->
-                    <!-- <backend_model>Magento\Developer\Model\Config\Backend\AllowedIps</backend_model> -->
+            <group id="quickdevbar" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Quick dev bar configuration</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Activate</label>
+                    <source_model>ADM\QuickDevBar\Model\Config\Source\Activate</source_model>
+                    <comment>"Yes with restriction" means that server is your localhost or allowed ips or allowed with header)</comment>
+                </field>
+                <field id="allow_ips" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allowed IPs (comma separated)</label>
+                    <comment>Leave empty for access from any location.</comment>
+                    <backend_model>Magento\Developer\Model\Config\Backend\AllowedIps</backend_model>
+                    <depends>
+                        <field id="enable">2</field>
+                    </depends>
+                </field>
+                <field id="toolbar_header" translate="label comment" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allowed with header</label>
                     <comment>You can define a specific pattern that will be check (with preg_match) in request headers to allow toolbar usage.</comment>
+                    <depends>
+                        <field id="enable">2</field>
+                    </depends>                    
                 </field>
             </group>
         </section>
-    </system>
+    </system>    
 </config>
