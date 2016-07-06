@@ -4,7 +4,7 @@ namespace ADM\QuickDevBar\Block\Tab\Content;
 
 use \ADM\QuickDevBar\Block\Tab;
 
-class Block extends \ADM\QuickDevBar\Block\Tab\DefaultContent
+class Block extends \ADM\QuickDevBar\Block\Tab\Panel
 {
     /**
      *

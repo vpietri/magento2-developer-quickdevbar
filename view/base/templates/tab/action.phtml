@@ -32,7 +32,7 @@ require([
 
         showLoader = function(target) {
             target.html($('#action-loader').html());
-        }
+        };
 
         actionConfig = function(key, value, scope)
         {
@@ -47,7 +47,7 @@ require([
             jqxhr.fail(function(response) {
                 target.html('Error');
             });
-        }
+        };
 
         actionCache = function()
         {
@@ -62,7 +62,7 @@ require([
             jqxhr.fail(function(response) {
                 target.html('Error');
             });
-        }
+        };
 
 });
 //-->

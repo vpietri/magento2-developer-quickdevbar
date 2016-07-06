@@ -34,7 +34,7 @@ require([
 
         showLoader = function(target) {
             target.html($('#log-loader').html());
-        }
+        };
 
         loadLogContent = function(key)
         {
@@ -44,14 +44,14 @@ require([
             jqxhr.done(function(response) {
                 target.html(response);
           });
-        }
+        };
 
         resetAllLogs = function()
         {
             $.each(logFiles, function(key, logfile){
                 resetLog(key);
             });
-        }
+        };
 
         resetLog = function(key)
         {
@@ -61,7 +61,7 @@ require([
             jqxhr.done(function(response) {
                 target.html(response);
             });
-        }
+        };
 });
 //-->
 </script>

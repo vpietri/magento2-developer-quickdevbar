@@ -1,7 +1,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <body>
       <referenceBlock name="qdb.tab.info">
-        <block class="ADM\QuickDevBar\Block\Tab\DefaultContent" name="qdb.tab.store" as="qdb.tab.store" after="qdb.tab.request" template="tab/info/store.phtml">
+        <block class="ADM\QuickDevBar\Block\Tab\Panel" name="qdb.tab.store" as="qdb.tab.store" after="qdb.tab.request" template="tab/info/store.phtml">
             <action method="setTitle">
               <argument name="title" xsi:type="string">Store</argument>
             </action>                    
@@ -11,6 +11,9 @@
             <action method="setIsAjax">
               <argument name="is_ajax" xsi:type="string">1</argument>
             </action>
+            <action method="setTitle">
+              <argument name="title" xsi:type="string">Phpinfo</argument>
+            </action>                
             <!-- Or you can define your own route -->
             <!--  -->  
             <action method="setAjaxUrl">

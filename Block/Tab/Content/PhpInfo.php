@@ -2,14 +2,8 @@
 
 namespace ADM\QuickDevBar\Block\Tab\Content;
 
-class PhpInfo extends \ADM\QuickDevBar\Block\Tab\DefaultContent
+class PhpInfo extends \ADM\QuickDevBar\Block\Tab\Panel
 {
-
-    public function getTitle()
-    {
-        return 'Phpinfo';
-    }
-
     /**
      * Render block HTML
      *
@@ -23,8 +17,10 @@ class PhpInfo extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 
     public function showPhpInfo()
     {
+        $what = $this->hasShortWhat() ? INFO_VARIABLES|INFO_ENVIRONMENT : INFO_ALL;
+
         ob_start();
-        phpinfo();
+        phpinfo($what);
         if (preg_match ('%<style type="text/css">(.*?)</style>.*?<body>(.*)</body>%s', ob_get_clean(), $matches)) {
             return "<style type='text/css'>" . PHP_EOL .
                     join( PHP_EOL,

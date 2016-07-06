@@ -2,7 +2,7 @@
 
 namespace ADM\QuickDevBar\Block\Tab\Content;
 
-class Observer extends \ADM\QuickDevBar\Block\Tab\DefaultContent
+class Observer extends \ADM\QuickDevBar\Block\Tab\Panel
 {
     /**
      *

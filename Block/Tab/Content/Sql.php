@@ -2,7 +2,7 @@
 
 namespace ADM\QuickDevBar\Block\Tab\Content;
 
-class Sql extends \ADM\QuickDevBar\Block\Tab\DefaultContent
+class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
 {
 
     protected $_sql_profiler;

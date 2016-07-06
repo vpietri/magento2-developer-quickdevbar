@@ -34,10 +34,6 @@ class Toolbar extends \Magento\Framework\View\Element\Template
     {
         if (is_null($this->_mainTabs)) {
             $this->_mainTabs = $this->getLayout()->getChildBlocks($this->getNameInLayout());
-
-//             $areaBlock = $this->getLayout()->createBlock('ADM\QuickDevBar\Block\Tab\DefaultTab', 'qdb-area-switch');
-//             $areaBlock->setTabUrl('http://www.google.fr');
-//             $this->_main_tabs[]= $areaBlock;
         }
 
         return $this->_mainTabs;

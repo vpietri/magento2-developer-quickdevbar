@@ -11,7 +11,6 @@ class PhpInfo extends \ADM\QuickDevBar\Controller\Index
      */
     public function execute()
     {
-
         try {
             $output = $this->_layoutFactory->create()
              ->createBlock('ADM\QuickDevBar\Block\Tab\Content\PhpInfo')

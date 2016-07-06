@@ -2,7 +2,7 @@
 
 namespace ADM\QuickDevBar\Block\Tab\Content;
 
-class Log extends \ADM\QuickDevBar\Block\Tab\DefaultContent
+class Log extends \ADM\QuickDevBar\Block\Tab\Panel
 {
 
     protected $_jsonHelper;

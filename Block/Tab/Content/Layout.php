@@ -2,7 +2,7 @@
 
 namespace ADM\QuickDevBar\Block\Tab\Content;
 
-class Layout extends \ADM\QuickDevBar\Block\Tab\DefaultContent
+class Layout extends \ADM\QuickDevBar\Block\Tab\Panel
 {
     protected $_elements = [];
 

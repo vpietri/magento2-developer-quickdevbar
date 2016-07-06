@@ -2,17 +2,12 @@
 
 namespace ADM\QuickDevBar\Block\Tab;
 
-class DefaultContent extends \Magento\Framework\View\Element\Template
+class Panel extends \Magento\Framework\View\Element\Template
 {
 
     public function getTitle()
     {
         return ($this->getData('title')) ? $this->getData('title') : $this->getNameInLayout();
-    }
-
-    public function getTitleBadge()
-    {
-        return false;
     }
 
     public function getId()
@@ -102,6 +97,42 @@ class DefaultContent extends \Magento\Framework\View\Element\Template
     public function getGroup()
     {
         return $this->_storeManager->getGroup();
+    }
+
+    /**
+     * Render block HTML
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        $buffer = parent::_toHtml();
+
+        return $this->sanitizeOutput($buffer);
+    }
+
+
+    /**
+     * @see http://stackoverflow.com/a/6225706
+     * @param unknown_type $buffer
+     */
+    protected function sanitizeOutput($buffer) {
+
+        $search = array(
+                '/\>[^\S ]+/s',  // strip whitespaces after tags, except space
+                '/[^\S ]+\</s',  // strip whitespaces before tags, except space
+                '/(\s)+/s'       // shorten multiple whitespace sequences
+        );
+
+        $replace = array(
+                '>',
+                '<',
+                '\\1'
+        );
+
+        $buffer = preg_replace($search, $replace, $buffer);
+
+        return $buffer;
     }
 
 }

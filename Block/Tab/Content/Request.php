@@ -2,8 +2,13 @@
 
 namespace ADM\QuickDevBar\Block\Tab\Content;
 
-class Request extends \ADM\QuickDevBar\Block\Tab\DefaultContent
+class Request extends \ADM\QuickDevBar\Block\Tab\Panel
 {
+    /**
+     * @var FrontNameResolver
+     */
+    protected $_frontNameResolver;
+
     /**
      * @var \Magento\Framework\App\ProductMetadataInterface
      */
@@ -16,9 +21,11 @@ class Request extends \ADM\QuickDevBar\Block\Tab\DefaultContent
 
     public function __construct(\Magento\Framework\View\Element\Template\Context $context,
             \Magento\Framework\App\ProductMetadataInterface $productMetadata,
+            \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver,
             array $data = [])
     {
         $this->_productMetadata   = $productMetadata;
+        $this->_frontNameResolver = $frontNameResolver;
         parent::__construct($context, $data);
     }
 
@@ -46,6 +53,8 @@ class Request extends \ADM\QuickDevBar\Block\Tab\DefaultContent
         $requestData[] = ['name'=>'Client IP', 'value'=>$request->getClientIp()];
         $requestData[] = ['name'=>'Magento', 'value'=>$this->_productMetadata->getVersion()];
         $requestData[] = ['name'=>'Mage Mode', 'value'=>$this->_appState->getMode()];
+
+        $requestData[] = ['name'=>'Backend frontname', 'value'=>$request->getDistroBaseUrl() . $this->_frontNameResolver->getFrontName()];
 
 
         return $requestData;

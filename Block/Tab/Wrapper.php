@@ -2,17 +2,13 @@
 
 namespace ADM\QuickDevBar\Block\Tab;
 
-class Main extends DefaultContent
+use Magento\Framework\Api\SimpleDataObjectConverter;
+
+class Wrapper extends Panel
 {
     protected $_mainTabs;
 
     protected $_jsonHelper;
-
-    protected $_tab_active = false;
-
-    protected $_tab_collapsible = true;
-
-    protected $_tab_openState = "ui-tabs-active";
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -38,25 +34,37 @@ class Main extends DefaultContent
         return $this->_mainTabs;
     }
 
+
     public function getSubTabSuffix()
     {
-        return '';
+        return SimpleDataObjectConverter::snakeCaseToCamelCase(str_replace('.', '_', $this->getNameInLayout()));
     }
+
 
     public function getUiTabClass()
     {
-        return 'qdb-ui-tabs';
+        return ($this->getIsMainTab()) ? 'qdb-ui-tabs' : 'qdb-ui-subtabs';
     }
 
     protected function _getTabConfig()
     {
-        $config = [ "active"=>$this->_tab_active,
-                "openedState"=>$this->_tab_openState,
-                "collapsibleElement"=>"[data-role=collapsible".$this->getSubTabSuffix()."]",
-                "content"=>"[data-role=content".$this->getSubTabSuffix()."]",
-                "collapsible" => $this->_tab_collapsible,
-                "ajaxContent" => true
-        ];
+        if($this->getIsMainTab()) {
+            $config = [ "active"=> false,
+            "openedState"=> "ui-tabs-active",
+            "collapsibleElement"=>"[data-role=collapsible".$this->getSubTabSuffix()."]",
+            "content"=>"[data-role=content".$this->getSubTabSuffix()."]",
+            "collapsible" => true,
+            "ajaxContent" => true
+            ];
+        } else {
+            $config = [ "active"=> 0,
+            "openedState"=>"ui-tabs-active",
+            "collapsibleElement"=>"[data-role=collapsible".$this->getSubTabSuffix()."]",
+            "content"=>"[data-role=content".$this->getSubTabSuffix()."]",
+            "collapsible" => false,
+            "ajaxContent" => true
+            ];
+        }
 
         return $config;
     }
