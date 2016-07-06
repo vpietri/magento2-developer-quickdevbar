@@ -3,8 +3,14 @@
 <div id="qdn-profiler-container">
 <?php echo __('Cannot find profiler table or profiler is not enabled.'); ?>
 <br/>
-You have to add a SetEnv MAGE_PROFILER "html" to your .htaccess (do not use "csvfile" nor "firebug" to have profiler displayed in tab).
-Be careful with .htacces directive you can have $_SERVER['<b>REDIRECT_</b>MAGE_PROFILER'] set instead of  $_SERVER['MAGE_PROFILER'] prefer apache2.conf.
+You have to add a SetEnv MAGE_PROFILER "html" to your .htaccess (do not use "csvfile" nor "firebug" to have profiler displayed in tab).<br/>
+Be careful with .htacces directives an redirection you can have <br/>
+<pre>$_SERVER['REDIRECT_MAGE_PROFILER']</pre>
+setted instead of<br/>
+<pre>$_SERVER['MAGE_PROFILER']</pre>
+prefer apache2.conf.
+<br/><br/>
+You can read the official documentation <a href="http://devdocs.magento.com/guides/v2.1/config-guide/bootstrap/mage-profiler.html">Enable profiling (MAGE_PROFILER)</a>
 </div>
 
 <script type="text/javascript">

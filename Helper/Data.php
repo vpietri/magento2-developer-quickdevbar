@@ -35,6 +35,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         parent::__construct($context);
     }
 
+
     public function getCacheFrontendPool()
     {
         return $this->_cacheFrontendPool;
@@ -49,32 +50,31 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function isToolbarAccessAllowed()
     {
-
         $allow = false;
         $enable = $this->getConfig('dev/quickdevbar/enable');
 
         if ($enable) {
 
             if($enable>1) {
-                $allowedIps = $this->getConfig('dev/quickdevbar/allow_ips');
-                $toolbarHeader = $this->getConfig('dev/quickdevbar/toolbar_header');
+//                 $allowedIps = $this->getConfig('dev/quickdevbar/allow_ips');
 
-                $localIpsList = array("127.0.0.1", "::1");
-                $clientIp = $this->_getRequest()->getClientIp();
+//                 $localIpsList = array("127.0.0.1", "::1");
+//                 $clientIp = $this->getClientIp();
 
-                if( !empty($allowedIps) ) {
-                    if (!empty($clientIp)) {
-                        $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
-                        if (array_search($clientIp, $allowedIps) !== false) {
-                            $allow = true;
-                        }
-                    }
-                } elseif ($clientIp && in_array($clientIp , $localIpsList)) {
-                    $allow = true;
-                }
+//                 if( !empty($allowedIps) ) {
+//                     if (!empty($clientIp)) {
+//                         $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
+//                         if (array_search($clientIp, $allowedIps) !== false) {
+//                             $allow = true;
+//                         }
+//                     }
+//                 } elseif ($clientIp && in_array($clientIp , $localIpsList)) {
+//                     $allow = true;
+//                 }
+                $allow = $this->isIpAuthorized();
 
-                if(!empty($toolbarHeader) ) {
-                		$allow = preg_match('/' . $toolbarHeader . '/', $this->_httpHeader->getHttpUserAgent(true));
+                if(!$allow ) {
+                		$allow = $this->isUserAgentAuthorized();
                 }
             } else {
                 $allow = true;
@@ -82,6 +82,49 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         return $allow;
+    }
+
+
+    public function isIpAuthorized()
+    {
+        if (array_search($this->getClientIp(), $this->getAllowedIps()) !== false) {
+            $allow = true;
+        } else {
+            $allow = false;
+        }
+
+        return $allow;
+    }
+
+    public function getAllowedIps($separator=false)
+    {
+        $allowedIps = $this->getConfig('dev/quickdevbar/allow_ips');
+        if($allowedIps) {
+            $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
+        } else {
+            $allowedIps = array();
+        }
+        $allowedIps = array_merge(array("127.0.0.1", "::1"), $allowedIps);
+
+        return $separator ? implode($separator ,$allowedIps) : $allowedIps;
+    }
+
+
+    public function getClientIp()
+    {
+        return $this->_getRequest()->getClientIp();
+    }
+
+    public function isUserAgentAuthorized()
+    {
+        $toolbarHeader = $this->getConfig('dev/quickdevbar/toolbar_header');
+
+        return !empty($toolbarHeader) ? preg_match('/' . $toolbarHeader . '/', $this->getUserAgent()) : false;
+    }
+
+    public function getUserAgent()
+    {
+        return $this->_httpHeader->getHttpUserAgent(true);
     }
 
 
