@@ -3,8 +3,8 @@ Developer Toolbar for Magento2
 
 # About
 
-Hope this debug toolbar can speed up Magento2 development module. Any feedback and idea to improve this toolbar will be appreciate so get in touch via the [issue tracker on GitHub](https://github.com/vpietri/magento2-developer-quickdevbar/issues). Feel free to fork and pull request.
-Structure of this toolbar is extremly simple you just need to add a new block in the layout to get your tab running. 
+Hope this debug toolbar can speed up Magento2 development module. Any feedback and idea to improve this toolbar will be appreciated so get in touch via the [issue tracker on GitHub](https://github.com/vpietri/magento2-developer-quickdevbar/issues). Feel free to fork and pull request.
+The structure of this toolbar is extremely simple you just need to add a new block in the layout to get your tab running.
 
 # Features
 
@@ -43,15 +43,6 @@ In the root directory
 composer require magento/magento-composer-installer
 ```
 
-- Add the VCS repository: So that composer can find the module. Add the following lines in your composer.json
-
-        "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/vpietri/magento2-developer-quickdevbar"
-        }],
-
-
 - Install the module
 ```
 composer require vpietri/adm-quickdevbar
@@ -76,13 +67,23 @@ php bin/magento cache:flush
 
 ## Setup
 
-The toolbar is displayed by default if your web server is on your local development environment with the standard IPv4 address: 127.0.0.1. If not you can specify your IP on define an part of your http header in the config.   
+The toolbar is displayed by default if your web server is on your local development environment.
 
+The configuration is in  Stores/Advanced/Developer/Quick dev bar configuration
+![](doc/images/qdb_screen_config_ok.png)
+
+If you do not see the toolbar you should either force activation by setting the select "Activate" to "Yes" or fill your IP in the field "Allowed IPs" or fill a matching pattern of you user-agent in the field "Allowed user-agent pattern" 
+![](doc/images/qdb_screen_config_ko.png)
 
 # Changelog
 
+0.1.7
+* Configuration section improvement
+* Code refactoring
+* Authorize IPv6 localhost
+
 0.1.6.1
-* Fix compatibility bugs with 2.1
+* Fix compatibility bugs with Magento 2.1
 
 0.1.6
 * UI improvement

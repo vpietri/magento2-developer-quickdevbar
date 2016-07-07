@@ -12,7 +12,7 @@
                 <field id="enable" translate="label comment" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Activate</label>
                     <source_model>ADM\QuickDevBar\Model\Config\Source\Activate</source_model>
-                    <comment>"Yes with restriction" means that server is your localhost or allowed ips or allowed with header)</comment>
+                    <comment>"Yes with restriction" means that your web server is your localhost or your ip is in "Allowed ips" or your user-agent is matching "Allowed user-agent pattern"</comment>
                 </field>
                 <field id="is_enabled" translate="label" type="label" sortOrder="15" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Is enabled for you?</label>
@@ -22,16 +22,16 @@
                     </depends>                    
                 </field>
                 <field id="allow_ips" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Allowed IPs (comma separated)</label>
-                    <comment>Leave empty for access from any location.</comment>
+                    <label>Allowed IPs</label>
+                    <comment>Comma separated list. If empty check only localhost IPs.</comment>
                     <backend_model>Magento\Developer\Model\Config\Backend\AllowedIps</backend_model>
                     <depends>
                         <field id="enable">2</field>
                     </depends>
                 </field>
                 <field id="toolbar_header" translate="label comment" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Allowed with user-agent pattern</label>
-                    <comment>Pattern that will be check (with preg_match) in the user agent sent by your browser. You should use a user agent switcher extension.</comment>
+                    <label>Allowed user-agent pattern</label>
+                    <comment>Pattern that will be check (with preg_match) in the user agent sent by your browser. You should use a user agent switcher extension to add a specific pattern.</comment>
                     <depends>
                         <field id="enable">2</field>
                     </depends>                    

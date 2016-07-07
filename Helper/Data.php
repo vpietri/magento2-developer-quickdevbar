@@ -119,7 +119,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $toolbarHeader = $this->getConfig('dev/quickdevbar/toolbar_header');
 
-        return !empty($toolbarHeader) ? preg_match('/' . $toolbarHeader . '/', $this->getUserAgent()) : false;
+        return !empty($toolbarHeader) ? preg_match('/' . preg_quote($toolbarHeader, '/') . '/', $this->getUserAgent()) : false;
     }
 
     public function getUserAgent()

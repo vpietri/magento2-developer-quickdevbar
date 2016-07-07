@@ -27,16 +27,14 @@ class IsEnabled extends \Magento\Config\Block\System\Config\Form\Field
     {
         $html = [];
         if ($this->_qdbHelper->isToolbarAccessAllowed()) {
-            $html[] = __('Yes');
+            $html[] = __('Yep');
         } else {
-            $html[] = '<strong>' . __('No') .'</strong>';
+            $html[] = '<strong>' . __('Nope') .'</strong>';
             if(!$this->_qdbHelper->isIpAuthorized()) {
-                $html[] = '<strong>' . __('Your Ip %1 is not in the list: %2', $this->_qdbHelper->getClientIp(), $this->_qdbHelper->getAllowedIps(', ')) .'</strong>';
-                $html[] =  __('You should register your IP in the field below');
+                $html[] =  __('Your Ip "<i class="note">%1</i>" is not allowed, you should register it in the field below.', $this->_qdbHelper->getClientIp());
             }
             if(!$this->_qdbHelper->isUserAgentAuthorized()) {
-                $html[] = '<strong>' . __('Your User Agent is not allowed') .'</strong>';
-                $html[] =  __('You should add a user-agent pattern');
+                $html[] =  __('Your User Agent "<i class="note">%1</i>" is not allowed, you should add a user-agent pattern',  $this->_qdbHelper->getUserAgent());
             }
         }
 
