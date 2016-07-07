@@ -30,18 +30,22 @@ The structure of this toolbar is extremely simple you just need to add a new blo
 
 # Installation
 
-## Manual
+## Manual (without composer)
 
-Copy files under app/code/ADM/QuickDevBar folder.
-
-## Composer
-
-In the root directory
-
-- Magento composer installer
+- Download zip file of thelast version of this extension under release tab
+- Extract files in the Magento root directory in the folder app/code/ADM/QuickDevBar
+- Enable the extension
 ```
-composer require magento/magento-composer-installer
+php bin/magento --clear-static-content module:enable ADM_QuickDevBar
 ```
+- Upgrade Magento setup
+```
+php bin/magento setup:upgrade
+```
+
+## With Composer
+
+In the Magento root directory
 
 - Install the module
 ```
@@ -50,14 +54,9 @@ composer require vpietri/adm-quickdevbar
 
 ## Cleaning
 
-- Update Magento setup
+- Upgrade Magento setup
 ```
 php bin/magento setup:upgrade
-```
-
-- Update Magento data version
-```
-php bin/magento setup:db-data:upgrade
 ```
 
 - Clear cache
