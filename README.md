@@ -74,6 +74,13 @@ The configuration is in  Stores/Advanced/Developer/Quick dev bar configuration
 If you do not see the toolbar you should either force activation by setting the select "Activate" to "Yes" or fill your IP in the field "Allowed IPs" or fill a matching pattern of you user-agent in the field "Allowed user-agent pattern" 
 ![](doc/images/qdb_screen_config_ko.png)
 
+# Documentation
+
+You can extend this toolbar with your own tabs.
+
+A [sample module](https://github.com/vpietri/magento2-brandnew_quikdevsample) is available
+
+
 # Changelog
 
 0.1.7
