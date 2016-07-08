@@ -1,4 +1,4 @@
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
       <referenceBlock name="qdb.tab.info">
         <block class="ADM\QuickDevBar\Block\Tab\Panel" name="qdb.tab.store" as="qdb.tab.store" after="qdb.tab.request" template="tab/info/store.phtml">

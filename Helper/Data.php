@@ -56,21 +56,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if ($enable) {
 
             if($enable>1) {
-//                 $allowedIps = $this->getConfig('dev/quickdevbar/allow_ips');
-
-//                 $localIpsList = array("127.0.0.1", "::1");
-//                 $clientIp = $this->getClientIp();
-
-//                 if( !empty($allowedIps) ) {
-//                     if (!empty($clientIp)) {
-//                         $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
-//                         if (array_search($clientIp, $allowedIps) !== false) {
-//                             $allow = true;
-//                         }
-//                     }
-//                 } elseif ($clientIp && in_array($clientIp , $localIpsList)) {
-//                     $allow = true;
-//                 }
                 $allow = $this->isIpAuthorized();
 
                 if(!$allow ) {

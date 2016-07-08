@@ -1,4 +1,4 @@
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="before.body.end">
             <block class="ADM\QuickDevBar\Block\Toolbar" name="quick.dev.toolbar" as="quick.dev.toolbar" template="toolbar.phtml">
@@ -89,6 +89,11 @@
                           <argument name="title" xsi:type="string">Models</argument>
                         </action>                    
                     </block>
+                    <block class="ADM\QuickDevBar\Block\Tab\Content\Plugin" name="qdb.tab.plugin" as="qdb.tab.plugin" template="tab/profile/plugin.phtml">
+                        <action method="setTitle">
+                          <argument name="title" xsi:type="string">Plugins</argument>
+                        </action>                    
+                    </block>                    
                   </block>
                   <block class="ADM\QuickDevBar\Block\Tab\Content\Sql" name="qdb.tab.sql" as="qdb.tab.sql" template="tab/sql.phtml">
                     <action method="setTitle">

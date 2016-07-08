@@ -106,9 +106,12 @@ class Panel extends \Magento\Framework\View\Element\Template
      */
     protected function _toHtml()
     {
-        $buffer = parent::_toHtml();
-
-        return $this->sanitizeOutput($buffer);
+        try {
+            $buffer = parent::_toHtml();
+            return $this->sanitizeOutput($buffer);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
 

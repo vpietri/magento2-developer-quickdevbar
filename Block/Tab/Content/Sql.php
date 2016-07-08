@@ -19,7 +19,6 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
     {
 
         $this->_resource = $resource;
-        $this->setTemplate('ADM_QuickDevBar::tab/sql.phtml');
 
         parent::__construct($context, $data);
     }
