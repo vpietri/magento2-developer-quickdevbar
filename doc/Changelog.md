@@ -3,11 +3,12 @@ Changelog: Quick Developer Toolbar for Magento2
 
 0.1.8
 * Add plugin list tab
+* Fix bug on action hints. Thanks to [adpeate](https://github.com/vpietri/magento2-developer-quickdevbar/pull/7)
 
 0.1.7
 * Configuration section improvement
 * Code refactoring
-* Authorize IPv6 localhost
+* Authorize IPv6 localhost. Thanks to [Dayssam](https://github.com/vpietri/magento2-developer-quickdevbar/pull/5)
 
 0.1.6.1
 * Fix compatibility bugs with Magento 2.1

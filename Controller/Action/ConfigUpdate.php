@@ -69,7 +69,9 @@ class ConfigUpdate extends \ADM\QuickDevBar\Controller\Index
 
                 if($configScope=='auto') {
                     switch ($configKey) {
-                        case 'hints':
+                        case 'template_hints_admin':
+                        case 'template_hints_storefront':
+                        case 'template_hints_blocks':
                         case 'translate':
                             $configScope = 'stores';
                             break;
@@ -100,14 +102,13 @@ class ConfigUpdate extends \ADM\QuickDevBar\Controller\Index
 
 
             switch ($configKey) {
-                case 'hints':
+                case 'template_hints_admin':
+                case 'template_hints_storefront':
+                case 'template_hints_blocks':
 
-                    $configValue = ($this->_qdbHelper->getConfig('dev/debug/template_hints', $configScope, $configScopeId)) ? 0 : 1;
-
-                    $this->_resourceConfig->saveConfig('dev/debug/template_hints', $configValue, $configScope, $configScopeId);
-                    $this->_resourceConfig->saveConfig('dev/debug/template_hints_storefront', $configValue, $configScope, $configScopeId);
-                    $this->_resourceConfig->saveConfig('dev/debug/template_hints_blocks', $configValue, $configScope, $configScopeId);
-                    $output = "Hints set " . ($configValue ? 'On' : 'Off');
+                    $configValue = ($this->_qdbHelper->getConfig('dev/debug/' . $configKey, $configScope, $configScopeId)) ? 0 : 1;
+                    $this->_resourceConfig->saveConfig('dev/debug/' . $configKey , $configValue, $configScope, $configScopeId);
+                    $output = ucwords(str_replace('_', ' ', $configKey)) . " set " . ($configValue ? 'On' : 'Off');
                     break;
                 case 'translate':
 
