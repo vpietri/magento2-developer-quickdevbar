@@ -1,14 +1,12 @@
 <?php
 ?>
-
-<?php if ($block->isPuginModuleEnabled()): ?>
 <table class="qdn_plugin qdn_table striped filterable sortable tablesorter">
 <thead>
 <tr>
     <th>Types</th>
     <th>Plugin</th>
     <th>Sort Order</th>
-    <th>Methods</th>
+    <th>Method</th>
 </tr>
 </thead>
 <tbody>
@@ -18,18 +16,8 @@
       <td class="type"><?php echo $type['type']; ?></td>
       <td class="plugin"><?php echo $type['plugin']; ?></td>
       <td class="sort_order"><?php echo $type['sort_order']; ?></td>
-      <td class="methods"><?php echo $type['methods']; ?></td>
+      <td class="methods"><?php echo $type['method']; ?></td>
     </tr>
   <?php endforeach ?>
 </tbody>
 </table>
-
-
-<?php else:?>
-    <?php if($block->getErrorMessage()): ?>
-        Exception: <?php echo $block->getErrorMessage(); ?>
-    <?php else:?>
-        Module "Magento 2 Plugin Visualization" is needed<br/>
-        Can be installed from <a href="https://github.com/magento-hackathon/magento2-plugin-visualization">github.com/magento-hackathon/magento2-plugin-visualization</a>
-    <?php  endif ?>
-<?php  endif ?>

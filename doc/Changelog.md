@@ -1,6 +1,9 @@
 Changelog: Quick Developer Toolbar for Magento2
 ====================================
 
+0.1.8
+* Add plugin list tab
+
 0.1.7
 * Configuration section improvement
 * Code refactoring
