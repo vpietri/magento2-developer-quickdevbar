@@ -6,21 +6,6 @@
               <argument name="title" xsi:type="string">Store</argument>
             </action>                    
         </block>      
-        <block class="ADM\QuickDevBar\Block\Tab\Content\PhpInfo" name="qdb.tab.phpinfo" after="qdb.tab.store"  as="qdb.tab.phpinfo">
-            <!-- Use the standard router quickdevbar/index/tab to load the block -->
-            <action method="setIsAjax">
-              <argument name="is_ajax" xsi:type="string">1</argument>
-            </action>
-            <action method="setTitle">
-              <argument name="title" xsi:type="string">Phpinfo</argument>
-            </action>                
-            <!-- Or you can define your own route -->
-            <!--  -->  
-            <action method="setAjaxUrl">
-              <argument name="ajax_url" xsi:type="string">quickdevbar/tab/phpInfo</argument>
-            </action>
-            <!--   -->
-        </block>
       </referenceBlock> 
     </body>
 </page>

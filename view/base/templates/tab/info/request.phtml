@@ -2,6 +2,9 @@
 ?>
 <table class="qdn_table_2col">
 <?php foreach ($block->getRequestData() as $data):?>
-    <tr><th><?php echo $data['name'];?></th><td><?php echo $block->formatValue($data['value']);?></td>
+    <tr>
+        <th><?php echo $data['name'];?></th>
+        <td><?php echo $block->formatValue($data);?>
+    </td>
 <?php endforeach;?>
 </table>

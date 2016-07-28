@@ -16,7 +16,7 @@
                 </field>
                 <field id="is_enabled" translate="label" type="label" sortOrder="15" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Is enabled for you?</label>
-                    <frontend_model>ADM\QuickDevBar\Block\System\Config\Form\Fieldset\IsEnabled</frontend_model>
+                    <frontend_model>ADM\QuickDevBar\Block\Adminhtml\System\Config\Form\Fieldset\IsEnabled</frontend_model>
                     <depends>
                         <field id="enable">2</field>
                     </depends>                    

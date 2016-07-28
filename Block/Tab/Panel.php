@@ -2,22 +2,30 @@
 
 namespace ADM\QuickDevBar\Block\Tab;
 
+use Magento\Framework\App\ObjectManager;
+
 class Panel extends \Magento\Framework\View\Element\Template
 {
+    protected $_frontUrl;
 
     public function getTitle()
     {
         return ($this->getData('title')) ? $this->getData('title') : $this->getNameInLayout();
     }
 
-    public function getId()
+    public function getId($prefix='')
     {
-        return ($this->getData('id')) ? $this->getData('id') : $this->getNameInLayout();
+        $id = ($this->getData('id')) ? $this->getData('id') : $this->getNameInLayout();
+        $id = str_replace('.', '-', $id);
+        if($prefix) {
+            $id = $prefix . $id;
+        }
+        return $id;
     }
 
     public function getClass()
     {
-        $class = str_replace('.', '-', $this->getId());
+        $class = $this->getId();
         if ($this->isAjax(false)) {
             $class .= ' use-ajax';
         }
@@ -37,17 +45,35 @@ class Panel extends \Magento\Framework\View\Element\Template
 
     public function getTabUrl()
     {
+        $tabUrl = '#'.$this->getId();
         if ($this->getData('tab_url')) {
-            return $this->getData('tab_url');
+            $tabUrl = $this->getData('tab_url');
         } else {
             if ($this->getData('ajax_url')) {
-                return $this->getUrl($this->getData('ajax_url'));
+                $tabUrl = $this->getFrontUrl($this->getData('ajax_url'));
             } elseif ($this->getData('is_ajax')) {
-                return $this->getUrl('quickdevbar/tab/index', ['block'=>$this->getNameInLayout()]) . '?isAjax=1';
-            } else {
-                return '#'.$this->getId();
+                $tabUrl = $this->getFrontUrl('quickdevbar/tab/index', ['block'=>$this->getNameInLayout(), '_query'=>['isAjax'=>1]]);
             }
         }
+
+        return $tabUrl;
+    }
+
+
+    /**
+     * Generate url by route and parameters
+     *
+     * @param   string $route
+     * @param   array $params
+     * @return  string
+     */
+    public function getFrontUrl($route = '', $params = [])
+    {
+        if(is_null($this->_frontUrl)) {
+            $this->_frontUrl = ObjectManager::getInstance()->get('Magento\Framework\Url');
+        }
+
+        return $this->_frontUrl->getUrl($route, $params);
     }
 
     public function getHtmlBigLoader($showText = true)

@@ -12,7 +12,7 @@ The structure of this toolbar is extremely simple you just need to add a new blo
 
 - Info : Information about controller, route, action and store. A dedicated tab output a phpinfo.
 - Design : List handles called and display layout structure of nested blocks and containers
-- Profile : View current observers, all events dispatched and collections, models loaded
+- Profile : View current observers, all events dispatched, collections and models loaded, plugins instanciated
 - Queries :  Statistics about executed queries and detailed query listing with syntax highlighting of main SQL keywords
 - Logs : Display log files with ability to reset these files
 - Actions : Easily toggle template hints and inline translation and flush cache

@@ -1,5 +1,5 @@
 <?php
-namespace ADM\QuickDevBar\Block\System\Config\Form\Fieldset;
+namespace ADM\QuickDevBar\Block\Adminhtml\System\Config\Form\Fieldset;
 
 use Magento\Framework\Data\Form\Element\AbstractElement;
 

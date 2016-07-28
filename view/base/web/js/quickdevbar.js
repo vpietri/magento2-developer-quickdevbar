@@ -24,13 +24,57 @@ define(["jquery",
                 this.element.toggle(this.options.toggleEffect);
             }, this));
 
+            this.applyTabPlugin('div.qdb-container');
+            
+            /* Manage ajax tabs */
+            $('div.qdb-container').addClass('qdb-container-collapsed');
+            
+            /* For ajax tabs */
+            this.pluginAppliedFor = {};
+            $('.qdb-ui-tabs .ui-tabs-nav li.use-ajax').on( "dimensionsChanged", $.proxy(function( event) {
+                var tab = $(event.target);
+                var tabId = event.target.id;
+                
+                /* Use MutationObserver to applyPlugin */
+                if(typeof this.pluginAppliedFor[tabId] == 'undefined') {
+                    MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+                    this.observer = new MutationObserver( $.proxy(function(mutations) {
+                        //console.log(this.pluginAppliedFor, 'new observer: ' + tabId);
+                        mutations.forEach( $.proxy(function(mutation) {
+                            // fired when a mutation occurs
+                            //console.log(mutation, typeof this.pluginAppliedFor[tabId]);
+                            if(mutation.type=='attributes') {
+                                this.pluginAppliedFor[tabId] = true;
+                                this.applyTabPlugin('#'+mutation.target.id, true);
+                            }
+                        }, this));
+                    }, this));
+                    
+                    // pass in the target node, as well as the observer options
+                    this.observer.observe($('#panel-' + tabId)[0], { attributes: true});
+                }
+                
+                /* Prevent multiple ajax calls */
+                if(tab.find("[data-ajax=true]").attr("href") && tab.hasClass('ui-tabs-active')) {
+                    tab.find("[data-ajax=true]").removeAttr("href");
+                }
+            }, this));
+        },
+        
+        applyTabPlugin: function(selector, observer) {
+            
+            if(observer && this.observer) {
+                // Stop observing
+                this.observer.disconnect();      
+            }
+            
             /* Apply enhancement on table */
             
             /* classToStrip: Set odd even class on tr */
-            $('table.' + this.options.classToStrip + ' tr:even').addClass(this.options.stripedClassname);
+            $(selector + ' table.' + this.options.classToStrip + ' tr:even').addClass(this.options.stripedClassname);
             
             /* classToFilter: Set filter input */
-            $('table.' + this.options.classToFilter).filterTable({
+            $(selector + ' table.' + this.options.classToFilter).filterTable({
                 label: 'Search filter:',
                 minRows: 10,
                 visibleClass: '', 
@@ -40,31 +84,10 @@ define(["jquery",
             });
             
             /* classToSort: Set sort on thead */
-            $('table.' + this.options.classToSort).tablesorter(); 
+            $(selector + ' table.' + this.options.classToSort).tablesorter(); 
             
             /* Set special class to last element of the tree in layout tab */
-            $('ul.tree li:last-child').addClass('last');
-            
-            /* Manage ajax tabs */
-            var loadedTab = {};
-            $('.qdb-ui-tabs > .ui-tabs-nav > li.use-ajax').on( "beforeOpen", function( event) {
-                console.log(event.target, 'beforeOpen');
-                if (!loadedTab[event.target]) {
-                    loadedTab[event.target] = true;
-                }
-            });
-            
-            
-            $('div.qdb-container').addClass('qdb-container-collapsed');
-            $('.qdb-ui-tabs > .ui-tabs-nav > li').on( "dimensionsChanged", function( event) {
-                if ($('div.qdb-container')) {
-                    if( $(event.target).hasClass('ui-tabs-active')) {
-                        $('div.qdb-container').removeClass('qdb-container-collapsed');
-                    } else {
-                        $('div.qdb-container').addClass('qdb-container-collapsed');
-                    }
-                }
-            });
+            $(selector + ' ul.tree li:last-child').addClass('last');
         },
         
         /**

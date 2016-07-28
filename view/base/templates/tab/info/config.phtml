@@ -1,0 +1,26 @@
+<?php
+?>
+<p>
+<?php echo __('List config for default scope')?>
+</p>
+<?php if($this->getConfigValues()):?>
+<table class="qdn_table striped filterable sortable">
+<thead>
+<tr>
+    <th>Path</th>
+    <th>Value</th>
+</tr>
+</thead>
+<tbody>
+<?php
+  $i = 0;
+  foreach ($this->getConfigValues() as $config): ?>
+  <tr>
+    <td><?php echo $config['path']; ?></td>
+    <td><?php echo $config['value']; ?></td>
+  </tr>
+    <?php $i++; ?>
+  <?php endforeach ?>
+</tbody>
+</table>
+<?php endif;?>

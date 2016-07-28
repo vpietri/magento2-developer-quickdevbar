@@ -34,14 +34,15 @@ class Request extends \ADM\QuickDevBar\Block\Tab\Panel
     {
         $request = $this->getRequest();
 
-
-        $requestData[] = ['name'=>'Base Url', 'value'=>$request->getDistroBaseUrl()];
+        $requestData[] = ['name'=>'Base Url', 'value'=>$request->getDistroBaseUrl(), 'is_url'=>true];
         $requestData[] = ['name'=>'Path Info', 'value'=>$request->getPathInfo()];
         $requestData[] = ['name'=>'Module Name', 'value'=>$request->getModuleName()];
         $requestData[] = ['name'=>'Controller', 'value'=>$request->getControllerName()];
         $requestData[] = ['name'=>'Action', 'value'=>$request->getActionName()];
         $requestData[] = ['name'=>'Full Action', 'value'=>$request->getFullActionName()];
         $requestData[] = ['name'=>'Route', 'value'=>$request->getRouteName()];
+        $requestData[] = ['name'=>'Area', 'value'=>$this->getArea()];
+
 
         if ($request->getBeforeForwardInfo()) {
             $requestData[] = ['name'=>'Before Forward', 'value'=>$request->getBeforeForwardInfo()];
@@ -54,17 +55,19 @@ class Request extends \ADM\QuickDevBar\Block\Tab\Panel
         $requestData[] = ['name'=>'Magento', 'value'=>$this->_productMetadata->getVersion()];
         $requestData[] = ['name'=>'Mage Mode', 'value'=>$this->_appState->getMode()];
 
-        $requestData[] = ['name'=>'Backend frontname', 'value'=>$request->getDistroBaseUrl() . $this->_frontNameResolver->getFrontName()];
+        $requestData[] = ['name'=>'Backend', 'value'=>$request->getDistroBaseUrl() . $this->_frontNameResolver->getFrontName(), 'is_url'=>true];
 
 
         return $requestData;
     }
 
     public function formatValue($data) {
-        if(is_array($data)) {
-            return '<pre>' . print_r($data, true) . '</pre>';
+        if(is_array($data['value'])) {
+            return '<pre>' . print_r($data['value'], true) . '</pre>';
+        } elseif (!empty($data['is_url'])) {
+            return '<a href="' . $data['value'] . '">' . $data['value'] . '</a>';
         } else {
-            return $data;
+          return $data['value'];
         }
     }
 

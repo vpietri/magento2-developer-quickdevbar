@@ -49,7 +49,7 @@ class Log extends \ADM\QuickDevBar\Block\Tab\Panel
 
     public function getUrlLog($action)
     {
-        return $this->getUrl('quickdevbar/log/'. $action . '/');
+        return $this->getFrontUrl('quickdevbar/log/'. $action . '/');
     }
 
 }

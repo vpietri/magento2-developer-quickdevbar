@@ -16,6 +16,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $_controllerMsg = '';
 
+    /**
+     * @var ModuleListInterface
+     */
+    protected $_moduleList;
 
     /**
      *
@@ -28,9 +32,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function __construct(
             \Magento\Framework\App\Helper\Context $context,
-            \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
+            \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
+            \Magento\Framework\Module\ModuleListInterface $moduleList
     ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
+        $this->_moduleList = $moduleList;
 
         parent::__construct($context);
     }
@@ -222,6 +228,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getControllerMessage()
     {
         return $this->_controllerMsg;
+    }
+
+    public function getModuleVersion($moduleName)
+    {
+        $moduleInfo = $this->_moduleList->getOne($moduleName);
+        return !empty($moduleInfo['setup_version']) ? $moduleInfo['setup_version'] : '???';
     }
 
 }

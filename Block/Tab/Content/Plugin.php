@@ -48,7 +48,7 @@ class Plugin extends \ADM\QuickDevBar\Block\Tab\Panel
              * @see: Magento/Framework/Interception/PluginList/PluginList::_inheritPlugins($type)
              */
             foreach($processed as $currentKey=>$processDef) {
-                if(preg_match('/^(.*)_(.*)___self$/', $currentKey, $matches)) {
+                if(preg_match('/^(.*)_(.*)___self$/', $currentKey, $matches) or preg_match('/^(.*?)_(.*?)_(.*)$/', $currentKey, $matches)) {
                     $type= $matches[1];
                     $method= $matches[2];
                     if(!empty($inherited[$type])) {
@@ -60,7 +60,7 @@ class Plugin extends \ADM\QuickDevBar\Block\Tab\Panel
 
                             foreach($pluginsNames as $pluginName) {
                                 if(!empty($inherited[$type][$pluginName])) {
-                                    $this->_types[] = ['type'=>$type, 'plugin'=>$inherited[$type][$pluginName]['instance'], 'sort_order'=> $inherited[$type][$pluginName]['sortOrder'], 'method'=>$types[$keyType].ucfirst($method)];
+                                    $this->_types[] = ['type'=>$type, 'plugin'=>$inherited[$type][$pluginName]['instance'], 'plugin_name'=>$pluginName, 'sort_order'=> $inherited[$type][$pluginName]['sortOrder'], 'method'=>$types[$keyType].ucfirst($method)];
                                 }
                             }
                         }

@@ -6,33 +6,51 @@
                   <action method="setIsMainTab">
                       <argument name="main" xsi:type="string">true</argument>
                   </action>
+                  <!-- @tips : use ADM\QuickDevBar\Block\Tab\Wrapper to create a high level tab with nested tabs -->
                   <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="qdb.tab.info" as="qdb.tab.info" template="tabs.phtml">
-                    <!-- Set a title with the basic class  Content -->
+                    <!-- @tips : Set a tab title -->
                     <action method="setTitle">
                       <argument name="title" xsi:type="string">Info</argument>
                     </action>
+                    <!-- @tips : Set a tab image -->
                     <action method="setTitleImage">
                       <argument name="title" xsi:type="string">ADM_QuickDevBar::images/info.png</argument>
                     </action>
-                    <!-- Full subtab  cannot be in ajax mode by now ... cannot have data-mage-init with ajax :-( -->
-                    <!--                     
-                    <action method="setIsAjax">
-                      <argument name="is_ajax" xsi:type="string">1</argument>
-                    </action>
-                    -->
                     <block class="ADM\QuickDevBar\Block\Tab\Content\Request" name="qdb.tab.request" as="qdb.tab.request" template="tab/info/request.phtml"/>
+                    <block class="ADM\QuickDevBar\Block\Tab\Content\Config" name="qdb.tab.config" as="qdb.tab.config" template="tab/info/config.phtml">
+                        <action method="setTitle">
+                          <argument name="title" xsi:type="string">Core Config</argument>
+                        </action>
+                        <!-- @tips : Use ajax loading tab when data is not contextual -->
+                        <action method="setIsAjax">
+                          <argument name="is_ajax" xsi:type="string">1</argument>
+                        </action>                        
+                    </block>   
                     
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\PhpInfo" name="qdb.tab.phpinfo.env" before="qdb.tab.phpinfo"  as="qdb.tab.phpinfo.env">
+                    <block class="ADM\QuickDevBar\Block\Tab\Content\PhpInfo" name="qdb.tab.phpinfo.env" as="qdb.tab.phpinfo.env">
                         <action method="setShortWhat">
                           <argument name="what" xsi:type="string">1</argument>
                         </action>
                         <action method="setTitle">
                           <argument name="title" xsi:type="string">Phpinfo (environment)</argument>
                         </action>                        
+                    </block>
+                    
+                    <block class="ADM\QuickDevBar\Block\Tab\Content\PhpInfo" name="qdb.tab.phpinfo"  as="qdb.tab.phpinfo">
+                        <action method="setIsAjax">
+                          <argument name="is_ajax" xsi:type="string">1</argument>
+                        </action>
+                        <action method="setTitle">
+                          <argument name="title" xsi:type="string">Phpinfo</argument>
+                        </action>                
+                        <!-- @tips : For an ajax load you can define your own route -->
+                        <action method="setAjaxUrl">
+                          <argument name="ajax_url" xsi:type="string">quickdevbar/tab/phpInfo</argument>
+                        </action>
                     </block>                    
+                                        
                   </block>
                   <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="qdb.tab.design" as="qdb.tab.design" template="tabs.phtml">
-                    <!-- Set a title with the basic class  Content -->
                     <action method="setTitle">
                       <argument name="title" xsi:type="string">Design</argument>
                     </action>
@@ -63,8 +81,8 @@
                     <action method="setTitleImage">
                       <argument name="title" xsi:type="string">ADM_QuickDevBar::images/profile.png</argument>
                     </action>
+                    <!-- @tips : Use ADM\QuickDevBar\Block\Tab\Panel to declare a basic tab  -->
                     <block class="ADM\QuickDevBar\Block\Tab\Panel" name="qdb.tab.profiler" as="qdb.tab.profiler" template="tab/profile/profiler.phtml">
-                        <!-- Set a title with the basic class  Content -->
                         <action method="setTitle">
                           <argument name="title" xsi:type="string">Profiler</argument>
                         </action>
@@ -119,7 +137,7 @@
                       <argument name="title" xsi:type="string">ADM_QuickDevBar::images/tools.png</argument>
                     </action>                                     
                   </block>      
-                  <block class="ADM\QuickDevBar\Block\Tab\Panel" name="qdb.tab.help" as="qdb.tab.help" template="tab/help.phtml">
+                  <block class="ADM\QuickDevBar\Block\Tab\Content\Help" name="qdb.tab.help" as="qdb.tab.help" template="tab/help.phtml">
                     <action method="setTitle">
                       <argument name="title" xsi:type="string">Help</argument>
                     </action>                    

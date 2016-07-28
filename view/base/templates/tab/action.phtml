@@ -36,8 +36,8 @@ require([
          'jquery'
      ], function($){
 
-        var baseConfigUrl = '<?php echo $block->getUrl('quickdevbar/action/configUpdate/'); ?>';
-        var baseCacheUrl = '<?php echo $block->getUrl('quickdevbar/action/cache/'); ?>';
+        var baseConfigUrl = '<?php echo $block->getFrontUrl('quickdevbar/action/configUpdate/'); ?>';
+        var baseCacheUrl = '<?php echo $block->getFrontUrl('quickdevbar/action/cache/'); ?>';
         var loaded = false;
 
         showLoader = function(target) {
