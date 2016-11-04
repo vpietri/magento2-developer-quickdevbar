@@ -1,0 +1,6 @@
+languages:
+  JavaScript: true
+  PHP: true
+exclude_paths:
+- "view/base/web/js/tablesorter/"
+- "view/base/web/js/sunnywalker/"
