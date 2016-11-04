@@ -1,6 +1,10 @@
 Developer Toolbar for Magento2
 ====================================
 
+[![Code Climate](https://codeclimate.com/github/vpietri/magento2-developer-quickdevbar/badges/gpa.svg)](https://codeclimate.com/github/vpietri/magento2-developer-quickdevbar)
+
+
+
 # About
 
 Hope this debug toolbar can speed up Magento2 development module. Any feedback and idea to improve this toolbar will be appreciated so get in touch via the [issue tracker on GitHub](https://github.com/vpietri/magento2-developer-quickdevbar/issues). Feel free to fork and pull request.
