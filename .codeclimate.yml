@@ -2,11 +2,25 @@ languages:
   JavaScript: true
   PHP: true
 engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+      - php
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
   phpmd:
     enabled: true
     checks:
       CleanCode/ElseExpression:
         enabled: false
+ratings:
+  paths:
+  - "**.js"
+  - "**.php"
 exclude_paths:
 - "view/base/web/js/tablesorter/"
 - "view/base/web/js/sunnywalker/"
