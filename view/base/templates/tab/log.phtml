@@ -21,8 +21,9 @@ require([
         var logFiles = <?php echo $block->getJsonLogFiles() ?>;
         var loaded = false;
 
-        $('.ui-tabs-nav li.qdb-tab-log').on( "beforeOpen", function( event) {
-            if (!loaded) {
+        $('div.qdb-container').on( "quickdevbartabsbeforeactivate", function(event, data) {
+            var tabId = data.newPanel ? data.newPanel.attr( "id" ) : false;
+            if (!loaded && tabId=='panel-qdb-tab-log') {
                 $.each(logFiles, function(key, logfile){
                     if (logfile.size>0) {
                         loadLogContent(key);

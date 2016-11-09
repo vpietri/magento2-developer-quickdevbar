@@ -1,12 +1,110 @@
 
 /* */
 define(["jquery",
-         "magetabs",
+        "jquery/ui",
          "filtertable",
          "metadata",
          "tablesorter"
 ], function($){
     
+    /**
+     * 
+     * Events attached
+     * 
+     * All tabs
+     * - quickdevbartabscreate
+     * - quickdevbartabsbeforeactivate
+     * - quickdevbartabsactivate
+     * 
+     * Ajax tabs
+     * - quickdevbartabsbeforeload
+     * - quickdevbartabsload
+     * 
+     */
+    
+    $.widget('mage.quickDevBarTabs', $.ui.tabs, {
+        _create: function() {
+            
+            var qdbOption = this.element.attr('data-qdbtabs-option');
+            if (qdbOption) {
+                $.extend( this.options, JSON.parse(qdbOption) );
+            }
+            
+            this._super();
+        },
+        
+        load: function( index, event ) {
+            index = this._getIndex( index );
+            var that = this,
+                tab = this.tabs.eq( index ),
+                anchor = tab.find( ".ui-tabs-anchor" ),
+                panel = this._getPanelForTab( tab ),
+                eventData = {
+                    tab: tab,
+                    panel: panel
+                };
+            
+            var anchorUrl = $( anchor ).attr( "data-ajax" );
+            var rhash = /#.*$/;
+
+            // not remote
+            if ( typeof anchorUrl =='undefined' || anchorUrl.length < 1 ||  anchorUrl.replace( rhash, "" ).length<1) {
+                return;
+            }
+            
+            this.xhr = $.ajax( this._ajaxSettings( anchorUrl, event, eventData ) );
+
+            // support: jQuery <1.8
+            // jQuery <1.8 returns false if the request is canceled in beforeSend,
+            // but as of 1.8, $.ajax() always returns a jqXHR object.
+            if ( this.xhr && this.xhr.statusText !== "canceled" ) {
+                tab.addClass( "ui-tabs-loading" );
+                panel.attr( "aria-busy", "true" );
+
+                this.xhr
+                    .success(function( response ) {
+                        // support: jQuery <1.8
+                        // http://bugs.jquery.com/ticket/11778
+                        setTimeout(function() {
+                            panel.html( response );
+                            that._trigger( "load", event, eventData );
+                            
+                            // Prevent tab to be load several times
+                            $( anchor ).removeAttr( "data-ajax" );
+                        }, 1 );
+                    })
+                    .complete(function( jqXHR, status ) {
+                        // support: jQuery <1.8
+                        // http://bugs.jquery.com/ticket/11778
+                        setTimeout(function() {
+                            if ( status === "abort" ) {
+                                that.panels.stop( false, true );
+                            }
+
+                            tab.removeClass( "ui-tabs-loading" );
+                            panel.removeAttr( "aria-busy" );
+
+                            if ( jqXHR === that.xhr ) {
+                                delete that.xhr;
+                            }
+                        }, 1 );
+                    });
+            }
+        },
+        
+        _ajaxSettings: function( anchorUrl, event, eventData ) {
+            var that = this;
+            return {
+                url: anchorUrl,
+                beforeSend: function( jqXHR, settings ) {
+                    return that._trigger( "beforeLoad", event,
+                        $.extend( { jqXHR : jqXHR, ajaxSettings: settings }, eventData ) );
+                }
+            };
+        },
+    });
+    
+      
     $.widget('mage.quickDevBar', {
         options: {
             toggleEffect: "drop",
@@ -23,50 +121,23 @@ define(["jquery",
                 event.preventDefault();
                 this.element.toggle(this.options.toggleEffect);
             }, this));
+            
+            /* Apply ui.tabs widget */ 
+            $('div.qdb-container').quickDevBarTabs({load:$.proxy(function(event, data){
+                if(data.panel) {
+                    console.log(data);
+                    this.applyTabPlugin('#' + data.panel.attr( "id" ));
+                }
+                }, this)}
+            );
 
             this.applyTabPlugin('div.qdb-container');
             
             /* Manage ajax tabs */
             $('div.qdb-container').addClass('qdb-container-collapsed');
-            
-            /* For ajax tabs */
-            this.pluginAppliedFor = {};
-            $('.qdb-ui-tabs .ui-tabs-nav li.use-ajax').on( "dimensionsChanged", $.proxy(function( event) {
-                var tab = $(event.target);
-                var tabId = event.target.id;
-                
-                /* Use MutationObserver to applyPlugin */
-                if(typeof this.pluginAppliedFor[tabId] == 'undefined') {
-                    MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-                    this.observer = new MutationObserver( $.proxy(function(mutations) {
-                        //console.log(this.pluginAppliedFor, 'new observer: ' + tabId);
-                        mutations.forEach( $.proxy(function(mutation) {
-                            // fired when a mutation occurs
-                            //console.log(mutation, typeof this.pluginAppliedFor[tabId]);
-                            if(mutation.type=='attributes') {
-                                this.pluginAppliedFor[tabId] = true;
-                                this.applyTabPlugin('#'+mutation.target.id, true);
-                            }
-                        }, this));
-                    }, this));
-                    
-                    // pass in the target node, as well as the observer options
-                    this.observer.observe($('#panel-' + tabId)[0], { attributes: true});
-                }
-                
-                /* Prevent multiple ajax calls */
-                if(tab.find("[data-ajax=true]").attr("href") && tab.hasClass('ui-tabs-active')) {
-                    tab.find("[data-ajax=true]").removeAttr("href");
-                }
-            }, this));
         },
         
-        applyTabPlugin: function(selector, observer) {
-            
-            if(observer && this.observer) {
-                // Stop observing
-                this.observer.disconnect();      
-            }
+        applyTabPlugin: function(selector) {
             
             /* Apply enhancement on table */
             

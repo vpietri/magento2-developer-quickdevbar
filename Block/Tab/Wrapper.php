@@ -48,22 +48,13 @@ class Wrapper extends Panel
 
     protected function _getTabConfig()
     {
-        if($this->getIsMainTab()) {
-            $config = [ "active"=> false,
-            "openedState"=> "ui-tabs-active",
-            "collapsibleElement"=>"[data-role=collapsible".$this->getSubTabSuffix()."]",
-            "content"=>"[data-role=content".$this->getSubTabSuffix()."]",
-            "collapsible" => true,
-            "ajaxContent" => true
-            ];
-        } else {
-            $config = [ "active"=> 0,
-            "openedState"=>"ui-tabs-active",
-            "collapsibleElement"=>"[data-role=collapsible".$this->getSubTabSuffix()."]",
-            "content"=>"[data-role=content".$this->getSubTabSuffix()."]",
+        $config = [ "active"=> 0,
             "collapsible" => false,
-            "ajaxContent" => true
             ];
+
+        if($this->getIsMainTab()) {
+            $config["active"] = false;
+            $config["collapsible"] = true;
         }
 
         return $config;

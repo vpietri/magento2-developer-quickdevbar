@@ -1,12 +1,10 @@
-<?php
-?>
 <div class="qdb-container <?php echo $block->getUiTabClass() ?>"
-data-mage-init='{"magetabs":<?php echo $block->getJsonTabConfig(); ?>}'
-role="tablist" style="display: block;">
+data-qdbtabs-option='<?php echo $block->getJsonTabConfig(); ?>'
+style="display: block;">
     <ul class="ui-tabs-nav">
         <?php foreach($block->getTabBlocks() as $tabBlock): ?>
-            <li data-role="collapsible<?php echo $block->getSubTabSuffix();?>" data-collapsible="true" id="<?php echo $tabBlock->getId() ?>" class="<?php echo $tabBlock->getClass() ?>">
-                <a href="<?php echo $tabBlock->getTabUrl() ?>" tabindex="-1" data-toggle="switch" role="tab" data-ajax="<?php echo $tabBlock->isAjax() ?>">
+            <li id="<?php echo $tabBlock->getId() ?>" class="<?php echo $tabBlock->getClass() ?>">
+                <a href="<?php echo '#'.$tabBlock->getId('panel-') ?>"  data-ajax="<?php echo $tabBlock->isAjax() ? $tabBlock->getTabUrl() : '';?>">
                 <?php if($tabBlock->getTitleImage()):?>
                     <img  class="qdb-img" src="<?php echo $block->getViewFileUrl($tabBlock->getTitleImage()) ?>">
                 <?php endif;?>
@@ -19,7 +17,7 @@ role="tablist" style="display: block;">
         <?php endforeach; ?>
     </ul>
     <?php foreach($block->getTabBlocks() as $tabBlock): ?>
-        <div class="qdb-panel"  data-role="content<?php echo $block->getSubTabSuffix();?>" role="tabpanel" id="<?php echo $tabBlock->getId('panel-') ?>" >
+        <div id="<?php echo $tabBlock->getId('panel-') ?>" class="qdb-panel">
             <?php echo ($tabBlock->isAjax(false)) ? $tabBlock->getHtmlBigLoader() : $tabBlock->toHtml(); ?>
         </div>
     <?php endforeach; ?>
