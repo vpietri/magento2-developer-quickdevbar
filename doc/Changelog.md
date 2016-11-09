@@ -1,6 +1,10 @@
 Changelog: Quick Developer Toolbar for Magento2
 ====================================
 
+0.1.10
+* Fix conflicts in backend with magento tabs widget
+* Improve profiler detection
+
 0.1.9
 * Add config list tab
 * Use common ajax controller
