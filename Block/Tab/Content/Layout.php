@@ -6,6 +6,28 @@ class Layout extends \ADM\QuickDevBar\Block\Tab\Panel
 {
     protected $_elements = [];
 
+    protected $_qdbHelper;
+
+    protected $_jsonHelper;
+
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \ADM\QuickDevBar\Helper\Data $qdbHelper
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
+     * @param array $data
+     */
+    public function __construct(
+            \Magento\Framework\View\Element\Template\Context $context,
+            \ADM\QuickDevBar\Helper\Data $qdbHelper,
+            \Magento\Framework\Json\Helper\Data $jsonHelper,
+            array $data = []
+    ) {
+        $this->_qdbHelper = $qdbHelper;
+
+        $this->_jsonHelper = $jsonHelper;
+
+        parent::__construct($context, $data);
+    }
 
     /**
      * @return array
@@ -58,8 +80,21 @@ class Layout extends \ADM\QuickDevBar\Block\Tab\Panel
                     'name'  =>$name,
                     'alias'  =>$alias,
                     'type'  => $element['type'],
-                    'label' => isset($element['label']) ? $element['label'] : ''
+                    'label' => isset($element['label']) ? $element['label'] : '',
+    	              'file' => '',
+    	              'class_name' => '',
+    	              'class_file' => '',
             ];
+
+            $block = $this->getLayout()->getBlock($name);
+            if (false !== $block) {
+                $treeBlocks['file'] = $block->getTemplateFile();
+                $treeBlocks['class_name'] = get_class($block);
+                if(!empty($treeBlocks['class_name'])) {
+                    $reflectionClass = new \ReflectionClass($block);
+                    $treeBlocks['class_file'] =  $reflectionClass->getFileName();
+                }
+            }
 
             if (isset($element['children'])) {
                 foreach ($element['children'] as $childName => $childAlias) {
@@ -97,16 +132,44 @@ class Layout extends \ADM\QuickDevBar\Block\Tab\Panel
             $treeBlocks = [$this->getTreeBlocksHierarchy()];
         }
 
-        $html = '<ul ' . (($level==1) ? 'class="tree"' : '') . '>';
+        $nodeNumering = 0;
+        $html = '<ul ' . (($level==0) ? 'id="block-tree-root"' : '') . '>';
         foreach ($treeBlocks as $treeNode) {
-            $html .= '<li class="' . $treeNode['type'] . '">' . $treeNode['name'];
+            $id = $level.'_'.$nodeNumering;
+            $html .= '<li data-node-id="'.$id.'" class="' . $treeNode['type'] . '"><span>' . $treeNode['name'] . '</span>';
+            $blockInfo = [];
+            if(!empty($treeNode['class_name'])) {
+                $blockInfo[]= 'Class: ' . $treeNode['class_name'] . ' (' . $this->_qdbHelper->displayMagentoFile($treeNode['class_file']) . ')';
+            }
+            if(!empty($treeNode['file'])) {
+                $blockInfo[]= 'Template: ' . $this->_qdbHelper->displayMagentoFile($treeNode['file']);
+            }
+            if(!empty($blockInfo)) {
+                $html .= '<div id="node_detail_'.$id.'" class="detail" style="display:none">' . implode('<br/>', $blockInfo) . '</div>';
+            }
+
             if (!empty($treeNode['children'])) {
-                $level++;
-                $html .= $this->getHtmlBlocksHierarchy($treeNode['children'], $level);
+                $html .= $this->getHtmlBlocksHierarchy($treeNode['children'], $level+1);
             }
             $html .= '</li>';
+            $nodeNumering++;
         }
         $html .= '</ul>';
+
         return $html;
+    }
+
+    /**
+     *
+     * @param array $treeBlocks
+     * @param int $level
+     *
+     * @return string
+     */
+    public function getHtmlBlocksJsonHierarchy()
+    {
+        $treeBlocks = [$this->getTreeBlocksHierarchy()];
+
+        return $this->_jsonHelper->jsonEncode($treeBlocks);
     }
 }

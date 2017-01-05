@@ -22,8 +22,9 @@ class Help extends \ADM\QuickDevBar\Block\Tab\Panel
         parent::__construct($context, $data);
     }
 
-    public function getQuickDevBarVersion()
+
+    public function getModuleVersion()
     {
-        return __('Module: %1, version %2', $this->getModuleName(), $this->_qdbHelper->getModuleVersion($this->getModuleName()));
+        return $this->_qdbHelper->getModuleVersion($this->getModuleName());
     }
 }

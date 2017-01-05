@@ -42,11 +42,6 @@ class Log extends \ADM\QuickDevBar\Block\Tab\Panel
         return $this->_jsonHelper->jsonEncode($this->_qdbHelper->getLogFiles());
     }
 
-    public function getLogContent($file)
-    {
-        return $this->_qdbHelper->tailFile(Mage::getBaseDir('log') . DS .$file, $this->getTailLines());
-    }
-
     public function getUrlLog($action)
     {
         return $this->getFrontUrl('quickdevbar/log/'. $action . '/');

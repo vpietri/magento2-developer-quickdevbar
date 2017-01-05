@@ -1,8 +1,8 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="quickdevbar" />
-    <head>
+<!--     <head>
       <css src="ADM_QuickDevBar::css/quickdevbar.css"/>
-    </head>    
+    </head>   -->  
     <body>
         <referenceBlock name="head.components">
             <block class="Magento\Framework\View\Element\Js\Components" name="adm_quickdevbar_head_components" template="ADM_QuickDevBar::js/components.phtml"/>

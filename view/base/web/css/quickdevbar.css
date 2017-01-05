@@ -17,9 +17,6 @@
     top: 0px;
     z-index: 10000;
     background: none repeat scroll 0 0 #ddd;
-}
-
-#qdb-bar {
     height: 35px;
     text-align: left;
 }
@@ -122,6 +119,7 @@ li .qdb-tab-badge {
 li img.qdb-img {
     padding: 1px;
     vertical-align: bottom;
+    display: inline;
 }
 
 div.qdb-ui-tabs > ul > li {
@@ -195,35 +193,70 @@ div.qdb-ui-subtabs > div {
   * ---------------
   */
 
-ul.tree,ul.tree ul {
-    list-style-type: none;
-    background: url(../images/vline.png) repeat-y;
-    margin: 0;
-    padding: 0;
+ul.qdbTree li {
+  list-style: none;
 }
 
-ul.tree ul {
-    margin-left: 10px;
-}
-
-ul.tree li {
+ul.qdbTree li {
     margin: 0;
-    padding: 0 12px;
     line-height: 20px;
-    background: url(../images/node.png) no-repeat;
     color: #004276;
 }
 
-ul.tree li.container {
+ul.qdbTree li span {
+    border-left:1px white solid;
+}
+
+ul.qdbTree li span.expanded, ul.qdbTree li span:hover  {
+    border: 1px solid #CCC;
+    background: #eee;
+}
+
+ul.qdbTree li span.expanded  {
+    border-bottom: 1px solid #eee;
+}
+
+
+ul.qdbTree, ul.qdbTree ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    margin-left: 10px;
+}
+
+ul.qdbTree div.node {
+  position: absolute;
+  margin: -1px 0 0 -1em;
+  cursor: pointer;
+}
+
+ul.qdbTree div.detail {
+    border: 1px solid #CCC;
+    color: #333;
+    background: #eee;
+    padding-left: 10px;
+    padding-top: 2px;
+    margin-top: -2px
+}
+
+ul.qdbTree div.node.expanded::before {
+    content: '▾';
+}
+
+ul.qdbTree div.node.collapsed::before {
+    content: '▸';
+}
+
+ul.qdbTree li.container {
     font-weight: bold;
 }
 
-ul.tree li.block {
+ul.qdbTree li.block {
     font-weight: normal;
 }
 
-ul.tree li.last {
-    background: #fff url(../images/lastnode.png) no-repeat;
+ul.qdbTree li.first {
+    background: none;
 }
 
 /**
@@ -257,6 +290,23 @@ table.qdn_table {
 
 table.qdn_table tr {
   border: 1px solid #ccc;
+}
+
+table.qdn_table.grade tr {
+  border-right: 5px solid #ccc;
+}
+
+table.qdn_table.grade tr.good {
+
+    border-right: 5px solid #ccc;
+}
+
+table.qdn_table.grade tr.medium {
+    border-right: 5px solid yellow;
+}
+
+table.qdn_table.grade tr.bad {
+    border-right: 5px solid red;
 }
 
 table.qdn_table tr td, table.qdn_table tr th {
@@ -350,3 +400,5 @@ td.sqlinfo {
     font-size: 10px;
     width: 30px;
 }
+
+

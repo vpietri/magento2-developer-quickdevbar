@@ -24,12 +24,10 @@ define(["jquery",
     
     $.widget('mage.quickDevBarTabs', $.ui.tabs, {
         _create: function() {
-            
             var qdbOption = this.element.attr('data-qdbtabs-option');
             if (qdbOption) {
                 $.extend( this.options, JSON.parse(qdbOption) );
             }
-            
             this._super();
         },
         
@@ -104,9 +102,70 @@ define(["jquery",
         },
     });
     
+    $.widget("mage.treeView", {
+        // default options
+        options: {
+          expandAll: true,
+          treeClass: "qdbTree",
+        },
+
+        // The constructor
+        _create: function() {
+          this.element.addClass(this.options.treeClass);
+
+          var self = this;
+
+          
+          this.element.find('li').each(function() {
+            var li = $(this);
+            li.prepend('<div class="node"></div>');
+            li.contents().filter(function() {
+              return this.nodeName=='UL';
+            }).each(function() {
+              var liParent = $(this).parent();
+              var liNode = liParent.children('div.node')
+              if (!liParent.data('ul')) {
+                liNode.data('li', liParent);
+                liNode.data('ul', liParent.find('ul').first());
+                self._toggle(liNode, self.options.expandAll);
+              }
+            });
+          });
+          this.element.on('click', "div.node", $.proxy(this._handleNodeClick, this));
+        },
+
+        _toggle: function(node, expand) {
+          var sub = node.data('ul') ? $(node.data('ul')) : false;
+          if (sub) {
+              if(typeof expand == 'undefined') {
+                  sub.toggle();
+              } else if(expand) {
+                  sub.show();
+              } else {
+                  sub.hide();
+              }
+            var subVisibility = sub.is(":visible");
+            node.toggleClass('expanded', subVisibility);
+            node.toggleClass('collapsed', !subVisibility);
+          }
+        },
+
+        _handleNodeClick: function(event) {
+          event.stopPropagation();
+          var node = $(event.target);
+          if(event.target.nodeName=='DIV') {
+              this._toggle(node)
+              this._trigger("nodePostClick", event);
+          }
+
+        },
+
+      });
+    
       
     $.widget('mage.quickDevBar', {
         options: {
+            css: false,
             toggleEffect: "drop",
             stripedClassname: "striped",
             classToStrip: "qdn_table.striped",
@@ -115,6 +174,14 @@ define(["jquery",
         },
 
         _create: function() {
+            
+            $('<link/>', {
+                rel: 'stylesheet',
+                type: 'text/css',
+                href: this.options.css
+            }).appendTo('head');            
+            
+            
             /* Manage toggling toolbar */
             this.element.toggle(this.options.toggleEffect);
             $('#qdb-bar-anchor').on('click', $.proxy(function(event) {
@@ -124,9 +191,8 @@ define(["jquery",
             
             /* Apply ui.tabs widget */ 
             $('div.qdb-container').quickDevBarTabs({load:$.proxy(function(event, data){
-                if(data.panel) {
-                    console.log(data);
-                    this.applyTabPlugin('#' + data.panel.attr( "id" ));
+                if($(data.panel)) {
+                    this.applyTabPlugin('#' + $(data.panel).attr( "id" ));
                 }
                 }, this)}
             );
@@ -156,9 +222,6 @@ define(["jquery",
             
             /* classToSort: Set sort on thead */
             $(selector + ' table.' + this.options.classToSort).tablesorter(); 
-            
-            /* Set special class to last element of the tree in layout tab */
-            $(selector + ' ul.tree li:last-child').addClass('last');
         },
         
         /**

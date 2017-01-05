@@ -118,6 +118,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $this->_httpHeader->getHttpUserAgent(true);
     }
 
+    public function displayMagentoFile($path)
+    {
+        return str_replace(BP, '', $path);
+    }
+
 
     public function getLogFiles($key=false)
     {

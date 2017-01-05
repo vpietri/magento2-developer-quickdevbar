@@ -3,8 +3,36 @@
 <table class="qdn_table_2col">
 <tr>
     <th><?php echo __('Blocks hierarchy'); ?></th>
-    <td>    <br/>
+    <td>
     <?php echo $block->getHtmlBlocksHierarchy(); ?></br>
     </td>
 </tr>
 </table>
+<script type="text/javascript">
+require([
+         'jquery',
+         'quickDevBar',
+     ], function($){
+    'use strict';
+
+
+    $('#block-tree-root').treeView();
+
+    $('#block-tree-root li span').each(function(i, el) {
+      $(el).on('click', function(event){
+        if(event.target.nodeName=='SPAN') {
+            var divDetail = $('#node_detail_'+$(this).parent().data('node-id'));
+
+            if(divDetail) {
+                divDetail.toggle();
+                var subVisibility = divDetail.is(":visible");
+                divDetail.toggleClass('expanded', subVisibility);
+                $(event.target).toggleClass('expanded', subVisibility);
+                return false;
+            }
+        }
+
+      });
+    });
+});
+</script>

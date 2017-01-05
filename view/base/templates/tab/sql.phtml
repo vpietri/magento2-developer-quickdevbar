@@ -1,43 +1,28 @@
 <?php
-//$_helper = Mage::helper('wee_developertoolbar');
-$_profiler = $block->getSqlProfiler();
 ?>
-<?php if ($block->getQueryProfiles()): ?>
+<?php if ($block->getAllQueries()): ?>
 <table class="qdn_table_2col">
   <tr>
-    <th><?php echo __('Executed'); ?></th>
+    <th><?php echo __('Statistics'); ?></th>
     </td>
     <td>
-      <?php echo sprintf('%s queries in %s', $_profiler->getTotalNumQueries(), $this->formatSqlTime($_profiler->getTotalElapsedSecs())); ?>
+      <?php echo sprintf('%s queries in %s (average time: %s) - %s queries/second',
+              $block->getTotalNumQueries(),
+              $block->formatSqlTime($block->getTotalElapsedSecs()),
+              $block->formatSqlTime($block->getAverage()),
+              $block->getNumQueriesPerSecond()
+              ); ?>
     </td>
   </tr>
   <tr>
-    <th><?php echo __('Type'); ?></th>
+    <th></th>
     <td>
       <?php echo sprintf('%s SELECT - %s INSERT - %s UPDATE - %s DELETE - %s TRANSACTION',
-              $_profiler->getTotalNumQueries(Zend_Db_Profiler::SELECT),
-              $_profiler->getTotalNumQueries(Zend_Db_Profiler::INSERT),
-              $_profiler->getTotalNumQueries(Zend_Db_Profiler::UPDATE),
-              $_profiler->getTotalNumQueries(Zend_Db_Profiler::DELETE),
-              $_profiler->getTotalNumQueries(Zend_Db_Profiler::TRANSACTION)); ?>
-    </td>
-  </tr>
-  <tr>
-    <th><?php echo __('Average'); ?></th>
-    <td>
-      <?php echo sprintf('%s', $_profiler->getTotalNumQueries() &&  $_profiler->getTotalElapsedSecs() ?  $this->formatSqlTime($_profiler->getTotalElapsedSecs()/$_profiler->getTotalNumQueries()) : 0); ?>
-    </td>
-  </tr>
-  <tr>
-    <th><?php echo __('Queries/second'); ?></th>
-    <td>
-      <?php echo ($_profiler->getTotalNumQueries() && $_profiler->getTotalElapsedSecs() ?  $_profiler->getTotalNumQueries()/$_profiler->getTotalElapsedSecs() : 0); ?>
-    </td>
-  </tr>
-  <tr>
-    <th><?php echo __('Longest'); ?></th>
-    <td>
-      <?php echo  $this->formatSqlTime($block->getLongestQueryTime()); ?>
+              $block->getTotalNumQueries(Zend_Db_Profiler::SELECT),
+              $block->getTotalNumQueries(Zend_Db_Profiler::INSERT),
+              $block->getTotalNumQueries(Zend_Db_Profiler::UPDATE),
+              $block->getTotalNumQueries(Zend_Db_Profiler::DELETE),
+              $block->getTotalNumQueries(Zend_Db_Profiler::TRANSACTION)); ?>
     </td>
   </tr>
   <tr>
@@ -46,9 +31,15 @@ $_profiler = $block->getSqlProfiler();
       <?php echo $block->formatSql($block->getLongestQuery()); ?>
     </td>
   </tr>
+  <tr>
+    <th></th>
+    <td>
+      <span>(<?php echo  $block->formatSqlTime($block->getLongestQueryTime()); ?>)</span>
+    </td>
+  </tr>
 </table>
 
-<table class="qdn_table striped filterable sortable tablesorter">
+<table class="qdn_table striped filterable sortable tablesorter grade">
 <thead>
 <tr>
     <th>#</th>
@@ -59,11 +50,11 @@ $_profiler = $block->getSqlProfiler();
 <tbody>
 <?php
   $i = 0;
-  foreach ($block->getQueryProfiles() as $i => $query): ?>
-    <tr>
+  foreach ($block->getAllQueries() as $i => $query): ?>
+    <tr class="<?php echo  $query['grade']; ?>">
       <td><?php echo $i;?></td>
-      <td class="sqlquery"><?php echo $block->formatSql($query->getQuery()); ?></td>
-      <td class="sqltimer"><?php echo  $this->formatSqlTime($query->getElapsedSecs()); ?></td>
+      <td class="sqlquery"><?php echo $block->formatSql($query['sql']); ?></td>
+      <td class="sqltimer"><?php echo  $block->formatSqlTime($query['time']); ?></td>
     </tr>
     <?php $i++; ?>
   <?php endforeach ?>
