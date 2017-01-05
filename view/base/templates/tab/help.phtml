@@ -4,33 +4,7 @@
 
 <p>
 <span><b><?php echo $block->getModuleName()?></b> (version <?php echo $block->getModuleVersion()?>)</span>
-<!-- Place this tag in your head or just before your close body tag. -->
-<!-- <script async defer src="https://buttons.github.io/buttons.js"></script> -->
-&nbsp;&nbsp;&nbsp;
-<!-- Place this tag where you want the button to render. -->
-<a aria-label="Watch vpietri/magento2-developer-quickdevbar on GitHub" data-count-aria-label="# watchers on GitHub" data-count-api="/repos/vpietri/magento2-developer-quickdevbar#subscribers_count" data-count-href="/vpietri/magento2-developer-quickdevbar/watchers" data-icon="octicon-eye" href="https://github.com/vpietri/magento2-developer-quickdevbar" class="github-button">Watch</a>
-&nbsp;
-<!-- Place this tag where you want the button to render. -->
-<a aria-label="Star vpietri/magento2-developer-quickdevbar on GitHub" data-count-aria-label="# stargazers on GitHub" data-count-api="/repos/vpietri/magento2-developer-quickdevbar#stargazers_count" data-count-href="/vpietri/magento2-developer-quickdevbar/stargazers" data-icon="octicon-star" href="https://github.com/vpietri/magento2-developer-quickdevbar" class="github-button">Star</a>
-</p>
+
 </br>
 <p>In order to use this toolbar on a remote server you should either specify allowed IP or set a part of your http header in the config.</p>
 <p>Any feedback and idea to improve this toolbar will be appreciate so get in touch via the <a href="https://github.com/vpietri/magento2-developer-quickdevbar/issues">issue tracker</a> on GitHub.</p>
-<script type="text/javascript">
-<!--
-require([
-         'jquery'
-     ], function($){
-
-        var loaded = false;
-        $('div.qdb-container').on("quickdevbartabsbeforeactivate", function(event, data) {
-            var tabId = data.newPanel ? data.newPanel.attr( "id" ) : false;
-            if (!loaded && tabId=='panel-qdb-tab-help') {
-                console.log('panel-qdb-tab-help');
-                $.getScript("https://buttons.github.io/buttons.js");
-                loaded = true;
-            }
-        });
-});
-//-->
-</script>
