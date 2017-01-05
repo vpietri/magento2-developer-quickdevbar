@@ -1,6 +1,12 @@
 Changelog: Quick Developer Toolbar for Magento2
 ====================================
 
+0.1.11
+* Improve layout view with a js tree
+* Add css lazy load to keep toolbar completly hidden when disabled
+* Fix compatibility with Magento 2.1.3. Thanks to [Koc](https://github.com/vpietri/magento2-developer-quickdevbar/pull/15)
+* Fix ajax tab load bug 
+
 0.1.10
 * Fix conflicts in backend with magento tabs widget
 * Improve profiler detection
