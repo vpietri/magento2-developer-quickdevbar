@@ -65,16 +65,18 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
             $this->_sql_profiler = new \Zend_Db_Profiler();
             if(!is_null($this->_resource)) {
                 $this->_sql_profiler = $this->_resource->getConnection('read')->getProfiler();
-                foreach($this->_sql_profiler->getQueryProfiles() as $query) {
-                    if ($query->getElapsedSecs() > $this->_longestQueryTime) {
-                        $this->_longestQueryTime  = $query->getElapsedSecs();
-                        $this->_longestQuery = $query->getQuery();
-                    }
-                    if ($query->getElapsedSecs() < $this->_shortestQueryTime) {
-                        $this->_shortestQueryTime  = $query->getElapsedSecs();
-                    }
+                if ($this->_sql_profiler->getQueryProfiles() && is_array($this->_sql_profiler->getQueryProfiles())) {
+                    foreach ($this->_sql_profiler->getQueryProfiles() as $query) {
+                        if ($query->getElapsedSecs() > $this->_longestQueryTime) {
+                            $this->_longestQueryTime = $query->getElapsedSecs();
+                            $this->_longestQuery = $query->getQuery();
+                        }
+                        if ($query->getElapsedSecs() < $this->_shortestQueryTime) {
+                            $this->_shortestQueryTime = $query->getElapsedSecs();
+                        }
 
-                    $this->_all_queries[] = ['sql'=>$query->getQuery(), 'time'=>$query->getElapsedSecs(), 'grade'=>'medium'];
+                        $this->_all_queries[] = ['sql' => $query->getQuery(), 'time' => $query->getElapsedSecs(), 'grade' => 'medium'];
+                    }
                 }
             }
         }
@@ -110,7 +112,11 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
                 $squareSum = pow($query['time'] - $average, 2);
             }
 
-            $standardDeviation = sqrt($squareSum/$this->getTotalNumQueries());
+            $standardDeviation = sqrt(0);
+
+            if ($squareSum) {
+                $standardDeviation = sqrt($squareSum/$this->getTotalNumQueries());
+            }
 
             foreach ($this->_all_queries as $index=>$query) {
                 if($query['time']<($this->_shortestQueryTime+2*$standardDeviation)) {
