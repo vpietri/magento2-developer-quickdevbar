@@ -1,6 +1,9 @@
 Changelog: Quick Developer Toolbar for Magento2
 ====================================
 
+0.1.12
+* Fix Wbug when profiler is disabled. Thanks to [rakibabu](https://github.com/vpietri/magento2-developer-quickdevbar/pull/16)
+
 0.1.11
 * Improve layout view with a js tree
 * Add css lazy load to keep toolbar completly hidden when disabled

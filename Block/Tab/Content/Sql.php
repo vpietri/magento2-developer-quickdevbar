@@ -112,9 +112,8 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
                 $squareSum = pow($query['time'] - $average, 2);
             }
 
-            $standardDeviation = sqrt(0);
-
-            if ($squareSum) {
+            $standardDeviation = 0;
+            if ($squareSum and $this->getTotalNumQueries()) {
                 $standardDeviation = sqrt($squareSum/$this->getTotalNumQueries());
             }
 

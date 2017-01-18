@@ -2,7 +2,7 @@
     "name": "vpietri/adm-quickdevbar",
     "description": "QuickDevBar is a developer toolbar for magento 2",
     "type": "magento2-module",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "license": [
       "OSL-3.0",
       "AFL-3.0"
