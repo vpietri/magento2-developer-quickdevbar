@@ -2,6 +2,7 @@ Developer Toolbar for Magento2
 ====================================
 
 [![Code Climate](https://codeclimate.com/github/vpietri/magento2-developer-quickdevbar/badges/gpa.svg)](https://codeclimate.com/github/vpietri/magento2-developer-quickdevbar)
+[![Total Downloads](https://poser.pugx.org/vpietri/adm-quickdevbar/downloads)](https://packagist.org/packages/vpietri/adm-quickdevbar)
 
 
 
