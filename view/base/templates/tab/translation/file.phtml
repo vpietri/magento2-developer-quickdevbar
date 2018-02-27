@@ -1,0 +1,23 @@
+<?php if($this->getTranslations()):?>
+    <table class="qdn_table striped filterable">
+        <thead>
+        <tr>
+            <th>File</th>
+            <th>Original</th>
+            <th>Translation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        $i = 0;
+        foreach ($this->getTranslations() as $original => $translation): ?>
+            <tr>
+                <td><?php echo $translation['file']; ?></td>
+                <td><?php echo $original; ?></td>
+                <td><?php echo $translation['translation']; ?></td>
+            </tr>
+            <?php $i++; ?>
+        <?php endforeach ?>
+        </tbody>
+    </table>
+<?php endif;?>
