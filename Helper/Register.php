@@ -20,6 +20,11 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     public function addObserver($observerConfig, $wrapper)
     {
         $data = $observerConfig;
+
+        if (isset($data['disabled']) && true === $data['disabled']) {
+            return;
+        }
+
         $data['event'] = $wrapper->getEvent()->getName();
 
         $key = md5(serialize($data));
