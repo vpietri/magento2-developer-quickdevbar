@@ -5,6 +5,7 @@ Changelog: Quick Developer Toolbar for Magento2
 * Memorize toolbar state
 * Fix on require_js
 * Add translation tab. Thanks to [danslo](https://github.com/vpietri/magento2-developer-quickdevbar/pull/23)
+* Check whether event observer is disabled. Thanks to [tufahu](https://github.com/vpietri/magento2-developer-quickdevbar/pull/24)
 
 0.1.12
 * Fix Wbug when profiler is disabled. Thanks to [rakibabu](https://github.com/vpietri/magento2-developer-quickdevbar/pull/16)

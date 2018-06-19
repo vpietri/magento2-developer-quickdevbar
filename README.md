@@ -20,6 +20,7 @@ The structure of this toolbar is extremely simple you just need to add a new blo
 - Profile : View current observers, all events dispatched, collections and models loaded, plugins instanciated
 - Queries :  Statistics about executed queries and detailed query listing with syntax highlighting of main SQL keywords
 - Logs : Display log files with ability to reset these files
+- Translation : Quickly see module, pack,theme and	DB translations
 - Actions : Easily toggle template hints and inline translation and flush cache
 - Help : Show module version and link to github
 
@@ -56,6 +57,8 @@ In the Magento root directory
 - Install the module
 ```
 composer require vpietri/adm-quickdevbar
+php bin/magento module:enable ADM_QuickDevBar 
+php bin/magento setup:upgrade
 ```
 
 ## Cleaning
