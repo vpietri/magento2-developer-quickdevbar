@@ -37,17 +37,13 @@
                     </block>
                     
                     <block class="ADM\QuickDevBar\Block\Tab\Content\PhpInfo" name="qdb.tab.phpinfo"  as="qdb.tab.phpinfo">
-                        <action method="setIsAjax">
-                          <argument name="is_ajax" xsi:type="string">1</argument>
-                        </action>
-                        <action method="setTitle">
-                          <argument name="title" xsi:type="string">Phpinfo</argument>
-                        </action>                
-                        <!-- @tips : For an ajax load you can define your own route -->
-                        <action method="setAjaxUrl">
-                          <argument name="ajax_url" xsi:type="string">quickdevbar/tab/phpInfo</argument>
-                        </action>
-                    </block>                    
+                        <arguments>
+                            <argument name="title" xsi:type="string">Phpinfo</argument>
+                            <argument name="is_ajax" xsi:type="string">1</argument>
+                            <!-- @tips : For an ajax load you can define your own route -->
+                            <argument name="ajax_url" xsi:type="string">quickdevbar/tab/phpInfo</argument>
+                        </arguments>
+                    </block>
                                         
                   </block>
                   <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="qdb.tab.design" as="qdb.tab.design" template="tabs.phtml">
@@ -141,28 +137,38 @@
                       <action method="setTitle">
                           <argument name="title" xsi:type="string">Translations</argument>
                       </action>
+                      <!--
                       <action method="setTitleImage">
                           <argument name="title" xsi:type="string">ADM_QuickDevBar::images/translations.png</argument>
                       </action>
-                      <block class="ADM\QuickDevBar\Block\Tab\Content\Translation" name="qdb.tab.translation.module" as="qdb.tab.translation.module" template="tab/translation/file.phtml">
-                          <action method="setTitle">
+                      -->
+                      <block class="ADM\QuickDevBar\Block\Tab\Content\Translation" name="qdb.tab.translation.module" as="qdb.tab.translation.module">
+                          <arguments>
                               <argument name="title" xsi:type="string">Module</argument>
-                          </action>
+                              <argument name="is_ajax" xsi:type="string">1</argument>
+                              <argument name="ajax_url" xsi:type="string">quickdevbar/tab/translation/type/module</argument>
+                          </arguments>
                       </block>
-                      <block class="ADM\QuickDevBar\Block\Tab\Content\Translation" name="qdb.tab.translation.pack" as="qdb.tab.translation.pack" template="tab/translation/plain.phtml">
-                          <action method="setTitle">
+                      <block class="ADM\QuickDevBar\Block\Tab\Content\Translation" name="qdb.tab.translation.pack" as="qdb.tab.translation.pack">
+                          <arguments>
                               <argument name="title" xsi:type="string">Pack</argument>
-                          </action>
+                              <argument name="is_ajax" xsi:type="string">1</argument>
+                              <argument name="ajax_url" xsi:type="string">quickdevbar/tab/translation/type/pack</argument>
+                          </arguments>
                       </block>
-                      <block class="ADM\QuickDevBar\Block\Tab\Content\Translation" name="qdb.tab.translation.theme" as="qdb.tab.translation.theme" template="tab/translation/file.phtml">
-                          <action method="setTitle">
+                      <block class="ADM\QuickDevBar\Block\Tab\Content\Translation" name="qdb.tab.translation.theme" as="qdb.tab.translation.theme">
+                          <arguments>
                               <argument name="title" xsi:type="string">Theme</argument>
-                          </action>
+                              <argument name="is_ajax" xsi:type="string">1</argument>
+                              <argument name="ajax_url" xsi:type="string">quickdevbar/tab/translation/type/theme</argument>
+                          </arguments>
                       </block>
-                      <block class="ADM\QuickDevBar\Block\Tab\Content\Translation" name="qdb.tab.translation.db" as="qdb.tab.translation.db" template="tab/translation/plain.phtml">
-                          <action method="setTitle">
+                      <block class="ADM\QuickDevBar\Block\Tab\Content\Translation" name="qdb.tab.translation.db" as="qdb.tab.translation.db">
+                          <arguments>
                               <argument name="title" xsi:type="string">DB</argument>
-                          </action>
+                              <argument name="is_ajax" xsi:type="string">1</argument>
+                              <argument name="ajax_url" xsi:type="string">quickdevbar/tab/translation/type/db</argument>
+                          </arguments>
                       </block>
                   </block>
                   <block class="ADM\QuickDevBar\Block\Tab\Content\Help" name="qdb.tab.help" as="qdb.tab.help" template="tab/help.phtml">

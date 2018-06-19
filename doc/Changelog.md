@@ -4,6 +4,7 @@ Changelog: Quick Developer Toolbar for Magento2
 0.1.13
 * Memorize toolbar state
 * Fix on require_js
+* Add translation tab. Thanks to [danslo](https://github.com/vpietri/magento2-developer-quickdevbar/pull/23)
 
 0.1.12
 * Fix Wbug when profiler is disabled. Thanks to [rakibabu](https://github.com/vpietri/magento2-developer-quickdevbar/pull/16)

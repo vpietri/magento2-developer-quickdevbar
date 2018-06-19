@@ -28,11 +28,42 @@ class Translation extends \ADM\QuickDevBar\Block\Tab\Panel
     }
 
     /**
+     * @return string
+     */
+    public function getType()
+    {
+        $type = $this->getTitle();
+        if(!empty($this->_data['type'])) {
+            $type = $this->_data['type'];
+        }
+
+        return strtolower($type);
+    }
+
+    /**
+     * Get relevant path to template
+     *
+     * @return string
+     */
+    public function getTemplate()
+    {
+        if(empty($this->_template)) {
+            if(in_array($this->getType(), ['module','theme'])) {
+                $this->_template = "tab/translation/file.phtml";
+            } else {
+                $this->_template = "tab/translation/plain.phtml";
+            }
+        }
+
+        return $this->_template;
+    }
+
+    /**
      * @return array
      * @throws LocalizedException
      */
     public function getTranslations()
     {
-        return $this->translate->getTranslationsByType(strtolower($this->getTitle()));
+        return $this->translate->getTranslationsByType($this->getType());
     }
 }
