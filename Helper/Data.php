@@ -53,6 +53,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $this->scopeConfig->getValue($path, $scopeType, $scopeCode);
     }
 
+    public function defaultAppearance()
+    {
+        return $this->getConfig('dev/quickdevbar/appearance');
+    }
 
     public function isToolbarAccessAllowed()
     {

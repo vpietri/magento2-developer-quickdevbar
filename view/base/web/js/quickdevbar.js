@@ -4,7 +4,8 @@ define(["jquery",
         "jquery/ui",
          "filtertable",
          "metadata",
-         "tablesorter"
+         "tablesorter",
+         'mage/cookies'
 ], function($){
     
     /**
@@ -166,6 +167,7 @@ define(["jquery",
     $.widget('mage.quickDevBar', {
         options: {
             css: false,
+            appearance: "collapsed",
             toggleEffect: "drop",
             stripedClassname: "striped",
             classToStrip: "qdn_table.striped",
@@ -183,10 +185,15 @@ define(["jquery",
             
             
             /* Manage toggling toolbar */
-            this.element.toggle(this.options.toggleEffect);
+            if(this.getVisibility()) {
+                this.element.toggle(this.options.toggleEffect);
+            }
+
             $('#qdb-bar-anchor').on('click', $.proxy(function(event) {
                 event.preventDefault();
+                this.setVisibility(!this.element.is(":visible"));
                 this.element.toggle(this.options.toggleEffect);
+
             }, this));
             
             /* Apply ui.tabs widget */ 
@@ -201,6 +208,22 @@ define(["jquery",
             
             /* Manage ajax tabs */
             $('div.qdb-container').addClass('qdb-container-collapsed');
+        },
+
+        setVisibility: function(visible) {
+            $.mage.cookies.set('qdb_visibility', visible);
+        },
+
+
+        getVisibility: function() {
+            var visible = false;
+            if(this.options.appearance == 'memorize') {
+                visible = $.mage.cookies.get('qdb_visibility') === "true";
+            } else if(this.options.appearance == 'expanded') {
+                visible = true;
+            }
+
+            return visible;
         },
         
         applyTabPlugin: function(selector) {

@@ -320,7 +320,11 @@ table.qdn_table tr th {
 }
 
 table.qdn_table tbody tr.striped { 
-    background-color: #f0f8ff;
+    background-color: #f5f5f5;
+}
+
+table.qdn_table tbody tr:hover {
+    background-color: #e5f7fe;
 }
 
 /**

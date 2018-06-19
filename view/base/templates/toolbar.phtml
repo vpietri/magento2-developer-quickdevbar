@@ -1,3 +1,4 @@
+<?php /** @var \ADM\QuickDevBar\Block\Toolbar $block */ ?>
 <?php if($block->isUserAllowed()):?>
 
 <!-- ------------------------------ -->
@@ -14,7 +15,9 @@
  -->
 
 <div>
-<div id="qdb-bar" style="display: none;" data-mage-init='{"quickDevBar":{"css":"<?php echo $block->getViewFileUrl('ADM_QuickDevBar::css/quickdevbar.css'); ?>", "toggleEffect":"drop"}}'>
+<div id="qdb-bar" style="display: none;" data-mage-init='{"quickDevBar":{"css":"<?php echo $block->getViewFileUrl('ADM_QuickDevBar::css/quickdevbar.css'); ?>",
+                                                                         "toggleEffect":"drop",
+                                                                         "appearance":"<?php echo $block->getAppearance() ?>"}}'>
 <?php echo $block->getChildHtml(); ?>
 </div>
 <div id="qdb-bar-anchor">

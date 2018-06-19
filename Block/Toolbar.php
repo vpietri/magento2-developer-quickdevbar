@@ -38,4 +38,9 @@ class Toolbar extends \Magento\Framework\View\Element\Template
 
         return $this->_mainTabs;
     }
+
+    public function getAppearance()
+    {
+        return $this->_qdnHelper->defaultAppearance();
+    }
 }
