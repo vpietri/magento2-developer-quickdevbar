@@ -104,10 +104,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $separator ? implode($separator ,$allowedIps) : $allowedIps;
     }
 
-
     public function getClientIp()
     {
-        return $this->_getRequest()->getClientIp();
+        /*FIX FOR PROXY USERS RETURNING TWO IP ADDRESSES e.g. 127.0.0.1 127.0.0.1*/
+//        return $this->_getRequest()->getClientIp();
+        return $this->_remoteAddress->getRemoteAddress();
     }
 
     public function isUserAgentAuthorized()
