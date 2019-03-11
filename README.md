@@ -77,7 +77,7 @@ php bin/magento cache:flush
 
 The toolbar is displayed by default if your web server is on your local development environment.
 
-The configuration is in  Stores/Advanced/Developer/Quick dev bar configuration
+The configuration is in  Stores/Configuration/Advanced/Developer/Quick dev bar configuration
 ![](doc/images/qdb_screen_config_ok.png)
 
 If you do not see the toolbar you should either force activation by setting the select "Activate" to "Yes" or fill your IP in the field "Allowed IPs" or fill a matching pattern of you user-agent in the field "Allowed user-agent pattern" 
