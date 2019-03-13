@@ -14,6 +14,14 @@
                     <source_model>ADM\QuickDevBar\Model\Config\Source\Activate</source_model>
                     <comment>"Yes with restriction" means that your web server is your localhost or your ip is in "Allowed ips" or your user-agent is matching "Allowed user-agent pattern"</comment>
                 </field>
+                <field id="disable_admin_area" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disable Dev Bar from Admin Area</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>"Yes" - Will not show Dev Bar from Admin Area. "No" - Show Dev Bar from Admin Area</comment>
+                    <depends>
+                        <field id="enable" separator=",">1,2</field>
+                    </depends>
+                </field>
                 <field id="is_enabled" translate="label" type="label" sortOrder="15" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Is enabled for you?</label>
                     <frontend_model>ADM\QuickDevBar\Block\Adminhtml\System\Config\Form\Fieldset\IsEnabled</frontend_model>

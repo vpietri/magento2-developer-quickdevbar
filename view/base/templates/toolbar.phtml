@@ -1,5 +1,5 @@
 <?php /** @var \ADM\QuickDevBar\Block\Toolbar $block */ ?>
-<?php if($block->isUserAllowed()):?>
+<?php if($block->isUserAllowed() && !$block->isDisabledAdminArea()):?>
 
 <!-- ------------------------------ -->
 <!-- Start HTML for ADM_QuickDevBar -->

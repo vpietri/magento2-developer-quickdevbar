@@ -4,6 +4,7 @@
     <dev>
       <quickdevbar>
         <enable>2</enable>
+          <disable_admin_area>0</disable_admin_area>
       </quickdevbar>
     </dev>
    </default>

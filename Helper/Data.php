@@ -246,4 +246,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return !empty($moduleInfo['setup_version']) ? $moduleInfo['setup_version'] : '???';
     }
 
+    public function isDisableAdminArea(){
+        return (bool)$this->getConfig('dev/quickdevbar/disable_admin_area');
+    }
 }
