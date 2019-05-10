@@ -25,9 +25,9 @@ class Toolbar extends \Magento\Framework\View\Element\Template
      *
      * @return bool
      */
-    public function isUserAllowed()
+    public function canDisplay()
     {
-        return $this->_qdnHelper->isToolbarAccessAllowed();
+        return $this->_qdnHelper->isToolbarAccessAllowed() && $this->_qdnHelper->isToolbarAreaAllowed($this->getArea());
     }
 
     public function getTabBlocks()

@@ -3,7 +3,8 @@
    <default>
     <dev>
       <quickdevbar>
-        <enable>2</enable>
+          <enable>2</enable>
+          <area>global</area>
       </quickdevbar>
     </dev>
    </default>
