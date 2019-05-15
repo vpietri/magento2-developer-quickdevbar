@@ -3,8 +3,9 @@
    <default>
     <dev>
       <quickdevbar>
-        <enable>2</enable>
+          <enable>2</enable>
           <disable_admin_area>0</disable_admin_area>
+          <area>global</area>
       </quickdevbar>
     </dev>
    </default>

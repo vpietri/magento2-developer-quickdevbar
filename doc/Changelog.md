@@ -1,11 +1,18 @@
 Changelog: Quick Developer Toolbar for Magento2
 ====================================
 
+0.1.14
+* Specify area where display toolbar. Thanks to [zzarazza] and [tuyennn]
+* Small bug fix for users using a proxy with Magento 2. Thanks to [NateSwanson7](https://github.com/vpietri/magento2-developer-quickdevbar/pull/31)
+* Fix jquery error dependency in Admin. Thanks to [hoangnm89](https://github.com/vpietri/magento2-developer-quickdevbar/pull/29)
+* Update jquery.tablesorter.min.js. Thanks to [sebfie](https://github.com/vpietri/magento2-developer-quickdevbar/pull/27)
+
 0.1.13
 * Memorize toolbar state
 * Fix on require_js
 * Add translation tab. Thanks to [danslo](https://github.com/vpietri/magento2-developer-quickdevbar/pull/23)
 * Check whether event observer is disabled. Thanks to [tufahu](https://github.com/vpietri/magento2-developer-quickdevbar/pull/24)
+
 
 0.1.12
 * Fix Wbug when profiler is disabled. Thanks to [rakibabu](https://github.com/vpietri/magento2-developer-quickdevbar/pull/16)

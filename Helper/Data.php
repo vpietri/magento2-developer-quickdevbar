@@ -79,6 +79,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $allow;
     }
 
+    public function isToolbarAreaAllowed($area)
+    {
+        $areaEnabled = $this->getConfig('dev/quickdevbar/area');
+
+        return ($areaEnabled == \Magento\Framework\App\Area::AREA_GLOBAL)
+                || ($area == $areaEnabled);
+
+   }
+
 
     public function isIpAuthorized()
     {
