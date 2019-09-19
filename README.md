@@ -61,6 +61,17 @@ php bin/magento module:enable ADM_QuickDevBar
 php bin/magento setup:upgrade
 ```
 
+## With Modman
+
+In the Magento root directory
+
+- Install the module
+```
+modman clone git@github.com:vpietri/magento2-developer-quickdevbar.git
+php bin/magento module:enable ADM_QuickDevBar 
+php bin/magento setup:upgrade
+```
+
 ## Cleaning
 
 - Upgrade Magento setup
