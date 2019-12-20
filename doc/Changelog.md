@@ -1,6 +1,11 @@
 Changelog: Quick Developer Toolbar for Magento2
 ====================================
 
+0.1.15
+* Replace Deprecated Function. Thanks to [lefte](https://github.com/vpietri/magento2-developer-quickdevbar/pull/40)
+* Support for modman. Thanks to [MagePsycho](https://github.com/vpietri/magento2-developer-quickdevbar/pull/37)
+* PHP < 7.0 backward compatible. Thanks to [tuyennn](https://github.com/vpietri/magento2-developer-quickdevbar/pull/33)
+
 0.1.14
 * Specify area where display toolbar. Thanks to [zzarazza] and [tuyennn]
 * Small bug fix for users using a proxy with Magento 2. Thanks to [NateSwanson7](https://github.com/vpietri/magento2-developer-quickdevbar/pull/31)

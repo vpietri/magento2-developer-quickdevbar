@@ -52,7 +52,6 @@ class Plugin extends \ADM\QuickDevBar\Block\Tab\Panel
                     $type= $matches[1];
                     $method= $matches[2];
                     if(!empty($inherited[$type])) {
-                        $pluginMethods=[];
                         foreach($processDef as $keyType=>$pluginsNames) {
                             if(!is_array($pluginsNames)) {
                                 $pluginsNames = [$pluginsNames];
