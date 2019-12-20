@@ -14,6 +14,12 @@ class PhpInfo extends \ADM\QuickDevBar\Block\Tab\Panel
         return $this->showPhpInfo();
     }
 
+    /**
+     * Return PHP Info CSS
+     */
+    protected function phpInfoCssLambda($value) {
+        return ".phpinfodisplay " . preg_replace( "/,/", ",.phpinfodisplay ", $value );
+    }
 
     public function showPhpInfo()
     {
@@ -25,10 +31,7 @@ class PhpInfo extends \ADM\QuickDevBar\Block\Tab\Panel
             return "<style type='text/css'>" . PHP_EOL .
                     join( PHP_EOL,
                             array_map(
-                                    create_function(
-                                            '$i',
-                                            'return ".phpinfodisplay " . preg_replace( "/,/", ",.phpinfodisplay ", $i );'
-                                    ),
+                                    $this->phpInfoCssLambda(),
                                     preg_split( '/\n/', trim($matches[1]))
                             )
                     ). PHP_EOL .
