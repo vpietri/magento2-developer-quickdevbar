@@ -1,6 +1,9 @@
 Changelog: Quick Developer Toolbar for Magento2
 ====================================
 
+0.1.16
+* Replace Deprecated Function. Thanks to [lefte](https://github.com/vpietri/magento2-developer-quickdevbar/pull/42)
+
 0.1.15
 * Replace Deprecated Function. Thanks to [lefte](https://github.com/vpietri/magento2-developer-quickdevbar/pull/40)
 * Support for modman. Thanks to [MagePsycho](https://github.com/vpietri/magento2-developer-quickdevbar/pull/37)
