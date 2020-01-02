@@ -31,7 +31,7 @@ class PhpInfo extends \ADM\QuickDevBar\Block\Tab\Panel
             return "<style type='text/css'>" . PHP_EOL .
                     join( PHP_EOL,
                             array_map(
-                                    $this->phpInfoCssLambda(),
+                                    array(&$this, "phpInfoCssLambda"),
                                     preg_split( '/\n/', trim($matches[1]))
                             )
                     ). PHP_EOL .
