@@ -19,11 +19,12 @@ class Request extends \ADM\QuickDevBar\Block\Tab\Panel
         return 'Request';
     }
 
-    public function __construct(\Magento\Framework\View\Element\Template\Context $context,
-            \Magento\Framework\App\ProductMetadataInterface $productMetadata,
-            \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver,
-            array $data = [])
-    {
+    public function __construct(
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\App\ProductMetadataInterface $productMetadata,
+        \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver,
+        array $data = []
+    ) {
         $this->_productMetadata   = $productMetadata;
         $this->_frontNameResolver = $frontNameResolver;
         parent::__construct($context, $data);
@@ -61,14 +62,14 @@ class Request extends \ADM\QuickDevBar\Block\Tab\Panel
         return $requestData;
     }
 
-    public function formatValue($data) {
-        if(is_array($data['value'])) {
+    public function formatValue($data)
+    {
+        if (is_array($data['value'])) {
             return '<pre>' . print_r($data['value'], true) . '</pre>';
         } elseif (!empty($data['is_url'])) {
             return '<a href="' . $data['value'] . '">' . $data['value'] . '</a>';
         } else {
-          return $data['value'];
+            return $data['value'];
         }
     }
-
 }

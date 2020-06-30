@@ -17,8 +17,9 @@ class PhpInfo extends \ADM\QuickDevBar\Block\Tab\Panel
     /**
      * Return PHP Info CSS
      */
-    protected function phpInfoCssLambda($value) {
-        return ".phpinfodisplay " . preg_replace( "/,/", ",.phpinfodisplay ", $value );
+    protected function phpInfoCssLambda($value)
+    {
+        return ".phpinfodisplay " . preg_replace("/,/", ",.phpinfodisplay ", $value);
     }
 
     public function showPhpInfo()
@@ -27,13 +28,14 @@ class PhpInfo extends \ADM\QuickDevBar\Block\Tab\Panel
 
         ob_start();
         phpinfo($what);
-        if (preg_match ('%<style type="text/css">(.*?)</style>.*?<body>(.*)</body>%s', ob_get_clean(), $matches)) {
+        if (preg_match('%<style type="text/css">(.*?)</style>.*?<body>(.*)</body>%s', ob_get_clean(), $matches)) {
             return "<style type='text/css'>" . PHP_EOL .
-                    join( PHP_EOL,
-                            array_map(
-                                    array(&$this, "phpInfoCssLambda"),
-                                    preg_split( '/\n/', trim($matches[1]))
-                            )
+                    join(
+                        PHP_EOL,
+                        array_map(
+                            [&$this, "phpInfoCssLambda"],
+                            preg_split('/\n/', trim($matches[1]))
+                        )
                     ). PHP_EOL .
                     ".phpinfodisplay table {width: 600px;}" . PHP_EOL .
                     "</style>" . PHP_EOL .
@@ -44,5 +46,4 @@ class PhpInfo extends \ADM\QuickDevBar\Block\Tab\Panel
             return '';
         }
     }
-
 }

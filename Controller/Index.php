@@ -4,7 +4,6 @@ namespace ADM\QuickDevBar\Controller;
 
 use Magento\Framework\Exception\NotFoundException;
 
-
 class Index extends \Magento\Framework\App\Action\Action
 {
     /**
@@ -31,11 +30,10 @@ class Index extends \Magento\Framework\App\Action\Action
      * @param \Magento\Framework\View\LayoutFactory $layoutFactory
      */
     public function __construct(
-            \Magento\Framework\App\Action\Context $context,
-            \ADM\QuickDevBar\Helper\Data $qdbHelper,
-            \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
-            \Magento\Framework\View\LayoutFactory $layoutFactory
-
+        \Magento\Framework\App\Action\Context $context,
+        \ADM\QuickDevBar\Helper\Data $qdbHelper,
+        \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
+        \Magento\Framework\View\LayoutFactory $layoutFactory
     ) {
         parent::__construct($context);
         $this->_qdbHelper = $qdbHelper;
@@ -68,6 +66,5 @@ class Index extends \Magento\Framework\App\Action\Action
 
     public function execute()
     {
-
     }
 }

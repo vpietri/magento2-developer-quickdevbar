@@ -1,7 +1,6 @@
 <?php
 namespace ADM\QuickDevBar\Model\Config\Source;
 
-
 class Appearance implements \Magento\Framework\Option\ArrayInterface
 {
 
@@ -18,5 +17,4 @@ class Appearance implements \Magento\Framework\Option\ArrayInterface
             ['value' => 'memorize', 'label' => __('Remember last state')]
         ];
     }
-
 }

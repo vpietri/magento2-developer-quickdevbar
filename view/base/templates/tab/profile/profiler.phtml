@@ -28,7 +28,7 @@ require([
           $(this).prepend("<thead><th>#</th>" + header.html() +"</thead>");
           header.remove();
           $(this).find('tbody tr').each(function(i, tr) {
-          	$(tr).prepend("<td>"+i+"</td>");
+              $(tr).prepend("<td>"+i+"</td>");
           });
 
           $('#qdn-profiler-container').html('');

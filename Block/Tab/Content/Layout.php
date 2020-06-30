@@ -17,10 +17,10 @@ class Layout extends \ADM\QuickDevBar\Block\Tab\Panel
      * @param array $data
      */
     public function __construct(
-            \Magento\Framework\View\Element\Template\Context $context,
-            \ADM\QuickDevBar\Helper\Data $qdbHelper,
-            \Magento\Framework\Json\Helper\Data $jsonHelper,
-            array $data = []
+        \Magento\Framework\View\Element\Template\Context $context,
+        \ADM\QuickDevBar\Helper\Data $qdbHelper,
+        \Magento\Framework\Json\Helper\Data $jsonHelper,
+        array $data = []
     ) {
         $this->_qdbHelper = $qdbHelper;
 
@@ -81,16 +81,16 @@ class Layout extends \ADM\QuickDevBar\Block\Tab\Panel
                     'alias'  =>$alias,
                     'type'  => $element['type'],
                     'label' => isset($element['label']) ? $element['label'] : '',
-    	              'file' => '',
-    	              'class_name' => '',
-    	              'class_file' => '',
+                      'file' => '',
+                      'class_name' => '',
+                      'class_file' => '',
             ];
 
             $block = $this->getLayout()->getBlock($name);
             if (false !== $block) {
                 $treeBlocks['file'] = $block->getTemplateFile();
                 $treeBlocks['class_name'] = get_class($block);
-                if(!empty($treeBlocks['class_name'])) {
+                if (!empty($treeBlocks['class_name'])) {
                     $reflectionClass = new \ReflectionClass($block);
                     $treeBlocks['class_file'] =  $reflectionClass->getFileName();
                 }
@@ -126,9 +126,9 @@ class Layout extends \ADM\QuickDevBar\Block\Tab\Panel
      *
      * @return string
      */
-    public function getHtmlBlocksHierarchy($treeBlocks=[], $level=0)
+    public function getHtmlBlocksHierarchy($treeBlocks = [], $level = 0)
     {
-        if(empty($treeBlocks)) {
+        if (empty($treeBlocks)) {
             $treeBlocks = [$this->getTreeBlocksHierarchy()];
         }
 
@@ -138,13 +138,13 @@ class Layout extends \ADM\QuickDevBar\Block\Tab\Panel
             $id = $level.'_'.$nodeNumering;
             $html .= '<li data-node-id="'.$id.'" class="' . $treeNode['type'] . '"><span>' . $treeNode['name'] . '</span>';
             $blockInfo = [];
-            if(!empty($treeNode['class_name'])) {
+            if (!empty($treeNode['class_name'])) {
                 $blockInfo[]= 'Class: ' . $treeNode['class_name'] . ' (' . $this->_qdbHelper->displayMagentoFile($treeNode['class_file']) . ')';
             }
-            if(!empty($treeNode['file'])) {
+            if (!empty($treeNode['file'])) {
                 $blockInfo[]= 'Template: ' . $this->_qdbHelper->displayMagentoFile($treeNode['file']);
             }
-            if(!empty($blockInfo)) {
+            if (!empty($blockInfo)) {
                 $html .= '<div id="node_detail_'.$id.'" class="detail" style="display:none">' . implode('<br/>', $blockInfo) . '</div>';
             }
 

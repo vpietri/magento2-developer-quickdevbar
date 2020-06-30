@@ -25,7 +25,7 @@ class Config extends \ADM\QuickDevBar\Block\Tab\Panel
 
     public function getConfigValues()
     {
-        if (is_null($this->_config_values)) {
+        if ($this->_config_values === null) {
             $this->_config_values = $this->_buildFlatConfig($this->_appConfig->getValue());
         }
 

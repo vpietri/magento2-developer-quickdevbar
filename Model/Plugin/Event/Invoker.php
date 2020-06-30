@@ -25,5 +25,4 @@ class Invoker
     {
         $this->_qdbHelperRegister->addObserver($observerConfig, $wrapper);
     }
-
 }

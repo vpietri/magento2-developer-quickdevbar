@@ -33,7 +33,7 @@ class Translation extends \ADM\QuickDevBar\Block\Tab\Panel
     public function getType()
     {
         $type = $this->getTitle();
-        if(!empty($this->_data['type'])) {
+        if (!empty($this->_data['type'])) {
             $type = $this->_data['type'];
         }
 
@@ -47,8 +47,8 @@ class Translation extends \ADM\QuickDevBar\Block\Tab\Panel
      */
     public function getTemplate()
     {
-        if(empty($this->_template)) {
-            if(in_array($this->getType(), ['module','theme'])) {
+        if (empty($this->_template)) {
+            if (in_array($this->getType(), ['module','theme'])) {
                 $this->_template = "tab/translation/file.phtml";
             } else {
                 $this->_template = "tab/translation/plain.phtml";

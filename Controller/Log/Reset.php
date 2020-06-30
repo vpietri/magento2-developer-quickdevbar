@@ -15,7 +15,7 @@ class Reset extends \ADM\QuickDevBar\Controller\Index
 
         $file = $this->_qdbHelper->getLogFiles($fileKey);
         if ($file) {
-            if(!empty($file['size'])) {
+            if (!empty($file['size'])) {
                 if (!unlink($file['path'])) {
                     $output = 'Cannot reset file.';
                 } else {

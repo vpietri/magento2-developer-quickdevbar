@@ -2,7 +2,6 @@
 
 namespace ADM\QuickDevBar\Model\Config\Source;
 
-
 class Activate implements \Magento\Framework\Option\ArrayInterface
 {
     /**

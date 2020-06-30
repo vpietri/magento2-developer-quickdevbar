@@ -31,13 +31,13 @@ class ConfigUpdate extends \ADM\QuickDevBar\Controller\Index
      * @param \Magento\Framework\Controller\Result\ForwardFactory $resultForwardFactory
      */
     public function __construct(
-            \Magento\Framework\App\Action\Context $context,
-            \ADM\QuickDevBar\Helper\Data $qdbHelper,
-            \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
-            \Magento\Framework\View\LayoutFactory $layoutFactory,
-            \Magento\Config\Model\ResourceModel\Config $resourceConfig,
-            \Magento\Store\Model\StoreManagerInterface $storeManager,
-            \Magento\Framework\Controller\Result\ForwardFactory $resultForwardFactory
+        \Magento\Framework\App\Action\Context $context,
+        \ADM\QuickDevBar\Helper\Data $qdbHelper,
+        \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
+        \Magento\Framework\View\LayoutFactory $layoutFactory,
+        \Magento\Config\Model\ResourceModel\Config $resourceConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Controller\Result\ForwardFactory $resultForwardFactory
     ) {
         parent::__construct($context, $qdbHelper, $resultRawFactory, $layoutFactory);
 
@@ -67,7 +67,7 @@ class ConfigUpdate extends \ADM\QuickDevBar\Controller\Index
             } else {
                 $configScope = $config['scope'];
 
-                if($configScope=='auto') {
+                if ($configScope=='auto') {
                     switch ($configKey) {
                         case 'template_hints_admin':
                         case 'template_hints_storefront':
@@ -105,13 +105,11 @@ class ConfigUpdate extends \ADM\QuickDevBar\Controller\Index
                 case 'template_hints_admin':
                 case 'template_hints_storefront':
                 case 'template_hints_blocks':
-
                     $configValue = ($this->_qdbHelper->getConfig('dev/debug/' . $configKey, $configScope, $configScopeId)) ? 0 : 1;
-                    $this->_resourceConfig->saveConfig('dev/debug/' . $configKey , $configValue, $configScope, $configScopeId);
+                    $this->_resourceConfig->saveConfig('dev/debug/' . $configKey, $configValue, $configScope, $configScopeId);
                     $output = ucwords(str_replace('_', ' ', $configKey)) . " set " . ($configValue ? 'On' : 'Off');
                     break;
                 case 'translate':
-
                     $configValue = ($this->_qdbHelper->getConfig('dev/translate_inline/active', $configScope, $configScopeId)) ? 0 : 1;
 
                     $this->_resourceConfig->saveConfig('dev/translate_inline/active', $configValue, $configScope, $configScopeId);
@@ -126,7 +124,7 @@ class ConfigUpdate extends \ADM\QuickDevBar\Controller\Index
             }
 
 
-        } catch ( \Exception $e) {
+        } catch (\Exception $e) {
             $output = $e->getMessage();
             $error = true;
         }
@@ -141,6 +139,5 @@ class ConfigUpdate extends \ADM\QuickDevBar\Controller\Index
             $resultRaw = $this->_resultRawFactory->create();
             return $resultRaw->setContents($output);
         }
-
     }
 }

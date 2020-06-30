@@ -6,23 +6,26 @@
     <th><?php echo __('Statistics'); ?></th>
     </td>
     <td>
-      <?php echo sprintf('%s queries in %s (average time: %s) - %s queries/second',
-              $block->getTotalNumQueries(),
-              $block->formatSqlTime($block->getTotalElapsedSecs()),
-              $block->formatSqlTime($block->getAverage()),
-              $block->getNumQueriesPerSecond()
-              ); ?>
+      <?php echo sprintf(
+          '%s queries in %s (average time: %s) - %s queries/second',
+          $block->getTotalNumQueries(),
+          $block->formatSqlTime($block->getTotalElapsedSecs()),
+          $block->formatSqlTime($block->getAverage()),
+          $block->getNumQueriesPerSecond()
+      ); ?>
     </td>
   </tr>
   <tr>
     <th></th>
     <td>
-      <?php echo sprintf('%s SELECT - %s INSERT - %s UPDATE - %s DELETE - %s TRANSACTION',
-              $block->getTotalNumQueries(Zend_Db_Profiler::SELECT),
-              $block->getTotalNumQueries(Zend_Db_Profiler::INSERT),
-              $block->getTotalNumQueries(Zend_Db_Profiler::UPDATE),
-              $block->getTotalNumQueries(Zend_Db_Profiler::DELETE),
-              $block->getTotalNumQueries(Zend_Db_Profiler::TRANSACTION)); ?>
+      <?php echo sprintf(
+          '%s SELECT - %s INSERT - %s UPDATE - %s DELETE - %s TRANSACTION',
+          $block->getTotalNumQueries(Zend_Db_Profiler::SELECT),
+          $block->getTotalNumQueries(Zend_Db_Profiler::INSERT),
+          $block->getTotalNumQueries(Zend_Db_Profiler::UPDATE),
+          $block->getTotalNumQueries(Zend_Db_Profiler::DELETE),
+          $block->getTotalNumQueries(Zend_Db_Profiler::TRANSACTION)
+      ); ?>
     </td>
   </tr>
   <tr>
@@ -48,16 +51,16 @@
 </tr>
 </thead>
 <tbody>
-<?php
-  $i = 0;
-  foreach ($block->getAllQueries() as $i => $query): ?>
+    <?php
+    $i = 0;
+    foreach ($block->getAllQueries() as $i => $query): ?>
     <tr class="<?php echo  $query['grade']; ?>">
       <td><?php echo $i;?></td>
       <td class="sqlquery"><?php echo $block->formatSql($query['sql']); ?></td>
       <td class="sqltimer"><?php echo  $block->formatSqlTime($query['time']); ?></td>
     </tr>
-    <?php $i++; ?>
-  <?php endforeach ?>
+        <?php $i++; ?>
+    <?php endforeach ?>
 </tbody>
 </table>
 

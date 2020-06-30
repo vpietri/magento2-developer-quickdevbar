@@ -5,15 +5,15 @@ namespace ADM\QuickDevBar\Block\Tab\Content;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Interception\DefinitionInterface;
 
-
 class Plugin extends \ADM\QuickDevBar\Block\Tab\Panel
 {
 
     protected $_types;
 
-    public function __construct(\Magento\Framework\View\Element\Template\Context $context,
-                                   array $data = [])
-    {
+    public function __construct(
+        \Magento\Framework\View\Element\Template\Context $context,
+        array $data = []
+    ) {
         parent::__construct($context, $data);
     }
 
@@ -24,7 +24,7 @@ class Plugin extends \ADM\QuickDevBar\Block\Tab\Panel
 
     public function getPluginsList()
     {
-        if(is_null($this->_types)) {
+        if ($this->_types === null) {
             $this->_types =  [];
             $pluginList = ObjectManager::getInstance()->get('Magento\Framework\Interception\PluginList\PluginList');
 
@@ -47,18 +47,18 @@ class Plugin extends \ADM\QuickDevBar\Block\Tab\Panel
             /**
              * @see: Magento/Framework/Interception/PluginList/PluginList::_inheritPlugins($type)
              */
-            foreach($processed as $currentKey=>$processDef) {
-                if(preg_match('/^(.*)_(.*)___self$/', $currentKey, $matches) or preg_match('/^(.*?)_(.*?)_(.*)$/', $currentKey, $matches)) {
+            foreach ($processed as $currentKey => $processDef) {
+                if (preg_match('/^(.*)_(.*)___self$/', $currentKey, $matches) or preg_match('/^(.*?)_(.*?)_(.*)$/', $currentKey, $matches)) {
                     $type= $matches[1];
                     $method= $matches[2];
-                    if(!empty($inherited[$type])) {
-                        foreach($processDef as $keyType=>$pluginsNames) {
-                            if(!is_array($pluginsNames)) {
+                    if (!empty($inherited[$type])) {
+                        foreach ($processDef as $keyType => $pluginsNames) {
+                            if (!is_array($pluginsNames)) {
                                 $pluginsNames = [$pluginsNames];
                             }
 
-                            foreach($pluginsNames as $pluginName) {
-                                if(!empty($inherited[$type][$pluginName])) {
+                            foreach ($pluginsNames as $pluginName) {
+                                if (!empty($inherited[$type][$pluginName])) {
                                     $this->_types[] = ['type'=>$type, 'plugin'=>$inherited[$type][$pluginName]['instance'], 'plugin_name'=>$pluginName, 'sort_order'=> $inherited[$type][$pluginName]['sortOrder'], 'method'=>$types[$keyType].ucfirst($method)];
                                 }
                             }

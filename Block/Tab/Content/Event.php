@@ -12,9 +12,10 @@ class Event extends \ADM\QuickDevBar\Block\Tab\Panel
      */
     protected $_qdbHelperRegister;
 
-    public function __construct(\Magento\Framework\View\Element\Template\Context $context,
-            \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
-            array $data = []
+    public function __construct(
+        \Magento\Framework\View\Element\Template\Context $context,
+        \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
+        array $data = []
     ) {
 
         $this->_qdbHelperRegister = $qdbHelperRegister;

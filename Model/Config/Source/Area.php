@@ -1,7 +1,6 @@
 <?php
 namespace ADM\QuickDevBar\Model\Config\Source;
 
-
 class Area implements \Magento\Framework\Option\ArrayInterface
 {
     /**
@@ -17,5 +16,4 @@ class Area implements \Magento\Framework\Option\ArrayInterface
             ['value' => \Magento\Framework\App\Area::AREA_ADMINHTML, 'label' => __('Adminhtml only')]
         ];
     }
-
 }

@@ -13,11 +13,11 @@ class Panel extends \Magento\Framework\View\Element\Template
         return ($this->getData('title')) ? $this->getData('title') : $this->getNameInLayout();
     }
 
-    public function getId($prefix='')
+    public function getId($prefix = '')
     {
         $id = ($this->getData('id')) ? $this->getData('id') : $this->getNameInLayout();
         $id = str_replace('.', '-', $id);
-        if($prefix) {
+        if ($prefix) {
             $id = $prefix . $id;
         }
         return $id;
@@ -33,7 +33,7 @@ class Panel extends \Magento\Framework\View\Element\Template
         return $class;
     }
 
-    public function isAjax($asString=true)
+    public function isAjax($asString = true)
     {
         $return = (($this->hasData('ajax_url') || $this->hasData('is_ajax'))? true : false);
         if ($asString) {
@@ -69,7 +69,7 @@ class Panel extends \Magento\Framework\View\Element\Template
      */
     public function getFrontUrl($route = '', $params = [])
     {
-        if(is_null($this->_frontUrl)) {
+        if ($this->_frontUrl === null) {
             $this->_frontUrl = ObjectManager::getInstance()->get('Magento\Framework\Url');
         }
 
@@ -103,7 +103,7 @@ class Panel extends \Magento\Framework\View\Element\Template
 
     public function getTabBlocks()
     {
-        if (is_null($this->_mainTabs)) {
+        if ($this->_mainTabs === null) {
             $this->_mainTabs = $this->getLayout()->getChildBlocks($this->getNameInLayout());
         }
 
@@ -145,23 +145,23 @@ class Panel extends \Magento\Framework\View\Element\Template
      * @see http://stackoverflow.com/a/6225706
      * @param unknown_type $buffer
      */
-    protected function sanitizeOutput($buffer) {
+    protected function sanitizeOutput($buffer)
+    {
 
-        $search = array(
+        $search = [
                 '/\>[^\S ]+/s',  // strip whitespaces after tags, except space
                 '/[^\S ]+\</s',  // strip whitespaces before tags, except space
                 '/(\s)+/s'       // shorten multiple whitespace sequences
-        );
+        ];
 
-        $replace = array(
+        $replace = [
                 '>',
                 '<',
                 '\\1'
-        );
+        ];
 
         $buffer = preg_replace($search, $replace, $buffer);
 
         return $buffer;
     }
-
 }

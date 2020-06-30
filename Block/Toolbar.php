@@ -10,10 +10,11 @@ class Toolbar extends \Magento\Framework\View\Element\Template
 
     protected $_qdnHelper;
 
-    public function __construct(\Magento\Framework\View\Element\Template\Context $context,
-            \ADM\QuickDevBar\Helper\Data $qdnHelper,
-            array $data = [])
-    {
+    public function __construct(
+        \Magento\Framework\View\Element\Template\Context $context,
+        \ADM\QuickDevBar\Helper\Data $qdnHelper,
+        array $data = []
+    ) {
 
         $this->_qdnHelper = $qdnHelper;
 
@@ -32,7 +33,7 @@ class Toolbar extends \Magento\Framework\View\Element\Template
 
     public function getTabBlocks()
     {
-        if (is_null($this->_mainTabs)) {
+        if ($this->_mainTabs === null) {
             $this->_mainTabs = $this->getLayout()->getChildBlocks($this->getNameInLayout());
         }
 

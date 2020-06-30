@@ -13,9 +13,9 @@ class Help extends \ADM\QuickDevBar\Block\Tab\Panel
      * @param array $data
      */
     public function __construct(
-       \Magento\Framework\View\Element\Template\Context $context,
-       \ADM\QuickDevBar\Helper\Data $qdbHelper,
-       array $data = []
+        \Magento\Framework\View\Element\Template\Context $context,
+        \ADM\QuickDevBar\Helper\Data $qdbHelper,
+        array $data = []
     ) {
         $this->_qdbHelper= $qdbHelper;
 

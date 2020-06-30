@@ -3,7 +3,6 @@ namespace ADM\QuickDevBar\Helper;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 
-
 class Register extends \Magento\Framework\App\Helper\AbstractHelper
 {
     protected $_events;
@@ -16,7 +15,10 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
 
     protected $_blocks;
 
-
+    /**
+     * @param $observerConfig
+     * @param $wrapper
+     */
     public function addObserver($observerConfig, $wrapper)
     {
         $data = $observerConfig;
@@ -27,7 +29,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
 
         $data['event'] = $wrapper->getEvent()->getName();
 
-        $key = md5(serialize($data));
+        $key = crc32(json_encode($data));
         if (isset($this->_observers[$key])) {
             $this->_observers[$key]['call_number']++;
         } else {
@@ -36,13 +38,18 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getObservers()
     {
         return $this->_observers;
     }
 
-
-
+    /**
+     * @param $eventName
+     * @param $data
+     */
     public function addEvent($eventName, $data)
     {
         if (!isset($this->_events[$eventName])) {
@@ -52,7 +59,6 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
                     ];
         }
         $this->_events[$eventName]['nbr']++;
-
 
         switch ($eventName) {
             case 'core_collection_abstract_load_before':
@@ -73,11 +79,17 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getEvents()
     {
         return $this->_events;
     }
 
+    /**
+     * @param $collection
+     */
     public function addCollection($collection)
     {
         $class = get_class($collection);
@@ -87,12 +99,17 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_collections[$class]['nbr']++;
     }
 
+    /**
+     * @return mixed
+     */
     public function getCollections()
     {
         return $this->_collections;
     }
 
-
+    /**
+     * @param $model
+     */
     public function addModel($model)
     {
         $class = get_class($model);
@@ -102,27 +119,32 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_models[$class]['nbr']++;
     }
 
+    /**
+     * @return mixed
+     */
     public function getModels()
     {
         return $this->_models;
     }
 
 
-
+    /**
+     * @param $block
+     */
     public function addBlock($block)
     {
         $class = get_class($block);
         if (empty($this->_blocks[$class])) {
-//             $reflection = new \ReflectionClass($block);
-//             $this->_blocks[$class] = ['class'=>$class, 'file'=>$reflection->getFileName() ,  'nbr'=>0];
             $this->_blocks[$class] = ['class'=>$class, 'nbr'=>0];
         }
         $this->_blocks[$class]['nbr']++;
     }
 
+    /**
+     * @return mixed
+     */
     public function getBlocks()
     {
         return $this->_blocks;
     }
-
 }

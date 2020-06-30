@@ -16,9 +16,9 @@ class Wrapper extends Panel
      * @param array $data
      */
     public function __construct(
-            \Magento\Framework\View\Element\Template\Context $context,
-            \Magento\Framework\Json\Helper\Data $jsonHelper,
-            array $data = []
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Json\Helper\Data $jsonHelper,
+        array $data = []
     ) {
         $this->_jsonHelper = $jsonHelper;
 
@@ -27,7 +27,7 @@ class Wrapper extends Panel
 
     public function getTabBlocks()
     {
-        if (is_null($this->_mainTabs)) {
+        if ($this->_mainTabs === null) {
             $this->_mainTabs = $this->getLayout()->getChildBlocks($this->getNameInLayout());
         }
 
@@ -52,7 +52,7 @@ class Wrapper extends Panel
             "collapsible" => false,
             ];
 
-        if($this->getIsMainTab()) {
+        if ($this->getIsMainTab()) {
             $config["active"] = false;
             $config["collapsible"] = true;
         }

@@ -19,7 +19,7 @@ class Cache extends \ADM\QuickDevBar\Controller\Index
 
             $output = 'Cache cleaned';
 
-        } catch ( \Exception $e) {
+        } catch (\Exception $e) {
             $output = $e->getMessage();
             $error = true;
         }

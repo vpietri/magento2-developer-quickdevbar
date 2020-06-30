@@ -19,10 +19,11 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
 
     protected $_resource;
 
-    public function __construct(\Magento\Framework\View\Element\Template\Context $context,
-                                      \Magento\Framework\App\ResourceConnection $resource
-                                    , array $data = [])
-    {
+    public function __construct(
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\App\ResourceConnection $resource,
+        array $data = []
+    ) {
 
         $this->_resource = $resource;
 
@@ -53,7 +54,7 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
 
     public function getSqlProfiler()
     {
-        if (is_null($this->_sql_profiler)) {
+        if ($this->_sql_profiler === null) {
             $this->_initSqlProfilerData();
         }
         return $this->_sql_profiler;
@@ -61,9 +62,9 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
 
     public function _initSqlProfilerData()
     {
-        if (is_null($this->_sql_profiler)) {
+        if ($this->_sql_profiler === null) {
             $this->_sql_profiler = new \Zend_Db_Profiler();
-            if(!is_null($this->_resource)) {
+            if ($this->_resource !== null) {
                 $this->_sql_profiler = $this->_resource->getConnection('read')->getProfiler();
                 if ($this->_sql_profiler->getQueryProfiles() && is_array($this->_sql_profiler->getQueryProfiles())) {
                     foreach ($this->_sql_profiler->getQueryProfiles() as $query) {
@@ -92,12 +93,14 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
         return $this->_sql_profiler->getTotalElapsedSecs();
     }
 
-    public function getAverage() {
+    public function getAverage()
+    {
 
-        return ($this->getTotalNumQueries() &&  $this->_sql_profiler->getTotalElapsedSecs()) ?  $this->_sql_profiler->getTotalElapsedSecs()/$this->getTotalNumQueries() : 0;
+        return ($this->getTotalNumQueries() && $this->_sql_profiler->getTotalElapsedSecs()) ?  $this->_sql_profiler->getTotalElapsedSecs()/$this->getTotalNumQueries() : 0;
     }
 
-    public function getNumQueriesPerSecond() {
+    public function getNumQueriesPerSecond()
+    {
 
         return ($this->getTotalNumQueries() && $this->_sql_profiler->getTotalElapsedSecs() ?  round($this->getTotalNumQueries()/$this->_sql_profiler->getTotalElapsedSecs()) : 0);
     }
@@ -108,7 +111,7 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
 
             $average = $this->getAverage();
             $squareSum = 0;
-            foreach ($this->_all_queries as $index=>$query) {
+            foreach ($this->_all_queries as $index => $query) {
                 $squareSum = pow($query['time'] - $average, 2);
             }
 
@@ -117,10 +120,10 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
                 $standardDeviation = sqrt($squareSum/$this->getTotalNumQueries());
             }
 
-            foreach ($this->_all_queries as $index=>$query) {
-                if($query['time']<($this->_shortestQueryTime+2*$standardDeviation)) {
+            foreach ($this->_all_queries as $index => $query) {
+                if ($query['time']<($this->_shortestQueryTime+2*$standardDeviation)) {
                     $this->_all_queries[$index]['grade'] = 'good';
-                } elseif($query['time']>($this->_longestQueryTime-2*$standardDeviation)) {
+                } elseif ($query['time']>($this->_longestQueryTime-2*$standardDeviation)) {
                     $this->_all_queries[$index]['grade'] = 'bad';
                 }
             }
@@ -153,9 +156,8 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
     public function formatSqlTime($time)
     {
         $decimals = 2;
-        $formatedTime = number_format(round(1000*$time,$decimals),$decimals);
+        $formatedTime = number_format(round(1000*$time, $decimals), $decimals);
 
         return $formatedTime . 'ms';
     }
-
 }
