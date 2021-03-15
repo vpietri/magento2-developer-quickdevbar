@@ -3,12 +3,12 @@
 
     <type name="Magento\Framework\Event\ManagerInterface">
         <plugin name="trace-event"
-                type="ADM\QuickDevBar\Model\Plugin\Event\Manager" sortOrder="1"/>
+                type="ADM\QuickDevBar\Plugin\Framework\Event\Manager" sortOrder="1"/>
     </type>
     
     <type name="Magento\Framework\Event\InvokerInterface">
         <plugin name="trace-observer"
-                type="ADM\QuickDevBar\Model\Plugin\Event\Invoker" sortOrder="1"/>
+                type="ADM\QuickDevBar\Plugin\Framework\Event\Invoker" sortOrder="1"/>
     </type>
 
 </config>

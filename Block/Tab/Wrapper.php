@@ -9,6 +9,10 @@ class Wrapper extends Panel
     protected $_mainTabs;
 
     protected $_jsonHelper;
+    /**
+     * @var \ADM\QuickDevBar\Helper\Data
+     */
+    private $qdbHelper;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -18,11 +22,13 @@ class Wrapper extends Panel
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Json\Helper\Data $jsonHelper,
+        \ADM\QuickDevBar\Helper\Data $qdbHelper,
         array $data = []
     ) {
         $this->_jsonHelper = $jsonHelper;
 
         parent::__construct($context, $data);
+        $this->qdbHelper = $qdbHelper;
     }
 
     public function getTabBlocks()
@@ -65,4 +71,30 @@ class Wrapper extends Panel
     {
         return $this->_jsonHelper->jsonEncode($this->_getTabConfig());
     }
+
+    protected function _loadCache()
+    {
+        return false;
+    }
+
+    protected function _saveCache($data)
+    {
+        return $this;
+    }
+
+    public function toHtml()
+    {
+/*        if(!$this->canDisplay()) {
+            return '';
+        }*/
+
+        $content = parent::toHtml();
+        if($this->getIsMainTab() && $this->qdbHelper->isAjaxLoading()) {
+            $this->qdbHelper->setWrapperContent($content);
+            return '';
+        }
+
+        return  $content;
+    }
+
 }

@@ -147,7 +147,6 @@ class Panel extends \Magento\Framework\View\Element\Template
      */
     protected function sanitizeOutput($buffer)
     {
-
         $search = [
                 '/\>[^\S ]+/s',  // strip whitespaces after tags, except space
                 '/[^\S ]+\</s',  // strip whitespaces before tags, except space

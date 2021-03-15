@@ -5,7 +5,6 @@ class Translation extends \ADM\QuickDevBar\Controller\Index
 {
 
     /**
-     * Gets most viewed products list
      *
      * @return \Magento\Backend\Model\View\Result\Page
      */

@@ -1,6 +1,6 @@
 <?php
 
-namespace ADM\QuickDevBar\Model\Plugin\Event;
+namespace ADM\QuickDevBar\Plugin\Framework\Event;
 
 class Manager
 {

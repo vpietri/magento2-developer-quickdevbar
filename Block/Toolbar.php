@@ -26,7 +26,7 @@ class Toolbar extends \Magento\Framework\View\Element\Template
      *
      * @return bool
      */
-    public function canDisplay()
+    protected function canDisplay()
     {
         return $this->_qdnHelper->isToolbarAccessAllowed() && $this->_qdnHelper->isToolbarAreaAllowed($this->getArea());
     }
@@ -43,5 +43,12 @@ class Toolbar extends \Magento\Framework\View\Element\Template
     public function getAppearance()
     {
         return $this->_qdnHelper->defaultAppearance();
+    }
+
+
+
+    public function isAjaxLoading()
+    {
+        return $this->_qdnHelper->isAjaxLoading();
     }
 }

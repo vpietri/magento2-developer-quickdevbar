@@ -172,18 +172,34 @@ define(["jquery",
             stripedClassname: "striped",
             classToStrip: "qdn_table.striped",
             classToFilter: "qdn_table.filterable",
-            classToSort: "qdn_table.sortable"
+            classToSort: "qdn_table.sortable",
+            ajaxLoading: false
         },
 
         _create: function() {
-            
+            if(this.options.ajaxLoading){
+                var that = this;
+                $.ajax({
+                        url: 'quickdevbar/tab/wrapper',
+                        success: function (data) {
+                            $('#qdb-bar').html(data).trigger('contentUpdated');
+                            that._initQdb();
+                        }
+                    }
+                );
+            } else {
+                this._initQdb();
+            }
+        },
+
+
+        _initQdb: function() {
             $('<link/>', {
                 rel: 'stylesheet',
                 type: 'text/css',
                 href: this.options.css
             }).appendTo('head');            
-            
-            
+
             /* Manage toggling toolbar */
             if(this.getVisibility()) {
                 this.element.toggle(this.options.toggleEffect);

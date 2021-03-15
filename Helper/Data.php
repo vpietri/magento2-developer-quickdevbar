@@ -260,4 +260,26 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $moduleInfo = $this->_moduleList->getOne($moduleName);
         return !empty($moduleInfo['setup_version']) ? $moduleInfo['setup_version'] : '???';
     }
+
+    protected function getWrapperFilename()
+    {
+        return 'quickdevbar_data.txt';
+    }
+
+    public function getWrapperContent()
+    {
+        return file_get_contents($this->getWrapperFilename());
+    }
+
+    public function setWrapperContent($content)
+    {
+        file_put_contents($this->getWrapperFilename(), $content);
+    }
+
+    public function isAjaxLoading()
+    {
+        //TODO: save Register Data to use Ajax
+        // see: \ADM\QuickDevBar\Helper\Register::__construct
+        return false;
+    }
 }

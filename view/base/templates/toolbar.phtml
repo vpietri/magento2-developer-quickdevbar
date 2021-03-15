@@ -1,7 +1,4 @@
 <?php /** @var \ADM\QuickDevBar\Block\Toolbar $block */ ?>
-<?php if ($block->canDisplay()):?>
-
-<!-- ------------------------------ -->
 <!-- Start HTML for ADM_QuickDevBar -->
 <!--
            ____        _      _    _____             ____
@@ -17,6 +14,7 @@
 <div>
 <div id="qdb-bar" style="display: none;" data-mage-init='{"quickDevBar":{"css":"<?php echo $block->getViewFileUrl('ADM_QuickDevBar::css/quickdevbar.css'); ?>",
                                                                          "toggleEffect":"drop",
+                                                                         "ajaxLoading": <?php echo $block->isAjaxLoading() ? 'true' : 'false' ?>,
                                                                          "appearance":"<?php echo $block->getAppearance() ?>"}}'>
     <?php echo $block->getChildHtml(); ?>
 </div>
@@ -25,5 +23,3 @@
 </div>
 </div>
 <!-- End HTML for ADM_QuickDevBar -->
-<!-- ------------------------------ -->
-<?php endif;?>
