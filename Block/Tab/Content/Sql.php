@@ -4,45 +4,20 @@ namespace ADM\QuickDevBar\Block\Tab\Content;
 
 class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
 {
-
-    protected $_sql_profiler;
-
-    protected $_all_queries = [];
-
-    protected $_all_queries_stats = false;
-
-    protected $_longestQueryTime = 0;
-
-    protected $_shortestQueryTime = 100000;
-
-    protected $_longestQuery;
-
-    protected $_resource;
+    /**
+     * @var \ADM\QuickDevBar\Helper\Register
+     */
+    private $qdbHelperRegister;
 
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Framework\App\ResourceConnection $resource,
+        \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
         array $data = []
     ) {
-
-        $this->_resource = $resource;
-
         parent::__construct($context, $data);
+        $this->qdbHelperRegister = $qdbHelperRegister;
     }
 
-
-    /**
-     * Render block HTML
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-
-        $this->_initSqlProfilerData();
-
-        return parent::_toHtml();
-    }
 
     public function getTitleBadge()
     {
@@ -52,85 +27,57 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
         return false;
     }
 
+
+
+    /**
+     * @return Zend_Db_Profiler
+     */
     public function getSqlProfiler()
     {
-        if ($this->_sql_profiler === null) {
-            $this->_initSqlProfilerData();
-        }
-        return $this->_sql_profiler;
+        return $this->qdbHelperRegister->getSqlData(true);
     }
 
-    public function _initSqlProfilerData()
-    {
-        if ($this->_sql_profiler === null) {
-            $this->_sql_profiler = new \Zend_Db_Profiler();
-            if ($this->_resource !== null) {
-                $this->_sql_profiler = $this->_resource->getConnection('read')->getProfiler();
-                if ($this->_sql_profiler->getQueryProfiles() && is_array($this->_sql_profiler->getQueryProfiles())) {
-                    foreach ($this->_sql_profiler->getQueryProfiles() as $query) {
-                        if ($query->getElapsedSecs() > $this->_longestQueryTime) {
-                            $this->_longestQueryTime = $query->getElapsedSecs();
-                            $this->_longestQuery = $query->getQuery();
-                        }
-                        if ($query->getElapsedSecs() < $this->_shortestQueryTime) {
-                            $this->_shortestQueryTime = $query->getElapsedSecs();
-                        }
 
-                        $this->_all_queries[] = ['sql' => $query->getQuery(), 'time' => $query->getElapsedSecs(), 'grade' => 'medium'];
-                    }
-                }
-            }
-        }
+    public function getAllQueries()
+    {
+        return $this->getSqlProfiler()->getAllQueries();
     }
 
     public function getTotalNumQueries($queryType = null)
     {
-        return $this->_sql_profiler->getTotalNumQueries($queryType);
+        return $this->getSqlProfiler()->getTotalNumQueries($queryType);
+    }
+
+    public function getTotalNumQueriesByType($queryType = null)
+    {
+        $numQueriesByType = $this->getSqlProfiler()->getTotalNumQueriesByType();
+        return isset($numQueriesByType[$queryType]) ? $numQueriesByType[$queryType] : 0;
     }
 
     public function getTotalElapsedSecs()
     {
-        return $this->_sql_profiler->getTotalElapsedSecs();
+        return $this->getSqlProfiler()->getTotalElapsedSecs();
     }
 
     public function getAverage()
     {
+        return $this->getSqlProfiler()->getAverage();
+    }
 
-        return ($this->getTotalNumQueries() && $this->_sql_profiler->getTotalElapsedSecs()) ?  $this->_sql_profiler->getTotalElapsedSecs()/$this->getTotalNumQueries() : 0;
+    public function getLongestQuery()
+    {
+        return $this->getSqlProfiler()->getLongestQuery();
+    }
+
+    public function getLongestQueryTime()
+    {
+        return $this->getSqlProfiler()->getLongestQueryTime();
     }
 
     public function getNumQueriesPerSecond()
     {
 
-        return ($this->getTotalNumQueries() && $this->_sql_profiler->getTotalElapsedSecs() ?  round($this->getTotalNumQueries()/$this->_sql_profiler->getTotalElapsedSecs()) : 0);
-    }
-
-    public function getAllQueries()
-    {
-        if (!$this->_all_queries_stats) {
-
-            $average = $this->getAverage();
-            $squareSum = 0;
-            foreach ($this->_all_queries as $index => $query) {
-                $squareSum = pow($query['time'] - $average, 2);
-            }
-
-            $standardDeviation = 0;
-            if ($squareSum and $this->getTotalNumQueries()) {
-                $standardDeviation = sqrt($squareSum/$this->getTotalNumQueries());
-            }
-
-            foreach ($this->_all_queries as $index => $query) {
-                if ($query['time']<($this->_shortestQueryTime+2*$standardDeviation)) {
-                    $this->_all_queries[$index]['grade'] = 'good';
-                } elseif ($query['time']>($this->_longestQueryTime-2*$standardDeviation)) {
-                    $this->_all_queries[$index]['grade'] = 'bad';
-                }
-            }
-
-            $this->_all_queries_stats = true;
-        }
-        return $this->_all_queries;
+        return $this->getSqlProfiler()->getNumQueriesPerSecond();
     }
 
     public function formatSql($sql)
@@ -143,15 +90,6 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
         return $htmlSql;
     }
 
-    public function getLongestQueryTime()
-    {
-        return $this->_longestQueryTime;
-    }
-
-    public function getLongestQuery()
-    {
-        return $this->_longestQuery;
-    }
 
     public function formatSqlTime($time)
     {

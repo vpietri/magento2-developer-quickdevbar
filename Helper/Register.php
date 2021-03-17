@@ -1,102 +1,176 @@
 <?php
 namespace ADM\QuickDevBar\Helper;
 
+use ADM\QuickDevBar\Helper\Provider\Plugin;
+use ADM\QuickDevBar\Helper\Provider\Sql;
+use Magento\Backend\App\Area\FrontNameResolver;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\ObjectManager;
+use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Framework\App\State;
+use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Interception\DefinitionInterface;
+use Magento\Framework\Interception\PluginList\PluginList;
 
 class Register extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    protected $_events;
-
-    protected $_observers;
-
-    protected $_collections;
-
-    protected $_models;
-
-    protected $_blocks;
-    /**
-     * @var array
-     */
-    private $_layouHandles = [];
-
-    private $_layoutTreeBlocksHierarchy = [];
+    /** @var \Magento\Framework\DataObject $registeredData */
+    protected $registeredData;
 
     /**
-     * @var \Magento\Framework\Interception\PluginList\PluginList
+     * @var ProductMetadataInterface
      */
-    private $pluginList;
-
+    private $productMetadata;
     /**
-     * @var array|null
+     * @var FrontNameResolver
      */
-    private $_pluginsByTypes;
+    private $frontNameResolver;
+    /**
+     * @var State
+     */
+    private $appState;
+    /**
+     * @var Provider\Plugin
+     */
+    private $providerPlugin;
+    /**
+     * @var Sql
+     */
+    private $providerSql;
+    /**
+     * @var DataObjectFactory
+     */
+    private $objectFactory;
 
 
     public function __construct(Context $context,
-                                \Magento\Framework\Interception\PluginList\PluginList $pluginList)
+                                DataObjectFactory $objectFactory,
+                                Plugin $providerPlugin,
+                                Sql $providerSql,
+                                ProductMetadataInterface $productMetadata,
+                                FrontNameResolver $frontNameResolver,
+                                State $appState
+    )
     {
-        $this->pluginList = $pluginList;
 
         parent::__construct($context);
-        register_shutdown_function([$this, 'dumpToFile']);
+        //register_shutdown_function([$this, 'dumpToFile']);
 
+        $this->objectFactory = $objectFactory;
+        $this->productMetadata = $productMetadata;
+        $this->frontNameResolver = $frontNameResolver;
+        $this->appState = $appState;
+        $this->providerPlugin = $providerPlugin;
+        $this->providerSql = $providerSql;
     }
+
+    public function getRegisteredData($key = null)
+    {
+        if(!$this->registeredData) {
+            return null;
+        }
+        return $this->registeredData->getData($key);
+    }
+
+    public function setRegisteredData($key, $value = null)
+    {
+        if(is_null($this->registeredData)) {
+            $this->registeredData = $this->objectFactory->create();
+        }
+
+        $this->registeredData->setData($key, $value);
+    }
+
+    public function addClassToRegisterData($key, $obj)
+    {
+        $class = get_class($obj);
+        $getRegisteredClasses = $this->getRegisteredData($key) ? $this->getRegisteredData($key) : [];
+
+        if (empty($getRegisteredClasses[$class])) {
+            $getRegisteredClasses[$class] = ['class'=>$class, 'nbr'=>0];
+        }
+        $getRegisteredClasses[$class]['nbr']++;
+
+        $this->setRegisteredData($key, $getRegisteredClasses);
+    }
+
+    public function pullPluginsList()
+    {
+        if(!$this->getRegisteredData('plugin_list')) {
+            $this->setRegisteredData('plugin_list', $this->providerPlugin->getPluginsByType());
+        }
+    }
+
 
     public function getPluginsList()
     {
-        if ($this->_pluginsByTypes === null) {
-            $this->_pluginsByTypes =  [];
+        $this->pullPluginsList();
+        return $this->getRegisteredData('plugin_list');
+    }
 
-            $reflection = new \ReflectionClass($this->pluginList);
+    public function pullSqlData()
+    {
+        $this->setRegisteredData('sql', $this->providerSql->getSqlProfilerData());
+    }
 
-            $processed = $reflection->getProperty('_processed');
-            $processed->setAccessible(true);
-            $processed = $processed->getValue($this->pluginList);
+    /**
+     * @param bool $asDataObject
+     * @return \Magento\Framework\DataObject|mixed|null
+     */
+    public function getSqlData($asDataObject = false)
+    {
+        $this->pullSqlData();
+        $sqlData = $this->getRegisteredData('sql');
+
+        return $asDataObject ? $this->objectFactory->create()->setData($sqlData) : $sqlData;
+
+    }
+
+    public function pullContextData()
+    {
+        if (!$this->getRegisteredData('request_data')) {
+
+            $request = $this->_getRequest();
+            $requestData = [];
+            $requestData[] = ['name' => 'Base Url', 'value' => $request->getDistroBaseUrl(), 'is_url' => true];
+            $requestData[] = ['name' => 'Path Info', 'value' => $request->getPathInfo()];
+            $requestData[] = ['name' => 'Module Name', 'value' => $request->getModuleName()];
+            $requestData[] = ['name' => 'Controller', 'value' => $request->getControllerName()];
+            $requestData[] = ['name' => 'Action', 'value' => $request->getActionName()];
+            $requestData[] = ['name' => 'Full Action', 'value' => $request->getFullActionName()];
+            $requestData[] = ['name' => 'Route', 'value' => $request->getRouteName()];
+            $requestData[] = ['name' => 'Area', 'value' => $this->appState->getAreaCode()];
 
 
-            $inherited = $reflection->getProperty('_inherited');
-            $inherited->setAccessible(true);
-            $inherited = $inherited->getValue($this->pluginList);
-
-
-            $types = [DefinitionInterface::LISTENER_BEFORE=>'before',
-                DefinitionInterface::LISTENER_AROUND=>'around',
-                DefinitionInterface::LISTENER_AFTER=>'after'];
-
-            /**
-             * @see: Magento/Framework/Interception/PluginList/PluginList::_inheritPlugins($type)
-             */
-            foreach ($processed as $currentKey => $processDef) {
-                if (preg_match('/^(.*)_(.*)___self$/', $currentKey, $matches) or preg_match('/^(.*?)_(.*?)_(.*)$/', $currentKey, $matches)) {
-                    $type= $matches[1];
-                    $method= $matches[2];
-                    if (!empty($inherited[$type])) {
-                        foreach ($processDef as $keyType => $pluginsNames) {
-                            if (!is_array($pluginsNames)) {
-                                $pluginsNames = [$pluginsNames];
-                            }
-
-                            foreach ($pluginsNames as $pluginName) {
-                                if (!empty($inherited[$type][$pluginName])) {
-                                    $this->_pluginsByTypes[] = ['type'=>$type, 'plugin'=>$inherited[$type][$pluginName]['instance'], 'plugin_name'=>$pluginName, 'sort_order'=> $inherited[$type][$pluginName]['sortOrder'], 'method'=>$types[$keyType].ucfirst($method)];
-                                }
-                            }
-                        }
-                    }
-                }
+            if ($request->getBeforeForwardInfo()) {
+                $requestData[] = ['name' => 'Before Forward', 'value' => $request->getBeforeForwardInfo()];
             }
-        }
 
-        return $this->_pluginsByTypes;
+            if ($request->getParams()) {
+                $requestData[] = ['name' => 'Params', 'value' => $request->getParams()];
+            }
+            $requestData[] = ['name' => 'Client IP', 'value' => $request->getClientIp()];
+            $requestData[] = ['name' => 'Magento', 'value' => $this->productMetadata->getVersion()];
+            $requestData[] = ['name' => 'Mage Mode', 'value' => $this->appState->getMode()];
+
+            $requestData[] = ['name' => 'Backend', 'value' => $request->getDistroBaseUrl() . $this->frontNameResolver->getFrontName(), 'is_url' => true];
+
+            $this->setRegisteredData('request_data', $requestData);
+        }
+    }
+
+
+    public function getContextData()
+    {
+        return $this->getRegisteredData('request_data');
     }
 
     protected function dumpToFile()
     {
         //TODO: see \Magento\Framework\Profiler\Driver\Standard::__construct
         // to save data to json file
+        //$this->qdbHelper->setWrapperContent($content);
     }
 
     /**
@@ -111,15 +185,19 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
             return;
         }
 
+        $observers = $this->getRegisteredData('observers') ? $this->getRegisteredData('observers') : [];
+
         $data['event'] = $wrapper->getEvent()->getName();
 
         $key = crc32(json_encode($data));
-        if (isset($this->_observers[$key])) {
-            $this->_observers[$key]['call_number']++;
+        if (isset($observers[$key])) {
+            $observers[$key]['call_number']++;
         } else {
             $data['call_number']=1;
-            $this->_observers[$key] = $data;
+            $observers[$key] = $data;
         }
+
+        $this->setRegisteredData('observers', $observers);
     }
 
     /**
@@ -127,7 +205,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getObservers()
     {
-        return $this->_observers;
+        return $this->getRegisteredData('observers');
     }
 
     /**
@@ -136,13 +214,15 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function addEvent($eventName, $data)
     {
-        if (!isset($this->_events[$eventName])) {
-            $this->_events[$eventName] = ['event'=>$eventName,
+        $events = $this->getRegisteredData('events') ? $this->getRegisteredData('events') : [];
+        if (!isset($events[$eventName])) {
+            $events[$eventName] = ['event'=>$eventName,
                     'nbr'=>0,
                     'args'=>array_keys($data)
                     ];
         }
-        $this->_events[$eventName]['nbr']++;
+        $events[$eventName]['nbr']++;
+        $this->setRegisteredData('events', $events);
 
         switch ($eventName) {
             case 'core_collection_abstract_load_before':
@@ -168,7 +248,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getEvents()
     {
-        return $this->_events;
+        return $this->getRegisteredData('events');
     }
 
     /**
@@ -176,11 +256,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function addCollection($collection)
     {
-        $class = get_class($collection);
-        if (empty($this->_collections[$class])) {
-            $this->_collections[$class] = ['class'=>$class, 'nbr'=>0];
-        }
-        $this->_collections[$class]['nbr']++;
+        $this->addClassToRegisterData('collections', $collection);
     }
 
     /**
@@ -188,7 +264,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getCollections()
     {
-        return $this->_collections;
+        return $this->getRegisteredData('collections');
     }
 
     /**
@@ -196,11 +272,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function addModel($model)
     {
-        $class = get_class($model);
-        if (empty($this->_models[$class])) {
-            $this->_models[$class] = ['class'=>$class, 'nbr'=>0];
-        }
-        $this->_models[$class]['nbr']++;
+        $this->addClassToRegisterData('models', $model);
     }
 
     /**
@@ -208,7 +280,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getModels()
     {
-        return $this->_models;
+        return $this->getRegisteredData('models');
     }
 
 
@@ -217,11 +289,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function addBlock($block)
     {
-        $class = get_class($block);
-        if (empty($this->_blocks[$class])) {
-            $this->_blocks[$class] = ['class'=>$class, 'nbr'=>0];
-        }
-        $this->_blocks[$class]['nbr']++;
+        $this->addClassToRegisterData('blocks', $block);
     }
 
     /**
@@ -229,27 +297,27 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getBlocks()
     {
-        return $this->_blocks;
+        return $this->getRegisteredData('blocks');
     }
 
     public function addLayoutHandles(array $handles)
     {
-        $this->_layouHandles = $handles;
+        $this->setRegisteredData('layout_handles', $handles);
     }
 
     public function getLayoutHandles()
     {
-        return $this->_layouHandles;
+        return $this->getRegisteredData('layout_handles');
     }
 
     public function addLayoutHierarchy(array $treeBlocksHierarchy)
     {
-        $this->_layoutTreeBlocksHierarchy = $treeBlocksHierarchy;
+        $this->setRegisteredData('layout_tree_blocks_hierarchy', $treeBlocksHierarchy);
     }
 
     public function getLayoutHierarchy()
     {
-        return $this->_layoutTreeBlocksHierarchy;
+        return $this->getRegisteredData('layout_tree_blocks_hierarchy');
     }
 
 

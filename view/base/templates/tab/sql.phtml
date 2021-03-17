@@ -20,11 +20,11 @@
     <td>
       <?php echo sprintf(
           '%s SELECT - %s INSERT - %s UPDATE - %s DELETE - %s TRANSACTION',
-          $block->getTotalNumQueries(Zend_Db_Profiler::SELECT),
-          $block->getTotalNumQueries(Zend_Db_Profiler::INSERT),
-          $block->getTotalNumQueries(Zend_Db_Profiler::UPDATE),
-          $block->getTotalNumQueries(Zend_Db_Profiler::DELETE),
-          $block->getTotalNumQueries(Zend_Db_Profiler::TRANSACTION)
+          $block->getTotalNumQueriesByType(Zend_Db_Profiler::SELECT),
+          $block->getTotalNumQueriesByType(Zend_Db_Profiler::INSERT),
+          $block->getTotalNumQueriesByType(Zend_Db_Profiler::UPDATE),
+          $block->getTotalNumQueriesByType(Zend_Db_Profiler::DELETE),
+          $block->getTotalNumQueriesByType(Zend_Db_Profiler::TRANSACTION)
       ); ?>
     </td>
   </tr>
