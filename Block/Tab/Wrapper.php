@@ -3,6 +3,7 @@
 namespace ADM\QuickDevBar\Block\Tab;
 
 use Magento\Framework\Api\SimpleDataObjectConverter;
+use Magento\Framework\View\Element\AbstractBlock;
 
 class Wrapper extends Panel
 {
@@ -13,6 +14,10 @@ class Wrapper extends Panel
      * @var \ADM\QuickDevBar\Helper\Data
      */
     private $qdbHelper;
+    /**
+     * @var \ADM\QuickDevBar\Helper\Register
+     */
+    private $qdbHelperRegister;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -23,12 +28,14 @@ class Wrapper extends Panel
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Json\Helper\Data $jsonHelper,
         \ADM\QuickDevBar\Helper\Data $qdbHelper,
+        \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
         array $data = []
     ) {
         $this->_jsonHelper = $jsonHelper;
 
         parent::__construct($context, $data);
         $this->qdbHelper = $qdbHelper;
+        $this->qdbHelperRegister = $qdbHelperRegister;
     }
 
     public function getTabBlocks()
@@ -82,18 +89,25 @@ class Wrapper extends Panel
         return $this;
     }
 
+
+
+
     public function toHtml()
     {
 /*        if(!$this->canDisplay()) {
             return '';
         }*/
-
-        $content = parent::toHtml();
-        if($this->getIsMainTab() && $this->qdbHelper->isAjaxLoading()) {
-            $this->qdbHelper->setWrapperContent($content);
-            return '';
+        if($this->qdbHelper->isAjaxLoading()) {
+            if ($this->getIsLayoutStandard()) {
+                return '';
+            } else {
+                $wrapperContent = $this->qdbHelper->getWrapperContent();
+                $this->qdbHelperRegister->setRegisteredJsonData($wrapperContent);
+            }
         }
 
+
+        $content = parent::toHtml();
         return  $content;
     }
 

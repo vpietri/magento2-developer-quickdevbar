@@ -1,10 +1,12 @@
 <?php
 
 
-namespace ADM\QuickDevBar\Helper\Provider;
+namespace ADM\QuickDevBar\Service;
 
 
-class Sql
+use ADM\QuickDevBar\Api\ServiceInterface;
+
+class Sql implements ServiceInterface
 {
     /**
      * @var \Magento\Framework\DataObject
@@ -43,7 +45,7 @@ class Sql
         $this->resource = $resource;
     }
 
-    public function getSqlProfilerData()
+    public function pullData()
     {
         if(is_null($this->sqlProfilerData)) {
             $this->sqlProfilerData = $this->initSqlProfilerData();

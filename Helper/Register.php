@@ -1,13 +1,14 @@
 <?php
 namespace ADM\QuickDevBar\Helper;
 
-use ADM\QuickDevBar\Helper\Provider\Plugin;
-use ADM\QuickDevBar\Helper\Provider\Sql;
+use ADM\QuickDevBar\Service\Plugin;
+use ADM\QuickDevBar\Service\Sql;
 use Magento\Backend\App\Area\FrontNameResolver;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Framework\App\Request\Http;
 use Magento\Framework\App\State;
 use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Interception\DefinitionInterface;
@@ -42,20 +43,38 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
      * @var DataObjectFactory
      */
     private $objectFactory;
+    /**
+     * @var Data
+     */
+    private $qdbHelper;
+    /**
+     * @var bool
+     */
+    private $lock = false;
+    /**
+     * @var Http
+     */
+    private $requestHttp;
+    /**
+     * @var array
+     */
+    private $services;
 
 
     public function __construct(Context $context,
+                                Http $requestHttp,
                                 DataObjectFactory $objectFactory,
                                 Plugin $providerPlugin,
                                 Sql $providerSql,
                                 ProductMetadataInterface $productMetadata,
                                 FrontNameResolver $frontNameResolver,
-                                State $appState
+                                State $appState,
+                                \ADM\QuickDevBar\Helper\Data $qdbHelper,
+                                array $services = []
     )
     {
-
+        register_shutdown_function([$this, 'dumpToFile']);
         parent::__construct($context);
-        //register_shutdown_function([$this, 'dumpToFile']);
 
         $this->objectFactory = $objectFactory;
         $this->productMetadata = $productMetadata;
@@ -63,18 +82,61 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
         $this->appState = $appState;
         $this->providerPlugin = $providerPlugin;
         $this->providerSql = $providerSql;
+        $this->qdbHelper = $qdbHelper;
+        $this->requestHttp = $requestHttp;
+        $this->services = $services;
     }
 
-    public function getRegisteredData($key = null)
+
+    public function dumpToFile()
+    {
+        //TODO: see \Magento\Framework\Profiler\Driver\Standard::__construct
+        // to save data to json file
+        //$this->qdbHelper->setWrapperContent($content);
+        if($this->_getRequest()->getModuleName()!='quickdevbar') {
+            foreach ($this->services as $serviceKey => $serviceObj) {
+                $this->setRegisteredData($serviceKey, $serviceObj->pullData());
+            }
+            $content = $this->registeredData->convertToJson();
+            $this->qdbHelper->setWrapperContent($content);
+        } else {
+            //var_dump('nothing to do', $this->registeredData);
+        }
+    }
+
+    public function setRegisteredJsonData($data)
+    {
+        $serializer = new \Magento\Framework\Serialize\Serializer\Json();
+        $this->setRegisteredData($serializer->unserialize($data));
+        $this->lock = true;
+    }
+
+    /**
+     * @param null $key
+     * @return \Magento\Framework\DataObject|null
+     */
+    public function getRegisteredData($key = '')
     {
         if(!$this->registeredData) {
             return null;
         }
+        if($key) {
+            if(!empty($this->services[$key])) {
+                return $this->services[$key]->pullData();
+            }
+
+
+        }
+
+
         return $this->registeredData->getData($key);
     }
 
     public function setRegisteredData($key, $value = null)
     {
+        if($this->lock) {
+            return null;
+        }
         if(is_null($this->registeredData)) {
             $this->registeredData = $this->objectFactory->create();
         }
@@ -82,7 +144,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
         $this->registeredData->setData($key, $value);
     }
 
-    public function addClassToRegisterData($key, $obj)
+/*    public function addClassToRegisterData($key, $obj)
     {
         $class = get_class($obj);
         $getRegisteredClasses = $this->getRegisteredData($key) ? $this->getRegisteredData($key) : [];
@@ -93,12 +155,12 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
         $getRegisteredClasses[$class]['nbr']++;
 
         $this->setRegisteredData($key, $getRegisteredClasses);
-    }
+    }*/
 
-    public function pullPluginsList()
+/*    public function pullPluginsList()
     {
         if(!$this->getRegisteredData('plugin_list')) {
-            $this->setRegisteredData('plugin_list', $this->providerPlugin->getPluginsByType());
+            $this->setRegisteredData('plugin_list', $this->providerPlugin->pullData());
         }
     }
 
@@ -107,31 +169,31 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $this->pullPluginsList();
         return $this->getRegisteredData('plugin_list');
-    }
+    }*/
 
-    public function pullSqlData()
+/*    public function pullSqlData()
     {
         $this->setRegisteredData('sql', $this->providerSql->getSqlProfilerData());
-    }
+    }*/
 
     /**
      * @param bool $asDataObject
      * @return \Magento\Framework\DataObject|mixed|null
      */
-    public function getSqlData($asDataObject = false)
+/*    public function getSqlData($asDataObject = false)
     {
         $this->pullSqlData();
         $sqlData = $this->getRegisteredData('sql');
 
         return $asDataObject ? $this->objectFactory->create()->setData($sqlData) : $sqlData;
 
-    }
+    }*/
 
     public function pullContextData()
     {
         if (!$this->getRegisteredData('request_data')) {
 
-            $request = $this->_getRequest();
+            $request = $this->requestHttp;
             $requestData = [];
             $requestData[] = ['name' => 'Base Url', 'value' => $request->getDistroBaseUrl(), 'is_url' => true];
             $requestData[] = ['name' => 'Path Info', 'value' => $request->getPathInfo()];
@@ -163,15 +225,10 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function getContextData()
     {
+        $this->pullContextData();
         return $this->getRegisteredData('request_data');
     }
 
-    protected function dumpToFile()
-    {
-        //TODO: see \Magento\Framework\Profiler\Driver\Standard::__construct
-        // to save data to json file
-        //$this->qdbHelper->setWrapperContent($content);
-    }
 
     /**
      * @param $observerConfig
@@ -212,7 +269,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
      * @param $eventName
      * @param $data
      */
-    public function addEvent($eventName, $data)
+    /*public function addEvent($eventName, $data)
     {
         $events = $this->getRegisteredData('events') ? $this->getRegisteredData('events') : [];
         if (!isset($events[$eventName])) {
@@ -241,7 +298,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
                 break;
 
         }
-    }
+    }*/
 
     /**
      * @return mixed
@@ -254,10 +311,10 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @param $collection
      */
-    public function addCollection($collection)
+/*    public function addCollection($collection)
     {
         $this->addClassToRegisterData('collections', $collection);
-    }
+    }*/
 
     /**
      * @return mixed
@@ -270,10 +327,10 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @param $model
      */
-    public function addModel($model)
+/*    public function addModel($model)
     {
         $this->addClassToRegisterData('models', $model);
-    }
+    }*/
 
     /**
      * @return mixed
@@ -287,10 +344,10 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @param $block
      */
-    public function addBlock($block)
+/*    public function addBlock($block)
     {
         $this->addClassToRegisterData('blocks', $block);
-    }
+    }*/
 
     /**
      * @return mixed
@@ -319,6 +376,8 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     {
         return $this->getRegisteredData('layout_tree_blocks_hierarchy');
     }
+
+
 
 
 }

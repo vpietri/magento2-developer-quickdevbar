@@ -10,7 +10,43 @@
         <plugin name="trace-observer"
                 type="ADM\QuickDevBar\Plugin\Framework\Event\Invoker" sortOrder="1"/>
     </type>
+    <type name="ADM\QuickDevBar\Helper\Register">
+        <arguments>
+            <argument name="services" xsi:type="array">
+                <item name="plugin_list" xsi:type="object" >ADM\QuickDevBar\Service\Plugin</item>
+                <item name="sql_profiler" xsi:type="object" >ADM\QuickDevBar\Service\Sql</item>
+                <item name="events" xsi:type="object" >ADM\QuickDevBar\Service\Event\Manager</item>
+                <item name="collections" xsi:type="object" >ADM\QuickDevBar\Service\Collection</item>
+                <item name="models" xsi:type="object" >ADM\QuickDevBar\Service\Model</item>
+                <item name="blocks" xsi:type="object" >ADM\QuickDevBar\Service\Block</item>
+            </argument>
+        </arguments>
+    </type>
 
+    <type name="ADM\QuickDevBar\Service\Event\Manager">
+        <arguments>
+            <argument name="services" xsi:type="array">
+                <item name="core_collection_abstract_load_before" xsi:type="object" >ADM\QuickDevBar\Service\Collection</item>
+                <item name="model_load_before" xsi:type="object" >ADM\QuickDevBar\Service\Model</item>
+                <item name="core_layout_block_create_after" xsi:type="object" >ADM\QuickDevBar\Service\Block</item>
+            </argument>
+        </arguments>
+    </type>
 
+    <virtualType name="ADM\QuickDevBar\Service\Collection" type="ADM\QuickDevBar\Service\Event\Instance">
+        <arguments>
+            <argument name="classType" xsi:type="string">collection</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ADM\QuickDevBar\Service\Model" type="ADM\QuickDevBar\Service\Event\Instance">
+        <arguments>
+            <argument name="classType" xsi:type="string">object</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ADM\QuickDevBar\Service\Block" type="ADM\QuickDevBar\Service\Event\Instance">
+        <arguments>
+            <argument name="classType" xsi:type="string">block</argument>
+        </arguments>
+    </virtualType>
 
 </config>

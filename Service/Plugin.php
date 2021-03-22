@@ -1,13 +1,14 @@
 <?php
 
 
-namespace ADM\QuickDevBar\Helper\Provider;
+namespace ADM\QuickDevBar\Service;
 
 
+use ADM\QuickDevBar\Api\ServiceInterface;
 use Magento\Framework\Interception\DefinitionInterface;
 use Magento\Framework\Interception\PluginList\PluginList;
 
-class Plugin
+class Plugin implements ServiceInterface
 {
     private $_pluginsByTypes;
     /**
@@ -20,7 +21,7 @@ class Plugin
         $this->pluginList = $pluginList;
     }
 
-    public function getPluginsByType()
+    public function pullData()
     {
         if ($this->_pluginsByTypes === null) {
             $this->_pluginsByTypes =  [];

@@ -28,6 +28,6 @@ class Plugin extends \ADM\QuickDevBar\Block\Tab\Panel
 
     public function getPluginsList()
     {
-        return $this->qdbHelperRegister->getPluginsList();
+        return $this->qdbHelperRegister->getRegisteredData('plugin_list');
     }
 }

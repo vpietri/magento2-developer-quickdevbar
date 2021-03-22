@@ -48,7 +48,7 @@ class Index extends \Magento\Framework\App\Action\Action
     public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
         if (!$this->getRequest()->isXmlHttpRequest()) {
-            throw new NotFoundException(__('Page not found.'));
+            //throw new NotFoundException(__('Page not found.'));
         }
 
         if (!$this->_isAllowed()) {

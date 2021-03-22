@@ -2,20 +2,32 @@
 
 namespace ADM\QuickDevBar\Block\Tab\Content;
 
+use Magento\Framework\DataObjectFactory;
+
 class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
 {
     /**
      * @var \ADM\QuickDevBar\Helper\Register
      */
     private $qdbHelperRegister;
+    /**
+     * @var \Magento\Framework\View\Element\Template\Context
+     */
+    private $context;
+    /**
+     * @var DataObjectFactory
+     */
+    private $objectFactory;
 
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
+        DataObjectFactory $objectFactory,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->qdbHelperRegister = $qdbHelperRegister;
+        $this->objectFactory = $objectFactory;
     }
 
 
@@ -34,7 +46,7 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
      */
     public function getSqlProfiler()
     {
-        return $this->qdbHelperRegister->getSqlData(true);
+        return $this->objectFactory->create()->setData($this->qdbHelperRegister->getRegisteredData('sql_profiler'));
     }
 
 

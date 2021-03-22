@@ -9,15 +9,21 @@ class Manager
      * @var \ADM\QuickDevBar\Helper\Register
      */
     protected $_qdbHelperRegister;
+    /**
+     * @var \ADM\QuickDevBar\Service\Manager
+     */
+    private $serviceManager;
 
 
     /**
      * @param \ADM\QuickDevBar\Helper\Data $qdbHelper
      */
     public function __construct(
-        \ADM\QuickDevBar\Helper\Register $qdbHelperRegister
+        \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
+        \ADM\QuickDevBar\Service\Event\Manager $serviceManager
     ) {
         $this->_qdbHelperRegister = $qdbHelperRegister;
+        $this->serviceManager = $serviceManager;
     }
 
     /**
@@ -32,6 +38,6 @@ class Manager
      */
     public function beforeDispatch($interceptor, $eventName, $data = [])
     {
-        $this->_qdbHelperRegister->addEvent($eventName, $data);
+        $this->serviceManager->addEvent($eventName, $data);
     }
 }

@@ -6,6 +6,9 @@
                   <action method="setIsMainTab">
                       <argument name="main" xsi:type="string">true</argument>
                   </action>
+                  <arguments>
+                      <argument name="is_layout_standard" xsi:type="string">1</argument>
+                  </arguments>
                   <!-- @tips : use ADM\QuickDevBar\Block\Tab\Wrapper to create a high level tab with nested tabs -->
                   <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="qdb.tab.info" as="qdb.tab.info" template="ADM_QuickDevBar::tabs.phtml">
                     <!-- @tips : Set a tab title -->
@@ -24,18 +27,18 @@
                         <!-- @tips : Use ajax loading tab when data is not contextual -->
                         <action method="setIsAjax">
                           <argument name="is_ajax" xsi:type="string">1</argument>
-                        </action>                        
-                    </block>   
-                    
+                        </action>
+                    </block>
+
                     <block class="ADM\QuickDevBar\Block\Tab\Content\PhpInfo" name="qdb.tab.phpinfo.env" as="qdb.tab.phpinfo.env">
                         <action method="setShortWhat">
                           <argument name="what" xsi:type="string">1</argument>
                         </action>
                         <action method="setTitle">
                           <argument name="title" xsi:type="string">Phpinfo (environment)</argument>
-                        </action>                        
+                        </action>
                     </block>
-                    
+
                     <block class="ADM\QuickDevBar\Block\Tab\Content\PhpInfo" name="qdb.tab.phpinfo"  as="qdb.tab.phpinfo">
                         <arguments>
                             <argument name="title" xsi:type="string">Phpinfo</argument>
@@ -44,7 +47,7 @@
                             <argument name="ajax_url" xsi:type="string">quickdevbar/tab/phpInfo</argument>
                         </arguments>
                     </block>
-                                        
+
                   </block>
                   <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="qdb.tab.design" as="qdb.tab.design" template="ADM_QuickDevBar::tabs.phtml">
                     <action method="setTitle">
@@ -52,7 +55,7 @@
                     </action>
                     <action method="setTitleImage">
                       <argument name="title" xsi:type="string">ADM_QuickDevBar::images/layout.png</argument>
-                    </action>                             
+                    </action>
                     <block class="ADM\QuickDevBar\Block\Tab\Content\Layout" name="qdb.tab.handles" as="qdb.tab.handles" template="ADM_QuickDevBar::tab/design/handles.phtml">
                         <action method="setTitle">
                           <argument name="title" xsi:type="string">Handles</argument>
@@ -66,8 +69,8 @@
                     <block class="ADM\QuickDevBar\Block\Tab\Content\Block" name="qdb.tab.block" as="qdb.tab.block" template="ADM_QuickDevBar::tab/design/block.phtml">
                         <action method="setTitle">
                           <argument name="title" xsi:type="string">Blocks</argument>
-                        </action>                    
-                    </block>                    
+                        </action>
+                    </block>
                   </block>
                   <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="qdb.tab.profile" as="qdb.tab.profile" template="ADM_QuickDevBar::tabs.phtml">
                     <!-- Set a title with the basic class  Content -->
@@ -82,7 +85,7 @@
                         <action method="setTitle">
                           <argument name="title" xsi:type="string">Profiler</argument>
                         </action>
-                    </block>    
+                    </block>
                     <block class="ADM\QuickDevBar\Block\Tab\Content\Observer" name="qdb.tab.observer" as="qdb.tab.observer" template="ADM_QuickDevBar::tab/profile/observer.phtml">
                         <action method="setTitle">
                           <argument name="title" xsi:type="string">Observers</argument>
@@ -91,23 +94,23 @@
                     <block class="ADM\QuickDevBar\Block\Tab\Content\Event" name="qdb.tab.event" as="qdb.tab.event" template="ADM_QuickDevBar::tab/profile/event.phtml">
                         <action method="setTitle">
                           <argument name="title" xsi:type="string">Events</argument>
-                        </action>                    
+                        </action>
                     </block>
                     <block class="ADM\QuickDevBar\Block\Tab\Content\Collection" name="qdb.tab.collection" as="qdb.tab.collection" template="ADM_QuickDevBar::tab/profile/collection.phtml">
                         <action method="setTitle">
                           <argument name="title" xsi:type="string">Collections</argument>
                         </action>
-                    </block>                    
+                    </block>
                     <block class="ADM\QuickDevBar\Block\Tab\Content\Model" name="qdb.tab.model" as="qdb.tab.model" template="ADM_QuickDevBar::tab/profile/model.phtml">
                         <action method="setTitle">
                           <argument name="title" xsi:type="string">Models</argument>
-                        </action>                    
+                        </action>
                     </block>
                     <block class="ADM\QuickDevBar\Block\Tab\Content\Plugin" name="qdb.tab.plugin" as="qdb.tab.plugin" template="ADM_QuickDevBar::tab/profile/plugin.phtml">
                         <action method="setTitle">
                           <argument name="title" xsi:type="string">Plugins</argument>
-                        </action>                    
-                    </block>                    
+                        </action>
+                    </block>
                   </block>
                   <block class="ADM\QuickDevBar\Block\Tab\Content\Sql" name="qdb.tab.sql" as="qdb.tab.sql" template="ADM_QuickDevBar::tab/sql.phtml">
                     <action method="setTitle">
@@ -120,18 +123,18 @@
                   <block class="ADM\QuickDevBar\Block\Tab\Content\Log" name="qdb.tab.log" as="qdb.tab.log" template="ADM_QuickDevBar::tab/log.phtml">
                     <action method="setTitle">
                       <argument name="title" xsi:type="string">Logs</argument>
-                    </action>   
+                    </action>
                     <action method="setTitleImage">
                       <argument name="title" xsi:type="string">ADM_QuickDevBar::images/log.png</argument>
-                    </action>                                     
+                    </action>
                   </block>
                   <block class="ADM\QuickDevBar\Block\Tab\Panel" name="qdb.tab.action" as="qdb.tab.action" template="ADM_QuickDevBar::tab/action.phtml">
                     <action method="setTitle">
                       <argument name="title" xsi:type="string">Actions</argument>
-                    </action>   
+                    </action>
                     <action method="setTitleImage">
                       <argument name="title" xsi:type="string">ADM_QuickDevBar::images/tools.png</argument>
-                    </action>                                     
+                    </action>
                   </block>
                   <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="qdb.tab.translation" as="qdb.tab.translation" template="ADM_QuickDevBar::tabs.phtml">
                       <action method="setTitle">
@@ -174,8 +177,8 @@
                   <block class="ADM\QuickDevBar\Block\Tab\Content\Help" name="qdb.tab.help" as="qdb.tab.help" template="ADM_QuickDevBar::tab/help.phtml">
                     <action method="setTitle">
                       <argument name="title" xsi:type="string">Help</argument>
-                    </action>                    
-                  </block>                               
+                    </action>
+                  </block>
               </block>
             </block>
         </referenceContainer>

@@ -263,7 +263,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     protected function getWrapperFilename()
     {
-        return 'quickdevbar_data.txt';
+        return 'qdb_register.json';
     }
 
     public function getWrapperContent()
@@ -280,6 +280,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         //TODO: save Register Data to use Ajax
         // see: \ADM\QuickDevBar\Helper\Register::__construct
-        return false;
+        return true;
     }
 }
