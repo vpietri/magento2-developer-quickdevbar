@@ -56,7 +56,7 @@ In the Magento root directory
 
 - Install the module
 ```
-composer require vpietri/adm-quickdevbarc --dev
+composer require vpietri/adm-quickdevbar --dev
 php bin/magento module:enable ADM_QuickDevBar 
 php bin/magento setup:upgrade
 ```
