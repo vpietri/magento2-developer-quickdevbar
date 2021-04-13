@@ -2,6 +2,8 @@
 namespace ADM\QuickDevBar\Helper;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\State;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
@@ -25,6 +27,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var array
      */
     protected $_defaultLogFiles = ['exception'=>'exception.log', 'system'=>'system.log', 'debug'=>'debug.log'];
+    /**
+     * @var \Magento\Framework\Filesystem
+     */
+    private $filesystem;
+    /**
+     * @var State
+     */
+    private $appState;
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -32,12 +42,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
-        \Magento\Framework\Module\ModuleListInterface $moduleList
+        \Magento\Framework\Module\ModuleListInterface $moduleList,
+        \Magento\Framework\Filesystem $filesystem,
+        State $appState
     ) {
+        parent::__construct($context);
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_moduleList = $moduleList;
 
-        parent::__construct($context);
+
+        $this->filesystem = $filesystem;
+        $this->appState = $appState;
     }
 
 
@@ -59,6 +74,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function isToolbarAccessAllowed()
     {
+        return true;
+
+
         $allow = false;
         $enable = $this->getConfig('dev/quickdevbar/enable');
 
@@ -261,23 +279,41 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return !empty($moduleInfo['setup_version']) ? $moduleInfo['setup_version'] : '???';
     }
 
-    protected function getWrapperFilename()
+    protected function getWrapperFilename($ajax = false)
     {
-        return 'qdb_register.json';
+        $varDirWrite = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+        $varDirWrite->create('qdb');
+
+        $fileName = 'qdb_register.json';
+        if($ajax) {
+            $fileName = $this->_getRequest()->isAjax()
+                ? 'qdb_ajax_register_'.time().'.json'
+                : 'qdb_unknown_register_'.time().'.json';
+        }
+
+        return $varDirWrite->getAbsolutePath() . 'qdb/' . $fileName;
     }
 
-    public function getWrapperContent()
+    public function getWrapperContent($ajax = false)
     {
-        return file_get_contents($this->getWrapperFilename());
+        if(file_exists($this->getWrapperFilename($ajax))) {
+            return file_get_contents($this->getWrapperFilename($ajax));
+        }
+        return '[{"content":"nothing in wrapper"}]';
     }
 
-    public function setWrapperContent($content)
+    public function setWrapperContent($content, $ajax = false)
     {
-        file_put_contents($this->getWrapperFilename(), $content);
+        file_put_contents($this->getWrapperFilename($ajax), $content);
     }
 
     public function isAjaxLoading()
     {
+        return true;
+
+        if($this->appState->getAreaCode() != 'frontend') {
+            return false;
+        }
         //TODO: save Register Data to use Ajax
         // see: \ADM\QuickDevBar\Helper\Register::__construct
         return true;

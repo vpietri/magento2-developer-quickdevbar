@@ -2,9 +2,9 @@
     <body>
       <referenceBlock name="qdb.tab.info">
         <block class="ADM\QuickDevBar\Block\Tab\Panel" name="qdb.tab.store" as="qdb.tab.store" after="qdb.tab.request" template="ADM_QuickDevBar::tab/info/store.phtml">
-            <action method="setTitle">
+            <arguments>
               <argument name="title" xsi:type="string">Store</argument>
-            </action>                    
+            </arguments>
         </block>      
       </referenceBlock> 
     </body>

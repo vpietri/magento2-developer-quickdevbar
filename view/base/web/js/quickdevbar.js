@@ -173,6 +173,7 @@ define(["jquery",
             classToStrip: "qdn_table.striped",
             classToFilter: "qdn_table.filterable",
             classToSort: "qdn_table.sortable",
+            ajaxUrl: 'quickdevbar/action/ajax',
             ajaxLoading: false
         },
 
@@ -180,7 +181,7 @@ define(["jquery",
             if(this.options.ajaxLoading){
                 var that = this;
                 $.ajax({
-                        url: 'quickdevbar/tab/wrapper',
+                        url: that.options.ajaxUrl,
                         success: function (data) {
                             $('#qdb-bar').html(data).trigger('contentUpdated');
                             that._initQdb();

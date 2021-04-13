@@ -4,25 +4,23 @@ namespace ADM\QuickDevBar\Plugin\Framework\Event;
 
 class Invoker
 {
-
     /**
-     *
-     * @var \ADM\QuickDevBar\Helper\Register
+     * @var \ADM\QuickDevBar\Service\Observer
      */
-    protected $_qdbHelperRegister;
+    private $serviceObserver;
 
 
     /**
      * @param \ADM\QuickDevBar\Helper\Data $qdbHelper
      */
     public function __construct(
-        \ADM\QuickDevBar\Helper\Register $qdbHelperRegister
+        \ADM\QuickDevBar\Service\Observer $serviceObserver
     ) {
-        $this->_qdbHelperRegister = $qdbHelperRegister;
+        $this->serviceObserver = $serviceObserver;
     }
 
     public function beforeDispatch($class, $observerConfig, $wrapper)
     {
-        $this->_qdbHelperRegister->addObserver($observerConfig, $wrapper);
+        $this->serviceObserver->addObserver($observerConfig, $wrapper);
     }
 }

@@ -14,6 +14,7 @@
 <div>
 <div id="qdb-bar" style="display: none;" data-mage-init='{"quickDevBar":{"css":"<?php echo $block->getViewFileUrl('ADM_QuickDevBar::css/quickdevbar.css'); ?>",
                                                                          "toggleEffect":"drop",
+                                                                         "ajaxUrl": "<?php echo $block->getAjaxUrl() ?>",
                                                                          "ajaxLoading": <?php echo $block->isAjaxLoading() ? 'true' : 'false' ?>,
                                                                          "appearance":"<?php echo $block->getAppearance() ?>"}}'>
     <?php echo $block->getChildHtml(); ?>

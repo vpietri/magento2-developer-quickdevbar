@@ -105,8 +105,8 @@ class Sql implements ServiceInterface
                 'shortest_query_time' => $shortestQueryTime,
                 'longest_query' => $longestQuery,
                 'total_elapsed_secs' => $totalElapsedSecs,
-            'total_num_queries' => $totalNumQueries,
-            'num_queries_per_second' => floor($totalNumQueries/$totalElapsedSecs),
+                'total_num_queries' => $totalNumQueries,
+                'num_queries_per_second' => floor($totalNumQueries/$totalElapsedSecs),
                 'average' => $average,
                 'total_num_queries_by_type' => $numQueriesByType,
                 ];

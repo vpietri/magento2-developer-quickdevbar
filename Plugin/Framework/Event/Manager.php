@@ -5,11 +5,6 @@ namespace ADM\QuickDevBar\Plugin\Framework\Event;
 class Manager
 {
     /**
-     *
-     * @var \ADM\QuickDevBar\Helper\Register
-     */
-    protected $_qdbHelperRegister;
-    /**
      * @var \ADM\QuickDevBar\Service\Manager
      */
     private $serviceManager;
@@ -19,10 +14,8 @@ class Manager
      * @param \ADM\QuickDevBar\Helper\Data $qdbHelper
      */
     public function __construct(
-        \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
         \ADM\QuickDevBar\Service\Event\Manager $serviceManager
     ) {
-        $this->_qdbHelperRegister = $qdbHelperRegister;
         $this->serviceManager = $serviceManager;
     }
 

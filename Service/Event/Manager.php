@@ -14,7 +14,7 @@ class Manager implements ServiceInterface
     /**
      * @var array
      */
-    private $services;
+    private $services = [];
 
     public function __construct(array $services = [])
     {
@@ -50,44 +50,6 @@ class Manager implements ServiceInterface
         if(!empty($this->services[$eventName])) {
             $this->services[$eventName]->addClassToRegisterData($data);
         }
-    }
-
-    /**
-     * @param $collection
-     */
-    public function addCollection($collection)
-    {
-        $this->addClassToRegisterData('collections', $collection);
-    }
-
-
-    /**
-     * @param $model
-     */
-    public function addModel($model)
-    {
-        $this->addClassToRegisterData('models', $model);
-    }
-
-    /**
-     * @param $block
-     */
-    public function addBlock($block)
-    {
-        $this->addClassToRegisterData('blocks', $block);
-    }
-
-    protected function addClassToRegisterData($key, $obj)
-    {
-        $class = get_class($obj);
-        //$getRegisteredClasses = $this->getRegisteredData($key) ? $this->getRegisteredData($key) : [];
-
-        if (empty($this->eventsByTypes[$key][$class])) {
-            $this->eventsByTypes[$key][$class] = ['class'=>$class, 'nbr'=>0];
-        }
-        $this->eventsByTypes[$key][$class]['nbr']++;
-
-        //$this->eventsByTypes[$key] = $getRegisteredClasses;
     }
 
     /**

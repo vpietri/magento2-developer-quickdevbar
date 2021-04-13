@@ -1,7 +1,7 @@
 <?php
 namespace ADM\QuickDevBar\Controller\Tab;
 
-class Index extends \ADM\QuickDevBar\Controller\Index
+class Ajax extends \ADM\QuickDevBar\Controller\Index
 {
     /**
      *

@@ -100,12 +100,8 @@ class Wrapper extends Panel
         if($this->qdbHelper->isAjaxLoading()) {
             if ($this->getIsLayoutStandard()) {
                 return '';
-            } else {
-                $wrapperContent = $this->qdbHelper->getWrapperContent();
-                $this->qdbHelperRegister->setRegisteredJsonData($wrapperContent);
             }
         }
-
 
         $content = parent::toHtml();
         return  $content;

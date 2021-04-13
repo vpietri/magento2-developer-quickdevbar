@@ -9,16 +9,23 @@ use Magento\Framework\Event\ObserverInterface;
 
 class LayoutGenerateBlocksAfterObserver implements ObserverInterface
 {
-    /**
-     * @var \ADM\QuickDevBar\Helper\Register
-     */
-    protected $qdbHelperRegister;
 
     private $_elements = [];
+    /**
+     * @var \ADM\QuickDevBar\Service\Layout\Handle
+     */
+    private $serviceHandle;
+    /**
+     * @var \ADM\QuickDevBar\Service\Layout\Hierarchy
+     */
+    private $serviceHierarchy;
 
-    public function __construct(\ADM\QuickDevBar\Helper\Register $qdbHelperRegister)
+    public function __construct( \ADM\QuickDevBar\Service\Layout\Handle $serviceHandle,
+                                 \ADM\QuickDevBar\Service\Layout\Hierarchy $serviceHierarchy
+)
     {
-        $this->qdbHelperRegister = $qdbHelperRegister;
+        $this->serviceHandle = $serviceHandle;
+        $this->serviceHierarchy = $serviceHierarchy;
     }
 
     /**
@@ -28,8 +35,8 @@ class LayoutGenerateBlocksAfterObserver implements ObserverInterface
     {
         $layout = $observer->getLayout();
 
-        $this->qdbHelperRegister->addLayoutHandles($this->getHandles($layout));
-        $this->qdbHelperRegister->addLayoutHierarchy($this->getTreeBlocksHierarchy($layout));
+        $this->serviceHandle->addLayoutHandles($this->getHandles($layout));
+        $this->serviceHierarchy->addLayoutHierarchy($this->getTreeBlocksHierarchy($layout));
     }
 
 

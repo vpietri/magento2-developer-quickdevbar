@@ -52,7 +52,7 @@ class Panel extends \Magento\Framework\View\Element\Template
             if ($this->getData('ajax_url')) {
                 $tabUrl = $this->getFrontUrl($this->getData('ajax_url'));
             } elseif ($this->getData('is_ajax')) {
-                $tabUrl = $this->getFrontUrl('quickdevbar/tab/index', ['block'=>$this->getNameInLayout(), '_query'=>['isAjax'=>1]]);
+                $tabUrl = $this->getFrontUrl('quickdevbar/tab/ajax', ['block'=>$this->getNameInLayout(), '_query'=>['isAjax'=>1]]);
             }
         }
 

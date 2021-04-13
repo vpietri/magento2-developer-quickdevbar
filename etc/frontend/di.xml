@@ -19,6 +19,11 @@
                 <item name="collections" xsi:type="object" >ADM\QuickDevBar\Service\Collection</item>
                 <item name="models" xsi:type="object" >ADM\QuickDevBar\Service\Model</item>
                 <item name="blocks" xsi:type="object" >ADM\QuickDevBar\Service\Block</item>
+                <item name="request_data" xsi:type="object" >ADM\QuickDevBar\Service\Request</item>
+                <item name="observers" xsi:type="object" >ADM\QuickDevBar\Service\Observer</item>
+                <item name="layout_handles" xsi:type="object" >ADM\QuickDevBar\Service\Layout\Handle</item>
+                <item name="layout_tree_blocks_hierarchy" xsi:type="object" >ADM\QuickDevBar\Service\Layout\Hierarchy</item>
+
             </argument>
         </arguments>
     </type>
