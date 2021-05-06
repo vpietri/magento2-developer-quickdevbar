@@ -1,57 +1,21 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-
-    <type name="Magento\Framework\Event\ManagerInterface">
-        <plugin name="trace-event"
-                type="ADM\QuickDevBar\Plugin\Framework\Event\Manager" sortOrder="1"/>
+<!--    <type name="\Magento\Framework\App\FrontController">
+        <plugin name="qdb-front-controller" type="ADM\QuickDevBar\Plugin\PageCache\FrontController\BuiltinPlugin"/>
+    </type>-->
+    <!--<type name="Magento\Framework\Controller\ResultInterface">
+        <plugin name="result-builtin-cache" type="Magento\PageCache\Model\Controller\Result\BuiltinPlugin"/>
+        <plugin name="result-varnish-cache" type="Magento\PageCache\Model\Controller\Result\VarnishPlugin"/>
     </type>
-    
-    <type name="Magento\Framework\Event\InvokerInterface">
-        <plugin name="trace-observer"
-                type="ADM\QuickDevBar\Plugin\Framework\Event\Invoker" sortOrder="1"/>
+    <type name="Magento\Framework\View\Layout">
+        <plugin name="layout-model-caching-unique-name" type="Magento\PageCache\Model\Layout\LayoutPlugin"/>
+        <plugin name="core-session-depersonalize"
+                type="Magento\PageCache\Model\Layout\DepersonalizePlugin" sortOrder="1"/>
     </type>
-    <type name="ADM\QuickDevBar\Helper\Register">
-        <arguments>
-            <argument name="services" xsi:type="array">
-                <item name="plugin_list" xsi:type="object" >ADM\QuickDevBar\Service\Plugin</item>
-                <item name="sql_profiler" xsi:type="object" >ADM\QuickDevBar\Service\Sql</item>
-                <item name="events" xsi:type="object" >ADM\QuickDevBar\Service\Event\Manager</item>
-                <item name="collections" xsi:type="object" >ADM\QuickDevBar\Service\Collection</item>
-                <item name="models" xsi:type="object" >ADM\QuickDevBar\Service\Model</item>
-                <item name="blocks" xsi:type="object" >ADM\QuickDevBar\Service\Block</item>
-                <item name="request_data" xsi:type="object" >ADM\QuickDevBar\Service\Request</item>
-                <item name="observers" xsi:type="object" >ADM\QuickDevBar\Service\Observer</item>
-                <item name="layout_handles" xsi:type="object" >ADM\QuickDevBar\Service\Layout\Handle</item>
-                <item name="layout_tree_blocks_hierarchy" xsi:type="object" >ADM\QuickDevBar\Service\Layout\Hierarchy</item>
-
-            </argument>
-        </arguments>
+    <type name="Magento\Framework\View\Model\Layout\Merge">
+        <plugin name="layout-merge-plugin" type="Magento\PageCache\Model\Layout\MergePlugin"/>
     </type>
-
-    <type name="ADM\QuickDevBar\Service\Event\Manager">
-        <arguments>
-            <argument name="services" xsi:type="array">
-                <item name="core_collection_abstract_load_before" xsi:type="object" >ADM\QuickDevBar\Service\Collection</item>
-                <item name="model_load_before" xsi:type="object" >ADM\QuickDevBar\Service\Model</item>
-                <item name="core_layout_block_create_after" xsi:type="object" >ADM\QuickDevBar\Service\Block</item>
-            </argument>
-        </arguments>
-    </type>
-
-    <virtualType name="ADM\QuickDevBar\Service\Collection" type="ADM\QuickDevBar\Service\Event\Instance">
-        <arguments>
-            <argument name="classType" xsi:type="string">collection</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="ADM\QuickDevBar\Service\Model" type="ADM\QuickDevBar\Service\Event\Instance">
-        <arguments>
-            <argument name="classType" xsi:type="string">object</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="ADM\QuickDevBar\Service\Block" type="ADM\QuickDevBar\Service\Event\Instance">
-        <arguments>
-            <argument name="classType" xsi:type="string">block</argument>
-        </arguments>
-    </virtualType>
-
+    <type name="Magento\Framework\App\Response\Http">
+        <plugin name="response-http-page-cache" type="Magento\PageCache\Model\App\Response\HttpPlugin"/>
+    </type>-->
 </config>

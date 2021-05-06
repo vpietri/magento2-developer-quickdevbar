@@ -135,7 +135,6 @@ class ConfigUpdate extends \ADM\QuickDevBar\Controller\Index
             $resultForward->forward('cache');
             return $resultForward;
         } else {
-            $this->_view->loadLayout();
             $resultRaw = $this->_resultRawFactory->create();
             return $resultRaw->setContents($output);
         }

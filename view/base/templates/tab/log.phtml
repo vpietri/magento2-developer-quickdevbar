@@ -7,7 +7,7 @@
 <?php foreach ($block->getLogFiles() as $logKey => $logFile):?>
     <h3><?php echo $logFile['name'] ?>&nbsp;<button type="button" onClick="javascript:resetLog('<?php echo $logKey ?>');return false;" class="qdb-action">Reset</button></h3>
     Tail the <?php echo $block->getTailLines() ?> last lines
-    <pre id= "content-<?php echo $logKey ?>" style="border:1px solid;padding:5px;background:#fffcd8;">
+    <pre id= "content-<?php echo $logKey ?>">
     </pre>
     <br/>
 <?php endforeach;?>

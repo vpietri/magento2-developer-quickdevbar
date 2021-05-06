@@ -89,18 +89,10 @@ class Wrapper extends Panel
         return $this;
     }
 
-
-
-
     public function toHtml()
     {
-/*        if(!$this->canDisplay()) {
+        if($this->qdbHelper->isAjaxLoading() && $this->getIsMainTab() && !$this->getNeedHtmlContent()) {
             return '';
-        }*/
-        if($this->qdbHelper->isAjaxLoading()) {
-            if ($this->getIsLayoutStandard()) {
-                return '';
-            }
         }
 
         $content = parent::toHtml();

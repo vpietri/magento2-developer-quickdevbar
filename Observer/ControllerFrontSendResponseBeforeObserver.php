@@ -4,7 +4,8 @@
 namespace ADM\QuickDevBar\Observer;
 
 
-use Magento\Framework\App\Request\Http;
+use Magento\Framework\App\Request\Http as RequestHttp;
+use Magento\Framework\App\Response\Http as ResponseHttp;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 
@@ -14,15 +15,11 @@ class ControllerFrontSendResponseBeforeObserver implements ObserverInterface
      * @var \ADM\QuickDevBar\Helper\Register
      */
     private $qdbHelperRegister;
-    /**
-     * @var Http
-     */
-    private $requestHttp;
 
-    public function __construct(Http $requestHttp,\ADM\QuickDevBar\Helper\Register $qdbHelperRegister)
+
+    public function __construct(\ADM\QuickDevBar\Helper\Register $qdbHelperRegister)
     {
         $this->qdbHelperRegister = $qdbHelperRegister;
-        $this->requestHttp = $requestHttp;
     }
 
     /**
@@ -30,8 +27,19 @@ class ControllerFrontSendResponseBeforeObserver implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
+        /** @var RequestHttp $request */
+        $request = $observer->getRequest();
+
+        /** @var ResponseHttp $response */
+        $response = $observer->getResponse();
+        foreach ($response->getHeaders() as $header) {
+            //var_dump($header->toString());
+        }
+        //var_dump($response->toString());
+
 /*        var_dump($_SERVER);
-        exit;*/
+        exit;
+        */
         // TODO: Implement execute() method.
     }
 }

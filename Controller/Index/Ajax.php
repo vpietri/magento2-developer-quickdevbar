@@ -32,9 +32,16 @@ class Ajax extends \ADM\QuickDevBar\Controller\Index
 
         //$this->_view->loadLayout('quickdevbar_action_ajax');
         $this->_view->loadLayout(false);
-        $this->_view->renderLayout();
+        $output = $this->_view->getLayout()->getBlock('quick.dev.maintabs')
+            ->setNeedHtmlContent(true)
+            ->toHtml();
 
-       // return $this->_layoutFactory->create()->getBlock('quick.dev.toolbar.content')->toHtml();
+        $resultRaw = $this->_resultRawFactory->create();
+        //We are using HTTP headers to control various page caches (varnish, fastly, built-in php cache)
+        $resultRaw->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0', true);
+
+        return $resultRaw->setContents($output);
+
     }
 
     /**

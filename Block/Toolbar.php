@@ -56,4 +56,9 @@ class Toolbar extends \Magento\Framework\View\Element\Template
     {
         return $this->_qdnHelper->isAjaxLoading();
     }
+
+    public function toHtml()
+    {
+        return (!$this->canDisplay()) ? '' : parent::toHtml();
+    }
 }

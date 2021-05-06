@@ -28,7 +28,6 @@ class Cache extends \ADM\QuickDevBar\Controller\Index
             $output = $ctrlMsg . ' (' . $output .')';
         }
 
-        $this->_view->loadLayout();
         $resultRaw = $this->_resultRawFactory->create();
         return $resultRaw->setContents($output);
     }

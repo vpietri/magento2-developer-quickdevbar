@@ -1,6 +1,7 @@
 <?php
 namespace ADM\QuickDevBar\Helper;
 
+use Magento\Customer\Model\Session;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\State;
@@ -35,6 +36,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var State
      */
     private $appState;
+    /**
+     * @var Session
+     */
+    private $session;
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -44,7 +49,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         \Magento\Framework\Filesystem $filesystem,
-        State $appState
+        State $appState,
+        Session $session
     ) {
         parent::__construct($context);
         $this->_cacheFrontendPool = $cacheFrontendPool;
@@ -53,6 +59,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $this->filesystem = $filesystem;
         $this->appState = $appState;
+        $this->session = $session;
     }
 
 
@@ -284,11 +291,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $varDirWrite = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $varDirWrite->create('qdb');
 
-        $fileName = 'qdb_register.json';
+        $sessionId = $this->session->getSessionId();
+
+        $fileName = 'qdb_register_'.$sessionId.'.json';
         if($ajax) {
             $fileName = $this->_getRequest()->isAjax()
-                ? 'qdb_ajax_register_'.time().'.json'
-                : 'qdb_unknown_register_'.time().'.json';
+                ? 'qdb_ajax_register_'.$sessionId.'_'.time().'.json'
+                : 'qdb_unknown_register_'.$sessionId.'_'.time().'.json';
         }
 
         return $varDirWrite->getAbsolutePath() . 'qdb/' . $fileName;
@@ -309,7 +318,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function isAjaxLoading()
     {
-        return true;
+        //return true;
 
         if($this->appState->getAreaCode() != 'frontend') {
             return false;

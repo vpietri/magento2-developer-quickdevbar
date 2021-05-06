@@ -4,9 +4,6 @@
                   <action method="setIsMainTab">
                       <argument name="main" xsi:type="string">true</argument>
                   </action>
-                  <arguments>
-                      <argument name="is_layout_standard" xsi:type="string">1</argument>
-                  </arguments>
                   <!-- @tips : use ADM\QuickDevBar\Block\Tab\Wrapper to create a high level tab with nested tabs -->
                   <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="qdb.tab.info" as="qdb.tab.info" template="ADM_QuickDevBar::tabs.phtml">
                     <!-- @tips : Set a tab title -->
@@ -104,11 +101,16 @@
                           <argument name="title" xsi:type="string">Models</argument>
                         </arguments>
                     </block>
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Plugin" name="qdb.tab.plugin" as="qdb.tab.plugin" template="ADM_QuickDevBar::tab/profile/plugin.phtml">
-                        <arguments>
-                          <argument name="title" xsi:type="string">Plugins</argument>
-                        </arguments>
-                    </block>
+                      <block class="ADM\QuickDevBar\Block\Tab\Content\Plugin" name="qdb.tab.plugin" as="qdb.tab.plugin" template="ADM_QuickDevBar::tab/profile/plugin.phtml">
+                          <arguments>
+                              <argument name="title" xsi:type="string">Plugins</argument>
+                          </arguments>
+                      </block>
+                      <block class="ADM\QuickDevBar\Block\Tab\Content\Preference" name="qdb.tab.preference" as="qdb.tab.preference" template="ADM_QuickDevBar::tab/profile/preference.phtml">
+                          <arguments>
+                              <argument name="title" xsi:type="string">Preferences</argument>
+                          </arguments>
+                      </block>
                   </block>
                   <block class="ADM\QuickDevBar\Block\Tab\Content\Sql" name="qdb.tab.sql" as="qdb.tab.sql" template="ADM_QuickDevBar::tab/sql.phtml">
                     <arguments>
