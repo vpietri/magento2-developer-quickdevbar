@@ -1,8 +1,10 @@
 <?php
 namespace ADM\QuickDevBar\Helper;
 
+use Magento\Customer\Model\Session;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\State;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
@@ -26,19 +28,38 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var array
      */
     protected $_defaultLogFiles = ['exception'=>'exception.log', 'system'=>'system.log', 'debug'=>'debug.log'];
+    /**
+     * @var \Magento\Framework\Filesystem
+     */
+    private $filesystem;
+    /**
+     * @var State
+     */
+    private $appState;
+    /**
+     * @var Session
+     */
+    private $session;
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-            \Magento\Framework\App\Helper\Context $context,
-            \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
-            \Magento\Framework\Module\ModuleListInterface $moduleList
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
+        \Magento\Framework\Module\ModuleListInterface $moduleList,
+        \Magento\Framework\Filesystem $filesystem,
+        State $appState,
+        Session $session
     ) {
+        parent::__construct($context);
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_moduleList = $moduleList;
 
-        parent::__construct($context);
+
+        $this->filesystem = $filesystem;
+        $this->appState = $appState;
+        $this->session = $session;
     }
 
 
@@ -60,16 +81,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function isToolbarAccessAllowed()
     {
+        return true;
+
+
         $allow = false;
         $enable = $this->getConfig('dev/quickdevbar/enable');
 
         if ($enable) {
 
-            if($enable>1) {
+            if ($enable>1) {
                 $allow = $this->isIpAuthorized();
 
-                if(!$allow ) {
-                		$allow = $this->isUserAgentAuthorized();
+                if (!$allow) {
+                        $allow = $this->isUserAgentAuthorized();
                 }
             } else {
                 $allow = true;
@@ -85,8 +109,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         return ($areaEnabled == \Magento\Framework\App\Area::AREA_GLOBAL)
                 || ($area == $areaEnabled);
-
-   }
+    }
 
 
     public function isIpAuthorized()
@@ -100,17 +123,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $allow;
     }
 
-    public function getAllowedIps($separator=false)
+    public function getAllowedIps($separator = false)
     {
         $allowedIps = $this->getConfig('dev/quickdevbar/allow_ips');
-        if($allowedIps) {
+        if ($allowedIps) {
             $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
         } else {
-            $allowedIps = array();
+            $allowedIps = [];
         }
-        $allowedIps = array_merge(array("127.0.0.1", "::1"), $allowedIps);
+        $allowedIps = array_merge(["127.0.0.1", "::1"], $allowedIps);
 
-        return $separator ? implode($separator ,$allowedIps) : $allowedIps;
+        return $separator ? implode($separator, $allowedIps) : $allowedIps;
     }
 
     public function getClientIp()
@@ -138,10 +161,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
 
-    public function getLogFiles($key=false)
+    public function getLogFiles($key = false)
     {
         $logFiles = [];
-        foreach ($this->_defaultLogFiles as $fileKey=>$fileName) {
+        foreach ($this->_defaultLogFiles as $fileKey => $fileName) {
             $filepath = BP . '/var/log/' . $fileName;
             $logFiles[$fileKey] = ['id'=>$fileName
                     , 'name' => $fileName
@@ -153,14 +176,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         if (!$key) {
             return $logFiles;
-        } elseif (!empty($logFiles[$key]))  {
+        } elseif (!empty($logFiles[$key])) {
             return $logFiles[$key];
         } else {
             return false;
         }
     }
 
-    protected  function _canResetFile($filepath)
+    protected function _canResetFile($filepath)
     {
         if (is_file($filepath) and is_writable($filepath)) {
             return true;
@@ -169,7 +192,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
     }
 
-    protected  function _getFileSize($filepath)
+    protected function _getFileSize($filepath)
     {
 
         if (is_file($filepath) and file_exists($filepath)) {
@@ -194,21 +217,29 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @return string
      */
-    function tailFile($filepath, $lines = 1, $adaptive = true) {
+    function tailFile($filepath, $lines = 1, $adaptive = true)
+    {
         // Open file
         $f = @fopen($filepath, "rb");
-        if ($f === false) return false;
+        if ($f === false) {
+            return false;
+        }
 
         // Sets buffer size
-        if (!$adaptive) $buffer = 4096;
-        else $buffer = ($lines < 2 ? 64 : ($lines < 10 ? 512 : 4096));
+        if (!$adaptive) {
+            $buffer = 4096;
+        } else {
+            $buffer = ($lines < 2 ? 64 : ($lines < 10 ? 512 : 4096));
+        }
 
         // Jump to last character
         fseek($f, -1, SEEK_END);
 
         // Read it and adjust line number if necessary
         // (Otherwise the result would be wrong if file doesn't end with a blank line)
-        if (fread($f, 1) != "\n") $lines -= 1;
+        if (fread($f, 1) != "\n") {
+            $lines -= 1;
+        }
 
         // Start reading
         $output = '';
@@ -255,4 +286,45 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return !empty($moduleInfo['setup_version']) ? $moduleInfo['setup_version'] : '???';
     }
 
+    protected function getWrapperFilename($ajax = false)
+    {
+        $varDirWrite = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+        $varDirWrite->create('qdb');
+
+        $sessionId = $this->session->getSessionId();
+
+        $fileName = 'qdb_register_'.$sessionId.'.json';
+        if($ajax) {
+            $fileName = $this->_getRequest()->isAjax()
+                ? 'qdb_ajax_register_'.$sessionId.'_'.time().'.json'
+                : 'qdb_unknown_register_'.$sessionId.'_'.time().'.json';
+        }
+
+        return $varDirWrite->getAbsolutePath() . 'qdb/' . $fileName;
+    }
+
+    public function getWrapperContent($ajax = false)
+    {
+        if(file_exists($this->getWrapperFilename($ajax))) {
+            return file_get_contents($this->getWrapperFilename($ajax));
+        }
+        return '[{"content":"nothing in wrapper"}]';
+    }
+
+    public function setWrapperContent($content, $ajax = false)
+    {
+        file_put_contents($this->getWrapperFilename($ajax), $content);
+    }
+
+    public function isAjaxLoading()
+    {
+        //return true;
+
+        if($this->appState->getAreaCode() != 'frontend') {
+            return false;
+        }
+        //TODO: save Register Data to use Ajax
+        // see: \ADM\QuickDevBar\Helper\Register::__construct
+        return true;
+    }
 }

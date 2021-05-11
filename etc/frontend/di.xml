@@ -1,14 +1,21 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-
-    <type name="Magento\Framework\Event\ManagerInterface">
-        <plugin name="trace-event"
-                type="ADM\QuickDevBar\Model\Plugin\Event\Manager" sortOrder="1"/>
+<!--    <type name="\Magento\Framework\App\FrontController">
+        <plugin name="qdb-front-controller" type="ADM\QuickDevBar\Plugin\PageCache\FrontController\BuiltinPlugin"/>
+    </type>-->
+    <!--<type name="Magento\Framework\Controller\ResultInterface">
+        <plugin name="result-builtin-cache" type="Magento\PageCache\Model\Controller\Result\BuiltinPlugin"/>
+        <plugin name="result-varnish-cache" type="Magento\PageCache\Model\Controller\Result\VarnishPlugin"/>
     </type>
-    
-    <type name="Magento\Framework\Event\InvokerInterface">
-        <plugin name="trace-observer"
-                type="ADM\QuickDevBar\Model\Plugin\Event\Invoker" sortOrder="1"/>
+    <type name="Magento\Framework\View\Layout">
+        <plugin name="layout-model-caching-unique-name" type="Magento\PageCache\Model\Layout\LayoutPlugin"/>
+        <plugin name="core-session-depersonalize"
+                type="Magento\PageCache\Model\Layout\DepersonalizePlugin" sortOrder="1"/>
     </type>
-
+    <type name="Magento\Framework\View\Model\Layout\Merge">
+        <plugin name="layout-merge-plugin" type="Magento\PageCache\Model\Layout\MergePlugin"/>
+    </type>
+    <type name="Magento\Framework\App\Response\Http">
+        <plugin name="response-http-page-cache" type="Magento\PageCache\Model\App\Response\HttpPlugin"/>
+    </type>-->
 </config>

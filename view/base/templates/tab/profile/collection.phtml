@@ -1,6 +1,6 @@
 <?php
 ?>
-<?php if($this->getCollections()):?>
+<?php if ($this->getCollections()):?>
 <table class="qdn_collection qdn_table striped filterable sortable tablesorter">
 <thead>
 <tr>
@@ -9,15 +9,15 @@
 </tr>
 </thead>
 <tbody>
-<?php
-  $i = 0;
-  foreach ($this->getCollections() as $collection): ?>
+    <?php
+    $i = 0;
+    foreach ($this->getCollections() as $collection): ?>
   <tr>
     <td><?php echo $collection['class']; ?></td>
     <td><?php echo $collection['nbr']; ?></td>
   </tr>
-    <?php $i++; ?>
-  <?php endforeach ?>
+        <?php $i++; ?>
+    <?php endforeach ?>
 </tbody>
 </table>
 <?php endif;?>

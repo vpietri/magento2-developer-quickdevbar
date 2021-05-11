@@ -3,12 +3,21 @@
 namespace ADM\QuickDevBar\Block\Tab;
 
 use Magento\Framework\Api\SimpleDataObjectConverter;
+use Magento\Framework\View\Element\AbstractBlock;
 
 class Wrapper extends Panel
 {
     protected $_mainTabs;
 
     protected $_jsonHelper;
+    /**
+     * @var \ADM\QuickDevBar\Helper\Data
+     */
+    private $qdbHelper;
+    /**
+     * @var \ADM\QuickDevBar\Helper\Register
+     */
+    private $qdbHelperRegister;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -16,18 +25,22 @@ class Wrapper extends Panel
      * @param array $data
      */
     public function __construct(
-            \Magento\Framework\View\Element\Template\Context $context,
-            \Magento\Framework\Json\Helper\Data $jsonHelper,
-            array $data = []
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Json\Helper\Data $jsonHelper,
+        \ADM\QuickDevBar\Helper\Data $qdbHelper,
+        \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
+        array $data = []
     ) {
         $this->_jsonHelper = $jsonHelper;
 
         parent::__construct($context, $data);
+        $this->qdbHelper = $qdbHelper;
+        $this->qdbHelperRegister = $qdbHelperRegister;
     }
 
     public function getTabBlocks()
     {
-        if (is_null($this->_mainTabs)) {
+        if ($this->_mainTabs === null) {
             $this->_mainTabs = $this->getLayout()->getChildBlocks($this->getNameInLayout());
         }
 
@@ -52,7 +65,7 @@ class Wrapper extends Panel
             "collapsible" => false,
             ];
 
-        if($this->getIsMainTab()) {
+        if ($this->getIsMainTab()) {
             $config["active"] = false;
             $config["collapsible"] = true;
         }
@@ -65,4 +78,25 @@ class Wrapper extends Panel
     {
         return $this->_jsonHelper->jsonEncode($this->_getTabConfig());
     }
+
+    protected function _loadCache()
+    {
+        return false;
+    }
+
+    protected function _saveCache($data)
+    {
+        return $this;
+    }
+
+    public function toHtml()
+    {
+        if($this->qdbHelper->isAjaxLoading() && $this->getIsMainTab() && !$this->getNeedHtmlContent()) {
+            return '';
+        }
+
+        $content = parent::toHtml();
+        return  $content;
+    }
+
 }

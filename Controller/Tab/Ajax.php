@@ -1,10 +1,9 @@
 <?php
 namespace ADM\QuickDevBar\Controller\Tab;
 
-class Index extends \ADM\QuickDevBar\Controller\Index
+class Ajax extends \ADM\QuickDevBar\Controller\Index
 {
     /**
-     * Gets most viewed products list
      *
      * @return \Magento\Backend\Model\View\Result\Page
      */
@@ -24,6 +23,9 @@ class Index extends \ADM\QuickDevBar\Controller\Index
         }
 
         $resultRaw = $this->_resultRawFactory->create();
+        //We are using HTTP headers to control various page caches (varnish, fastly, built-in php cache)
+        $resultRaw->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0', true);
+
         return $resultRaw->setContents($output);
     }
 }

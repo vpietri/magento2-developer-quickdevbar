@@ -1,23 +1,22 @@
 <?php
 
-namespace ADM\QuickDevBar\Model\Plugin\Event;
+namespace ADM\QuickDevBar\Plugin\Framework\Event;
 
 class Manager
 {
     /**
-     *
-     * @var \ADM\QuickDevBar\Helper\Register
+     * @var \ADM\QuickDevBar\Service\Manager
      */
-    protected $_qdbHelperRegister;
+    private $serviceManager;
 
 
     /**
      * @param \ADM\QuickDevBar\Helper\Data $qdbHelper
      */
     public function __construct(
-        \ADM\QuickDevBar\Helper\Register $qdbHelperRegister
+        \ADM\QuickDevBar\Service\Event\Manager $serviceManager
     ) {
-        $this->_qdbHelperRegister = $qdbHelperRegister;
+        $this->serviceManager = $serviceManager;
     }
 
     /**
@@ -30,8 +29,8 @@ class Manager
      * @param string $eventName
      * @param array $data
      */
-    public function beforeDispatch($interceptor, $eventName, $data=[])
+    public function beforeDispatch($interceptor, $eventName, $data = [])
     {
-        $this->_qdbHelperRegister->addEvent($eventName, $data);
+        $this->serviceManager->addEvent($eventName, $data);
     }
 }

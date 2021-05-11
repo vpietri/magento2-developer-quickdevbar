@@ -1,11 +1,12 @@
 <?php
+/** @var $block \ADM\QuickDevBar\Block\Tab\Content\Layout */
 ?>
 <table class="qdn_table_2col">
 <tr>
     <th><?php echo __('Handles'); ?></th>
     <td>
     <?php foreach ($block->getHandles() as $handle): ?>
-    <?php echo $handle; ?></br>
+        <?php echo $handle; ?></br>
     <?php endforeach;?>
     <br/>
     </td>

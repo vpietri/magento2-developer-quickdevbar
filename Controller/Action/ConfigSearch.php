@@ -27,11 +27,11 @@ class ConfigSearch extends \ADM\QuickDevBar\Controller\Index
      * @param \Magento\Config\Model\Config\Structure $structure
      */
     public function __construct(
-            \Magento\Framework\App\Action\Context $context,
-            \ADM\QuickDevBar\Helper\Data $qdbHelper,
-            \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
-            \Magento\Framework\View\LayoutFactory $layoutFactory,
-            \Magento\Config\Model\Config\Structure $configStructure
+        \Magento\Framework\App\Action\Context $context,
+        \ADM\QuickDevBar\Helper\Data $qdbHelper,
+        \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
+        \Magento\Framework\View\LayoutFactory $layoutFactory,
+        \Magento\Config\Model\Config\Structure $configStructure
     ) {
         parent::__construct($context, $qdbHelper, $resultRawFactory, $layoutFactory);
 
@@ -46,6 +46,5 @@ class ConfigSearch extends \ADM\QuickDevBar\Controller\Index
         foreach ($this->_tabs as $tab) {
             echo $tab->getLabel();
         }
-
     }
 }

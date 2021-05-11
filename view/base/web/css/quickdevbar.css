@@ -16,7 +16,7 @@
     left: 0px;
     top: 0px;
     z-index: 10000;
-    background: none repeat scroll 0 0 #ddd;
+    background: none repeat scroll 0 0 #eee;
     height: 35px;
     text-align: left;
 }
@@ -99,6 +99,7 @@ div.qdb-ui-tabs > ul {
     padding-left: 45px;
     padding-right: 15px;
     margin-bottom: -1px;
+    white-space: nowrap;
 }
 
 div.qdb-ui-tabs > ul > li, div.qdb-ui-subtabs > ul > li {
@@ -110,7 +111,7 @@ div.qdb-ui-tabs > ul > li, div.qdb-ui-subtabs > ul > li {
 
 li .qdb-tab-badge {
     background-color: #f0f8ff;
-    border: 1px solid #ddd;
+    border: 1px solid #aaa;
     border-radius: 4px;
     margin-left: 4px;
     padding: 1px 2px;
@@ -126,10 +127,12 @@ div.qdb-ui-tabs > ul > li {
     border-left: 1px solid white;
     margin-left: -2px;
     margin-right: -2px;
+    font-weight: bold;
 }
 
 div.qdb-ui-subtabs > ul > li {
     border: 1px solid #ccc;
+    font-weight: bold;
 }
 
 div.qdb-ui-tabs li.ui-tabs-active, div.qdb-ui-subtabs li.ui-tabs-active {
@@ -158,9 +161,8 @@ div.qdb-ui-tabs .ui-state-hover > a, div.qdb-ui-subtabs .ui-state-hover > a {
     box-shadow: none;
 }
 
-div.qdb-ui-tabs .ui-tabs-active > a, div.qdb-ui-subtabs .ui-tabs-active > a {
+div.qdb-ui-subtabs .ui-tabs-active > a {
     color: #eb5202;
-    box-shadow: none;
 }
 
 div.qdb-ui-subtabs .ui-tabs-active > a {
@@ -406,3 +408,8 @@ td.sqlinfo {
 }
 
 
+pre {
+    font-family: "Courier New", monospace;
+    border:1px solid;
+    padding:5px;
+}

@@ -172,24 +172,43 @@ define(["jquery",
             stripedClassname: "striped",
             classToStrip: "qdn_table.striped",
             classToFilter: "qdn_table.filterable",
-            classToSort: "qdn_table.sortable"
+            classToSort: "qdn_table.sortable",
+            ajaxUrl: 'quickdevbar/action/ajax',
+            ajaxLoading: false
         },
 
         _create: function() {
-            
+            if(this.options.ajaxLoading){
+                var that = this;
+                $.ajax({
+                        url: that.options.ajaxUrl,
+                        success: function (data) {
+                            if(data) {
+                                $('#qdb-bar').html(data).trigger('contentUpdated');
+                                that._initQdb();
+                            }
+                        }
+                    }
+                );
+            } else {
+                this._initQdb();
+            }
+        },
+
+
+        _initQdb: function() {
             $('<link/>', {
                 rel: 'stylesheet',
                 type: 'text/css',
                 href: this.options.css
             }).appendTo('head');            
-            
-            
+
             /* Manage toggling toolbar */
             if(this.getVisibility()) {
                 this.element.toggle(this.options.toggleEffect);
             }
 
-            $('#qdb-bar-anchor').on('click', $.proxy(function(event) {
+            $('#qdb-bar-anchor').show().on('click', $.proxy(function(event) {
                 event.preventDefault();
                 this.setVisibility(!this.element.is(":visible"));
                 this.element.toggle(this.options.toggleEffect);
@@ -232,7 +251,7 @@ define(["jquery",
             
             /* classToStrip: Set odd even class on tr */
             $(selector + ' table.' + this.options.classToStrip + ' tr:even').addClass(this.options.stripedClassname);
-            
+
             /* classToFilter: Set filter input */
             $(selector + ' table.' + this.options.classToFilter).filterTable({
                 label: 'Search filter:',

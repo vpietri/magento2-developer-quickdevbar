@@ -1,6 +1,6 @@
 <?php
 ?>
-<?php if($this->getBlocks()):?>
+<?php if ($this->getBlocks()):?>
 <table class="qdn_table striped filterable">
 <thead>
 <tr>
@@ -9,15 +9,15 @@
 </tr>
 </thead>
 <tbody>
-<?php
-  $i = 0;
-  foreach ($this->getBlocks() as $block): ?>
+    <?php
+    $i = 0;
+    foreach ($this->getBlocks() as $block): ?>
   <tr>
     <td><?php echo $block['class']; ?></td>
     <td><?php echo $block['nbr']; ?></td>
   </tr>
-    <?php $i++; ?>
-  <?php endforeach ?>
+        <?php $i++; ?>
+    <?php endforeach ?>
 </tbody>
 </table>
 <?php endif;?>

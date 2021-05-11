@@ -5,7 +5,6 @@ class PhpInfo extends \ADM\QuickDevBar\Controller\Adminhtml\Index
 {
 
     /**
-     * Gets most viewed products list
      *
      * @return \Magento\Backend\Model\View\Result\Page
      */

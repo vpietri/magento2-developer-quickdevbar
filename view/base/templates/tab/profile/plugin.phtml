@@ -11,13 +11,13 @@
 </thead>
 <tbody>
 <?php
-  foreach ($block->getPluginsList() as $type): ?>
+foreach ($block->getPluginsList() as $type): ?>
     <tr>
       <td class="type"><?php echo $type['type']; ?></td>
       <td class="plugin"><?php echo $type['plugin']; ?></td>
       <td class="sort_order"><?php echo $type['sort_order']; ?></td>
       <td class="methods"><?php echo $type['method']; ?></td>
     </tr>
-  <?php endforeach ?>
+    <?php endforeach ?>
 </tbody>
 </table>
