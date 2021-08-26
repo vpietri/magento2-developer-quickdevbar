@@ -1,10 +1,10 @@
 <?php
+/** @var ADM\QuickDevBar\Block\Tab\Content\Sql $block */
 ?>
 <?php if ($block->getAllQueries()): ?>
 <table class="qdn_table_2col">
   <tr>
     <th><?php echo __('Statistics'); ?></th>
-    </td>
     <td>
       <?php echo sprintf('%s queries in %s (average time: %s) - %s queries/second',
               $block->getTotalNumQueries(),
@@ -43,7 +43,8 @@
 <thead>
 <tr>
     <th>#</th>
-    <th class="{sorter: false}">SQL</th>
+    <th class="{sorter: 'text'}">SQL</th>
+    <th class="{sorter: 'text'}">Args</th>
     <th class="{sorter: 'digit'}">Time</th>
 </tr>
 </thead>
@@ -54,6 +55,7 @@
     <tr class="<?php echo  $query['grade']; ?>">
       <td><?php echo $i;?></td>
       <td class="sqlquery"><?php echo $block->formatSql($query['sql']); ?></td>
+      <td class="sqlargs"><?php echo $block->formatParams($query['params']); ?></td>
       <td class="sqltimer"><?php echo  $block->formatSqlTime($query['time']); ?></td>
     </tr>
     <?php $i++; ?>

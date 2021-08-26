@@ -75,7 +75,7 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
                             $this->_shortestQueryTime = $query->getElapsedSecs();
                         }
 
-                        $this->_all_queries[] = ['sql' => $query->getQuery(), 'time' => $query->getElapsedSecs(), 'grade' => 'medium'];
+                        $this->_all_queries[] = ['sql' => $query->getQuery(), 'params' => $query->getQueryParams(), 'time' => $query->getElapsedSecs(), 'grade' => 'medium'];
                     }
                 }
             }
@@ -132,12 +132,21 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
 
     public function formatSql($sql)
     {
-        $htmlSql = $sql;
         $htmlSql = preg_replace('/\b(SET|AS|ASC|COUNT|DESC|IN|LIKE|DISTINCT|INTO|VALUES|LIMIT)\b/', '<span class="sqlword">\\1</span>', $sql);
         $htmlSql = preg_replace('/\b(UNION ALL|DESCRIBE|SHOW|connect|begin|commit)\b/', '<br/><span class="sqlother">\\1</span>', $htmlSql);
         $htmlSql = preg_replace('/\b(UPDATE|SELECT|FROM|WHERE|LEFT JOIN|INNER JOIN|RIGHT JOIN|ORDER BY|GROUP BY|DELETE|INSERT)\b/', '<br/><span class="sqlmain">\\1</span>', $htmlSql);
-        $htmlSql = preg_replace('/^<br\/>/', '', $htmlSql);
-        return $htmlSql;
+
+        return preg_replace('/^<br\/>/', '', $htmlSql);
+    }
+
+    public function formatParams($params) {
+        if (is_array($params)) {
+            ksort($params);
+
+            return \json_encode($params);
+        }
+
+        return '';
     }
 
     public function getLongestQueryTime()
@@ -150,12 +159,9 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
         return $this->_longestQuery;
     }
 
-    public function formatSqlTime($time)
+    public function formatSqlTime($time, $decimals = 2)
     {
-        $decimals = 2;
-        $formatedTime = number_format(round(1000*$time,$decimals),$decimals);
-
-        return $formatedTime . 'ms';
+        return number_format(round(1000 * $time, $decimals), $decimals) . 'ms';
     }
 
 }
