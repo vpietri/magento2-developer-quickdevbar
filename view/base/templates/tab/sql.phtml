@@ -39,33 +39,34 @@
   </tr>
 </table>
 
-<table class="qdn_table striped filterable sortable tablesorter grade">
-<thead>
-<tr>
-    <th>#</th>
-    <th class="{sorter: 'text'}">SQL</th>
-    <th class="{sorter: 'text'}">Args</th>
-    <th class="{sorter: 'digit'}">Time</th>
-</tr>
-</thead>
-<tbody>
-<?php
-  $i = 0;
-  foreach ($block->getAllQueries() as $i => $query): ?>
-    <tr class="<?php echo  $query['grade']; ?>">
-      <td><?php echo $i;?></td>
-      <td class="sqlquery"><?php echo $block->formatSql($query['sql']); ?></td>
-      <td class="sqlargs"><?php echo $block->formatParams($query['params']); ?></td>
-      <td class="sqltimer"><?php echo  $block->formatSqlTime($query['time']); ?></td>
+<div class="qdb-panel">
+    <table class="qdn_table striped filterable sortable tablesorter grade">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th class="{sorter: 'text'}">SQL</th>
+        <th class="{sorter: 'text'}">Args</th>
+        <th class="{sorter: 'digit'}">Time</th>
     </tr>
-    <?php $i++; ?>
-  <?php endforeach ?>
-</tbody>
-</table>
+    </thead>
+    <tbody>
+    <?php
+      $i = 0;
+      foreach ($block->getAllQueries() as $i => $query): ?>
+        <tr class="<?php echo  $query['grade']; ?>">
+          <td><?php echo $i;?></td>
+          <td class="sqlquery"><?php echo $block->formatSql($query['sql']); ?></td>
+          <td class="sqlargs"><?php echo $block->formatParams($query['params']); ?></td>
+          <td class="sqltimer"><?php echo  $block->formatSqlTime($query['time']); ?></td>
+        </tr>
+        <?php $i++; ?>
+      <?php endforeach ?>
+    </tbody>
+    </table>
+</div>
 
-
-<?php else:?>
-SQL profiler is not active<br/>
-You should set a new key for $config array in file app/etc/env.php<br/>
-<pre>$config[db][connection][default][profiler] = 1</pre>
-<?php  endif ?>
+    <?php else:?>
+    SQL profiler is not active<br/>
+    You should set a new key for $config array in file app/etc/env.php<br/>
+    <pre>$config[db][connection][default][profiler] = 1</pre>
+    <?php  endif ?>

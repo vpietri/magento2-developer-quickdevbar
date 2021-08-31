@@ -92,8 +92,8 @@ div.qdb-ui-tabs > div.qdb-panel, div.qdb-ui-subtabs > div.qdb-panel {
 
 
 div.qdb-ui-tabs > div.qdb-panel {
-    max-height: 600px;
-    overflow: auto;
+    /*max-height: 600px;*/
+    /*overflow: auto;*/
 }
 
 div.qdb-ui-tabs > ul {
@@ -407,4 +407,8 @@ td.sqlinfo {
     width: 30px;
 }
 
+/*.full-height { height: 100%; position: relative; }*/
+/*.full-height .ui-tabs-nav { position: absolute; top: 0; left: 0; }*/
+/*.full-height > .qdb-panel { height: 100%; margin-top: 20px; }*/
 
+.qdb-panel .qdb-panel { max-height: 600px; overflow-y: auto; }
