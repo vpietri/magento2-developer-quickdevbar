@@ -68,16 +68,18 @@ button.qdb-action:not(.primary) {
   * ---------------
   */
 div.qdb-container {
-    width: auto;
-    max-width: 1200px;
+/*    width: auto;
+    max-width: 1200px;*/
+    /* height: 90vh; */
+    width: 95vw;
 }
 
 div.qdb-container-collapsed {
-     width: auto;
+     /*width: auto;*/
 }
 
 div.qdb-panel  div.qdb-container {
-     width: 1165px;
+     width: 90%;
      
 }
 
@@ -91,8 +93,9 @@ div.qdb-ui-tabs > div.qdb-panel, div.qdb-ui-subtabs > div.qdb-panel {
 
 
 div.qdb-ui-tabs > div.qdb-panel {
-    max-height: 600px;
+    /*max-height: 600px;*/
     overflow: auto;
+    height: 100%;
 }
 
 div.qdb-ui-tabs > ul {

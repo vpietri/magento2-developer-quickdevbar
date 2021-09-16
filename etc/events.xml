@@ -16,5 +16,8 @@
         <observer name="qdb_controller_front_send_response_before" instance="ADM\QuickDevBar\Observer\ControllerFrontSendResponseBeforeObserver" />
     </event>
 
+    <event name="layout_load_before">
+        <observer name="qdb_custom_layout" instance="ADM\QuickDevBar\Observer\UpdateLayoutObserver" />
+    </event>
 
 </config>

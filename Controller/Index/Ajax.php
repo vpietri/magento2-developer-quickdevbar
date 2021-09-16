@@ -30,10 +30,9 @@ class Ajax extends \ADM\QuickDevBar\Controller\Index
 
         $this->qdbHelperRegister->loadDataFromFile();
 
-        //$this->_view->loadLayout('quickdevbar_action_ajax');
-        $this->_view->loadLayout(false);
+        $this->_view->loadLayout('quickdevbar');
         $output = $this->_view->getLayout()->getBlock('quick.dev.maintabs')
-            ->setNeedHtmlContent(true)
+            //->setNeedHtmlContent(true)
             ->toHtml();
 
         $resultRaw = $this->_resultRawFactory->create();

@@ -53,7 +53,6 @@ class Wrapper extends Panel
         return SimpleDataObjectConverter::snakeCaseToCamelCase(str_replace('.', '_', $this->getNameInLayout()));
     }
 
-
     public function getUiTabClass()
     {
         return ($this->getIsMainTab()) ? 'qdb-ui-tabs' : 'qdb-ui-subtabs';
@@ -73,30 +72,8 @@ class Wrapper extends Panel
         return $config;
     }
 
-
     public function getJsonTabConfig()
     {
         return $this->_jsonHelper->jsonEncode($this->_getTabConfig());
     }
-
-    protected function _loadCache()
-    {
-        return false;
-    }
-
-    protected function _saveCache($data)
-    {
-        return $this;
-    }
-
-    public function toHtml()
-    {
-        if($this->qdbHelper->isAjaxLoading() && $this->getIsMainTab() && !$this->getNeedHtmlContent()) {
-            return '';
-        }
-
-        $content = parent::toHtml();
-        return  $content;
-    }
-
 }

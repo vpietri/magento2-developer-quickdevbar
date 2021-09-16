@@ -1,6 +1,7 @@
 <?php
+/** @var $block \ADM\QuickDevBar\Block\Tab\Content\Layout */
 ?>
-<?php if ($this->getBlocks()):?>
+<?php if ($block->getBlocks()):?>
 <table class="qdn_table striped filterable">
 <thead>
 <tr>
@@ -11,10 +12,10 @@
 <tbody>
     <?php
     $i = 0;
-    foreach ($this->getBlocks() as $block): ?>
+    foreach ($block->getBlocks() as $blockInfo): ?>
   <tr>
-    <td><?php echo $block['class']; ?></td>
-    <td><?php echo $block['nbr']; ?></td>
+    <td><?php echo $blockInfo['class']; ?></td>
+    <td><?php echo $blockInfo['nbr']; ?></td>
   </tr>
         <?php $i++; ?>
     <?php endforeach ?>

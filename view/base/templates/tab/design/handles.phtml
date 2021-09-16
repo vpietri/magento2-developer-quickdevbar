@@ -1,6 +1,7 @@
 <?php
 /** @var $block \ADM\QuickDevBar\Block\Tab\Content\Layout */
 ?>
+<?php if ($block->getHandles()):?>
 <table class="qdn_table_2col">
 <tr>
     <th><?php echo __('Handles'); ?></th>
@@ -12,3 +13,4 @@
     </td>
 </tr>
 </table>
+<?php endif; ?>
