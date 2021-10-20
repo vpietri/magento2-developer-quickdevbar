@@ -29,15 +29,15 @@
 </table>
 
 
-<div id='action-loader' style="display:none"><?php echo $block->getHtmlSmallLoader(false)?></div>
+<div id='action-loader' style="display:none"><?=  $block->getHtmlSmallLoader(false)?></div>
 <script type="text/javascript">
 <!--
 require([
          'jquery'
      ], function($){
 
-        var baseConfigUrl = '<?php echo $block->getFrontUrl('quickdevbar/action/configUpdate/'); ?>';
-        var baseCacheUrl = '<?php echo $block->getFrontUrl('quickdevbar/action/cache/'); ?>';
+        var baseConfigUrl = '<?=  $block->getFrontUrl('quickdevbar/action/configUpdate/'); ?>';
+        var baseCacheUrl = '<?=  $block->getFrontUrl('quickdevbar/action/cache/'); ?>';
         var loaded = false;
 
         showLoader = function(target) {

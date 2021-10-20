@@ -13,10 +13,10 @@
 <?php
 foreach ($block->getPluginsList() as $type): ?>
     <tr>
-      <td class="type"><?php echo $type['type']; ?></td>
-      <td class="plugin"><?php echo $type['plugin']; ?></td>
-      <td class="sort_order"><?php echo $type['sort_order']; ?></td>
-      <td class="methods"><?php echo $type['method']; ?></td>
+      <td class="type"><?=  $type['type']; ?></td>
+      <td class="plugin"><?=  $type['plugin']; ?></td>
+      <td class="sort_order"><?=  $type['sort_order']; ?></td>
+      <td class="methods"><?=  $type['method']; ?></td>
     </tr>
     <?php endforeach ?>
 </tbody>

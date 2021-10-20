@@ -13,8 +13,8 @@
     $i = 0;
     foreach ($this->getCollections() as $collection): ?>
   <tr>
-    <td><?php echo $collection['class']; ?></td>
-    <td><?php echo $collection['nbr']; ?></td>
+    <td><?=  $collection['class']; ?></td>
+    <td><?=  $collection['nbr']; ?></td>
   </tr>
         <?php $i++; ?>
     <?php endforeach ?>

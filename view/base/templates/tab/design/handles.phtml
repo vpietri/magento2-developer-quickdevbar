@@ -4,10 +4,10 @@
 <?php if ($block->getHandles()):?>
 <table class="qdn_table_2col">
 <tr>
-    <th><?php echo __('Handles'); ?></th>
+    <th><?=  __('Handles'); ?></th>
     <td>
     <?php foreach ($block->getHandles() as $handle): ?>
-        <?php echo $handle; ?></br>
+        <?=  $handle; ?></br>
     <?php endforeach;?>
     <br/>
     </td>
