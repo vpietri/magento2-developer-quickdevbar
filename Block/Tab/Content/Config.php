@@ -2,6 +2,8 @@
 
 namespace ADM\QuickDevBar\Block\Tab\Content;
 
+use Magento\Framework\App\Config\ScopeConfigInterface;
+
 class Config extends \ADM\QuickDevBar\Block\Tab\Panel
 {
     protected $_config_values;
@@ -25,8 +27,9 @@ class Config extends \ADM\QuickDevBar\Block\Tab\Panel
 
     public function getConfigValues()
     {
-        if ($this->_config_values === null) {
-            $this->_config_values = $this->_buildFlatConfig($this->_appConfig->getValue());
+        if (is_null($this->_config_values)) {
+            $this->_config_values = $this->_buildFlatConfig($this->_appConfig->getValue( null, ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+                null));
         }
 
         return $this->_config_values;
