@@ -69,7 +69,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $allow = $this->isIpAuthorized();
 
                 if(!$allow ) {
-                		$allow = $this->isUserAgentAuthorized();
+                    $allow = $this->isUserAgentAuthorized();
                 }
             } else {
                 $allow = true;
