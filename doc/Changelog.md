@@ -1,5 +1,9 @@
 Changelog: Quick Developer Toolbar for Magento2
 ====================================
+0.1.18
+* Fix js error 'base is not a constructor', thanks to @asalgado0391, closes #53
+* Fix call appConfig->getValue, closes #26 
+
 0.1.17
 * Fixed report from Content Security Policies module. Thanks to  [pikulsky and r-martins](https://github.com/vpietri/magento2-developer-quickdevbar/pull/47)
 
