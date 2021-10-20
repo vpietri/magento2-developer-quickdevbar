@@ -25,6 +25,7 @@
                 <item name="layout_handles" xsi:type="object" >ADM\QuickDevBar\Service\Layout\Handle</item>
                 <item name="layout_tree_blocks_hierarchy" xsi:type="object" >ADM\QuickDevBar\Service\Layout\Hierarchy</item>
                 <item name="object_manager_config" xsi:type="object" >ADM\QuickDevBar\Service\Config</item>
+                <item name="module_list" xsi:type="object" >ADM\QuickDevBar\Service\Module</item>
             </argument>
         </arguments>
     </type>
