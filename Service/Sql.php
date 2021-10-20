@@ -75,7 +75,7 @@ class Sql implements ServiceInterface
                             $shortestQueryTime = $query->getElapsedSecs();
                         }
 
-                        $allQueries[] = ['sql' => $query->getQuery(), 'time' => $query->getElapsedSecs(), 'grade' => 'medium'];
+                        $allQueries[] = ['sql' => $query->getQuery(), 'params' => $query->getQueryParams(), 'time' => $query->getElapsedSecs(), 'grade' => 'medium'];
                     }
                 }
             }

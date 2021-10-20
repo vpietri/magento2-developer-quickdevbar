@@ -9,9 +9,8 @@ class Manager
      */
     private $serviceManager;
 
-
     /**
-     * @param \ADM\QuickDevBar\Helper\Data $qdbHelper
+     * @param \ADM\QuickDevBar\Helper\Register $qdbHelperRegister
      */
     public function __construct(
         \ADM\QuickDevBar\Service\Event\Manager $serviceManager
@@ -25,7 +24,7 @@ class Manager
      * Calls all observer callbacks registered for this event
      * and multiple observers matching event name pattern
      *
-     * @param Magento\Framework\Event\Manager $interceptor
+     * @param \Magento\Framework\Event\Manager $interceptor
      * @param string $eventName
      * @param array $data
      */

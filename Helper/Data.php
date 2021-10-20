@@ -81,9 +81,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function isToolbarAccessAllowed()
     {
-        return true;
-
-
         $allow = false;
         $enable = $this->getConfig('dev/quickdevbar/enable');
 
@@ -92,8 +89,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             if ($enable>1) {
                 $allow = $this->isIpAuthorized();
 
-                if (!$allow) {
-                        $allow = $this->isUserAgentAuthorized();
+                if(!$allow) {
+                    $allow = $this->isUserAgentAuthorized();
                 }
             } else {
                 $allow = true;
