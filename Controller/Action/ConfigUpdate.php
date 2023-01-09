@@ -115,6 +115,11 @@ class ConfigUpdate extends \ADM\QuickDevBar\Controller\Index
                     $this->_resourceConfig->saveConfig('dev/translate_inline/active', $configValue, $configScope, $configScopeId);
                     $output = "Translate set " . ($configValue ? 'On' : 'Off');
                     break;
+                case 'devadmin':
+                    $this->_resourceConfig->saveConfig('admin/security/password_lifetime', 0, $configScope, $configScopeId);
+                    $this->_resourceConfig->saveConfig('admin/security/password_is_forced', 0, $configScope, $configScopeId);
+                    $output = "Done";
+                    break;
                 default:
                     break;
             }

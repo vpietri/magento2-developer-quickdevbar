@@ -33,6 +33,7 @@ class LayoutGenerateBlocksAfterObserver implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
+        /** @var \Magento\Framework\View\LayoutInterface $layout */
         $layout = $observer->getLayout();
 
         $this->serviceHandle->addLayoutHandles($this->getHandles($layout));
@@ -40,9 +41,9 @@ class LayoutGenerateBlocksAfterObserver implements ObserverInterface
     }
 
 
-
     /**
-     * @return array
+     * @param \Magento\Framework\View\LayoutInterface $layout
+     * @return mixed
      */
     protected function getHandles($layout)
     {
@@ -58,7 +59,9 @@ class LayoutGenerateBlocksAfterObserver implements ObserverInterface
      * But by now seems no other way
      * @see: https://github.com/magento/magento2/issues/748
      *
-     * @return array
+     * @param \Magento\Framework\View\LayoutInterface $layout
+     * @return array|null
+     * @throws \ReflectionException
      */
     public function getTreeBlocksHierarchy($layout)
     {
@@ -81,10 +84,11 @@ class LayoutGenerateBlocksAfterObserver implements ObserverInterface
     }
 
     /**
-     *
-     * @param array $elements
-     * @param string $name
-     * @param string $alias
+     * @param \Magento\Framework\View\LayoutInterface $layout
+     * @param $name
+     * @param $alias
+     * @return array|void
+     * @throws \ReflectionException
      */
     protected function buildTreeBlocks($layout, $name = 'root', $alias = '')
     {
@@ -100,9 +104,16 @@ class LayoutGenerateBlocksAfterObserver implements ObserverInterface
                 'class_file' => '',
             ];
 
+            /** @var \Magento\Framework\View\Element\AbstractBlock|bool $block */
             $block = $layout->getBlock($name);
             if (false !== $block) {
-                $treeBlocks['file'] = $block->getTemplateFile();
+
+                $templateFile = '';
+                if($block->getTemplate()) {
+                    $templateFile = $block->getTemplateFile();
+                }
+
+                $treeBlocks['file'] = $templateFile;
                 $treeBlocks['class_name'] = get_class($block);
                 if (!empty($treeBlocks['class_name'])) {
                     $reflectionClass = new \ReflectionClass($block);
