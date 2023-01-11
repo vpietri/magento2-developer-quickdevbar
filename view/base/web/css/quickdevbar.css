@@ -80,7 +80,7 @@ div.qdb-container-collapsed {
 
 div.qdb-panel  div.qdb-container {
      width: 90%;
-     
+
 }
 
 div.qdb-container ul {
@@ -289,7 +289,7 @@ ul.qdbTree li.first {
 table.qdn_table {
   border-collapse: collapse;
   border: 1px solid #ccc;
-  width: 100%;  
+  width: 100%;
 }
 
 
@@ -315,16 +315,16 @@ table.qdn_table.grade tr.bad {
 }
 
 table.qdn_table tr td, table.qdn_table tr th {
-  padding: 5px;    
+  padding: 5px;
 }
 
 table.qdn_table tr th {
   color: #004276;
   white-space: nowrap;
-  text-align: left; 
+  text-align: left;
 }
 
-table.qdn_table tbody tr.striped { 
+table.qdn_table tbody tr.striped {
     background-color: #f5f5f5;
 }
 
@@ -338,11 +338,11 @@ table.qdn_table tbody tr:hover {
   */
 
 table.qdn_table_2col {
-  width: 100%;  
+  width: 100%;
 }
 
 table.qdn_table_2col tr td, table.qdn_table_2col tr th {
-    padding: 2px;    
+    padding: 2px;
     text-align: left;
 }
 
@@ -366,21 +366,21 @@ th.header.headerSortUp:after {
 }
 */
 
-table.sortable th.header.headerSortUp:after { 
-    content: url(../images/asc.gif); 
-} 
-
-  
-table.sortable th.header.headerSortDown:after { 
-    content: url(../images/desc.gif); 
-} 
-
-table.sortable th.header:after { 
-    content: url(../images/bg.gif); 
+table.sortable th.header.headerSortUp:after {
+    content: url(../images/asc.gif);
 }
 
-table.sortable th.header { 
-    cursor: pointer; 
+
+table.sortable th.header.headerSortDown:after {
+    content: url(../images/desc.gif);
+}
+
+table.sortable th.header:after {
+    content: url(../images/bg.gif);
+}
+
+table.sortable th.header {
+    cursor: pointer;
 }
 
 /**
@@ -415,4 +415,8 @@ pre {
     font-family: "Courier New", monospace;
     border:1px solid;
     padding:5px;
+}
+
+.qdb-warning {
+    color:#FF5200;
 }

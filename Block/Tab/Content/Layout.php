@@ -56,14 +56,25 @@ class Layout extends \ADM\QuickDevBar\Block\Tab\Panel
         $nodeNumering = 0;
         $html = '<ul ' . (($level==0) ? 'id="block-tree-root"' : '') . '>';
         foreach ($treeBlocks as $treeNode) {
+            if(empty($treeNode)) {
+                continue;
+            }
+
             $id = $level.'_'.$nodeNumering;
-            $html .= '<li data-node-id="'.$id.'" class="' . $treeNode['type'] . '"><span>' . $treeNode['name'] . '</span>';
+            $html .= '<li data-node-id="'.$id.'" class="' .
+                $treeNode['type'] .
+                ($treeNode['cacheable'] ?: ' qdb-warning ') .
+                '"><span>' .
+                $treeNode['name'] . '</span>';
             $blockInfo = [];
             if (!empty($treeNode['class_name'])) {
                 $blockInfo[]= 'Class: ' . $treeNode['class_name'] . ' (' . $this->_qdbHelper->displayMagentoFile($treeNode['class_file']) . ')';
             }
             if (!empty($treeNode['file'])) {
                 $blockInfo[]= 'Template: ' . $this->_qdbHelper->displayMagentoFile($treeNode['file']);
+            }
+            if (empty($treeNode['cacheable'])) {
+                $blockInfo[]= 'Not cacheable';
             }
             if (!empty($blockInfo)) {
                 $html .= '<div id="node_detail_'.$id.'" class="detail" style="display:none">' . implode('<br/>', $blockInfo) . '</div>';

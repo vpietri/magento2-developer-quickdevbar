@@ -13,15 +13,12 @@
 </tr>
 </thead>
 <tbody>
-    <?php
-    $i = 0;
-    foreach ($this->getEvents() as $event): ?>
-  <tr>
-    <td><?=  $event['event']; ?></td>
-    <td><?=  (!empty($event['args']) ? '<ul><li>'.implode('</li><li>', $event['args']).'</li></ul>' : ''); ?></td>
-    <td><?=  $event['nbr']; ?></td>
-  </tr>
-        <?php $i++; ?>
+    <?php foreach ($this->getEvents() as $event): ?>
+      <tr>
+        <td><?=  $event['event']; ?></td>
+        <td><?=  (!empty($event['args']) ? '<ul><li>'.implode('</li><li>', $event['args']).'</li></ul>' : ''); ?></td>
+        <td><?=  $event['nbr']; ?></td>
+      </tr>
     <?php endforeach ?>
 </tbody>
 </table>

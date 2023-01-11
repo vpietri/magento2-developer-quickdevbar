@@ -5,10 +5,20 @@
         <plugin name="qdb-trace-event"
                 type="ADM\QuickDevBar\Plugin\Framework\Event\Manager" sortOrder="1"/>
     </type>
-    
+
     <type name="Magento\Framework\Event\InvokerInterface">
         <plugin name="qdb-trace-observer"
                 type="ADM\QuickDevBar\Plugin\Framework\Event\Invoker" sortOrder="1"/>
+    </type>
+
+    <type name="Magento\Framework\App\CacheInterface">
+        <plugin name="qdb-trace-cache"
+                type="ADM\QuickDevBar\Plugin\Framework\App\Cache" sortOrder="1" />
+    </type>
+
+    <type name="Magento\Elasticsearch\Elasticsearch5\Model\Client\Elasticsearch">
+        <plugin name="qdb-trace-es"
+                type="ADM\QuickDevBar\Plugin\Elasticsearch\Client" sortOrder="1" />
     </type>
 
     <type name="ADM\QuickDevBar\Helper\Register">
@@ -26,6 +36,8 @@
                 <item name="layout_tree_blocks_hierarchy" xsi:type="object" >ADM\QuickDevBar\Service\Layout\Hierarchy</item>
                 <item name="object_manager_config" xsi:type="object" >ADM\QuickDevBar\Service\Config</item>
                 <item name="module_list" xsi:type="object" >ADM\QuickDevBar\Service\Module</item>
+                <item name="cache_events" xsi:type="object" >ADM\QuickDevBar\Service\App\Cache</item>
+                <item name="es_events" xsi:type="object" >ADM\QuickDevBar\Service\Elasticsearch</item>
             </argument>
         </arguments>
     </type>

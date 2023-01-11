@@ -35,7 +35,7 @@ class Request extends \ADM\QuickDevBar\Block\Tab\Panel
         if (is_array($data['value'])) {
             return '<pre>' . print_r($data['value'], true) . '</pre>';
         } elseif (!empty($data['is_url'])) {
-            return '<a href="' . $data['value'] . '">' . $data['value'] . '</a>';
+            return '<a target="_blank" href="' . $data['value'] . '">' . $data['value'] . '</a>';
         } else {
             return $data['value'];
         }

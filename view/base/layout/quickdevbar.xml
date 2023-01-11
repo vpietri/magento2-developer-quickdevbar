@@ -116,6 +116,11 @@
                           <argument name="title" xsi:type="string">Preferences</argument>
                       </arguments>
                     </block>
+                      <block class="ADM\QuickDevBar\Block\Tab\Content\Cache" name="qdb.tab.cache" as="qdb.tab.cache" template="ADM_QuickDevBar::tab/profile/cache.phtml">
+                          <arguments>
+                              <argument name="title" xsi:type="string">Cache hits</argument>
+                          </arguments>
+                      </block>
                   </block>
                   <block class="ADM\QuickDevBar\Block\Tab\Content\Sql" name="qdb.tab.sql" as="qdb.tab.sql" template="ADM_QuickDevBar::tab/sql.phtml">
                     <arguments>

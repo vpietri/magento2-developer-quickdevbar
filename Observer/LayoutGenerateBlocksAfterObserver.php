@@ -6,11 +6,15 @@ namespace ADM\QuickDevBar\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\View\Layout\Element;
 
 class LayoutGenerateBlocksAfterObserver implements ObserverInterface
 {
 
     private $_elements = [];
+
+    private $nonCacheableBlocks = [];
+
     /**
      * @var \ADM\QuickDevBar\Service\Layout\Handle
      */
@@ -69,9 +73,19 @@ class LayoutGenerateBlocksAfterObserver implements ObserverInterface
 
         $reflection = new \ReflectionClass($layout);
 
+        /** @var \Magento\Framework\View\Layout\Data\Structure $structure */
         $structure = $reflection->getProperty('structure');
         $structure->setAccessible(true);
         $structure = $structure->getValue($layout);
+
+        if($elements = $layout->getXpath('//' . Element::TYPE_BLOCK . '[@cacheable="false"]')) {
+            foreach ($elements as $element) {
+                $blockName = $element->getBlockName();
+                if ($blockName !== false && $structure->hasElement($blockName)) {
+                    $this->nonCacheableBlocks[$blockName] = $blockName;
+                }
+            }
+        }
 
         $this->_elements = $structure->exportElements();
         if ($this->_elements) {
@@ -102,6 +116,7 @@ class LayoutGenerateBlocksAfterObserver implements ObserverInterface
                 'file' => '',
                 'class_name' => '',
                 'class_file' => '',
+                'cacheable'  => empty($this->nonCacheableBlocks[$name])
             ];
 
             /** @var \Magento\Framework\View\Element\AbstractBlock|bool $block */
@@ -112,6 +127,7 @@ class LayoutGenerateBlocksAfterObserver implements ObserverInterface
                 if($block->getTemplate()) {
                     $templateFile = $block->getTemplateFile();
                 }
+
 
                 $treeBlocks['file'] = $templateFile;
                 $treeBlocks['class_name'] = get_class($block);
