@@ -7,22 +7,22 @@ define(["jquery",
          "tablesorter",
          'mage/cookies'
 ], function($){
-    
+
     /**
-     * 
+     *
      * Events attached
-     * 
+     *
      * All tabs
      * - quickdevbartabscreate
      * - quickdevbartabsbeforeactivate
      * - quickdevbartabsactivate
-     * 
+     *
      * Ajax tabs
      * - quickdevbartabsbeforeload
      * - quickdevbartabsload
-     * 
+     *
      */
-    
+
     $.widget('mage.quickDevBarTabs', $.ui.tabs, {
         _create: function() {
             var qdbOption = this.element.attr('data-qdbtabs-option');
@@ -31,7 +31,7 @@ define(["jquery",
             }
             this._super();
         },
-        
+
         load: function( index, event ) {
             index = this._getIndex( index );
             var that = this,
@@ -42,7 +42,7 @@ define(["jquery",
                     tab: tab,
                     panel: panel
                 };
-            
+
             var anchorUrl = $( anchor ).attr( "data-ajax" );
             var rhash = /#.*$/;
 
@@ -50,7 +50,7 @@ define(["jquery",
             if ( typeof anchorUrl =='undefined' || anchorUrl.length < 1 ||  anchorUrl.replace( rhash, "" ).length<1) {
                 return;
             }
-            
+
             this.xhr = $.ajax( this._ajaxSettings( anchorUrl, event, eventData ) );
 
             // support: jQuery <1.8
@@ -61,18 +61,18 @@ define(["jquery",
                 panel.attr( "aria-busy", "true" );
 
                 this.xhr
-                    .success(function( response ) {
+                    .done(function( response ) {
                         // support: jQuery <1.8
                         // http://bugs.jquery.com/ticket/11778
                         setTimeout(function() {
                             panel.html( response );
                             that._trigger( "load", event, eventData );
-                            
+
                             // Prevent tab to be load several times
                             $( anchor ).removeAttr( "data-ajax" );
                         }, 1 );
                     })
-                    .complete(function( jqXHR, status ) {
+                    .always(function( jqXHR, status ) {
                         // support: jQuery <1.8
                         // http://bugs.jquery.com/ticket/11778
                         setTimeout(function() {
@@ -90,7 +90,7 @@ define(["jquery",
                     });
             }
         },
-        
+
         _ajaxSettings: function( anchorUrl, event, eventData ) {
             var that = this;
             return {
@@ -102,7 +102,7 @@ define(["jquery",
             };
         },
     });
-    
+
     $.widget("mage.treeView", {
         // default options
         options: {
@@ -116,7 +116,7 @@ define(["jquery",
 
           var self = this;
 
-          
+
           this.element.find('li').each(function() {
             var li = $(this);
             li.prepend('<div class="node"></div>');
@@ -162,8 +162,8 @@ define(["jquery",
         },
 
       });
-    
-      
+
+
     $.widget('mage.quickDevBar', {
         options: {
             css: false,
@@ -201,8 +201,7 @@ define(["jquery",
                 rel: 'stylesheet',
                 type: 'text/css',
                 href: this.options.css
-            }).appendTo('head');            
-
+            }).appendTo('head');
             /* Manage toggling toolbar */
             if(this.getVisibility()) {
                 this.element.toggle(this.options.toggleEffect);
@@ -214,8 +213,8 @@ define(["jquery",
                 this.element.toggle(this.options.toggleEffect);
 
             }, this));
-            
-            /* Apply ui.tabs widget */ 
+
+            /* Apply ui.tabs widget */
             $('div.qdb-container').quickDevBarTabs({load:$.proxy(function(event, data){
                 if($(data.panel)) {
                     this.applyTabPlugin('#' + $(data.panel).attr( "id" ));
@@ -224,7 +223,7 @@ define(["jquery",
             );
 
             this.applyTabPlugin('div.qdb-container');
-            
+
             /* Manage ajax tabs */
             $('div.qdb-container').addClass('qdb-container-collapsed');
         },
@@ -244,11 +243,11 @@ define(["jquery",
 
             return visible;
         },
-        
+
         applyTabPlugin: function(selector) {
-            
+
             /* Apply enhancement on table */
-            
+
             /* classToStrip: Set odd even class on tr */
             $(selector + ' table.' + this.options.classToStrip + ' tr:even').addClass(this.options.stripedClassname);
 
@@ -256,16 +255,16 @@ define(["jquery",
             $(selector + ' table.' + this.options.classToFilter).filterTable({
                 label: 'Search filter:',
                 minRows: 10,
-                visibleClass: '', 
+                visibleClass: '',
                 callback: $.proxy(function(term, table) {
                     table.find('tr').removeClass(this.options.stripedClassname).filter(':visible:even').addClass(this.options.stripedClassname);
                 }, this)
             });
-            
+
             /* classToSort: Set sort on thead */
-            $(selector + ' table.' + this.options.classToSort).tablesorter(); 
+            $(selector + ' table.' + this.options.classToSort).tablesorter();
         },
-        
+
         /**
          * https://wiki.eclipse.org/Eclipse_Web_Interface
          */
@@ -285,6 +284,6 @@ define(["jquery",
               if( e.name!='NS_ERROR_FAILURE' && e.result!=2147500037)
                 window.location = url;
             }
-        }        
+        }
     });
 });

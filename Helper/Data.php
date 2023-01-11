@@ -123,8 +123,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getAllowedIps($separator = false)
     {
         $allowedIps = $this->getConfig('dev/quickdevbar/allow_ips');
-        if ($allowedIps) {
-            $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
+        if($allowedIps) {
+            $allowedIps = preg_split('#\s*,\s*#', $allowedIps, -1, PREG_SPLIT_NO_EMPTY);
         } else {
             $allowedIps = [];
         }
