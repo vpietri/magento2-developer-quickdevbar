@@ -12,7 +12,8 @@ class Ajax extends \ADM\QuickDevBar\Controller\Index
         $blockName = $this->getRequest()->getParam('block', '');
 
         try {
-            $this->_view->loadLayout();
+            $this->_view->loadLayout('quickdevbar');
+
             if ($this->_view->getLayout()->getBlock($blockName)) {
                 $output = $this->_view->getLayout()->getBlock($blockName)->toHtml();
             } else {

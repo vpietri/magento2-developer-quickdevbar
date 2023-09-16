@@ -56,7 +56,9 @@ define(["jquery",
             // support: jQuery <1.8
             // jQuery <1.8 returns false if the request is canceled in beforeSend,
             // but as of 1.8, $.ajax() always returns a jqXHR object.
-            if ( this.xhr && this.xhr.statusText !== "canceled" ) {
+            //TODO: Prevent translation first tab always load without click
+            //if (typeof event !='undefined' && this.xhr && this.xhr.statusText !== "canceled" ) {
+            if (this.xhr && this.xhr.statusText !== "canceled" ) {
                 tab.addClass( "ui-tabs-loading" );
                 panel.attr( "aria-busy", "true" );
 

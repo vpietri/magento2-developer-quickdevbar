@@ -11,10 +11,20 @@
                 type="ADM\QuickDevBar\Plugin\Framework\Event\Invoker" sortOrder="1"/>
     </type>
 
+    \Magento\Framework\Cache\Frontend\Decorator\TagScope
+<!--
+    <type name="Magento\Framework\App\CacheInterface">
+-->
     <type name="Magento\Framework\App\CacheInterface">
         <plugin name="qdb-trace-cache"
                 type="ADM\QuickDevBar\Plugin\Framework\App\Cache" sortOrder="1" />
     </type>
+
+    <type name="Magento\PageCache\Model\Cache\Type">
+        <plugin name="qdb-trace-cache"
+                type="ADM\QuickDevBar\Plugin\PageCache\FrontController\BuiltinPlugin" sortOrder="1" />
+    </type>
+
 
     <type name="Magento\Elasticsearch\Elasticsearch5\Model\Client\Elasticsearch">
         <plugin name="qdb-trace-es"

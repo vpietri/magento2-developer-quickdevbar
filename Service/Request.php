@@ -13,6 +13,8 @@ use Magento\Framework\App\State;
 
 class Request implements ServiceInterface
 {
+    const LABEL_CACHE_HIDDEN = '[hidden by cache]';
+
     /**
      * @var Http
      */
@@ -57,11 +59,11 @@ class Request implements ServiceInterface
         $requestData = [];
         $requestData[] = ['name' => 'Base Url', 'value' => $request->getDistroBaseUrl(), 'is_url' => true];
         $requestData[] = ['name' => 'Path Info', 'value' => $request->getPathInfo()];
-        $requestData[] = ['name' => 'Module Name', 'value' => $request->getControllerModule()];
-        $requestData[] = ['name' => 'Controller', 'value' => $request->getControllerName()];
-        $requestData[] = ['name' => 'Action', 'value' => $request->getActionName()];
-        $requestData[] = ['name' => 'Full Action', 'value' => $request->getFullActionName()];
-        $requestData[] = ['name' => 'Route', 'value' => $request->getRouteName()];
+        $requestData[] = ['name' => 'Module Name', 'value' => $request->getControllerModule() ?: self::LABEL_CACHE_HIDDEN];
+        $requestData[] = ['name' => 'Controller', 'value' => $request->getControllerName() ?: self::LABEL_CACHE_HIDDEN];
+        $requestData[] = ['name' => 'Action', 'value' => $request->getActionName() ?: self::LABEL_CACHE_HIDDEN];
+        $requestData[] = ['name' => 'Full Action', 'value' => $request->getFullActionName() ?: self::LABEL_CACHE_HIDDEN];
+        $requestData[] = ['name' => 'Route', 'value' => $request->getRouteName() ?: self::LABEL_CACHE_HIDDEN];
         $requestData[] = ['name' => 'Area', 'value' => $this->appState->getAreaCode()];
 
         if ($this->session->isLoggedIn()) {
