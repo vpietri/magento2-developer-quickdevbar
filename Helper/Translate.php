@@ -157,7 +157,6 @@ class Translate extends \Magento\Framework\Translate
                 if ($key === $value) {
                     continue;
                 }
-                if ($value) {
                 $this->_data['module'][htmlspecialchars($key)] = [
                     'file' => $relativePath,
                     'translation' => htmlspecialchars((string)$value)
