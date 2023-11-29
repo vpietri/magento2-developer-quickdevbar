@@ -6,15 +6,30 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class Register extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    protected $_events;
+    /**
+     * @var array
+     */
+    protected $_events=[];
 
-    protected $_observers;
+    /**
+     * @var array
+     */
+    protected $_observers=[];
 
-    protected $_collections;
+    /**
+     * @var array
+     */
+    protected $_collections=[];
 
-    protected $_models;
+    /**
+     * @var array
+     */
+    protected $_models=[];
 
-    protected $_blocks;
+    /**
+     * @var array
+     */
+    protected $_blocks=[];
 
 
     public function addObserver($observerConfig, $wrapper)
@@ -36,6 +51,9 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
         }
     }
 
+    /**
+     * @return array
+     */
     public function getObservers()
     {
         return $this->_observers;
@@ -73,6 +91,9 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
         }
     }
 
+    /**
+     * @return array
+     */
     public function getEvents()
     {
         return $this->_events;
@@ -87,6 +108,9 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_collections[$class]['nbr']++;
     }
 
+    /**
+     * @return array
+     */
     public function getCollections()
     {
         return $this->_collections;
@@ -101,6 +125,9 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
         }
         $this->_models[$class]['nbr']++;
     }
+    /**
+     * @return array
+     */
 
     public function getModels()
     {
@@ -120,6 +147,9 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_blocks[$class]['nbr']++;
     }
 
+    /**
+     * @return array
+     */
     public function getBlocks()
     {
         return $this->_blocks;
