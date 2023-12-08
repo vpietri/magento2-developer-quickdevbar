@@ -44,7 +44,11 @@
 <tr>
     <th>#</th>
     <th class="{sorter: false}">SQL</th>
+    <?php if($block->useQdbProfiler()): ?>
+        <th class="{sorter: false}">Bt</th>
+    <?php endif; ?>
     <th class="{sorter: 'digit'}">Time</th>
+
 </tr>
 </thead>
 <tbody>
@@ -54,7 +58,10 @@
     <tr class="<?php echo  $query['grade']; ?>">
       <td><?php echo $i;?></td>
       <td class="sqlquery"><?php echo $block->formatSql($query['sql']); ?></td>
-      <td class="sqltimer"><?php echo  $block->formatSqlTime($query['time']); ?></td>
+        <?php if($block->useQdbProfiler()): ?>
+            <td><?php echo  implode('<br/>', $query['bt']); ?></td>
+        <?php endif; ?>
+        <td class="sqltimer"><?php echo  $block->formatSqlTime($query['time']); ?></td>
     </tr>
     <?php $i++; ?>
   <?php endforeach ?>
@@ -65,6 +72,8 @@
 <?php else:?>
 SQL profiler is not active<br/>
 You can use command line
+<pre>bin/magento dev:quickdevbar:enable</pre>
+and use a specific profiler with backtrace
 <pre>bin/magento dev:quickdevbar:enable --sql-profiler</pre>
 or set a new key for $config array in file app/etc/env.php<br/>
 <pre>$config[db][connection][default][profiler] = 1</pre>

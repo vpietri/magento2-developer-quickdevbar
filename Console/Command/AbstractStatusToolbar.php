@@ -110,8 +110,16 @@ abstract class AbstractStatusToolbar extends \Symfony\Component\Console\Command\
 
         $lockTargetPath = ConfigFilePool::APP_ENV;
         if ($input->getOption(self::ACTIVATE_SQL_PROFILER)) {
+
+            $profilerValue = 0;
+            if($this->status) {
+                $profilerValue = [ 'enabled'=>1,
+                    'class' => \ADM\QuickDevBar\Profiler\Db::class
+                ];
+            }
+
             $this->writer->saveConfig(
-                [$lockTargetPath => $this->arrayManager->set('db/connection/default/profiler', [], $this->status)],
+                [$lockTargetPath => $this->arrayManager->set('db/connection/default/profiler', [], $profilerValue)],
                 false
             );
             $output->writeln("<info>SQL profiler is enabled in env.php</info>");

@@ -18,6 +18,7 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
     protected $_longestQuery;
 
     protected $_resource;
+    protected $useQdbProfiler=false;
 
     public function __construct(\Magento\Framework\View\Element\Template\Context $context,
                                       \Magento\Framework\App\ResourceConnection $resource
@@ -65,17 +66,25 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
             $this->_sql_profiler = new \Zend_Db_Profiler();
             if(!is_null($this->_resource)) {
                 $this->_sql_profiler = $this->_resource->getConnection('read')->getProfiler();
+                $this->useQdbProfiler = method_exists($this->_sql_profiler, 'getQueryBt');
+
+
                 if ($this->_sql_profiler->getQueryProfiles() && is_array($this->_sql_profiler->getQueryProfiles())) {
-                    foreach ($this->_sql_profiler->getQueryProfiles() as $query) {
-                        if ($query->getElapsedSecs() > $this->_longestQueryTime) {
-                            $this->_longestQueryTime = $query->getElapsedSecs();
-                            $this->_longestQuery = $query->getQuery();
+                    foreach ($this->_sql_profiler->getQueryProfiles() as $key => $qp) {
+                        if ($qp->getElapsedSecs() > $this->_longestQueryTime) {
+                            $this->_longestQueryTime = $qp->getElapsedSecs();
+                            $this->_longestQuery = $qp->getQuery();
                         }
-                        if ($query->getElapsedSecs() < $this->_shortestQueryTime) {
-                            $this->_shortestQueryTime = $query->getElapsedSecs();
+                        if ($qp->getElapsedSecs() < $this->_shortestQueryTime) {
+                            $this->_shortestQueryTime = $qp->getElapsedSecs();
                         }
 
-                        $this->_all_queries[] = ['sql' => $query->getQuery(), 'time' => $query->getElapsedSecs(), 'grade' => 'medium'];
+                        $queryData = ['sql' => $qp->getQuery(), 'time' => $qp->getElapsedSecs(), 'bt' => null, 'grade' => 'medium'];
+                        if ($this->useQdbProfiler) {
+                            $queryData['bt'] = $this->_sql_profiler->getQueryBt($key);
+                        }
+
+                        $this->_all_queries[] = $queryData;
                     }
                 }
             }
@@ -156,6 +165,11 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
         $formatedTime = number_format(round(1000*$time,$decimals),$decimals);
 
         return $formatedTime . 'ms';
+    }
+
+    public function useQdbProfiler()
+    {
+        return $this->useQdbProfiler;
     }
 
 }
