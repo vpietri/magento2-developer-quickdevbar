@@ -69,8 +69,10 @@
     </table>
 </div>
 
-    <?php else:?>
-    SQL profiler is not active<br/>
-    You should set a new key for $config array in file app/etc/env.php<br/>
-    <pre>$config[db][connection][default][profiler] = 1</pre>
-    <?php  endif ?>
+<?php else:?>
+SQL profiler is not active<br/>
+You can use command line
+<pre>bin/magento dev:quickdevbar:enable --sql-profiler</pre>
+or set a new key for $config array in file app/etc/env.php<br/>
+<pre>$config[db][connection][default][profiler] = 1</pre>
+<?php  endif ?>

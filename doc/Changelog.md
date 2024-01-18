@@ -3,6 +3,18 @@ Changelog: Quick Developer Toolbar for Magento2
 0.2.0
 * use toolbar ajax load to be cache compatible
 * code cleaning
+* 
+0.1.20
+* Add command to enable/disable toolbar and activate sql profiler
+* Remove Deprecated Warning in Translate Helper, thanks [lefte](https://github.com/vpietri/magento2-developer-quickdevbar/pull/69) and [josue-rmoya](https://github.com/vpietri/magento2-developer-quickdevbar/pull/66)
+* Fix must be of type Countable, thanks @bbakalov, closes #70
+
+0.1.19
+* Fix M244 compatibility, removed legacy text from readme, thanks [asannikov](https://github.com/vpietri/magento2-developer-quickdevbar/pull/63)
+* Compatibility 2.4.4, Closes #60, closes #62
+
+0.1.18.1
+* Remove version from composer
 
 0.1.18
 * Fix js error 'base is not a constructor', thanks to @asalgado0391, closes #53

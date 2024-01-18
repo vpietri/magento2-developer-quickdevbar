@@ -78,4 +78,12 @@
         </arguments>
     </virtualType>
 
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="enableDebugToolbar" xsi:type="object">ADM\QuickDevBar\Console\Command\EnableToolBar</item>
+                <item name="disableDebugToolbar" xsi:type="object">ADM\QuickDevBar\Console\Command\DisableToolBar</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

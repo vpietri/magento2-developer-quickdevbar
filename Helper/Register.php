@@ -127,6 +127,9 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     {
         return $this->getRegisteredData('collections');
     }
+    /**
+     * @return array
+     */
 
     /**
      * @return mixed
