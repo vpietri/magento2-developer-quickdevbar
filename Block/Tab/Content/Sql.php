@@ -19,6 +19,7 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
      */
     private $objectFactory;
 
+
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
@@ -116,4 +117,10 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
     {
         return number_format(round(1000 * $time, $decimals), $decimals) . 'ms';
     }
+
+    public function useQdbProfiler()
+    {
+        return $this->getSqlProfiler()->getShowBacktrace();
+    }
+
 }

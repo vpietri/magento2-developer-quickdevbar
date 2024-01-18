@@ -13,8 +13,6 @@ class Sql implements ServiceInterface
      */
     private $sqlProfilerData;
 
-
-
     private $_sql_profiler;
 
     private $_resource;
@@ -36,6 +34,7 @@ class Sql implements ServiceInterface
      * @var \Magento\Framework\App\ResourceConnection
      */
     private $resource;
+    private $useQdbProfiler = false;
 
     public function __construct(\Magento\Framework\App\ResourceConnection $resource,
                                 \Magento\Framework\DataObjectFactory $objectFactory)
@@ -65,8 +64,12 @@ class Sql implements ServiceInterface
             $this->_sql_profiler = new \Zend_Db_Profiler();
             if ($this->resource !== null) {
                 $this->_sql_profiler = $this->resource->getConnection('read')->getProfiler();
+
+                $this->useQdbProfiler = method_exists($this->_sql_profiler, 'getQueryBt');
+
+
                 if ($this->_sql_profiler->getQueryProfiles() && is_array($this->_sql_profiler->getQueryProfiles())) {
-                    foreach ($this->_sql_profiler->getQueryProfiles() as $query) {
+                    foreach ($this->_sql_profiler->getQueryProfiles() as $key => $query) {
                         if ($query->getElapsedSecs() > $longestQueryTime) {
                             $longestQueryTime = $query->getElapsedSecs();
                             $longestQuery = $query->getQuery();
@@ -78,8 +81,8 @@ class Sql implements ServiceInterface
                         $allQueries[] = ['sql' => $query->getQuery(),
                             'params' => $query->getQueryParams(),
                             'time' => $query->getElapsedSecs(),
-                            'grade' => 'medium'
-                            //TODO: Add backtrace
+                            'grade' => 'medium',
+                            'bt' => $this->useQdbProfiler ? $this->_sql_profiler->getQueryBt($key) : null
                         ];
                     }
                 }
@@ -114,6 +117,7 @@ class Sql implements ServiceInterface
                 'num_queries_per_second' => floor($totalNumQueries/$totalElapsedSecs),
                 'average' => $average,
                 'total_num_queries_by_type' => $numQueriesByType,
+                'show_backtrace' => $this->useQdbProfiler
                 ];
     }
 
@@ -139,4 +143,5 @@ class Sql implements ServiceInterface
 
         return $allQueries;
     }
+
 }
