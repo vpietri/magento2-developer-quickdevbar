@@ -1,6 +1,7 @@
 <?php
+/** @var  $block \ADM\QuickDevBar\Block\Tab\Content\Model */
 ?>
-<?php if ($this->getModels()):?>
+<?php if ($block->getModels()):?>
 <table class="qdn_table striped filterable">
 <thead>
 <tr>
@@ -11,7 +12,7 @@
 <tbody>
     <?php
     $i = 0;
-    foreach ($this->getModels() as $model): ?>
+    foreach ($block->getModels() as $model): ?>
   <tr>
     <td><?=  $model['class']; ?></td>
     <td><?=  $model['nbr']; ?></td>

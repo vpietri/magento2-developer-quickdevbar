@@ -1,6 +1,7 @@
 <?php
+/** @var  $block \ADM\QuickDevBar\Block\Tab\Content\Collection */
 ?>
-<?php if ($this->getCollections()):?>
+<?php if ($block->getCollections()):?>
 <table class="qdn_collection qdn_table striped filterable sortable tablesorter">
 <thead>
 <tr>
@@ -11,7 +12,7 @@
 <tbody>
     <?php
     $i = 0;
-    foreach ($this->getCollections() as $collection): ?>
+    foreach ($block->getCollections() as $collection): ?>
   <tr>
     <td><?=  $collection['class']; ?></td>
     <td><?=  $collection['nbr']; ?></td>

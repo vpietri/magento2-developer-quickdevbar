@@ -1,9 +1,10 @@
 <?php
+/** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
 ?>
 <p>
 <?=  __('List only events dispatched when Magento generate this page')?>
 </p>
-<?php if ($this->getEvents()):?>
+<?php if ($block->getEvents()):?>
 <table class="qdn_table striped filterable">
 <thead>
 <tr>
@@ -13,7 +14,7 @@
 </tr>
 </thead>
 <tbody>
-    <?php foreach ($this->getEvents() as $event): ?>
+    <?php foreach ($block->getEvents() as $event): ?>
       <tr>
         <td><?=  $event['event']; ?></td>
         <td><?=  (!empty($event['args']) ? '<ul><li>'.implode('</li><li>', $event['args']).'</li></ul>' : ''); ?></td>

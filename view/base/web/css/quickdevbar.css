@@ -3,6 +3,27 @@
   * ---------------
   */
 
+
+
+#qdb-bar {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    z-index: 10000;
+    background: none repeat scroll 0 0 #004276;
+    height: 40px;
+    text-align: left;
+}
+
+#qdb-bar  * {
+    font-family: "Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;
+    font-size: 12px;
+}
+
+#qdb-bar  input {
+    width: auto;
+}
+
 #qdb-bar-anchor {
     left: 2px;
     position: fixed;
@@ -11,44 +32,25 @@
     cursor: pointer;
 }
 
-#qdb-bar {
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    z-index: 10000;
-    background: none repeat scroll 0 0 #eee;
-    height: 35px;
-    text-align: left;
-}
-
-#qdb-bar  * {
-  font-family: "Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;
-  font-size: 12px;
-}
-
-#qdb-bar  input {
-  width: auto;
-}
-
 /**
   * Button
   */
 
 button.qdb-action {
-    background: none repeat scroll 0 0 #004276;
+    background: none repeat scroll 0 0 #006bb4;
     border: 1px solid #004276;
     box-sizing: border-box;
     color: #f7f7f7;
     cursor: pointer;
     display: inline-block;
-    font-weight: 700;
     padding: 3px 5px;
+    font-weight: 500;
     vertical-align: middle;
 }
 
 button.qdb-action:hover {
     background: none repeat scroll 0 0 #f7f7f7;
-    color: #004276;
+    color: #006bb4;
 
 }
 
@@ -56,7 +58,6 @@ button.qdb-action span {
     text-align: center;
     color: #f7f7f7;
     cursor: pointer;
-    font-weight: 700;
 }
 
 button.qdb-action:not(.primary) {
@@ -68,18 +69,18 @@ button.qdb-action:not(.primary) {
   * ---------------
   */
 div.qdb-container {
-/*    width: auto;
-    max-width: 1200px;*/
+    /*    width: auto;
+        max-width: 1200px;*/
     /* height: 90vh; */
     width: 95vw;
 }
 
 div.qdb-container-collapsed {
-     /*width: auto;*/
+    /*width: auto;*/
 }
 
 div.qdb-panel  div.qdb-container {
-     width: 90%;
+    width: 90%;
 
 }
 
@@ -90,7 +91,6 @@ div.qdb-container ul {
 div.qdb-ui-tabs > div.qdb-panel, div.qdb-ui-subtabs > div.qdb-panel {
     background: none repeat scroll 0 0 #fff
 }
-
 
 div.qdb-ui-tabs > div.qdb-panel {
     max-height: 90vh;
@@ -113,7 +113,6 @@ div.qdb-ui-tabs > ul > li, div.qdb-ui-subtabs > ul > li {
 }
 
 li .qdb-tab-badge {
-    background-color: #f0f8ff;
     border: 1px solid #aaa;
     border-radius: 4px;
     margin-left: 4px;
@@ -127,33 +126,25 @@ li img.qdb-img {
 }
 
 div.qdb-ui-tabs > ul > li {
-    border-left: 1px solid white;
     margin-left: -2px;
     margin-right: -2px;
-    font-weight: bold;
-}
-
-div.qdb-ui-subtabs > ul > li {
-    border: 1px solid #ccc;
-    font-weight: bold;
 }
 
 div.qdb-ui-tabs li.ui-tabs-active, div.qdb-ui-subtabs li.ui-tabs-active {
-    background-color: #fff;
+    background-color: #eb5202;
     z-index: 100;
     border-bottom: 1px solid #fff;
 }
 
 li.ui-tabs-active .qdb-tab-badge {
     background: #fff none repeat scroll 0 0;
-    border: 1px solid #eb5202;
+    border: 1px solid #004276;
     color: #004276;
 }
 
-
 div.qdb-ui-tabs > ul a, div.qdb-ui-subtabs > ul a  {
     text-decoration: none;
-    color: #004276;
+    color: #fff;
     font-size: 1.1em;
     box-shadow: none;
     padding: 7px 10px;
@@ -163,16 +154,6 @@ div.qdb-ui-tabs > ul a, div.qdb-ui-subtabs > ul a  {
 div.qdb-ui-tabs .ui-state-hover > a, div.qdb-ui-subtabs .ui-state-hover > a {
     box-shadow: none;
 }
-
-div.qdb-ui-subtabs .ui-tabs-active > a {
-    color: #eb5202;
-}
-
-div.qdb-ui-subtabs .ui-tabs-active > a {
-    border-top: 2px solid #eb5202;
-    padding-top: 5px;
-}
-
 
 div.qdb-ui-tabs > div, div.qdb-ui-subtabs > div {
     position: relative;
@@ -191,6 +172,9 @@ div.qdb-ui-subtabs > div {
     margin-top: -1px;
 }
 
+ul.ui-tabs-nav {
+    background-color: #004276;
+}
 
 /**
   * Loader
@@ -199,7 +183,7 @@ div.qdb-ui-subtabs > div {
   */
 
 ul.qdbTree li {
-  list-style: none;
+    list-style: none;
 }
 
 ul.qdbTree li {
@@ -221,7 +205,6 @@ ul.qdbTree li span.expanded  {
     border-bottom: 1px solid #eee;
 }
 
-
 ul.qdbTree, ul.qdbTree ul {
     list-style-type: none;
     margin: 0;
@@ -230,9 +213,9 @@ ul.qdbTree, ul.qdbTree ul {
 }
 
 ul.qdbTree div.node {
-  position: absolute;
-  margin: -1px 0 0 -1em;
-  cursor: pointer;
+    position: absolute;
+    margin: -1px 0 0 -1em;
+    cursor: pointer;
 }
 
 ul.qdbTree div.detail {
@@ -274,7 +257,6 @@ ul.qdbTree li.first {
     font-weight:bold;
 }
 
-
 .qdn-loading-mask img {
     display: block;
     margin-left: auto;
@@ -287,18 +269,17 @@ ul.qdbTree li.first {
   */
 
 table.qdn_table {
-  border-collapse: collapse;
-  border: 1px solid #ccc;
-  width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    width: 100%;
 }
 
-
 table.qdn_table tr {
-  border: 1px solid #ccc;
+    border: 1px solid #ccc;
 }
 
 table.qdn_table.grade tr {
-  border-right: 5px solid #ccc;
+    border-right: 5px solid #ccc;
 }
 
 table.qdn_table.grade tr.good {
@@ -315,13 +296,13 @@ table.qdn_table.grade tr.bad {
 }
 
 table.qdn_table tr td, table.qdn_table tr th {
-  padding: 5px;
+    padding: 5px;
 }
 
 table.qdn_table tr th {
-  color: #004276;
-  white-space: nowrap;
-  text-align: left;
+    color: #004276;
+    white-space: nowrap;
+    text-align: left;
 }
 
 table.qdn_table tbody tr.striped {
@@ -338,7 +319,7 @@ table.qdn_table tbody tr:hover {
   */
 
 table.qdn_table_2col {
-  width: 100%;
+    width: 100%;
 }
 
 table.qdn_table_2col tr td, table.qdn_table_2col tr th {
@@ -355,16 +336,6 @@ table.qdn_table_2col tr th{
 /**
   * Sortable
   */
-
-/*
-th.header.headerSortDown:after {
-    content: "  \2191";
-}
-
-th.header.headerSortUp:after {
-    content: " \2193";
-}
-*/
 
 table.sortable th.header.headerSortUp:after {
     content: url(../images/asc.gif);
@@ -388,19 +359,19 @@ table.sortable th.header {
   * ---------------
  */
 span.sqlmain, span.sqlword, span.sqlother {
-  font-weight:bold;
+    font-weight:bold;
 }
 
 span.sqlmain {
-  color:#004276;
+    color:#004276;
 }
 
 span.sqlword {
-  color:#cc00c0;
+    color:#cc00c0;
 }
 
 span.sqlother {
-  color:#FF5200;
+    color:#FF5200;
 }
 
 td.sqlinfo {
@@ -409,7 +380,6 @@ td.sqlinfo {
     font-size: 10px;
     width: 30px;
 }
-
 
 pre {
     font-family: "Courier New", monospace;
