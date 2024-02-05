@@ -23,7 +23,7 @@ class Preference extends \ADM\QuickDevBar\Block\Tab\Panel
 
     public function getTitleBadge()
     {
-        return count($this->getPreferencesList());
+        return $this->count($this->getPreferencesList());
     }
 
     public function getPreferencesList()

@@ -1,6 +1,19 @@
 <?php
+/** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
 ?>
 <table  class="qdn_table">
+    <tr>
+        <th>Change QDB theme</th>
+        <td>
+            <select onChange="javascript:switchTheme(this);">
+                <option value="">Standard</option>
+                <option value="dark">Dark</option>
+                <option value="kawaii">Kawaii UwU</option>
+            </select>
+        </td>
+
+        <td id="process-template_hints_storefront"></td>
+    </tr>
     <tr>
         <th>Template Path Hints for Storefront</th>
         <td><button type="button" onClick="javascript:actionConfig('template_hints_storefront', 'toggle', 'auto');return false;" class="qdb-action">Toggle</button></td>
@@ -44,6 +57,15 @@ require([
         var baseConfigUrl = '<?=  $block->getFrontUrl('quickdevbar/action/configUpdate/'); ?>';
         var baseCacheUrl = '<?=  $block->getFrontUrl('quickdevbar/action/cache/'); ?>';
         var loaded = false;
+
+        switchTheme= function(e)
+        {
+            let qdbTheme = $(e).find('option:selected').val();
+
+            $('#qdb-bar').attr('data-theme', qdbTheme);
+            $.mage.cookies.set('qdb_theme', qdbTheme);
+
+        };
 
         showLoader = function(target) {
             target.html($('#action-loader').html());

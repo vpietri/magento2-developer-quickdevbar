@@ -1,195 +1,194 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-        <referenceContainer name="quick.dev.toolbar.content">
-              <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="quick.dev.maintabs" as="quick.dev.maintabs" template="ADM_QuickDevBar::tabs.phtml">
-                  <action method="setIsMainTab">
-                      <argument name="main" xsi:type="string">true</argument>
-                  </action>
-                  <!-- @tips : use ADM\QuickDevBar\Block\Tab\Wrapper to create a high level tab with nested tabs -->
-                  <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="qdb.tab.info" as="qdb.tab.info" template="ADM_QuickDevBar::tabs.phtml">
-                    <!-- @tips : Set a tab title -->
+    <referenceContainer name="quick.dev.toolbar.content">
+          <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="quick.dev.maintabs" as="quick.dev.maintabs" template="ADM_QuickDevBar::tabs.phtml">
+              <action method="setIsMainTab">
+                  <argument name="main" xsi:type="string">true</argument>
+              </action>
+              <!-- @tips : use ADM\QuickDevBar\Block\Tab\Wrapper to create a high level tab with nested tabs -->
+              <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="qdb.tab.info" as="qdb.tab.info" template="ADM_QuickDevBar::tabs.phtml">
+                <!-- @tips : Set a tab title -->
+                <arguments>
+                  <argument name="title" xsi:type="string">Info</argument>
+                </arguments>
+                <!-- @tips : Set a tab image -->
+                <action method="setTitleImage">
+                  <argument name="title" xsi:type="string">ADM_QuickDevBar::images/info.png</argument>
+                </action>
+                <block class="ADM\QuickDevBar\Block\Tab\Content\Request" name="qdb.tab.request" as="qdb.tab.request" template="ADM_QuickDevBar::tab/info/request.phtml"/>
+                <block class="ADM\QuickDevBar\Block\Tab\Content\Module" name="qdb.tab.module" as="qdb.tab.module" template="ADM_QuickDevBar::tab/info/module.phtml">
+                  <arguments>
+                      <argument name="title" xsi:type="string">Modules</argument>
+                  </arguments>
+                </block>
+                <block class="ADM\QuickDevBar\Block\Tab\Content\Config" name="qdb.tab.config" as="qdb.tab.config" template="ADM_QuickDevBar::tab/info/config.phtml">
                     <arguments>
-                      <argument name="title" xsi:type="string">Info</argument>
+                      <argument name="title" xsi:type="string">Core Config</argument>
                     </arguments>
-                    <!-- @tips : Set a tab image -->
-                    <action method="setTitleImage">
-                      <argument name="title" xsi:type="string">ADM_QuickDevBar::images/info.png</argument>
+                    <!-- @tips : Use ajax loading tab when data is not contextual -->
+                    <action method="setIsAjax">
+                      <argument name="is_ajax" xsi:type="string">1</argument>
                     </action>
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Request" name="qdb.tab.request" as="qdb.tab.request" template="ADM_QuickDevBar::tab/info/request.phtml"/>
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Module" name="qdb.tab.module" as="qdb.tab.module" template="ADM_QuickDevBar::tab/info/module.phtml">
-                      <arguments>
-                          <argument name="title" xsi:type="string">Modules</argument>
-                      </arguments>
-                    </block>
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Config" name="qdb.tab.config" as="qdb.tab.config" template="ADM_QuickDevBar::tab/info/config.phtml">
-                        <arguments>
-                          <argument name="title" xsi:type="string">Core Config</argument>
-                        </arguments>
-                        <!-- @tips : Use ajax loading tab when data is not contextual -->
-                        <action method="setIsAjax">
-                          <argument name="is_ajax" xsi:type="string">1</argument>
-                        </action>
-                    </block>
+                </block>
 
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\PhpInfo" name="qdb.tab.phpinfo.env" as="qdb.tab.phpinfo.env">
-                        <action method="setShortWhat">
-                          <argument name="what" xsi:type="string">1</argument>
-                        </action>
-                        <arguments>
-                          <argument name="title" xsi:type="string">Phpinfo (environment)</argument>
-                        </arguments>
-                    </block>
-
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\PhpInfo" name="qdb.tab.phpinfo"  as="qdb.tab.phpinfo">
-                        <arguments>
-                            <argument name="title" xsi:type="string">Phpinfo</argument>
-                            <argument name="is_ajax" xsi:type="string">1</argument>
-                            <!-- @tips : For an ajax load you can define your own route -->
-                            <argument name="ajax_url" xsi:type="string">quickdevbar/tab/phpInfo</argument>
-                        </arguments>
-                    </block>
-
-                  </block>
-                  <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="qdb.tab.design" as="qdb.tab.design" template="ADM_QuickDevBar::tabs.phtml">
+                <block class="ADM\QuickDevBar\Block\Tab\Content\PhpInfo" name="qdb.tab.phpinfo.env" as="qdb.tab.phpinfo.env">
+                    <action method="setShortWhat">
+                      <argument name="what" xsi:type="string">1</argument>
+                    </action>
                     <arguments>
-                      <argument name="title" xsi:type="string">Design</argument>
+                      <argument name="title" xsi:type="string">Phpinfo (environment)</argument>
                     </arguments>
-                    <action method="setTitleImage">
-                      <argument name="title" xsi:type="string">ADM_QuickDevBar::images/layout.png</argument>
-                    </action>
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Layout" name="qdb.tab.handles" as="qdb.tab.handles" template="ADM_QuickDevBar::tab/design/handles.phtml">
-                        <arguments>
-                          <argument name="title" xsi:type="string">Handles</argument>
-                        </arguments>
-                    </block>
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Layout" name="qdb.tab.layout" as="qdb.tab.layout" template="ADM_QuickDevBar::tab/design/layout.phtml">
+                </block>
+
+                <block class="ADM\QuickDevBar\Block\Tab\Content\PhpInfo" name="qdb.tab.phpinfo"  as="qdb.tab.phpinfo">
+                    <arguments>
+                        <argument name="title" xsi:type="string">Phpinfo</argument>
+                        <argument name="is_ajax" xsi:type="string">1</argument>
+                        <!-- @tips : For an ajax load you can define your own route -->
+                        <argument name="ajax_url" xsi:type="string">quickdevbar/tab/phpInfo</argument>
+                    </arguments>
+                </block>
+
+              </block>
+              <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="qdb.tab.design" as="qdb.tab.design" template="ADM_QuickDevBar::tabs.phtml">
+                <arguments>
+                  <argument name="title" xsi:type="string">Design</argument>
+                </arguments>
+                <action method="setTitleImage">
+                  <argument name="title" xsi:type="string">ADM_QuickDevBar::images/layout.png</argument>
+                </action>
+                  <block class="ADM\QuickDevBar\Block\Tab\Content\Layout" name="qdb.tab.layout" as="qdb.tab.layout" template="ADM_QuickDevBar::tab/design/layout.phtml">
                       <arguments>
                           <argument name="title" xsi:type="string">Layout</argument>
-                        </arguments>
-                    </block>
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Block" name="qdb.tab.block" as="qdb.tab.block" template="ADM_QuickDevBar::tab/design/block.phtml">
-                        <arguments>
+                      </arguments>
+                  </block>
+                  <block class="ADM\QuickDevBar\Block\Tab\Content\Block" name="qdb.tab.block" as="qdb.tab.block" template="ADM_QuickDevBar::tab/design/block.phtml">
+                      <arguments>
                           <argument name="title" xsi:type="string">Blocks</argument>
-                        </arguments>
-                    </block>
-                  </block>
-                  <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="qdb.tab.profile" as="qdb.tab.profile" template="ADM_QuickDevBar::tabs.phtml">
-                    <!-- Set a title with the basic class  Content -->
-                    <arguments>
-                      <argument name="title" xsi:type="string">Profile</argument>
-                    </arguments>
-                    <action method="setTitleImage">
-                      <argument name="title" xsi:type="string">ADM_QuickDevBar::images/profile.png</argument>
-                    </action>
-                    <!-- @tips : Use ADM\QuickDevBar\Block\Tab\Panel to declare a basic tab  -->
-                    <block class="ADM\QuickDevBar\Block\Tab\Panel" name="qdb.tab.profiler" as="qdb.tab.profiler" template="ADM_QuickDevBar::tab/profile/profiler.phtml">
-                        <arguments>
-                          <argument name="title" xsi:type="string">Profiler</argument>
-                        </arguments>
-                    </block>
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Observer" name="qdb.tab.observer" as="qdb.tab.observer" template="ADM_QuickDevBar::tab/profile/observer.phtml">
-                        <arguments>
-                          <argument name="title" xsi:type="string">Observers</argument>
-                        </arguments>
-                    </block>
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Event" name="qdb.tab.event" as="qdb.tab.event" template="ADM_QuickDevBar::tab/profile/event.phtml">
-                        <arguments>
-                          <argument name="title" xsi:type="string">Events</argument>
-                        </arguments>
-                    </block>
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Collection" name="qdb.tab.collection" as="qdb.tab.collection" template="ADM_QuickDevBar::tab/profile/collection.phtml">
-                        <arguments>
-                          <argument name="title" xsi:type="string">Collections</argument>
-                        </arguments>
-                    </block>
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Model" name="qdb.tab.model" as="qdb.tab.model" template="ADM_QuickDevBar::tab/profile/model.phtml">
-                        <arguments>
-                          <argument name="title" xsi:type="string">Models</argument>
-                        </arguments>
-                    </block>
-                      <block class="ADM\QuickDevBar\Block\Tab\Content\Plugin" name="qdb.tab.plugin" as="qdb.tab.plugin" template="ADM_QuickDevBar::tab/profile/plugin.phtml">
-                          <arguments>
-                              <argument name="title" xsi:type="string">Plugins</argument>
-                          </arguments>
-                      </block>
-                    <block class="ADM\QuickDevBar\Block\Tab\Content\Preference" name="qdb.tab.preference" as="qdb.tab.preference" template="ADM_QuickDevBar::tab/profile/preference.phtml">
-                      <arguments>
-                          <argument name="title" xsi:type="string">Preferences</argument>
                       </arguments>
-                    </block>
-                      <block class="ADM\QuickDevBar\Block\Tab\Content\Cache" name="qdb.tab.cache" as="qdb.tab.cache" template="ADM_QuickDevBar::tab/profile/cache.phtml">
-                          <arguments>
-                              <argument name="title" xsi:type="string">Cache hits</argument>
-                          </arguments>
-                      </block>
                   </block>
-                  <block class="ADM\QuickDevBar\Block\Tab\Content\Sql" name="qdb.tab.sql" as="qdb.tab.sql" template="ADM_QuickDevBar::tab/sql.phtml">
+                  <block class="ADM\QuickDevBar\Block\Tab\Content\Layout" name="qdb.tab.handles" as="qdb.tab.handles" template="ADM_QuickDevBar::tab/design/handles.phtml">
                     <arguments>
-                      <argument name="title" xsi:type="string">Queries</argument>
+                        <argument name="title" xsi:type="string">Handles</argument>
                     </arguments>
-                    <action method="setTitleImage">
-                      <argument name="title" xsi:type="string">ADM_QuickDevBar::images/database.png</argument>
-                    </action>
-                  </block>
-                  <block class="ADM\QuickDevBar\Block\Tab\Content\Log" name="qdb.tab.log" as="qdb.tab.log" template="ADM_QuickDevBar::tab/log.phtml">
+                </block>
+              </block>
+              <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="qdb.tab.profile" as="qdb.tab.profile" template="ADM_QuickDevBar::tabs.phtml">
+                <!-- Set a title with the basic class  Content -->
+                <arguments>
+                  <argument name="title" xsi:type="string">Profile</argument>
+                </arguments>
+                <action method="setTitleImage">
+                  <argument name="title" xsi:type="string">ADM_QuickDevBar::images/profile.png</argument>
+                </action>
+                <!-- @tips : Use ADM\QuickDevBar\Block\Tab\Panel to declare a basic tab  -->
+                <block class="ADM\QuickDevBar\Block\Tab\Panel" name="qdb.tab.profiler" as="qdb.tab.profiler" template="ADM_QuickDevBar::tab/profile/profiler.phtml">
                     <arguments>
-                      <argument name="title" xsi:type="string">Logs</argument>
+                      <argument name="title" xsi:type="string">Profiler</argument>
                     </arguments>
-                    <action method="setTitleImage">
-                      <argument name="title" xsi:type="string">ADM_QuickDevBar::images/log.png</argument>
-                    </action>
-                  </block>
-                  <block class="ADM\QuickDevBar\Block\Tab\Panel" name="qdb.tab.action" as="qdb.tab.action" template="ADM_QuickDevBar::tab/action.phtml">
+                </block>
+                <block class="ADM\QuickDevBar\Block\Tab\Content\Observer" name="qdb.tab.observer" as="qdb.tab.observer" template="ADM_QuickDevBar::tab/profile/observer.phtml">
                     <arguments>
-                      <argument name="title" xsi:type="string">Actions</argument>
+                      <argument name="title" xsi:type="string">Observers</argument>
                     </arguments>
-                    <action method="setTitleImage">
-                      <argument name="title" xsi:type="string">ADM_QuickDevBar::images/tools.png</argument>
-                    </action>
-                  </block>
-                  <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="qdb.tab.translation" as="qdb.tab.translation" template="ADM_QuickDevBar::tabs.phtml">
+                </block>
+                <block class="ADM\QuickDevBar\Block\Tab\Content\Event" name="qdb.tab.event" as="qdb.tab.event" template="ADM_QuickDevBar::tab/profile/event.phtml">
+                    <arguments>
+                      <argument name="title" xsi:type="string">Events</argument>
+                    </arguments>
+                </block>
+                <block class="ADM\QuickDevBar\Block\Tab\Content\Collection" name="qdb.tab.collection" as="qdb.tab.collection" template="ADM_QuickDevBar::tab/profile/collection.phtml">
+                    <arguments>
+                      <argument name="title" xsi:type="string">Collections</argument>
+                    </arguments>
+                </block>
+                <block class="ADM\QuickDevBar\Block\Tab\Content\Model" name="qdb.tab.model" as="qdb.tab.model" template="ADM_QuickDevBar::tab/profile/model.phtml">
+                    <arguments>
+                      <argument name="title" xsi:type="string">Models</argument>
+                    </arguments>
+                </block>
+                  <block class="ADM\QuickDevBar\Block\Tab\Content\Plugin" name="qdb.tab.plugin" as="qdb.tab.plugin" template="ADM_QuickDevBar::tab/profile/plugin.phtml">
                       <arguments>
-                          <argument name="title" xsi:type="string">Translations</argument>
+                          <argument name="title" xsi:type="string">Plugins</argument>
                       </arguments>
-                      <!--
-                      <action method="setTitleImage">
-                          <argument name="title" xsi:type="string">ADM_QuickDevBar::images/translations.png</argument>
-                      </action>
-                      -->
-                      <block class="ADM\QuickDevBar\Block\Tab\Content\Translation" name="qdb.tab.translation.module" as="qdb.tab.translation.module">
-                          <arguments>
-                              <argument name="title" xsi:type="string">Module</argument>
-                              <argument name="is_ajax" xsi:type="string">1</argument>
-                              <argument name="ajax_url" xsi:type="string">quickdevbar/tab/translation/type/module</argument>
-                          </arguments>
-                      </block>
-                      <block class="ADM\QuickDevBar\Block\Tab\Content\Translation" name="qdb.tab.translation.pack" as="qdb.tab.translation.pack">
-                          <arguments>
-                              <argument name="title" xsi:type="string">Pack</argument>
-                              <argument name="is_ajax" xsi:type="string">1</argument>
-                              <argument name="ajax_url" xsi:type="string">quickdevbar/tab/translation/type/pack</argument>
-                          </arguments>
-                      </block>
-                      <block class="ADM\QuickDevBar\Block\Tab\Content\Translation" name="qdb.tab.translation.theme" as="qdb.tab.translation.theme">
-                          <arguments>
-                              <argument name="title" xsi:type="string">Theme</argument>
-                              <argument name="is_ajax" xsi:type="string">1</argument>
-                              <argument name="ajax_url" xsi:type="string">quickdevbar/tab/translation/type/theme</argument>
-                          </arguments>
-                      </block>
-                      <block class="ADM\QuickDevBar\Block\Tab\Content\Translation" name="qdb.tab.translation.db" as="qdb.tab.translation.db">
-                          <arguments>
-                              <argument name="title" xsi:type="string">DB</argument>
-                              <argument name="is_ajax" xsi:type="string">1</argument>
-                              <argument name="ajax_url" xsi:type="string">quickdevbar/tab/translation/type/db</argument>
-                          </arguments>
-                      </block>
                   </block>
-                  <block class="ADM\QuickDevBar\Block\Tab\Content\Help" name="qdb.tab.help" as="qdb.tab.help" template="ADM_QuickDevBar::tab/help.phtml">
-                    <arguments>
-                      <argument name="title" xsi:type="string">Help</argument>
-                    </arguments>
+                <block class="ADM\QuickDevBar\Block\Tab\Content\Preference" name="qdb.tab.preference" as="qdb.tab.preference" template="ADM_QuickDevBar::tab/profile/preference.phtml">
+                  <arguments>
+                      <argument name="title" xsi:type="string">Preferences</argument>
+                  </arguments>
+                </block>
+                  <block class="ADM\QuickDevBar\Block\Tab\Content\Cache" name="qdb.tab.cache" as="qdb.tab.cache" template="ADM_QuickDevBar::tab/profile/cache.phtml">
+                      <arguments>
+                          <argument name="title" xsi:type="string">Cache hits</argument>
+                      </arguments>
                   </block>
               </block>
-        </referenceContainer>
-
+              <block class="ADM\QuickDevBar\Block\Tab\Content\Sql" name="qdb.tab.sql" as="qdb.tab.sql" template="ADM_QuickDevBar::tab/sql.phtml">
+                <arguments>
+                  <argument name="title" xsi:type="string">Queries</argument>
+                </arguments>
+                <action method="setTitleImage">
+                  <argument name="title" xsi:type="string">ADM_QuickDevBar::images/database.png</argument>
+                </action>
+              </block>
+              <block class="ADM\QuickDevBar\Block\Tab\Content\Log" name="qdb.tab.log" as="qdb.tab.log" template="ADM_QuickDevBar::tab/log.phtml">
+                <arguments>
+                  <argument name="title" xsi:type="string">Logs</argument>
+                </arguments>
+                <action method="setTitleImage">
+                  <argument name="title" xsi:type="string">ADM_QuickDevBar::images/log.png</argument>
+                </action>
+              </block>
+              <block class="ADM\QuickDevBar\Block\Tab\Panel" name="qdb.tab.action" as="qdb.tab.action" template="ADM_QuickDevBar::tab/action.phtml">
+                <arguments>
+                  <argument name="title" xsi:type="string">Actions</argument>
+                </arguments>
+                <action method="setTitleImage">
+                  <argument name="title" xsi:type="string">ADM_QuickDevBar::images/tools.png</argument>
+                </action>
+              </block>
+              <block class="ADM\QuickDevBar\Block\Tab\Wrapper" name="qdb.tab.translation" as="qdb.tab.translation" template="ADM_QuickDevBar::tabs.phtml">
+                  <arguments>
+                      <argument name="title" xsi:type="string">Translations</argument>
+                  </arguments>
+                  <!--
+                  <action method="setTitleImage">
+                      <argument name="title" xsi:type="string">ADM_QuickDevBar::images/translations.png</argument>
+                  </action>
+                  -->
+                  <block class="ADM\QuickDevBar\Block\Tab\Content\Translation" name="qdb.tab.translation.module" as="qdb.tab.translation.module">
+                      <arguments>
+                          <argument name="title" xsi:type="string">Module</argument>
+                          <argument name="is_ajax" xsi:type="string">1</argument>
+                          <argument name="ajax_url" xsi:type="string">quickdevbar/tab/translation/type/module</argument>
+                      </arguments>
+                  </block>
+                  <block class="ADM\QuickDevBar\Block\Tab\Content\Translation" name="qdb.tab.translation.pack" as="qdb.tab.translation.pack">
+                      <arguments>
+                          <argument name="title" xsi:type="string">Pack</argument>
+                          <argument name="is_ajax" xsi:type="string">1</argument>
+                          <argument name="ajax_url" xsi:type="string">quickdevbar/tab/translation/type/pack</argument>
+                      </arguments>
+                  </block>
+                  <block class="ADM\QuickDevBar\Block\Tab\Content\Translation" name="qdb.tab.translation.theme" as="qdb.tab.translation.theme">
+                      <arguments>
+                          <argument name="title" xsi:type="string">Theme</argument>
+                          <argument name="is_ajax" xsi:type="string">1</argument>
+                          <argument name="ajax_url" xsi:type="string">quickdevbar/tab/translation/type/theme</argument>
+                      </arguments>
+                  </block>
+                  <block class="ADM\QuickDevBar\Block\Tab\Content\Translation" name="qdb.tab.translation.db" as="qdb.tab.translation.db">
+                      <arguments>
+                          <argument name="title" xsi:type="string">DB</argument>
+                          <argument name="is_ajax" xsi:type="string">1</argument>
+                          <argument name="ajax_url" xsi:type="string">quickdevbar/tab/translation/type/db</argument>
+                      </arguments>
+                  </block>
+              </block>
+              <block class="ADM\QuickDevBar\Block\Tab\Content\Help" name="qdb.tab.help" as="qdb.tab.help" template="ADM_QuickDevBar::tab/help.phtml">
+                <arguments>
+                  <argument name="title" xsi:type="string">Help</argument>
+                </arguments>
+              </block>
+          </block>
+    </referenceContainer>
 </page>

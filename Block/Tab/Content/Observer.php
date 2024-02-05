@@ -24,7 +24,7 @@ class Observer extends \ADM\QuickDevBar\Block\Tab\Panel
     public function getTitleBadge()
     {
         $observers = $this->getObservers();
-        return count($observers);
+        return $this->count($observers);
     }
 
     public function getObservers()

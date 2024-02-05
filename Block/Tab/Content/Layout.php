@@ -39,33 +39,24 @@ class Layout extends \ADM\QuickDevBar\Block\Tab\Panel
         return $this->qdbHelperRegister->getLayoutHandles();
     }
 
-
-    /**
-     *
-     * @param array $treeBlocks
-     * @param int $level
-     *
-     * @return string
-     */
     public function getHtmlBlocksHierarchy($treeBlocks = [], $level = 0)
     {
         if (empty($treeBlocks)) {
             $treeBlocks = [$this->qdbHelperRegister->getLayoutHierarchy()];
         }
 
-        $nodeNumering = 0;
-        $html = '<ul ' . (($level==0) ? 'id="block-tree-root"' : '') . '>';
+        $html = '';
         foreach ($treeBlocks as $treeNode) {
             if(empty($treeNode)) {
                 continue;
             }
 
-            $id = $level.'_'.$nodeNumering;
-            $html .= '<li data-node-id="'.$id.'" class="' .
-                $treeNode['type'] .
-                ($treeNode['cacheable'] ?: ' qdb-warning ') .
-                '"><span>' .
-                $treeNode['name'] . '</span>';
+            $openAttr = !empty($treeNode['children']) && $level < 2 ? " open " : "";
+            $classes = ['type-'.$treeNode['type']];
+            $classes[] = (!$treeNode['cacheable'])  ? ' qdb-warning ' : '';
+            $classes[] = !empty($treeNode['children']) ? ' haschild ' : '';
+
+
             $blockInfo = [];
             if (!empty($treeNode['class_name'])) {
                 $blockInfo[]= 'Class: ' . $treeNode['class_name'] . ' (' . $this->_qdbHelper->displayMagentoFile($treeNode['class_file']) . ')';
@@ -76,17 +67,24 @@ class Layout extends \ADM\QuickDevBar\Block\Tab\Panel
             if (empty($treeNode['cacheable'])) {
                 $blockInfo[]= 'Not cacheable';
             }
+
+            $html .= '<details '.
+                $openAttr .
+                ' style="padding-left:'.(10*$level).'px" '.
+                ' class="' . implode(' ', $classes) . '"'.
+                '>' .
+                '<summary>' . $treeNode['name'] . '</summary>';
+
             if (!empty($blockInfo)) {
-                $html .= '<div id="node_detail_'.$id.'" class="detail" style="display:none">' . implode('<br/>', $blockInfo) . '</div>';
+                $html .= '<div class="detail">' . implode('<br/>', $blockInfo) . '</div>';
             }
 
             if (!empty($treeNode['children'])) {
                 $html .= $this->getHtmlBlocksHierarchy($treeNode['children'], $level+1);
             }
-            $html .= '</li>';
-            $nodeNumering++;
+            $html .= '</details>';
         }
-        $html .= '</ul>';
+        $html .= '';
 
         return $html;
     }

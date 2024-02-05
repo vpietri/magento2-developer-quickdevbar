@@ -26,7 +26,7 @@ class Model extends \ADM\QuickDevBar\Block\Tab\Panel
     public function getTitleBadge()
     {
         $models = $this->getModels();
-        return count($models);
+        return $this->count($models);
     }
 
 

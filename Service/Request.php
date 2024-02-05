@@ -57,6 +57,7 @@ class Request implements ServiceInterface
     {
         $request = $this->requestHttp;
         $requestData = [];
+        $requestData[] = ['name' => 'Date sys', 'value' => date("Y-m-d H:i:s")];
         $requestData[] = ['name' => 'Base Url', 'value' => $request->getDistroBaseUrl(), 'is_url' => true];
         $requestData[] = ['name' => 'Path Info', 'value' => $request->getPathInfo()];
         $requestData[] = ['name' => 'Module Name', 'value' => $request->getControllerModule() ?: self::LABEL_CACHE_HIDDEN];

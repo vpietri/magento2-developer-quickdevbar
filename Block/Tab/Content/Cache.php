@@ -23,7 +23,7 @@ class Cache extends \ADM\QuickDevBar\Block\Tab\Panel
 
     public function getTitleBadge()
     {
-        return count($this->getCacheList());
+        return $this->count($this->getCacheList());
     }
 
     public function getCacheList()

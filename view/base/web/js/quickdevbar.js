@@ -209,6 +209,11 @@ define(["jquery",
                 this.element.toggle(this.options.toggleEffect);
             }
 
+            let qdbTheme = $.mage.cookies.get('qdb_theme');
+            if(qdbTheme) {
+                this.element.attr('data-theme', qdbTheme);
+            }
+
             $('#qdb-bar-anchor').show().on('click', $.proxy(function(event) {
                 event.preventDefault();
                 this.setVisibility(!this.element.is(":visible"));
@@ -231,9 +236,12 @@ define(["jquery",
         },
 
         setVisibility: function(visible) {
-            $.mage.cookies.set('qdb_visibility', visible);
-        },
+            options = {
+                secure: window.cookiesConfig ? window.cookiesConfig.secure : false
+            };
 
+            $.mage.cookies.set('qdb_visibility', visible ? 'true' : 'false', options);
+        },
 
         getVisibility: function() {
             var visible = false;

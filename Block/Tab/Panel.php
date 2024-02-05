@@ -13,6 +13,11 @@ class Panel extends \Magento\Framework\View\Element\Template
         return ($this->getData('title')) ? $this->getData('title') : $this->getNameInLayout();
     }
 
+    protected function count($registeredData)
+    {
+        return is_countable($registeredData) ? count($registeredData) : 0;
+    }
+
     public function getId($prefix = '')
     {
         $id = ($this->getData('id')) ? $this->getData('id') : $this->getNameInLayout();

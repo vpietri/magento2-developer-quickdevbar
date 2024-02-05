@@ -22,7 +22,7 @@ class Config extends \ADM\QuickDevBar\Block\Tab\Panel
 
     public function getTitleBadge()
     {
-        return count($this->getConfigValues());
+        return $this->count($this->getConfigValues());
     }
 
     public function getConfigValues()

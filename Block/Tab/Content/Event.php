@@ -26,7 +26,7 @@ class Event extends \ADM\QuickDevBar\Block\Tab\Panel
     public function getTitleBadge()
     {
         $events = $this->getEvents();
-        return count($events);
+        return $this->count($events);
     }
 
 

@@ -23,7 +23,7 @@ class Plugin extends \ADM\QuickDevBar\Block\Tab\Panel
 
     public function getTitleBadge()
     {
-        return count($this->getPluginsList());
+        return $this->count($this->getPluginsList());
     }
 
     public function getPluginsList()

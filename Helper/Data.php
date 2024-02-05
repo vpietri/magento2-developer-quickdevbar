@@ -285,9 +285,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     protected function getWrapperFilename($ajax = false)
     {
-        $varDirWrite = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
-        $varDirWrite->create('qdb');
-
         $sessionId = $this->session->getSessionId();
 
         $fileName = 'qdb_register_'.$sessionId.'.json';
@@ -297,25 +294,55 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 : 'qdb_unknown_register_'.$sessionId.'_'.time().'.json';
         }
 
-        return $varDirWrite->getAbsolutePath() . 'qdb/' . $fileName;
+        return  $this->getQdbTempDir() . $fileName;
+    }
+
+
+    protected function getQdbTempDir()
+    {
+        $varDirWrite = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+        $varDirWrite->create('qdb');
+
+        return $varDirWrite->getAbsolutePath() . 'qdb/';
     }
 
     public function getWrapperContent($ajax = false)
     {
-        if(file_exists($this->getWrapperFilename($ajax))) {
-            return file_get_contents($this->getWrapperFilename($ajax));
+        $filename = $this->getWrapperFilename($ajax);
+
+        if(file_exists($filename)) {
+            /** @var \SplFileInfo $fileInfo */
+            foreach (new \DirectoryIterator($this->getQdbTempDir()) as $fileInfo) {
+                if($fileInfo->isFile() && time() - $fileInfo->getMTime() > 20) {
+                    unlink($fileInfo->getPathname());
+                }
+            }
+
+            return file_get_contents($filename);
         }
         return '[{"content":"nothing in wrapper"}]';
     }
 
+
     public function setWrapperContent($content, $ajax = false)
     {
-        file_put_contents($this->getWrapperFilename($ajax), $content);
+        $filename = $this->getWrapperFilename($ajax);
+
+//        /** @var \SplFileInfo $fileInfo */
+//        foreach (new \DirectoryIterator(dirname($filename)) as $fileInfo) {
+//            if($fileInfo->isFile() && time() - $fileInfo->getMTime() > 5) {
+////                unlink($fileInfo->getFilename());
+////                var_dump(time() , $fileInfo->getMTime());
+////                exit;
+//            }
+//        }
+
+        file_put_contents($filename, $content);
+
     }
 
     public function isAjaxLoading()
     {
-        //return true;
 
         if($this->appState->getAreaCode() != 'frontend') {
             return false;

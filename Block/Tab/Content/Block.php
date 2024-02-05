@@ -26,7 +26,7 @@ class Block extends \ADM\QuickDevBar\Block\Tab\Panel
     public function getTitleBadge()
     {
         $blocks = $this->getBlocks();
-        return count($blocks);
+        return $this->count($blocks);
     }
 
 

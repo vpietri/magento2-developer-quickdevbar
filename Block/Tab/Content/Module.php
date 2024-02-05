@@ -23,7 +23,7 @@ class Module extends \ADM\QuickDevBar\Block\Tab\Panel
 
     public function getTitleBadge()
     {
-        return count($this->getModulesList());
+        return $this->count($this->getModulesList());
     }
 
     public function getModulesList()

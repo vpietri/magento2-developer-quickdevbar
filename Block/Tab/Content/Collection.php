@@ -26,7 +26,7 @@ class Collection extends \ADM\QuickDevBar\Block\Tab\Panel
     public function getTitleBadge()
     {
         $collections = $this->getCollections();
-        return count($collections);
+        return $this->count($collections);
     }
 
 

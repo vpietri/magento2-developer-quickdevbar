@@ -1,6 +1,15 @@
 <?php
 /** @var \ADM\QuickDevBar\Block\Tab\Content\Request $block */
 ?>
+
+<?php if(!$block->getRequestData()) {
+
+    echo 'An error occurred generating toolbar data';
+    return;
+}
+?>
+
+
 <table class="qdn_table_2col">
 <?php foreach ($block->getRequestData() as $data):?>
     <tr>

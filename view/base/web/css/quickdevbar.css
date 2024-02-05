@@ -3,27 +3,6 @@
   * ---------------
   */
 
-
-
-#qdb-bar {
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    z-index: 10000;
-    background: none repeat scroll 0 0 #004276;
-    height: 40px;
-    text-align: left;
-}
-
-#qdb-bar  * {
-    font-family: "Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;
-    font-size: 12px;
-}
-
-#qdb-bar  input {
-    width: auto;
-}
-
 #qdb-bar-anchor {
     left: 2px;
     position: fixed;
@@ -32,361 +11,380 @@
     cursor: pointer;
 }
 
-/**
-  * Button
-  */
-
-button.qdb-action {
-    background: none repeat scroll 0 0 #006bb4;
-    border: 1px solid #004276;
-    box-sizing: border-box;
-    color: #f7f7f7;
-    cursor: pointer;
-    display: inline-block;
-    padding: 3px 5px;
-    font-weight: 500;
-    vertical-align: middle;
+#qdb-bar[data-theme="dark"] {
+    --qdb-tab-bg: #4f4f4f;
+    --qdb-tab-ft: #FFFFFF;
+    --qdb-active: #7c7673;
+    --qdb-button: #4c6474;
+    --qdb-bck: #343434;
+    --qdb-table-th: #FFFFFF;
+    --qdb-table-tr-hover: #7c7673;
+    --qdb-table-tr-stripped: #4f4f4f;
+    --qdb-ft: #FFFFFF;
+    --qdb-tb-border: #CCCCCC;
 }
 
-button.qdb-action:hover {
-    background: none repeat scroll 0 0 #f7f7f7;
-    color: #006bb4;
-
+#qdb-bar[data-theme="kawaii"] {
+    --qdb-tab-bg: #ffabde;
+    --qdb-tab-ft: #000000;
+    --qdb-active: #aafff8;
+    --qdb-button: #A9CAF4;
+    --qdb-bck: #ffffb0;
+    --qdb-table-th: #dbafff;
+    --qdb-table-tr-hover: #aafff8;
+    --qdb-table-tr-stripped: #f5f5f5;
+    --qdb-ft: #000000;
+    --qdb-tb-border: #CCCCCC;
 }
 
-button.qdb-action span {
-    text-align: center;
-    color: #f7f7f7;
-    cursor: pointer;
-}
+#qdb-bar {
+    --qdb-tab-bg: #004276;
+    --qdb-tab-ft: #FFFFFF;
+    --qdb-active: #eb5202;
+    --qdb-button: #006bb4;
+    --qdb-bck: #FFFFFF;
+    --qdb-table-th: #004276;
+    --qdb-table-tr-hover: #e5f7fe;
+    --qdb-table-tr-stripped: #f5f5f5;
+    --qdb-ft: #000000;
+    --qdb-tb-border: #CCCCCC;
 
-button.qdb-action:not(.primary) {
-    box-shadow: none;
-}
-
-/**
-  * Tabs
-  * ---------------
-  */
-div.qdb-container {
-    /*    width: auto;
-        max-width: 1200px;*/
-    /* height: 90vh; */
-    width: 95vw;
-}
-
-div.qdb-container-collapsed {
-    /*width: auto;*/
-}
-
-div.qdb-panel  div.qdb-container {
-    width: 90%;
-
-}
-
-div.qdb-container ul {
-    margin: 0px;
-}
-
-div.qdb-ui-tabs > div.qdb-panel, div.qdb-ui-subtabs > div.qdb-panel {
-    background: none repeat scroll 0 0 #fff
-}
-
-div.qdb-ui-tabs > div.qdb-panel {
-    max-height: 90vh;
-    overflow: auto;
-    /*height: 100%;*/
-}
-
-div.qdb-ui-tabs > ul {
-    padding-left: 45px;
-    padding-right: 15px;
-    margin-bottom: -1px;
-    white-space: nowrap;
-}
-
-div.qdb-ui-tabs > ul > li, div.qdb-ui-subtabs > ul > li {
-    position: relative;
-    z-index: 98;
-    display:inline-block;
-    margin-bottom:0px;
-}
-
-li .qdb-tab-badge {
-    border: 1px solid #aaa;
-    border-radius: 4px;
-    margin-left: 4px;
-    padding: 1px 2px;
-}
-
-li img.qdb-img {
-    padding: 1px;
-    vertical-align: bottom;
-    display: inline;
-}
-
-div.qdb-ui-tabs > ul > li {
-    margin-left: -2px;
-    margin-right: -2px;
-}
-
-div.qdb-ui-tabs li.ui-tabs-active, div.qdb-ui-subtabs li.ui-tabs-active {
-    background-color: #eb5202;
-    z-index: 100;
-    border-bottom: 1px solid #fff;
-}
-
-li.ui-tabs-active .qdb-tab-badge {
-    background: #fff none repeat scroll 0 0;
-    border: 1px solid #004276;
-    color: #004276;
-}
-
-div.qdb-ui-tabs > ul a, div.qdb-ui-subtabs > ul a  {
-    text-decoration: none;
-    color: #fff;
-    font-size: 1.1em;
-    box-shadow: none;
-    padding: 7px 10px;
-    display: block;
-}
-
-div.qdb-ui-tabs .ui-state-hover > a, div.qdb-ui-subtabs .ui-state-hover > a {
-    box-shadow: none;
-}
-
-div.qdb-ui-tabs > div, div.qdb-ui-subtabs > div {
-    position: relative;
-    border: 1px solid #CCC;
-    z-index: 99;
-    font-size: 1.1em;
-}
-
-div.qdb-ui-tabs > div {
-    padding: 10px;
-    box-shadow: -1px 10px 15px 0 rgba(0, 0, 0, 0.7);
-}
-
-div.qdb-ui-subtabs > div {
-    padding: 10px;
-    margin-top: -1px;
-}
-
-ul.ui-tabs-nav {
-    background-color: #004276;
-}
-
-/**
-  * Loader
-  * @see: http://odyniec.net/articles/turning-lists-into-trees/
-  * ---------------
-  */
-
-ul.qdbTree li {
-    list-style: none;
-}
-
-ul.qdbTree li {
-    margin: 0;
-    line-height: 20px;
-    color: #004276;
-}
-
-ul.qdbTree li span {
-    border-left:1px white solid;
-}
-
-ul.qdbTree li span.expanded, ul.qdbTree li span:hover  {
-    border: 1px solid #CCC;
-    background: #eee;
-}
-
-ul.qdbTree li span.expanded  {
-    border-bottom: 1px solid #eee;
-}
-
-ul.qdbTree, ul.qdbTree ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    margin-left: 10px;
-}
-
-ul.qdbTree div.node {
-    position: absolute;
-    margin: -1px 0 0 -1em;
-    cursor: pointer;
-}
-
-ul.qdbTree div.detail {
-    border: 1px solid #CCC;
-    color: #333;
-    background: #eee;
-    padding-left: 10px;
-    padding-top: 2px;
-    margin-top: -2px
-}
-
-ul.qdbTree div.node.expanded::before {
-    content: '▾';
-}
-
-ul.qdbTree div.node.collapsed::before {
-    content: '▸';
-}
-
-ul.qdbTree li.container {
-    font-weight: bold;
-}
-
-ul.qdbTree li.block {
-    font-weight: normal;
-}
-
-ul.qdbTree li.first {
-    background: none;
-}
-
-/**
-  * Loader
-  * ---------------
-  */
-.qdn-loading-mask p {
-    color: #004276;
-    text-align: center;
-    font-weight:bold;
-}
-
-.qdn-loading-mask img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/**
-  * Table
-  * ---------------
-  */
-
-table.qdn_table {
-    border-collapse: collapse;
-    border: 1px solid #ccc;
-    width: 100%;
-}
-
-table.qdn_table tr {
-    border: 1px solid #ccc;
-}
-
-table.qdn_table.grade tr {
-    border-right: 5px solid #ccc;
-}
-
-table.qdn_table.grade tr.good {
-
-    border-right: 5px solid #ccc;
-}
-
-table.qdn_table.grade tr.medium {
-    border-right: 5px solid yellow;
-}
-
-table.qdn_table.grade tr.bad {
-    border-right: 5px solid red;
-}
-
-table.qdn_table tr td, table.qdn_table tr th {
-    padding: 5px;
-}
-
-table.qdn_table tr th {
-    color: #004276;
-    white-space: nowrap;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    z-index: 10000;
+    background: none repeat scroll 0 0;
     text-align: left;
-}
+    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+    font-size: 12px;
+    color:var(--qdb-ft);
 
-table.qdn_table tbody tr.striped {
-    background-color: #f5f5f5;
-}
-
-table.qdn_table tbody tr:hover {
-    background-color: #e5f7fe;
-}
-
-/**
-  * Table 2 column
-  * ---------------
-  */
-
-table.qdn_table_2col {
-    width: 100%;
-}
-
-table.qdn_table_2col tr td, table.qdn_table_2col tr th {
-    padding: 2px;
-    text-align: left;
-}
-
-table.qdn_table_2col tr th{
-    color: #004276;
-    white-space:nowrap;
-    width: 150px
-}
-
-/**
-  * Sortable
-  */
-
-table.sortable th.header.headerSortUp:after {
-    content: url(../images/asc.gif);
-}
+    input {
+        width: auto;
+    }
 
 
-table.sortable th.header.headerSortDown:after {
-    content: url(../images/desc.gif);
-}
+    /**
+      * Button
+      */
+    button.qdb-action {
+        background: none repeat scroll 0 0 var(--qdb-button);
+        border: 1px solid var(--qdb-tab-bg);
+        box-sizing: border-box;
+        color: var(--qdb-tab-ft);
+        cursor: pointer;
+        display: inline-block;
+        padding: 3px 5px;
+        font-weight: 500;
+        vertical-align: middle;
+    }
 
-table.sortable th.header:after {
-    content: url(../images/bg.gif);
-}
+    button.qdb-action:hover {
+        background: none repeat scroll 0 0 var(--qdb-bck);
+        color: var(--qdb-button);
+    }
 
-table.sortable th.header {
-    cursor: pointer;
-}
+    button.qdb-action span {
+        text-align: center;
+        color: var(--qdb-tab-ft);
+        cursor: pointer;
+    }
 
-/**
- * SQL
-  * ---------------
- */
-span.sqlmain, span.sqlword, span.sqlother {
-    font-weight:bold;
-}
+    button.qdb-action:not(.primary) {
+        box-shadow: none;
+    }
 
-span.sqlmain {
-    color:#004276;
-}
+    /**
+      * Tabs
+      * ---------------
+      */
 
-span.sqlword {
-    color:#cc00c0;
-}
+    div.qdb-container {
+        width: 95vw;
+    }
 
-span.sqlother {
-    color:#FF5200;
-}
 
-td.sqlinfo {
-    color: #666666;
-    display: block;
-    font-size: 10px;
-    width: 30px;
-}
+    div.qdb-panel div.qdb-container {
+        width: 90%;
+    }
 
-pre {
-    font-family: "Courier New", monospace;
-    border:1px solid;
-    padding:5px;
-}
+    div.qdb-container ul {
+        margin: 0px;
+    }
 
-.qdb-warning {
-    color:#FF5200;
+    div.qdb-ui-tabs > div.qdb-panel, div.qdb-ui-subtabs > div.qdb-panel {
+        background: none repeat scroll 0 0 var(--qdb-bck)
+    }
+
+    div.qdb-ui-tabs > div.qdb-panel {
+        max-height: 90vh;
+        overflow: auto;
+        /*height: 100%;*/
+    }
+
+    div.qdb-ui-tabs > ul {
+        padding-left: 45px;
+        padding-right: 15px;
+        margin-bottom: -1px;
+        white-space: nowrap;
+    }
+
+    div.qdb-ui-tabs > ul > li, div.qdb-ui-subtabs > ul > li {
+        position: relative;
+        z-index: 98;
+        display: inline-block;
+        margin-bottom: 0px;
+    }
+
+    li .qdb-tab-badge {
+        border: 1px solid var(--qdb-bck);
+        border-radius: 4px;
+        margin-left: 4px;
+        padding: 1px 2px;
+    }
+
+    li img.qdb-img {
+        padding: 1px;
+        vertical-align: bottom;
+        display: inline;
+    }
+
+    div.qdb-ui-tabs > ul > li {
+        margin-left: -2px;
+        margin-right: -2px;
+    }
+
+    div.qdb-ui-tabs li.ui-tabs-active, div.qdb-ui-subtabs li.ui-tabs-active {
+        background-color: var(--qdb-active);
+        z-index: 100;
+        border-bottom: 1px solid var(--qdb-bck);
+    }
+
+    li.ui-tabs-active .qdb-tab-badge {
+        background: var(--qdb-bck) none repeat scroll 0 0;
+        border: 1px solid var(--qdb-tab-bg);
+        color: var(--qdb-tab-bg);
+    }
+
+    div.qdb-ui-tabs > ul a, div.qdb-ui-subtabs > ul a {
+        text-decoration: none;
+        color: var(--qdb-tab-ft);
+        box-shadow: none;
+        padding: 7px 10px;
+        display: block;
+    }
+
+    div.qdb-ui-tabs .ui-state-hover > a, div.qdb-ui-subtabs .ui-state-hover > a {
+        box-shadow: none;
+    }
+
+    div.qdb-ui-tabs > div, div.qdb-ui-subtabs > div {
+        position: relative;
+        border: 1px solid var(--qdb-tab-bg);
+        z-index: 99;
+    }
+
+    div.qdb-ui-tabs > div {
+        padding: 10px;
+        box-shadow: -1px 10px 15px 0 rgba(0, 0, 0, 0.7);
+    }
+
+    div.qdb-ui-subtabs > div {
+        padding: 10px;
+        margin-top: -1px;
+    }
+
+    ul.ui-tabs-nav {
+        background-color: var(--qdb-tab-bg);
+    }
+
+    /**
+      * Loader
+      * @see: http://odyniec.net/articles/turning-lists-into-trees/
+      * ---------------
+      */
+
+    summary {
+        display: list-item;
+    }
+
+    details.qdb-warning > summary {
+        color: #FF5200;
+    }
+
+    details.haschild > summary {
+        font-weight: 600;
+    }
+
+    details div {
+        border: 1px solid var(--qdb-tb-border);
+        color: #333;
+        background: #eee;
+    }
+
+    /*
+    ul.qdbTree li {
+        margin: 0;
+        line-height: 20px;
+        color: var(--qdb-tab-bg);
+    }
+
+    ul.qdbTree li span {
+        border-left: 1px solid var(--qdb-bck);
+    }
+
+    ul.qdbTree li span.expanded, ul.qdbTree li span:hover {
+        border: 1px solid var(--qdb-tb-border);
+        background: #eee;
+    }
+
+    ul.qdbTree li span.expanded {
+        border-bottom: 1px solid #eee;
+    }
+    */
+
+    /**
+      * Loader
+      * ---------------
+      */
+
+    .qdn-loading-mask p {
+        color: var(--qdb-tab-bg);
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .qdn-loading-mask img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /**
+      * Table
+      * ---------------
+      */
+
+    table.qdn_table {
+        border-collapse: collapse;
+        border: 1px solid var(--qdb-tb-border);
+        width: 100%;
+    }
+
+    table.qdn_table tr {
+        border: 1px solid var(--qdb-tb-border);
+    }
+
+    table.qdn_table.grade tr {
+        border-right: 5px solid var(--qdb-tb-border);
+    }
+
+    table.qdn_table.grade tr.good {
+
+        border-right: 5px solid var(--qdb-tb-border);
+    }
+
+    table.qdn_table.grade tr.medium {
+        border-right: 5px solid yellow;
+    }
+
+    table.qdn_table.grade tr.bad {
+        border-right: 5px solid red;
+    }
+
+    table.qdn_table tr td, table.qdn_table tr th {
+        padding: 5px;
+    }
+
+    table.qdn_table tr th {
+        color: var(--qdb-table-th);
+        white-space: nowrap;
+        text-align: left;
+    }
+
+    table.qdn_table tbody tr.striped {
+        background-color: var(--qdb-table-tr-stripped);
+    }
+
+    table.qdn_table tbody tr:hover {
+        background-color: var(--qdb-table-tr-hover);
+    }
+
+    /**
+      * Table 2 column
+      * ---------------
+      */
+
+    table.qdn_table_2col {
+        width: 100%;
+    }
+
+    table.qdn_table_2col tr td, table.qdn_table_2col tr th {
+        padding: 2px;
+        text-align: left;
+    }
+
+    table.qdn_table_2col tr th {
+        color: var(--qdb-table-th);
+        white-space: nowrap;
+        width: 150px
+    }
+
+    /**
+      * Sortable
+      */
+
+    table.sortable th.header.headerSortUp:after {
+        content: url(../images/asc.gif);
+    }
+
+    table.sortable th.header.headerSortDown:after {
+        content: url(../images/desc.gif);
+    }
+
+    table.sortable th.header:after {
+        content: url(../images/bg.gif);
+    }
+
+    table.sortable th.header {
+        cursor: pointer;
+    }
+
+    /**
+     * SQL
+      * ---------------
+     */
+
+    span.sqlmain, span.sqlword, span.sqlother {
+        font-weight: bold;
+    }
+
+    span.sqlmain {
+        color: var(--qdb-tab-bg);
+    }
+
+    span.sqlword {
+        color: #cc00c0;
+    }
+
+    span.sqlother {
+        color: #FF5200;
+    }
+
+    td.sqlinfo {
+        color: #666666;
+        display: block;
+        font-size: 10px;
+        width: 30px;
+    }
+
+    pre {
+        font-family: "Courier New", monospace;
+        border: 1px solid;
+        padding: 5px;
+    }
+
+    .qdb-warning {
+        color: #FF5200;
+    }
 }
