@@ -1,7 +1,7 @@
 
 /* */
 define(["jquery",
-        "jqueryTabs",
+        "jquery/ui-modules/widgets/tabs",
          "filtertable",
          "metadata",
          "tablesorter",
@@ -25,7 +25,7 @@ define(["jquery",
 
     $.widget('mage.quickDevBarTabs', $.ui.tabs, {
         _create: function() {
-            var qdbOption = this.element.attr('data-qdbtabs-option');
+            let qdbOption = this.element.attr('data-qdbtabs-option');
             if (qdbOption) {
                 $.extend( this.options, JSON.parse(qdbOption) );
             }
@@ -34,7 +34,7 @@ define(["jquery",
 
         load: function( index, event ) {
             index = this._getIndex( index );
-            var that = this,
+            let that = this,
                 tab = this.tabs.eq( index ),
                 anchor = tab.find( ".ui-tabs-anchor" ),
                 panel = this._getPanelForTab( tab ),
@@ -43,8 +43,14 @@ define(["jquery",
                     panel: panel
                 };
 
-            var anchorUrl = $( anchor ).attr( "data-ajax" );
-            var rhash = /#.*$/;
+            let anchorUrl = $( anchor ).attr( "data-ajax" );
+            let rhash = /#.*$/;
+
+
+            //Fire click on subtabs
+            if (typeof event !='undefined') {
+                panel.find('.ui-tabs-anchor').first().trigger('click');
+            }
 
             // not remote
             if ( typeof anchorUrl =='undefined' || anchorUrl.length < 1 ||  anchorUrl.replace( rhash, "" ).length<1) {
@@ -56,9 +62,7 @@ define(["jquery",
             // support: jQuery <1.8
             // jQuery <1.8 returns false if the request is canceled in beforeSend,
             // but as of 1.8, $.ajax() always returns a jqXHR object.
-            //TODO: Prevent translation first tab always load without click
-            //if (typeof event !='undefined' && this.xhr && this.xhr.statusText !== "canceled" ) {
-            if (this.xhr && this.xhr.statusText !== "canceled" ) {
+            if (typeof event !='undefined' && this.xhr && this.xhr.statusText !== "canceled" ) {
                 tab.addClass( "ui-tabs-loading" );
                 panel.attr( "aria-busy", "true" );
 
@@ -94,7 +98,7 @@ define(["jquery",
         },
 
         _ajaxSettings: function( anchorUrl, event, eventData ) {
-            var that = this;
+            let that = this;
             return {
                 url: anchorUrl,
                 beforeSend: function( jqXHR, settings ) {
@@ -116,17 +120,17 @@ define(["jquery",
         _create: function() {
           this.element.addClass(this.options.treeClass);
 
-          var self = this;
+          let self = this;
 
 
           this.element.find('li').each(function() {
-            var li = $(this);
+            let li = $(this);
             li.prepend('<div class="node"></div>');
             li.contents().filter(function() {
               return this.nodeName=='UL';
             }).each(function() {
-              var liParent = $(this).parent();
-              var liNode = liParent.children('div.node')
+              let liParent = $(this).parent();
+              let liNode = liParent.children('div.node')
               if (!liParent.data('ul')) {
                 liNode.data('li', liParent);
                 liNode.data('ul', liParent.find('ul').first());
@@ -138,7 +142,7 @@ define(["jquery",
         },
 
         _toggle: function(node, expand) {
-          var sub = node.data('ul') ? $(node.data('ul')) : false;
+          let sub = node.data('ul') ? $(node.data('ul')) : false;
           if (sub) {
               if(typeof expand == 'undefined') {
                   sub.toggle();
@@ -147,7 +151,7 @@ define(["jquery",
               } else {
                   sub.hide();
               }
-            var subVisibility = sub.is(":visible");
+            let subVisibility = sub.is(":visible");
             node.toggleClass('expanded', subVisibility);
             node.toggleClass('collapsed', !subVisibility);
           }
@@ -155,7 +159,7 @@ define(["jquery",
 
         _handleNodeClick: function(event) {
           event.stopPropagation();
-          var node = $(event.target);
+          let node = $(event.target);
           if(event.target.nodeName=='DIV') {
               this._toggle(node)
               this._trigger("nodePostClick", event);
@@ -181,7 +185,7 @@ define(["jquery",
 
         _create: function() {
             if(this.options.ajaxLoading){
-                var that = this;
+                let that = this;
                 $.ajax({
                         url: that.options.ajaxUrl,
                         success: function (data) {
@@ -244,7 +248,7 @@ define(["jquery",
         },
 
         getVisibility: function() {
-            var visible = false;
+            let visible = false;
             if(this.options.appearance == 'memorize') {
                 visible = $.mage.cookies.get('qdb_visibility') === "true";
             } else if(this.options.appearance == 'expanded') {
@@ -280,10 +284,10 @@ define(["jquery",
          */
         callJsEclipseSocEWI: function(file, line)
         {
-            var url= 'http://localhost:34567/?command=org.eclipse.soc.ewi.examples.commands.openfile&path='+file+'&line='+line;
+            let url= 'http://localhost:34567/?command=org.eclipse.soc.ewi.examples.commands.openfile&path='+file+'&line='+line;
             try
             {
-              var xhr_object = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+              let xhr_object = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
               xhr_object.open("post", url, false);
               xhr_object.send();
             }

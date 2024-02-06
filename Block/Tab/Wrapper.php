@@ -47,7 +47,6 @@ class Wrapper extends Panel
         return $this->_mainTabs;
     }
 
-
     public function getSubTabSuffix()
     {
         return SimpleDataObjectConverter::snakeCaseToCamelCase(str_replace('.', '_', $this->getNameInLayout()));
@@ -56,24 +55,5 @@ class Wrapper extends Panel
     public function getUiTabClass()
     {
         return ($this->getIsMainTab()) ? 'qdb-ui-tabs' : 'qdb-ui-subtabs';
-    }
-
-    protected function _getTabConfig()
-    {
-        $config = [ "active"=> 0,
-            "collapsible" => false,
-            ];
-
-        if ($this->getIsMainTab()) {
-            $config["active"] = false;
-            $config["collapsible"] = true;
-        }
-
-        return $config;
-    }
-
-    public function getJsonTabConfig()
-    {
-        return $this->_jsonHelper->jsonEncode($this->_getTabConfig());
     }
 }

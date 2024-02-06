@@ -1,5 +1,8 @@
+<?php
+/** @var \ADM\QuickDevBar\Block\Tab\Wrapper $block */
+?>
 <div class="qdb-container <?=  $block->getUiTabClass() ?>"
-data-qdbtabs-option='<?=  $block->getJsonTabConfig(); ?>'
+data-qdbtabs-option='{"active": false,"collapsible": true}'
 style="display: block;">
     <ul class="ui-tabs-nav">
         <?php foreach ($block->getTabBlocks() as $tabBlock): ?>
