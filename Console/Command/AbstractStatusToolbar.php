@@ -101,7 +101,6 @@ abstract class AbstractStatusToolbar extends \Symfony\Component\Console\Command\
         $this->eventManager->dispatch('adminhtml_cache_flush_system');
 
         $cachesToClear=['config'];
-        //TODO: Conditionner
         if ($input->getOption(self::CLEAN_HTML)) {
             $cachesToClear = array_merge($cachesToClear, ['block_html', 'full_page']);
         }

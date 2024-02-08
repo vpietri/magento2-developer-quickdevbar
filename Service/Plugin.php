@@ -10,7 +10,7 @@ use Magento\Framework\Interception\PluginList\PluginList;
 
 class Plugin implements ServiceInterface
 {
-    private $_pluginsByTypes;
+    private $pluginsByTypes;
     /**
      * @var PluginList
      */
@@ -23,8 +23,8 @@ class Plugin implements ServiceInterface
 
     public function pullData()
     {
-        if ($this->_pluginsByTypes === null) {
-            $this->_pluginsByTypes =  [];
+        if ($this->pluginsByTypes === null) {
+            $this->pluginsByTypes =  [];
 
             $reflection = new \ReflectionClass($this->pluginList);
 
@@ -57,7 +57,7 @@ class Plugin implements ServiceInterface
 
                             foreach ($pluginsNames as $pluginName) {
                                 if (!empty($inherited[$type][$pluginName])) {
-                                    $this->_pluginsByTypes[] = ['type'=>$type, 'plugin'=>$inherited[$type][$pluginName]['instance'], 'plugin_name'=>$pluginName, 'sort_order'=> $inherited[$type][$pluginName]['sortOrder'], 'method'=>$types[$keyType].ucfirst($method)];
+                                    $this->pluginsByTypes[] = ['type'=>$type, 'plugin'=>$inherited[$type][$pluginName]['instance'], 'plugin_name'=>$pluginName, 'sort_order'=> $inherited[$type][$pluginName]['sortOrder'], 'method'=>$types[$keyType].ucfirst($method)];
                                 }
                             }
                         }
@@ -66,6 +66,6 @@ class Plugin implements ServiceInterface
             }
         }
 
-        return $this->_pluginsByTypes;
+        return $this->pluginsByTypes;
     }
 }

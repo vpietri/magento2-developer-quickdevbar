@@ -157,7 +157,6 @@
     div.qdb-ui-tabs li.ui-tabs-active, div.qdb-ui-subtabs li.ui-tabs-active {
         background-color: var(--qdb-active);
         z-index: 100;
-        border-bottom: 1px solid var(--qdb-bck);
     }
 
     li.ui-tabs-active .qdb-tab-badge {
@@ -294,6 +293,12 @@
 
     table.qdn_table tr td, table.qdn_table tr th {
         padding: 5px;
+        /*word-break: break-all;*/
+    }
+
+    table.qdn_table tr td, table.qdn_table tr th {
+        padding: 5px;
+        /*word-break: break-all;*/
     }
 
     table.qdn_table tr th {
@@ -360,7 +365,7 @@
     }
 
     span.sqlmain {
-        color: var(--qdb-tab-bg);
+        color: var(--qdb-ft);
     }
 
     span.sqlword {
@@ -382,6 +387,7 @@
         font-family: "Courier New", monospace;
         border: 1px solid;
         padding: 5px;
+        /*word-break: break-all;*/
     }
 
     .qdb-warning {

@@ -42,10 +42,8 @@ class ControllerFrontSendResponseBeforeObserver implements ObserverInterface
 
         if(!$this->qdbHelper->isToolbarAccessAllowed()) {
             $newContent = preg_replace('/<!-- Start:ADM_QuickDevBar(?s).*End:ADM_QuickDevBar -->/', '', $response->getContent());
-            $response->setContent($newContent);
+            //TODO: Need more test
+            //$response->setContent($newContent);
         }
-
-
-        // TODO: Implement execute() method.
     }
 }

@@ -46,10 +46,12 @@ define(["jquery",
             let anchorUrl = $( anchor ).attr( "data-ajax" );
             let rhash = /#.*$/;
 
-
             //Fire click on subtabs
             if (typeof event !='undefined') {
-                panel.find('.ui-tabs-anchor').first().trigger('click');
+                let firstSubTab = panel.find('.ui-tabs-tab').first();
+                if(firstSubTab.length && !firstSubTab.hasClass('ui-state-active')) {
+                    firstSubTab.find('.ui-tabs-anchor').first().trigger('click');       ;
+                }
             }
 
             // not remote
@@ -226,6 +228,8 @@ define(["jquery",
             }, this));
 
             /* Apply ui.tabs widget */
+            //$('div.qdb-container').quickDevBarTabs();
+
             $('div.qdb-container').quickDevBarTabs({load:$.proxy(function(event, data){
                 if($(data.panel)) {
                     this.applyTabPlugin('#' + $(data.panel).attr( "id" ));

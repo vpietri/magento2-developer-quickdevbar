@@ -1,8 +1,6 @@
 <?php
 
-
 namespace ADM\QuickDevBar\Service;
-
 
 use ADM\QuickDevBar\Api\ServiceInterface;
 
@@ -13,34 +11,16 @@ class Sql implements ServiceInterface
      */
     private $sqlProfilerData;
 
-    private $_sql_profiler;
+    private $sqlProfiler;
 
-    private $_resource;
-
-    private $_longestQueryTime;
-
-    private $_longestQuery;
-
-    private $_shortestQueryTime;
-    /**
-     * @var array
-     */
-    private $_all_queries;
-    /**
-     * @var \Magento\Framework\DataObjectFactory
-     */
-    private $objectFactory;
     /**
      * @var \Magento\Framework\App\ResourceConnection
      */
     private $resource;
     private $useQdbProfiler = false;
 
-    public function __construct(\Magento\Framework\App\ResourceConnection $resource,
-                                \Magento\Framework\DataObjectFactory $objectFactory)
+    public function __construct(\Magento\Framework\App\ResourceConnection $resource)
     {
-
-        $this->objectFactory = $objectFactory;
         $this->resource = $resource;
     }
 
@@ -54,22 +34,20 @@ class Sql implements ServiceInterface
 
     protected function initSqlProfilerData()
     {
-        $sqlProfilerData = $this->objectFactory->create();
-
         $longestQueryTime = 0;
         $shortestQueryTime = 100000;
         $longestQuery = '';
         $allQueries = [];
-        if ($this->_sql_profiler === null) {
-            $this->_sql_profiler = new \Zend_Db_Profiler();
+        if ($this->sqlProfiler === null) {
+            $this->sqlProfiler = new \Zend_Db_Profiler();
             if ($this->resource !== null) {
-                $this->_sql_profiler = $this->resource->getConnection('read')->getProfiler();
+                $this->sqlProfiler = $this->resource->getConnection('read')->getProfiler();
 
-                $this->useQdbProfiler = method_exists($this->_sql_profiler, 'getQueryBt');
+                $this->useQdbProfiler = method_exists($this->sqlProfiler, 'getQueryBt');
 
 
-                if ($this->_sql_profiler->getQueryProfiles() && is_array($this->_sql_profiler->getQueryProfiles())) {
-                    foreach ($this->_sql_profiler->getQueryProfiles() as $key => $query) {
+                if ($this->sqlProfiler->getQueryProfiles() && is_array($this->sqlProfiler->getQueryProfiles())) {
+                    foreach ($this->sqlProfiler->getQueryProfiles() as $key => $query) {
                         if ($query->getElapsedSecs() > $longestQueryTime) {
                             $longestQueryTime = $query->getElapsedSecs();
                             $longestQuery = $query->getQuery();
@@ -82,29 +60,29 @@ class Sql implements ServiceInterface
                             'params' => $query->getQueryParams(),
                             'time' => $query->getElapsedSecs(),
                             'grade' => 'medium',
-                            'bt' => $this->useQdbProfiler ? $this->_sql_profiler->getQueryBt($key) : null
+                            'bt' => $this->useQdbProfiler ? $this->sqlProfiler->getQueryBt($key) : null
                         ];
                     }
                 }
             }
         }
 
-        if(!$this->_sql_profiler->getTotalNumQueries()) {
+        if(!$this->sqlProfiler->getTotalNumQueries()) {
             return [];
         }
 
         $numQueriesByType = [];
-        foreach( [$this->_sql_profiler::INSERT,
-                     $this->_sql_profiler::UPDATE,
-                     $this->_sql_profiler::DELETE,
-                     $this->_sql_profiler::SELECT,
-                     $this->_sql_profiler::QUERY] as $type) {
-            $numQueriesByType[$type] = $this->_sql_profiler->getTotalNumQueries($type);
+        foreach( [$this->sqlProfiler::INSERT,
+                     $this->sqlProfiler::UPDATE,
+                     $this->sqlProfiler::DELETE,
+                     $this->sqlProfiler::SELECT,
+                     $this->sqlProfiler::QUERY] as $type) {
+            $numQueriesByType[$type] = $this->sqlProfiler->getTotalNumQueries($type);
 
         }
 
-        $totalNumQueries = $this->_sql_profiler->getTotalNumQueries();
-        $totalElapsedSecs = $this->_sql_profiler->getTotalElapsedSecs();
+        $totalNumQueries = $this->sqlProfiler->getTotalNumQueries();
+        $totalElapsedSecs = $this->sqlProfiler->getTotalElapsedSecs();
         $average = $totalElapsedSecs/$totalNumQueries;
 
         return [

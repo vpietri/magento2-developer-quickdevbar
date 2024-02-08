@@ -70,7 +70,8 @@ class Db extends \Zend_Db_Profiler
                 $fileName = sprintf('%s:%d', $data['file'], $data['line']);
             }
 
-            $returnTrace[]= sprintf('#%d %s::%s called by [%s]', $newIncrementStack, $className, $methodName, $fileName);
+            //$returnTrace[]= sprintf('#%d %s::%s called by [%s]', $newIncrementStack, $className, $methodName, $fileName);
+            $returnTrace[]= sprintf('#%d %s::%s', $newIncrementStack, $className, $methodName);
         }
 
         return $returnTrace;

@@ -4,8 +4,6 @@ namespace ADM\QuickDevBar\Block\Tab\Content;
 
 class Layout extends \ADM\QuickDevBar\Block\Tab\Panel
 {
-    protected $_elements = [];
-
     protected $_qdbHelper;
     /**
      * @var \ADM\QuickDevBar\Helper\Register

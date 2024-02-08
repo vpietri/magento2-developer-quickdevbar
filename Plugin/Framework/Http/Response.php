@@ -23,6 +23,6 @@ class Response
 
 
     public function afterSendResponse(\Magento\Framework\HTTP\PhpEnvironment\Response $subject) {
-        file_put_contents('/tmp/test.log', print_r($this->_qdbHelperRegister->getEvents(), true), FILE_APPEND  );
+        //file_put_contents('/tmp/test.log', print_r($this->_qdbHelperRegister->getEvents(), true), FILE_APPEND  );
     }
 }

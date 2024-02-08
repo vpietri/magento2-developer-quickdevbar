@@ -8,10 +8,6 @@
 
     <!--
     TODO: remplacer par un plugin afterSend
-
-    <type name="Magento\Framework\App\Response\Http">
-            <plugin name="qdb_response_http_page_cache" type="ADM\QuickDevBar\Plugin\App\Response\HttpPlugin"/>
-        </type>-->
     <event name="controller_front_send_response_before">
         <observer name="qdb_controller_front_send_response_before" instance="ADM\QuickDevBar\Observer\ControllerFrontSendResponseBeforeObserver" />
     </event>

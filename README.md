@@ -61,14 +61,6 @@ php bin/magento module:enable ADM_QuickDevBar
 php bin/magento setup:upgrade
 ```
 
-:star_struck: Do not miss the new version, fully compatible with FPC :star_struck:
-```
-composer require vpietri/adm-quickdevbar:dev-develop_ajax_loading
-php bin/magento module:enable ADM_QuickDevBar 
-php bin/magento setup:upgrade
-```
-still under development. Need some feddback to release the package. :pray:
-
 ## With Modman
 
 In the Magento root directory

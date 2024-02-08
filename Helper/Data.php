@@ -11,23 +11,23 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @var \Magento\Framework\App\Cache\Frontend\Pool
      */
-    protected $_cacheFrontendPool;
+    protected $cacheFrontendPool;
 
     /**
      * @var string
      */
-    protected $_controllerMsg = '';
+    protected $controllerMsg = '';
 
     /**
      * @var ModuleListInterface
      */
-    protected $_moduleList;
+    protected $moduleList;
 
     /**
      *
      * @var array
      */
-    protected $_defaultLogFiles = ['exception'=>'exception.log', 'system'=>'system.log', 'debug'=>'debug.log'];
+    protected $defaultLogFiles = ['exception'=>'exception.log', 'system'=>'system.log', 'debug'=>'debug.log'];
     /**
      * @var \Magento\Framework\Filesystem
      */
@@ -53,8 +53,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         Session $session
     ) {
         parent::__construct($context);
-        $this->_cacheFrontendPool = $cacheFrontendPool;
-        $this->_moduleList = $moduleList;
+        $this->cacheFrontendPool = $cacheFrontendPool;
+        $this->moduleList = $moduleList;
 
 
         $this->filesystem = $filesystem;
@@ -65,7 +65,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function getCacheFrontendPool()
     {
-        return $this->_cacheFrontendPool;
+        return $this->cacheFrontendPool;
     }
 
 
@@ -161,12 +161,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getLogFiles($key = false)
     {
         $logFiles = [];
-        foreach ($this->_defaultLogFiles as $fileKey => $fileName) {
+        foreach ($this->defaultLogFiles as $fileKey => $fileName) {
             $filepath = BP . '/var/log/' . $fileName;
             $logFiles[$fileKey] = ['id'=>$fileName
                     , 'name' => $fileName
                     , 'path' => $filepath
-                    , 'reset' => $this->_canResetFile($filepath)
+                    , 'reset' => $this->canResetFile($filepath)
                     , 'size' => $this->_getFileSize($filepath)
                     ];
         }
@@ -180,23 +180,28 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
     }
 
-    protected function _canResetFile($filepath)
+    /**
+     * @param $filepath
+     * @return bool
+     */
+    protected function canResetFile($filepath)
     {
         if (is_file($filepath) and is_writable($filepath)) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
-    protected function _getFileSize($filepath)
+    /**
+     * @param $filepath
+     * @return false|int
+     */
+    protected function getFileSize($filepath)
     {
-
         if (is_file($filepath) and file_exists($filepath)) {
             return filesize($filepath);
-        } else {
-            return 0;
         }
+        return 0;
     }
 
 
@@ -269,17 +274,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function setControllerMessage($msg)
     {
-        $this->_controllerMsg = $msg;
+        $this->controllerMsg = $msg;
     }
 
     public function getControllerMessage()
     {
-        return $this->_controllerMsg;
+        return $this->controllerMsg;
     }
 
     public function getModuleVersion($moduleName)
     {
-        $moduleInfo = $this->_moduleList->getOne($moduleName);
+        $moduleInfo = $this->moduleList->getOne($moduleName);
         return !empty($moduleInfo['setup_version']) ? $moduleInfo['setup_version'] : '???';
     }
 
@@ -326,24 +331,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function setWrapperContent($content, $ajax = false)
     {
-        $filename = $this->getWrapperFilename($ajax);
-
-//        /** @var \SplFileInfo $fileInfo */
-//        foreach (new \DirectoryIterator(dirname($filename)) as $fileInfo) {
-//            if($fileInfo->isFile() && time() - $fileInfo->getMTime() > 5) {
-////                unlink($fileInfo->getFilename());
-////                var_dump(time() , $fileInfo->getMTime());
-////                exit;
-//            }
-//        }
-
-        file_put_contents($filename, $content);
-
+        file_put_contents($this->getWrapperFilename($ajax), $content);
     }
 
     public function isAjaxLoading()
     {
-
         if($this->appState->getAreaCode() != 'frontend') {
             return false;
         }
