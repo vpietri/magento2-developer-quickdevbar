@@ -167,7 +167,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     , 'name' => $fileName
                     , 'path' => $filepath
                     , 'reset' => $this->canResetFile($filepath)
-                    , 'size' => $this->_getFileSize($filepath)
+                    , 'size' => $this->getFileSize($filepath)
                     ];
         }
 

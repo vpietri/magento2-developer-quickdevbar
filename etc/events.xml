@@ -15,5 +15,5 @@
     <event name="layout_load_before">
         <observer name="qdb_custom_layout" instance="ADM\QuickDevBar\Observer\UpdateLayoutObserver" />
     </event>
-
+    -->
 </config>

@@ -83,22 +83,26 @@ class Panel extends \Magento\Framework\View\Element\Template
 
     public function getHtmlBigLoader($showText = true)
     {
-        return $this->getHtmlLoader($this->getViewFileUrl('ADM_QuickDevBar::images/loader-64.gif'), 'big', $showText);
+        return $this->getHtmlLoader( 'big');
     }
 
 
     public function getHtmlSmallLoader($showText)
     {
-        return $this->getHtmlLoader($this->getViewFileUrl('ADM_QuickDevBar::images/loader-32.gif'), 'small', $showText);
+        return $this->getHtmlLoader();
     }
 
-    public function getHtmlLoader($imgSrc, $class, $showText = true)
+    public function getHtmlLoader($class='')
     {
         $html = '<div class="qdn-loading-mask ' . $class . '">';
         $html .= $showText  ? '<p>' . __('Please wait.') . '</p>' : '';
         $html .= '<img src="' . $imgSrc .'">';
         $html .= $showText  ? '<p>' . __('Content is loading ...') . '</p>' : '';
         $html .= '</div>';
+
+
+
+        //$html = '<div class=".qdn-loader '.$class.'"></div>';
 
         return $html;
     }

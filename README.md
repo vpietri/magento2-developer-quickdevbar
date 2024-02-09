@@ -17,11 +17,11 @@ The structure of this toolbar is extremely simple you just need to add a new blo
 
 - Info : Main informations about controller, route, action and store. Search on core config data. Dedicated tab output for local and global phpinfo.
 - Design : List handles called and display layout structure of nested blocks and containers
-- Profile : View current observers, all events dispatched, collections and models loaded, plugins instanciated
+- Profile : View current observers, all events dispatched, collections and models loaded, plugins instanciated, preferences, cache hits
 - Queries :  Statistics about executed queries and detailed query listing with syntax highlighting of main SQL keywords
 - Logs : Display log files with ability to reset these files
-- Translation : Quickly see module, pack,theme and	DB translations
 - Actions : Easily toggle template hints and inline translation and flush cache
+- Translation : Quickly see module, pack,theme and	DB translations
 - Help : Show module version and link to github
 
 ## Screenshots
@@ -32,8 +32,8 @@ The structure of this toolbar is extremely simple you just need to add a new blo
 - Queries Tab
 ![](doc/images/qdb_screen_queries.png)
 
-- See the toolbar in action
-[![Video](http://i.imgur.com/igZ0Up6.png)](https://www.youtube.com/watch?v=7p2Y_dqBfCM)
+- Theme chooser
+![](doc/images/qdb_screen_dark.png)
 
 # Installation
 

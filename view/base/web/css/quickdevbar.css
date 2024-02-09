@@ -197,18 +197,12 @@
         background-color: var(--qdb-tab-bg);
     }
 
-    /**
-      * Loader
-      * @see: http://odyniec.net/articles/turning-lists-into-trees/
-      * ---------------
-      */
-
     summary {
         display: list-item;
     }
 
     details.qdb-warning > summary {
-        color: #FF5200;
+        color: var(--qdb-ft);
     }
 
     details.haschild > summary {
@@ -217,30 +211,9 @@
 
     details div {
         border: 1px solid var(--qdb-tb-border);
-        color: #333;
-        background: #eee;
+        color: var(--qdb-ft);
+        background: var(--qdb-table-tr-stripped);
     }
-
-    /*
-    ul.qdbTree li {
-        margin: 0;
-        line-height: 20px;
-        color: var(--qdb-tab-bg);
-    }
-
-    ul.qdbTree li span {
-        border-left: 1px solid var(--qdb-bck);
-    }
-
-    ul.qdbTree li span.expanded, ul.qdbTree li span:hover {
-        border: 1px solid var(--qdb-tb-border);
-        background: #eee;
-    }
-
-    ul.qdbTree li span.expanded {
-        border-bottom: 1px solid #eee;
-    }
-    */
 
     /**
       * Loader
@@ -259,59 +232,86 @@
         margin-right: auto;
     }
 
+
+    .qdn-loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid red;
+        border-bottom: 16px solid blue;
+        width: 32px;
+        height: 32px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
+
+    .qdn-loader big {
+        width: 64px;
+        height: 64px;
+    }
+
+    @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
     /**
       * Table
       * ---------------
       */
 
-    table.qdn_table {
+    table.qdb_table {
         border-collapse: collapse;
         border: 1px solid var(--qdb-tb-border);
         width: 100%;
     }
 
-    table.qdn_table tr {
+    table.qdb_table tr {
         border: 1px solid var(--qdb-tb-border);
     }
 
-    table.qdn_table.grade tr {
+    table.qdb_table.grade tr {
         border-right: 5px solid var(--qdb-tb-border);
     }
 
-    table.qdn_table.grade tr.good {
+    table.qdb_table.grade tr.good {
 
         border-right: 5px solid var(--qdb-tb-border);
     }
 
-    table.qdn_table.grade tr.medium {
+    table.qdb_table.grade tr.medium {
         border-right: 5px solid yellow;
     }
 
-    table.qdn_table.grade tr.bad {
+    table.qdb_table.grade tr.bad {
         border-right: 5px solid red;
     }
 
-    table.qdn_table tr td, table.qdn_table tr th {
+    table.qdb_table tr td, table.qdb_table tr th {
         padding: 5px;
         /*word-break: break-all;*/
     }
 
-    table.qdn_table tr td, table.qdn_table tr th {
+    table.qdb_table tr td, table.qdb_table tr th {
         padding: 5px;
         /*word-break: break-all;*/
     }
 
-    table.qdn_table tr th {
+    table.qdb_table tr th {
         color: var(--qdb-table-th);
         white-space: nowrap;
         text-align: left;
     }
 
-    table.qdn_table tbody tr.striped {
+    table.qdb_table tbody tr.striped {
         background-color: var(--qdb-table-tr-stripped);
     }
 
-    table.qdn_table tbody tr:hover {
+    table.qdb_table tbody tr:hover {
         background-color: var(--qdb-table-tr-hover);
     }
 
@@ -320,16 +320,16 @@
       * ---------------
       */
 
-    table.qdn_table_2col {
+    table.qdb_table_2col {
         width: 100%;
     }
 
-    table.qdn_table_2col tr td, table.qdn_table_2col tr th {
+    table.qdb_table_2col tr td, table.qdb_table_2col tr th {
         padding: 2px;
         text-align: left;
     }
 
-    table.qdn_table_2col tr th {
+    table.qdb_table_2col tr th {
         color: var(--qdb-table-th);
         white-space: nowrap;
         width: 150px
