@@ -1,9 +1,17 @@
 Changelog: Quick Developer Toolbar for Magento2
 ====================================
 0.2.0
-* use toolbar ajax load to be cache compatible
-* code cleaning
-* 
+* Full compatibility with FPC
+* Full code refactoring
+* Handle Symfony VarDumper
+* Command to activate SQL backtrace
+* New tabs added: Preferences, Cache (PageCache) hits, Debug
+* Skin chooser
+* Css cleaning
+* Remove module fingerprint from page is not allowed
+* Open file from url to IDE
+
+
 0.1.20
 * Add command to enable/disable toolbar and activate sql profiler
 * Remove Deprecated Warning in Translate Helper, thanks [lefte](https://github.com/vpietri/magento2-developer-quickdevbar/pull/69) and [josue-rmoya](https://github.com/vpietri/magento2-developer-quickdevbar/pull/66)

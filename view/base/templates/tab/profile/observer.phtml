@@ -22,7 +22,7 @@
     <td><?=  $observer['event']; ?></td>
     <td><?=  $observer['name']; ?></td>
     <td><?=  $observer['call_number']; ?></td>
-    <td><?=  $observer['instance']; ?></td>
+    <td><?=  $block->htmlFormatClass($observer['instance']); ?></td>
   </tr>
         <?php $i++; ?>
     <?php endforeach ?>

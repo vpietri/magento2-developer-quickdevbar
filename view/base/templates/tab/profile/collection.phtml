@@ -1,5 +1,5 @@
 <?php
-/** @var  $block \ADM\QuickDevBar\Block\Tab\Content\Collection */
+/** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
 ?>
 <?php if ($block->getCollections()):?>
 <table class="qdb_collection qdb_table striped filterable sortable tablesorter">
@@ -14,7 +14,7 @@
     $i = 0;
     foreach ($block->getCollections() as $collection): ?>
   <tr>
-    <td><?=  $collection['class']; ?></td>
+    <td><?=  $block->htmlFormatClass($collection['class']); ?></td>
     <td><?=  $collection['nbr']; ?></td>
   </tr>
         <?php $i++; ?>

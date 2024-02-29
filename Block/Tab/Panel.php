@@ -6,17 +6,86 @@ use Magento\Framework\App\ObjectManager;
 
 class Panel extends \Magento\Framework\View\Element\Template
 {
+    protected $_mainTabs;
     protected $_frontUrl;
 
-    public function getTitle()
+
+    protected $helper;
+
+    protected $qdbHelperRegister;
+
+
+    public function __construct(
+        \Magento\Framework\View\Element\Template\Context $context,
+        \ADM\QuickDevBar\Helper\Data $helper,
+        \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
+        array $data = []
+    ) {
+        $data['show_badge'] = true;
+        parent::__construct($context, $data);
+
+        $this->helper = $helper;
+        $this->qdbHelperRegister = $qdbHelperRegister;
+    }
+
+    /**
+     * Used only in phtml
+     *
+     * @param $key
+     * @param $index
+     * @return array|\Magento\Framework\DataObject|mixed|string|null
+     * @throws \Exception
+     */
+    public function getData($key = '', $index = null)
     {
-        return ($this->getData('title')) ? $this->getData('title') : $this->getNameInLayout();
+        if(!isset($this->_data[$key]) && $key==$this->getDataKey()) {
+            return $this->getQdbData();
+        }
+        return parent::getData($key, $index);
+    }
+
+    public function getDataKey()
+    {
+        return $this->_data['data_key'] ?? null;
+    }
+
+
+
+    public function getTitleBadge()
+    {
+        $qdbData = $this->getQdbData();
+        return $this->count($qdbData);
     }
 
     protected function count($registeredData)
     {
         return is_countable($registeredData) ? count($registeredData) : 0;
     }
+
+
+    protected function getQdbData()
+    {
+        if(!$this->getDataKey()) {
+            return '';
+        }
+
+        if(!$this->getDataKey()) {
+            throw new \Exception('property qdbDataKey is not defined.');
+        }
+
+        return $this->qdbHelperRegister->getRegisteredData($this->getDataKey());
+    }
+
+
+    public function getTitle()
+    {
+        $title = $this->getData('title');
+        if(!$title && $title = $this->getDataKey()) {
+            return ucfirst($title);
+        }
+        return $title ?? $this->getNameInLayout();
+    }
+
 
     public function getId($prefix = '')
     {
@@ -81,43 +150,22 @@ class Panel extends \Magento\Framework\View\Element\Template
         return $this->_frontUrl->getUrl($route, $params);
     }
 
-    public function getHtmlBigLoader($showText = true)
-    {
-        return $this->getHtmlLoader( 'big');
-    }
-
-
-    public function getHtmlSmallLoader($showText)
-    {
-        return $this->getHtmlLoader();
-    }
-
     public function getHtmlLoader($class='')
     {
-        $html = '<div class="qdn-loading-mask ' . $class . '">';
-        $html .= $showText  ? '<p>' . __('Please wait.') . '</p>' : '';
-        $html .= '<img src="' . $imgSrc .'">';
-        $html .= $showText  ? '<p>' . __('Content is loading ...') . '</p>' : '';
-        $html .= '</div>';
-
-
-
-        //$html = '<div class=".qdn-loader '.$class.'"></div>';
+        $html = '<div class="qdb-loader '.$class.'"></div>';
 
         return $html;
     }
 
 
-    protected $_mainTabs;
-
-    public function getTabBlocks()
-    {
-        if ($this->_mainTabs === null) {
-            $this->_mainTabs = $this->getLayout()->getChildBlocks($this->getNameInLayout());
-        }
-
-        return $this->_mainTabs;
-    }
+//    public function getTabBlocks()
+//    {
+//        if ($this->_mainTabs === null) {
+//            $this->_mainTabs = $this->getLayout()->getChildBlocks($this->getNameInLayout());
+//        }
+//
+//        return $this->_mainTabs;
+//    }
 
     public function getStore()
     {
@@ -152,10 +200,15 @@ class Panel extends \Magento\Framework\View\Element\Template
 
     /**
      * @see http://stackoverflow.com/a/6225706
-     * @param unknown_type $buffer
+     * @param $buffer
+     * @return array|string|string[]|null
      */
     protected function sanitizeOutput($buffer)
     {
+        if($this->getDoNotMinify()) {
+            return $buffer;
+        }
+
         $search = [
                 '/\>[^\S ]+/s',  // strip whitespaces after tags, except space
                 '/[^\S ]+\</s',  // strip whitespaces before tags, except space
@@ -172,4 +225,19 @@ class Panel extends \Magento\Framework\View\Element\Template
 
         return $buffer;
     }
+
+    public function htmlFormatClass(mixed $class)
+    {
+        return $this->helper->getIDELinkForClass($class);
+    }
+
+    /**
+     * @param array $bt
+     * @return string
+     */
+    public function formatTrace(array $bt)
+    {
+        return $this->helper->getIDELinkForFile($bt['file'], $bt['line']);
+    }
+
 }

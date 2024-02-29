@@ -20,6 +20,12 @@
                 type="ADM\QuickDevBar\Plugin\Framework\App\Cache" sortOrder="1" />
     </type>
 
+    <type name="Magento\Framework\App\Http">
+        <plugin name="qdb-dumper"
+                type="ADM\QuickDevBar\Plugin\Framework\App\Http" sortOrder="1" />
+    </type>
+
+
     <type name="Magento\PageCache\Model\Cache\Type">
         <plugin name="qdb-trace-cache"
                 type="ADM\QuickDevBar\Plugin\PageCache\FrontController\BuiltinPlugin" sortOrder="1" />
@@ -46,6 +52,7 @@
                 <item name="layout_tree_blocks_hierarchy" xsi:type="object" >ADM\QuickDevBar\Service\Layout\Hierarchy</item>
                 <item name="object_manager_config" xsi:type="object" >ADM\QuickDevBar\Service\Config</item>
                 <item name="module_list" xsi:type="object" >ADM\QuickDevBar\Service\Module</item>
+                <item name="dumps" xsi:type="object" >ADM\QuickDevBar\Service\Dumper</item>
                 <item name="cache_events" xsi:type="object" >ADM\QuickDevBar\Service\App\Cache</item>
                 <item name="es_events" xsi:type="object" >ADM\QuickDevBar\Service\Elasticsearch</item>
             </argument>
@@ -83,6 +90,16 @@
             <argument name="commands" xsi:type="array">
                 <item name="enableDebugToolbar" xsi:type="object">ADM\QuickDevBar\Console\Command\EnableToolBar</item>
                 <item name="disableDebugToolbar" xsi:type="object">ADM\QuickDevBar\Console\Command\DisableToolBar</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="\ADM\QuickDevBar\Helper\Data">
+        <arguments>
+            <argument name="ideList" xsi:type="array">
+                <item name="PhpStorm" xsi:type="string" ><![CDATA[http://127.0.0.1:63342/api/file/%2$s:%3$d]]></item>
+                <item name="Eclipse" xsi:type="string" ><![CDATA[http://127.0.0.1:34567/?command=org.eclipse.soc.ewi.examples.commands.openfile&path=%2$s&line=%3$d]]></item>
+                <item name="VSCode" xsi:type="string" ><![CDATA[vscode://file/%1$s%2$s&line=%3$d]]></item>
             </argument>
         </arguments>
     </type>

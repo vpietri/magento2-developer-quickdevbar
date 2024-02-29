@@ -1,10 +1,10 @@
 <?php
-/** @var \ADM\QuickDevBar\Block\Tab\Content\Cache $block */
+/** @var \ADM\QuickDevBar\Block\Tab\Panel $block */
 
 //TODO: Add view cache
 //TODO: Add all cache type
 ?>
-<?php if ($block->getCacheList()):?>
+<?php if ($block->getCacheEvents()):?>
 <table class="qdb_table striped filterable">
 <thead>
 <tr>
@@ -15,7 +15,7 @@
 </tr>
 </thead>
 <tbody>
-    <?php foreach ($block->getCacheList() as $identifier=>$events): ?>
+    <?php foreach ($block->getCacheEvents() as $identifier=>$events): ?>
       <tr>
           <td><?=  $identifier; ?></td>
           <td><?=  $events['save']; ?></td>

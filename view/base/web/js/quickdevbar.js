@@ -1,12 +1,17 @@
 
 /* */
 define(["jquery",
+        "mage/url",
         "jquery/ui-modules/widgets/tabs",
          "filtertable",
          "metadata",
          "tablesorter",
          'mage/cookies'
-], function($){
+], function($,url){
+
+    url.setBaseUrl(window.BASE_URL);
+    //let link = url.build('foo/bar')
+
 
     /**
      *
@@ -25,13 +30,22 @@ define(["jquery",
 
     $.widget('mage.quickDevBarTabs', $.ui.tabs, {
         _create: function() {
-            let qdbOption = this.element.attr('data-qdbtabs-option');
-            if (qdbOption) {
-                $.extend( this.options, JSON.parse(qdbOption) );
-            }
+            // this.options.active=true;
+            this.options.active=false;
+            this.options.collapsible=true;
+            this.options.activate=this.activate;
             this._super();
         },
-
+        activate: function( event, eventData ) {
+            let toShow = eventData.newPanel;
+            //Look for sub tab widget, to activate first tab
+            if ( toShow.length ) {
+                let firstSubTabs = toShow.find('div.qdb-container');
+                if(firstSubTabs.length && firstSubTabs.quickDevBarTabs('option', 'active') === false) {
+                    firstSubTabs.quickDevBarTabs('option', 'active', 0);
+                }
+            }
+        },
         load: function( index, event ) {
             index = this._getIndex( index );
             let that = this,
@@ -46,30 +60,26 @@ define(["jquery",
             let anchorUrl = $( anchor ).attr( "data-ajax" );
             let rhash = /#.*$/;
 
-            //Fire click on subtabs
-            if (typeof event !='undefined') {
-                let firstSubTab = panel.find('.ui-tabs-tab').first();
-                if(firstSubTab.length && !firstSubTab.hasClass('ui-state-active')) {
-                    firstSubTab.find('.ui-tabs-anchor').first().trigger('click');       ;
-                }
-            }
-
-            // not remote
-            if ( typeof anchorUrl =='undefined' || anchorUrl.length < 1 ||  anchorUrl.replace( rhash, "" ).length<1) {
+            // If not an explicit click on tab
+            // If not an anchorUrl with http
+            if ( typeof anchorUrl =='undefined'
+                || typeof event =='undefined'
+                || anchorUrl.length < 1
+                ||  anchorUrl.replace( rhash, "" ).length<1
+            ) {
                 return;
             }
 
             this.xhr = $.ajax( this._ajaxSettings( anchorUrl, event, eventData ) );
-
             // support: jQuery <1.8
             // jQuery <1.8 returns false if the request is canceled in beforeSend,
             // but as of 1.8, $.ajax() always returns a jqXHR object.
-            if (typeof event !='undefined' && this.xhr && this.xhr.statusText !== "canceled" ) {
-                tab.addClass( "ui-tabs-loading" );
+            if (this.xhr && this.xhr.statusText !== "canceled" ) {
+                this._addClass( tab, "ui-tabs-loading" );
                 panel.attr( "aria-busy", "true" );
 
                 this.xhr
-                    .done(function( response ) {
+                    .done( function( response, status, jqXHR ) {
                         // support: jQuery <1.8
                         // http://bugs.jquery.com/ticket/11778
                         setTimeout(function() {
@@ -80,7 +90,7 @@ define(["jquery",
                             $( anchor ).removeAttr( "data-ajax" );
                         }, 1 );
                     })
-                    .always(function( jqXHR, status ) {
+                    .always( function( jqXHR, status ) {
                         // support: jQuery <1.8
                         // http://bugs.jquery.com/ticket/11778
                         setTimeout(function() {
@@ -98,7 +108,7 @@ define(["jquery",
                     });
             }
         },
-
+        /* */
         _ajaxSettings: function( anchorUrl, event, eventData ) {
             let that = this;
             return {
@@ -181,7 +191,7 @@ define(["jquery",
             classToStrip: "qdb_table.striped",
             classToFilter: "qdb_table.filterable",
             classToSort: "qdb_table.sortable",
-            ajaxUrl: 'quickdevbar/action/ajax',
+            ajaxUrl: url.build('quickdevbar/index/ajax'),
             ajaxLoading: false
         },
 
@@ -190,10 +200,13 @@ define(["jquery",
                 let that = this;
                 $.ajax({
                         url: that.options.ajaxUrl,
-                        success: function (data) {
-                            if(data) {
+                        success: function (data, textStatus, xhr) {
+                            if(xhr.status===200) {
                                 $('#qdb-bar').html(data).trigger('contentUpdated');
                                 that._initQdb();
+                            } else {
+                                //console.error(xhr.status, 'QDB Error');
+                                console.error(data, 'QDB Error');
                             }
                         }
                     }
@@ -241,6 +254,10 @@ define(["jquery",
 
             /* Manage ajax tabs */
             $('div.qdb-container').addClass('qdb-container-collapsed');
+
+            //$('#qdb-bar').tabs( "load", 5);
+
+
         },
 
         setVisibility: function(visible) {
@@ -281,27 +298,20 @@ define(["jquery",
 
             /* classToSort: Set sort on thead */
             $(selector + ' table.' + this.options.classToSort).tablesorter();
-        },
 
-        /**
-         * https://wiki.eclipse.org/Eclipse_Web_Interface
-         */
-        callJsEclipseSocEWI: function(file, line)
-        {
-            let url= 'http://localhost:34567/?command=org.eclipse.soc.ewi.examples.commands.openfile&path='+file+'&line='+line;
-            try
-            {
-              let xhr_object = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
-              xhr_object.open("post", url, false);
-              xhr_object.send();
-            }
-            catch(e)
-            {
-              //uncaught exception: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIXMLHttpRequest.send]
-              //console.log(e);
-              if( e.name!='NS_ERROR_FAILURE' && e.result!=2147500037)
-                window.location = url;
-            }
-        }
+            /* Add hyperlink on file path */
+            $(selector + ' span[data-ide-file]:not([data-ide-file=""])').each(function() {
+                let span = $(this);
+                $(this).on('click', function (event) {
+                    let ideFile = $(event.target).attr('data-ide-file');
+                    $.get({
+                        url: ideFile,
+                        fail: function (data, textStatus, xhr) {
+                            console.error(data, 'QDB Error');
+                        },
+                    });
+                });
+            });
+        },
     });
 });

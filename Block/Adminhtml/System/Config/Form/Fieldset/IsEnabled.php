@@ -26,7 +26,7 @@ class IsEnabled extends \Magento\Config\Block\System\Config\Form\Field
     protected function _getElementHtml(AbstractElement $element)
     {
         $html = [];
-        if ($this->_qdbHelper->isToolbarAccessAllowed()) {
+        if ($this->_qdbHelper->isToolbarAccessAllowed(true)) {
             $html[] = __('Yep');
         } else {
             $html[] = '<strong>' . __('Nope') .'</strong>';

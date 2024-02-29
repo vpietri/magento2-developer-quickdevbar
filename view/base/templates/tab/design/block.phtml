@@ -1,5 +1,5 @@
 <?php
-/** @var $block \ADM\QuickDevBar\Block\Tab\Content\Layout */
+/** @var $block \ADM\QuickDevBar\Block\Tab\Content\Block */
 ?>
 <?php if ($block->getBlocks()):?>
 <table class="qdb_table striped filterable">
@@ -14,7 +14,7 @@
     $i = 0;
     foreach ($block->getBlocks() as $blockInfo): ?>
   <tr>
-    <td><?=  $blockInfo['class']; ?></td>
+    <td><?=  $block->htmlFormatClass($blockInfo['class']); ?></td>
     <td><?=  $blockInfo['nbr']; ?></td>
   </tr>
         <?php $i++; ?>

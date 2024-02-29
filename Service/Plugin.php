@@ -32,7 +32,6 @@ class Plugin implements ServiceInterface
             $processed->setAccessible(true);
             $processed = $processed->getValue($this->pluginList);
 
-
             $inherited = $reflection->getProperty('_inherited');
             $inherited->setAccessible(true);
             $inherited = $inherited->getValue($this->pluginList);

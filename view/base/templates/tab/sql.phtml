@@ -67,7 +67,7 @@
           <td class="sqlargs"><?php echo $block->formatParams($query['params']); ?></td>
 
             <?php if($block->useQdbProfiler()): ?>
-                <td><?php echo  implode('<br/>', $query['bt']); ?></td>
+                <td><?php echo  $block->formatSqlTrace($query['bt'])  ?></td>
             <?php endif; ?>
             <td class="sqltimer"><?php echo  $block->formatSqlTime($query['time']); ?></td>
         </tr>

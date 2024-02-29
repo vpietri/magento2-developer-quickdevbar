@@ -6,27 +6,16 @@ use Magento\Framework\DataObjectFactory;
 
 class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
 {
-    /**
-     * @var \ADM\QuickDevBar\Helper\Register
-     */
-    private $qdbHelperRegister;
-    /**
-     * @var \Magento\Framework\View\Element\Template\Context
-     */
-    private $context;
-    /**
-     * @var DataObjectFactory
-     */
     private $objectFactory;
-
 
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
+        \ADM\QuickDevBar\Helper\Data $qdbHelper,
         \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
         DataObjectFactory $objectFactory,
         array $data = []
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $qdbHelper, $qdbHelperRegister, $data);
         $this->qdbHelperRegister = $qdbHelperRegister;
         $this->objectFactory = $objectFactory;
     }
@@ -121,6 +110,22 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
     public function useQdbProfiler()
     {
         return $this->getSqlProfiler()->getShowBacktrace();
+    }
+
+    public function formatSqlTrace(mixed $bt)
+    {
+        $traceFormated = [];
+        foreach ($bt as $i=>$traceLine) {
+//            $traceFormated[] = preg_replace_callback('/^(#\d+\s)(.*)(\s+\.\s+):(\d+)\s/', function ($matches) {
+//                return $matches[1] . $this->helper->getIDELinkForFile($matches[2],$matches[3]).' ';
+//            },$traceLine);
+
+            //basename($traceLine['file'])
+            $traceFormated[] = sprintf('#%d %s %s->%s()', $i, $this->helper->getIDELinkForFile($traceLine['file'],$traceLine['line']) , $traceLine['class'], $traceLine['function']);
+
+
+        }
+        return '<div class="qdbTrace">'.implode('<br/>', $traceFormated).'</div>';
     }
 
 }

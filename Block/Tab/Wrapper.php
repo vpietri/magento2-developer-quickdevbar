@@ -10,14 +10,6 @@ class Wrapper extends Panel
     protected $_mainTabs;
 
     protected $_jsonHelper;
-    /**
-     * @var \ADM\QuickDevBar\Helper\Data
-     */
-    private $qdbHelper;
-    /**
-     * @var \ADM\QuickDevBar\Helper\Register
-     */
-    private $qdbHelperRegister;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -33,15 +25,24 @@ class Wrapper extends Panel
     ) {
         $this->_jsonHelper = $jsonHelper;
 
-        parent::__construct($context, $data);
-        $this->qdbHelper = $qdbHelper;
-        $this->qdbHelperRegister = $qdbHelperRegister;
+        parent::__construct($context, $qdbHelper, $qdbHelperRegister, $data);
     }
 
     public function getTabBlocks()
     {
         if ($this->_mainTabs === null) {
-            $this->_mainTabs = $this->getLayout()->getChildBlocks($this->getNameInLayout());
+            $this->_mainTabs=[];
+            foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $alias => $block) {
+                if(!$block->getTitleBadge() && $block->getVisibleOnContent()) {
+                    continue;
+                }
+
+
+                $this->_mainTabs[$alias]=$block;
+            }
+
+
+
         }
 
         return $this->_mainTabs;

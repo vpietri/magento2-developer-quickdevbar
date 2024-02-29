@@ -14,7 +14,7 @@
     $i = 0;
     foreach ($block->getModels() as $model): ?>
   <tr>
-    <td><?=  $model['class']; ?></td>
+    <td><?=  $block->htmlFormatClass($model['class']); ?></td>
     <td><?=  $model['nbr']; ?></td>
   </tr>
         <?php $i++; ?>

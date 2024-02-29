@@ -27,15 +27,25 @@ class Ajax extends \ADM\QuickDevBar\Controller\Index
      */
     public function execute()
     {
-
-        $this->qdbHelperRegister->loadDataFromFile();
-
-        $this->_view->loadLayout('quickdevbar');
-        $output = $this->_view->getLayout()->getBlock('quick.dev.maintabs')
-            //->setNeedHtmlContent(true)
-            ->toHtml();
-
+        /** @var \Magento\Framework\Controller\Result\Raw $resultRaw */
         $resultRaw = $this->_resultRawFactory->create();
+
+        try {
+            $this->qdbHelperRegister->loadDataFromFile();
+
+            $this->_view->loadLayout('quickdevbar');
+            $output = $this->_view->getLayout()->getBlock('quick.dev.maintabs')
+                //->setNeedHtmlContent(true)
+                ->toHtml();
+        } catch (\Exception $e) {
+            $output = $e->getMessage();
+            $resultRaw->setStatusHeader(
+                \Laminas\Http\Response::STATUS_CODE_202,
+                \Laminas\Http\AbstractMessage::VERSION_11,
+                'QDB Error'
+            );
+        }
+
         //We are using HTTP headers to control various page caches (varnish, fastly, built-in php cache)
         $resultRaw->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0', true);
 

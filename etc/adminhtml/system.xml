@@ -14,7 +14,7 @@
                     <frontend_model>ADM\QuickDevBar\Block\Adminhtml\System\Config\Form\Fieldset\IsEnabled</frontend_model>
                     <depends>
                         <field id="enable">2</field>
-                    </depends>                    
+                    </depends>
                 </field>
                 <field id="allow_ips" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Allowed IPs</label>
@@ -29,7 +29,7 @@
                     <comment>Pattern that will be check (with preg_match) in the user agent sent by your browser. You should use a user agent switcher extension to add a specific pattern.</comment>
                     <depends>
                         <field id="enable">2</field>
-                    </depends>                    
+                    </depends>
                 </field>
                 <field id="appearance" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Appearance</label>
@@ -38,14 +38,42 @@
                         <field id="enable" separator=",">1,2</field>
                     </depends>
                 </field>
-                <field id="area" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="area" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Area</label>
                     <source_model>ADM\QuickDevBar\Model\Config\Source\Area</source_model>
                     <depends>
                         <field id="enable" separator=",">1,2</field>
                     </depends>
                 </field>
+                <field id="ide" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Link files to IDE</label>
+                    <comment>Some files can be open via hyperlink by your IDE</comment>
+                    <source_model>ADM\QuickDevBar\Model\Config\Source\Ide</source_model>
+                    <depends>
+                        <field id="enable" separator=",">1,2</field>
+                    </depends>
+                </field>
+                <field id="ide_custom" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom link</label>
+                    <comment><![CDATA[Define the custom string using variable:<ul>
+                    <li>%1$s absolute path of magento root</li>
+                    <li>%2$s relative file path from magento root (magento may run in a docker and have a mapped path on host)</li>
+                    <li>%3$d line number</li></ul>
+                    Sample for phpstorm, with standard path: http://127.0.0.1:63342/api/file/%1$s:%2$d]]></comment>
+                    <depends>
+                        <field id="enable" separator=",">1,2</field>
+                        <field id="ide" separator=",">Custom</field>
+                    </depends>
+                </field>
+<!--                ///http://localhost:63342/api/about-->
+                <field id="handle_vardumper" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Handle VarDumper</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enable" separator=",">1,2</field>
+                    </depends>
+                </field>
             </group>
         </section>
-    </system>    
+    </system>
 </config>

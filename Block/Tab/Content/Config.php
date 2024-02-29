@@ -13,11 +13,13 @@ class Config extends \ADM\QuickDevBar\Block\Tab\Panel
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\Config $appConfig,
+        \ADM\QuickDevBar\Helper\Data $qdbHelper,
+        \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
         array $data = []
     ) {
         $this->_appConfig = $appConfig;
 
-        parent::__construct($context, $data);
+        parent::__construct($context, $qdbHelper, $qdbHelperRegister, $data);
     }
 
     public function getTitleBadge()

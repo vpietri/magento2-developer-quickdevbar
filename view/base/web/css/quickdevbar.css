@@ -22,6 +22,8 @@
     --qdb-table-tr-stripped: #4f4f4f;
     --qdb-ft: #FFFFFF;
     --qdb-tb-border: #CCCCCC;
+    --qdb-href: #1299DA;
+    --qdb-href-hover: #CCCCCC;
 }
 
 #qdb-bar[data-theme="kawaii"] {
@@ -35,6 +37,9 @@
     --qdb-table-tr-stripped: #f5f5f5;
     --qdb-ft: #000000;
     --qdb-tb-border: #CCCCCC;
+    --qdb-href: #ffabde;
+    --qdb-href-hover: #000000;
+
 }
 
 #qdb-bar {
@@ -48,6 +53,8 @@
     --qdb-table-tr-stripped: #f5f5f5;
     --qdb-ft: #000000;
     --qdb-tb-border: #CCCCCC;
+    --qdb-href: #004276;
+    --qdb-href-hover: #eb5202;
 
     position: fixed;
     left: 0px;
@@ -61,6 +68,17 @@
 
     input {
         width: auto;
+    }
+
+    span[data-ide-file]:not([data-ide-file=""]){
+        color: var(--qdb-href);
+        text-decoration-line: underline;
+        text-decoration-style: dashed;
+        cursor: zoom-in;
+    }
+
+    span[data-ide-file]:not([data-ide-file=""]):hover{
+        color: var(--qdb-href-hover);
     }
 
 
@@ -201,10 +219,6 @@
         display: list-item;
     }
 
-    details.qdb-warning > summary {
-        color: var(--qdb-ft);
-    }
-
     details.haschild > summary {
         font-weight: 600;
     }
@@ -220,43 +234,20 @@
       * ---------------
       */
 
-    .qdn-loading-mask p {
-        color: var(--qdb-tab-bg);
-        text-align: center;
-        font-weight: bold;
-    }
-
-    .qdn-loading-mask img {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-
-    .qdn-loader {
-        border: 16px solid #f3f3f3;
+    .qdb-loader {
+        border: 8px solid #f3f3f3;
         border-radius: 50%;
-        border-top: 16px solid red;
-        border-bottom: 16px solid blue;
+        border-top: 8px solid var(--qdb-tab-bg);
+        border-bottom: 8px solid var(--qdb-tab-bg);
         width: 32px;
         height: 32px;
-        -webkit-animation: spin 2s linear infinite;
-        animation: spin 2s linear infinite;
+        -webkit-animation: qdb-spin 3s linear infinite;
+        animation: qdb-spin 2s linear infinite;
     }
 
-    .qdn-loader big {
+    .qdb-loader.big {
         width: 64px;
         height: 64px;
-    }
-
-    @-webkit-keyframes spin {
-        0% { -webkit-transform: rotate(0deg); }
-        100% { -webkit-transform: rotate(360deg); }
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
     }
 
     /**
@@ -393,4 +384,15 @@
     .qdb-warning {
         color: #FF5200;
     }
+}
+
+/* To animate loader, cannot be in #qdb-bar :-( ... do not use qdb- prefixes :-) */
+@-webkit-keyframes qdb-spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes qdb-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

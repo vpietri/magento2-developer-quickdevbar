@@ -11,10 +11,10 @@ Display only preferences cross modules
 </thead>
 <tbody>
 <?php
-foreach ($block->getPreferencesList() as $type =>$preference): ?>
+foreach ($block->getObjectManagerConfig() as $type =>$preference): ?>
     <tr>
-        <td><?= $type ?></td>
-        <td><?= $preference ?></td>
+        <td><?= $block->htmlFormatClass($type) ?></td>
+        <td><?= $block->htmlFormatClass($preference) ?></td>
     </tr>
     <?php endforeach ?>
 </tbody>

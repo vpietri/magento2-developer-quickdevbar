@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
-   <default>
-    <dev>
-      <quickdevbar>
-        <enable>2</enable>
-        <area>global</area>
-        <appearance>memorize</appearance>
-      </quickdevbar>
-    </dev>
-   </default>
+    <default>
+        <dev>
+            <quickdevbar>
+                <enable>2</enable>
+                <area>global</area>
+                <appearance>memorize</appearance>
+                <handle_vardumper>1</handle_vardumper>
+            </quickdevbar>
+        </dev>
+    </default>
 </config>

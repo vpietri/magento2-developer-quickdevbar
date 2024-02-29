@@ -5,9 +5,12 @@ use Magento\Customer\Model\Session;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\State;
+use Magento\Framework\Exception\LocalizedException;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
+
+
     /**
      * @var \Magento\Framework\App\Cache\Frontend\Pool
      */
@@ -40,6 +43,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var Session
      */
     private $session;
+    private array $ideList;
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -49,6 +53,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         \Magento\Framework\Filesystem $filesystem,
+        array $ideList,
         State $appState,
         Session $session
     ) {
@@ -60,8 +65,26 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->filesystem = $filesystem;
         $this->appState = $appState;
         $this->session = $session;
+        $this->ideList = $ideList;
     }
 
+
+    public function getIdeList()
+    {
+        return $this->ideList;
+    }
+
+    public function getIdeRegex()
+    {
+        if($ide = $this->getConfig('dev/quickdevbar/ide')) {
+            if (strtolower($ide) == 'custom' && $ideCustom = $this->getConfig('dev/quickdevbar/ide_custom')) {
+                return $ideCustom;
+            }
+
+            return $this->getIdeList()[$ide] ?? '';
+        }
+        return '';
+    }
 
     public function getCacheFrontendPool()
     {
@@ -79,14 +102,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $this->getConfig('dev/quickdevbar/appearance');
     }
 
-    public function isToolbarAccessAllowed()
+    public function isToolbarAccessAllowed($testWithRestriction=false)
     {
         $allow = false;
         $enable = $this->getConfig('dev/quickdevbar/enable');
 
-        if ($enable) {
+        if ($enable || $testWithRestriction) {
 
-            if ($enable>1) {
+            if ($enable>1 || $testWithRestriction) {
                 $allow = $this->isIpAuthorized();
 
                 if(!$allow) {
@@ -150,11 +173,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getUserAgent()
     {
         return $this->_httpHeader->getHttpUserAgent(true);
-    }
-
-    public function displayMagentoFile($path)
-    {
-        return str_replace(BP, '', $path);
     }
 
 
@@ -313,19 +331,25 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function getWrapperContent($ajax = false)
     {
-        $filename = $this->getWrapperFilename($ajax);
-
-        if(file_exists($filename)) {
-            /** @var \SplFileInfo $fileInfo */
-            foreach (new \DirectoryIterator($this->getQdbTempDir()) as $fileInfo) {
-                if($fileInfo->isFile() && time() - $fileInfo->getMTime() > 20) {
-                    unlink($fileInfo->getPathname());
-                }
+        //Clean old files
+        /** @var \SplFileInfo $fileInfo */
+        foreach (new \DirectoryIterator($this->getQdbTempDir()) as $fileInfo) {
+            if($fileInfo->isFile() && time() - $fileInfo->getMTime() > 20) {
+                unlink($fileInfo->getPathname());
             }
-
-            return file_get_contents($filename);
         }
-        return '[{"content":"nothing in wrapper"}]';
+
+        $filename = $this->getWrapperFilename($ajax);
+        if(!file_exists($filename)) {
+            throw new LocalizedException(__('No file for wrapper'));
+        }
+
+        $content = file_get_contents($filename);
+        if(empty($content)) {
+            throw new LocalizedException(__('No data registered'));
+        }
+
+        return $content;
     }
 
 
@@ -334,6 +358,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         file_put_contents($this->getWrapperFilename($ajax), $content);
     }
 
+    /**
+     * @return bool
+     * @throws LocalizedException
+     */
     public function isAjaxLoading()
     {
         if($this->appState->getAreaCode() != 'frontend') {
@@ -343,4 +371,44 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         // see: \ADM\QuickDevBar\Helper\Register::__construct
         return true;
     }
+
+    /**
+     * @param $file
+     * @param $line
+     * @return string
+     */
+    public function getIDELinkForFile($file, $line=1, $btFormat = '%2$s(%3$d)')
+    {
+        $relativeFile = $file;
+        if(strpos($relativeFile, BP)===0) {
+            $relativeFile = preg_replace('#' . BP . DIRECTORY_SEPARATOR . '?#', '', $file);
+        }
+
+        if($btLinkFormat = $this->getIdeRegex()) {
+            return sprintf('<span data-ide-file="'.$btLinkFormat.'">'.$btFormat.'</span>', BP, $relativeFile, $line);
+        }
+
+        return sprintf($btFormat, BP, $relativeFile, $line);
+
+    }
+
+    /**
+     * @param $class
+     * @return string
+     */
+    public function getIDELinkForClass($class)
+    {
+        //return $class;
+        try {
+            $reflector = new \ReflectionClass($class);
+            if($file=$reflector->getFileName()) {
+                return $this->getIDELinkForFile($file, 1, $class);
+            }
+
+        } catch (\ReflectionException) {
+
+        }
+        return $class;
+    }
+
 }

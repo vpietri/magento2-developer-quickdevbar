@@ -4,30 +4,6 @@ namespace ADM\QuickDevBar\Block\Tab\Content;
 
 class Layout extends \ADM\QuickDevBar\Block\Tab\Panel
 {
-    protected $_qdbHelper;
-    /**
-     * @var \ADM\QuickDevBar\Helper\Register
-     */
-    private $qdbHelperRegister;
-
-
-    /**
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \ADM\QuickDevBar\Helper\Data $qdbHelper
-     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context,
-        \ADM\QuickDevBar\Helper\Data $qdbHelper,
-        \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
-        array $data = []
-    ) {
-        $this->_qdbHelper = $qdbHelper;
-        $this->qdbHelperRegister = $qdbHelperRegister;
-
-        parent::__construct($context, $data);
-    }
 
     /**
      * @return array
@@ -57,13 +33,13 @@ class Layout extends \ADM\QuickDevBar\Block\Tab\Panel
 
             $blockInfo = [];
             if (!empty($treeNode['class_name'])) {
-                $blockInfo[]= 'Class: ' . $treeNode['class_name'] . ' (' . $this->_qdbHelper->displayMagentoFile($treeNode['class_file']) . ')';
+                $blockInfo[]= 'Class: ' . $this->helper->getIDELinkForFile($treeNode['class_file'],1, $treeNode['class_name']);
             }
             if (!empty($treeNode['file'])) {
-                $blockInfo[]= 'Template: ' . $this->_qdbHelper->displayMagentoFile($treeNode['file']);
+                $blockInfo[]= 'Template: ' . $this->helper->getIDELinkForFile($treeNode['file']);
             }
             if (empty($treeNode['cacheable'])) {
-                $blockInfo[]= 'Not cacheable';
+                $blockInfo[]= '<span class="qdb-warning">Not cacheable</span>';
             }
 
             $html .= '<details '.

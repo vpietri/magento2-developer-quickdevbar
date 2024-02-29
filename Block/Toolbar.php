@@ -31,14 +31,14 @@ class Toolbar extends \Magento\Framework\View\Element\Template
         return $this->_qdnHelper->isToolbarAccessAllowed() && $this->_qdnHelper->isToolbarAreaAllowed($this->getArea());
     }
 
-    public function getTabBlocks()
-    {
-        if ($this->_mainTabs === null) {
-            $this->_mainTabs = $this->getLayout()->getChildBlocks($this->getNameInLayout());
-        }
-
-        return $this->_mainTabs;
-    }
+//    public function getTabBlocks()
+//    {
+//        if ($this->_mainTabs === null) {
+//            $this->_mainTabs = $this->getLayout()->getChildBlocks($this->getNameInLayout());
+//        }
+//
+//        return $this->_mainTabs;
+//    }
 
     public function getAppearance()
     {

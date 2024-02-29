@@ -21,9 +21,11 @@ class Translation extends \ADM\QuickDevBar\Block\Tab\Panel
     public function __construct(
         Template\Context $context,
         Translate $translate,
+        \ADM\QuickDevBar\Helper\Data $qdbHelper,
+        \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
         array $data = []
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $qdbHelper, $qdbHelperRegister, $data);
         $this->translate = $translate;
     }
 
