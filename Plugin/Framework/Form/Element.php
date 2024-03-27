@@ -12,7 +12,10 @@ class Element
      */
     public function afterGetElementHtml(AbstractElement $subject, $html) {
 
-        $html .= '<p class="note qdb"><span>' . $subject->getOriginalData('path') . '/' .$subject->getOriginalData('id') . '</span></p>';
+        if( $subject->getOriginalData('path')
+            && $subject->getOriginalData('id')) {
+            $html .= '<p class="note qdb"><span>' . $subject->getOriginalData('path') . '/' .$subject->getOriginalData('id') . '</span></p>';
+        }
         return $html;
     }
 }

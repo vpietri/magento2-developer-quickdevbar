@@ -3,7 +3,9 @@
 
     <type name="Magento\Framework\Data\Form\Element\AbstractElement">
         <plugin name="qdb-trace-es"
-                type="ADM\QuickDevBar\Plugin\Framework\Form\Element" sortOrder="1" />
+                type="ADM\QuickDevBar\Plugin\Framework\Form\Element"
+                sortOrder="1"
+        />
     </type>
 
 </config>

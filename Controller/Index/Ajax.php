@@ -60,7 +60,7 @@ class Ajax extends \ADM\QuickDevBar\Controller\Index
     public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
         if (!$this->getRequest()->isXmlHttpRequest()) {
-            //throw new NotFoundException(__('Page not found.'));
+            throw new NotFoundException(__('Page not found.'));
         }
 
         return parent::dispatch($request);
