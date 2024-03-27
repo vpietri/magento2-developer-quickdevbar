@@ -1,8 +1,7 @@
-<?php /** @var \ADM\QuickDevBar\Block\Toolbar $block */ ?>
-<?php if($block->canDisplay()):?>
-
-<!-- ------------------------------ -->
-<!-- Start HTML for ADM_QuickDevBar -->
+<?php
+/** @var \ADM\QuickDevBar\Block\Toolbar $block */
+?>
+<!-- Start:ADM_QuickDevBar -->
 <!--
            ____        _      _    _____             ____
           / __ \      (_)    | |  |  __ \           |  _ \
@@ -13,17 +12,19 @@
 
 
  -->
-
 <div>
-<div id="qdb-bar" style="display: none;" data-mage-init='{"quickDevBar":{"css":"<?php echo $block->getViewFileUrl('ADM_QuickDevBar::css/quickdevbar.css'); ?>",
-                                                                         "toggleEffect":"drop",
-                                                                         "appearance":"<?php echo $block->getAppearance() ?>"}}'>
-<?php echo $block->getChildHtml(); ?>
+<div id="qdb-bar"
+     style="display: none;"
+     data-mage-init='{"quickDevBar":{"css":"<?=  $block->getViewFileUrl('ADM_QuickDevBar::css/quickdevbar.css'); ?>",
+                                     "ajaxLoading": <?=  $block->isAjaxLoading() ? 'true' : 'false' ?>,
+                                     "appearance":"<?=  $block->getAppearance() ?>"}}'>
+<?=  $block->getChildHtml(); ?>
 </div>
-<div id="qdb-bar-anchor">
-<img src="<?php echo $block->getViewFileUrl('ADM_QuickDevBar::images/qdb-icon.png') ?>" alt="<?php echo __('QuickDevBar'); ?>" title="<?php echo __('Click to toggle the Quick Development Toolbar'); ?>"/>&nbsp;
+<div style="display: none;"
+     id="qdb-bar-anchor">
+<img src="<?=  $block->getViewFileUrl('ADM_QuickDevBar::images/qdb-icon.png') ?>"
+     alt="<?=  __('QuickDevBar'); ?>"
+     title="<?=  __('Click to toggle the Quick Development Toolbar'); ?>"/>&nbsp;
 </div>
 </div>
-<!-- End HTML for ADM_QuickDevBar -->
-<!-- ------------------------------ -->
-<?php endif;?>
+<!-- End:ADM_QuickDevBar -->

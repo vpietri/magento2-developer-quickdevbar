@@ -1,0 +1,21 @@
+<?php
+/**  @var \ADM\QuickDevBar\Block\Tab\Content\Preference $block*/
+?>
+Display only preferences cross modules
+<table class="qdb_plugin qdb_table striped filterable sortable tablesorter">
+<thead>
+<tr>
+    <th>Types</th>
+    <th>Preferences</th>
+</tr>
+</thead>
+<tbody>
+<?php
+foreach ($block->getObjectManagerConfig() as $type =>$preference): ?>
+    <tr>
+        <td><?= $block->htmlFormatClass($type) ?></td>
+        <td><?= $block->htmlFormatClass($preference) ?></td>
+    </tr>
+    <?php endforeach ?>
+</tbody>
+</table>

@@ -3,7 +3,7 @@
     <policies>
         <policy id="img-src">
             <values>
-                <value id="githubusercontent_images" type="host">camo.githubusercontent.com</value>
+                <value id="githubusercontent_images" type="host">github.blog</value>
             </values>
         </policy>
     </policies>

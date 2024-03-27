@@ -1,27 +1,29 @@
 <?php
+/** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
+
 $_website = $block->getWebsite();
-$_store = $this->getStore();
+$_store = $block->getStore();
 ?>
 
-<table class="qdn_table_2col">
+<table class="qdb_table_2col">
   <tr>
-    <th><?php echo __('Website Id'); ?></th>
-    <td><?php echo $_website->getId(); ?></td>
+    <th><?=  __('Website Id'); ?></th>
+    <td><?=  $_website->getId(); ?></td>
   </tr>
   <tr>
-    <th><?php echo __('Website Name'); ?></th>
-    <td><?php echo $_website->getName(); ?></td>
+    <th><?=  __('Website Name'); ?></th>
+    <td><?=  $_website->getName(); ?></td>
   </tr>
   <tr>
-    <th><?php echo __('Store Id'); ?></th>
-    <td><?php echo $_store->getId(); ?></td>
+    <th><?=  __('Store Id'); ?></th>
+    <td><?=  $_store->getId(); ?></td>
   </tr>
   <tr>
-    <th><?php echo __('Store Name'); ?></th>
-    <td><?php echo $_store->getName(); ?></td>
+    <th><?=  __('Store Name'); ?></th>
+    <td><?=  $_store->getName(); ?></td>
   </tr>
   <tr>
-    <th><?php echo __('Store Code'); ?></th>
-    <td><?php echo $_store->getCode(); ?></td>
+    <th><?=  __('Store Code'); ?></th>
+    <td><?=  $_store->getCode(); ?></td>
   </tr>
 </table>

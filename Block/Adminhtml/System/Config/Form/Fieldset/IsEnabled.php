@@ -11,9 +11,9 @@ class IsEnabled extends \Magento\Config\Block\System\Config\Form\Field
     protected $_qdbHelper;
 
     public function __construct(
-            \Magento\Backend\Block\Template\Context $context,
-            \ADM\QuickDevBar\Helper\Data $qdbHelper,
-            array $data = []
+        \Magento\Backend\Block\Template\Context $context,
+        \ADM\QuickDevBar\Helper\Data $qdbHelper,
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_qdbHelper = $qdbHelper;
@@ -26,20 +26,19 @@ class IsEnabled extends \Magento\Config\Block\System\Config\Form\Field
     protected function _getElementHtml(AbstractElement $element)
     {
         $html = [];
-        if ($this->_qdbHelper->isToolbarAccessAllowed()) {
+        if ($this->_qdbHelper->isToolbarAccessAllowed(true)) {
             $html[] = __('Yep');
         } else {
             $html[] = '<strong>' . __('Nope') .'</strong>';
-            if(!$this->_qdbHelper->isIpAuthorized()) {
+            if (!$this->_qdbHelper->isIpAuthorized()) {
                 $html[] =  __('Your Ip "<i class="note">%1</i>" is not allowed, you should register it in the field below.', $this->_qdbHelper->getClientIp());
             }
-            if(!$this->_qdbHelper->isUserAgentAuthorized()) {
-                $html[] =  __('Your User Agent "<i class="note">%1</i>" is not allowed, you should add a user-agent pattern',  $this->_qdbHelper->getUserAgent());
+            if (!$this->_qdbHelper->isUserAgentAuthorized()) {
+                $html[] =  __('Your User Agent "<i class="note">%1</i>" is not allowed, you should add a user-agent pattern', $this->_qdbHelper->getUserAgent());
             }
         }
 
 
         return implode('<br/>', $html);
     }
-
 }

@@ -1,14 +1,11 @@
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <update handle="quickdevbar" />
-<!--     <head>
-      <css src="ADM_QuickDevBar::css/quickdevbar.css"/>
-    </head>   -->  
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceBlock name="head.components">
-            <block class="Magento\Framework\View\Element\Js\Components" name="adm_quickdevbar_head_components" template="ADM_QuickDevBar::js/components.phtml"/>
-        </referenceBlock>
+        <referenceContainer name="before.body.end">
+            <block class="ADM\QuickDevBar\Block\Toolbar" name="quick.dev.toolbar" as="quick.dev.toolbar" template="ADM_QuickDevBar::toolbar.phtml">
+<container name="quick.dev.toolbar.content"></container>
+            </block>
+        </referenceContainer>
     </body>
-    
 </page>
 
 

@@ -1,24 +1,24 @@
 <?php
-
+/** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
 ?>
 <button type="button" onClick="javascript:resetAllLogs();return false;" class="qdb-action">Reset all Logs</button>
 <br/>
 <br/>
-<?php foreach ($block->getLogFiles() as $logKey=>$logFile):?>
-    <h3><?php echo $logFile['name'] ?>&nbsp;<button type="button" onClick="javascript:resetLog('<?php echo $logKey ?>');return false;" class="qdb-action">Reset</button></h3>
-    Tail the <?php echo $block->getTailLines() ?> last lines
-    <pre id= "content-<?php echo $logKey ?>" style="border:1px solid;padding:5px;background:#fffcd8;">
+<?php foreach ($block->getLogFiles() as $logKey => $logFile):?>
+    <h3><?=  $logFile['name'] ?>&nbsp;<button type="button" onClick="javascript:resetLog('<?=  $logKey ?>');return false;" class="qdb-action">Reset</button></h3>
+    Tail the <?=  $block->getTailLines() ?> last lines
+    <pre id= "content-<?=  $logKey ?>">
     </pre>
     <br/>
 <?php endforeach;?>
-<div id='log-loader' style="display:none"><?php echo $block->getHtmlSmallLoader(false)?></div>
+<div id='log-loader' style="display:none"><?=  $block->getHtmlLoader()?></div>
 <script type="text/javascript">
 <!--
 require([
          'jquery'
      ], function($){
 
-        var logFiles = <?php echo $block->getJsonLogFiles() ?>;
+        var logFiles = <?=  $block->getJsonLogFiles() ?>;
         var loaded = false;
 
         $('div.qdb-container').on( "quickdevbartabsbeforeactivate", function(event, data) {
@@ -40,7 +40,7 @@ require([
         loadLogContent = function(key)
         {
             var target =  $('#content-' +  key );
-            var jqxhr = $.get('<?php echo $block->getUrlLog('view') ?>', {isAjax:1,log_key:key,tail:<?php echo $block->getTailLines(); ?>});
+            var jqxhr = $.get('<?=  $block->getUrlLog('view') ?>', {isAjax:1,log_key:key,tail:<?=  $block->getTailLines(); ?>});
             jqxhr.beforeSend= showLoader(target);
             jqxhr.done(function(response) {
                 target.html(response);
@@ -57,7 +57,7 @@ require([
         resetLog = function(key)
         {
             var target =  $('#content-' +  key );
-            var jqxhr = $.get('<?php echo $block->getUrlLog('reset') ?>', {isAjax:1,log_key:key});
+            var jqxhr = $.get('<?=  $block->getUrlLog('reset') ?>', {isAjax:1,log_key:key});
             jqxhr.beforeSend= showLoader(target);
             jqxhr.done(function(response) {
                 target.html(response);

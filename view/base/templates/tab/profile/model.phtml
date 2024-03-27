@@ -1,7 +1,8 @@
 <?php
+/** @var  $block \ADM\QuickDevBar\Block\Tab\Content\Model */
 ?>
-<?php if($this->getModels()):?>
-<table class="qdn_table striped filterable">
+<?php if ($block->getModels()):?>
+<table class="qdb_table striped filterable">
 <thead>
 <tr>
     <th>Event</th>
@@ -9,15 +10,15 @@
 </tr>
 </thead>
 <tbody>
-<?php
-  $i = 0;
-  foreach ($this->getModels() as $model): ?>
+    <?php
+    $i = 0;
+    foreach ($block->getModels() as $model): ?>
   <tr>
-    <td><?php echo $model['class']; ?></td>
-    <td><?php echo $model['nbr']; ?></td>
+    <td><?=  $block->htmlFormatClass($model['class']); ?></td>
+    <td><?=  $model['nbr']; ?></td>
   </tr>
-    <?php $i++; ?>
-  <?php endforeach ?>
+        <?php $i++; ?>
+    <?php endforeach ?>
 </tbody>
 </table>
 <?php endif;?>

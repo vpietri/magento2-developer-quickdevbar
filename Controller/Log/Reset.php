@@ -4,7 +4,6 @@ namespace ADM\QuickDevBar\Controller\Log;
 class Reset extends \ADM\QuickDevBar\Controller\Index
 {
     /**
-     * Gets most viewed products list
      *
      * @return \Magento\Backend\Model\View\Result\Page
      */
@@ -15,7 +14,7 @@ class Reset extends \ADM\QuickDevBar\Controller\Index
 
         $file = $this->_qdbHelper->getLogFiles($fileKey);
         if ($file) {
-            if(!empty($file['size'])) {
+            if (!empty($file['size'])) {
                 if (!unlink($file['path'])) {
                     $output = 'Cannot reset file.';
                 } else {
@@ -30,6 +29,9 @@ class Reset extends \ADM\QuickDevBar\Controller\Index
 
         $this->_view->loadLayout();
         $resultRaw = $this->_resultRawFactory->create();
+        //We are using HTTP headers to control various page caches (varnish, fastly, built-in php cache)
+        $resultRaw->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0', true);
+
         return $resultRaw->setContents($output);
     }
 }

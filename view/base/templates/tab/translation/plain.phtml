@@ -1,5 +1,9 @@
-<?php if($this->getTranslations()):?>
-    <table class="qdn_table striped filterable">
+<?php
+/** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
+?>
+
+<?php if ($block->getTranslations()):?>
+    <table class="qdb_table striped filterable">
         <thead>
         <tr>
             <th>Original</th>
@@ -9,10 +13,10 @@
         <tbody>
         <?php
         $i = 0;
-        foreach ($this->getTranslations() as $original => $translation): ?>
+        foreach ($block->getTranslations() as $original => $translation): ?>
             <tr>
-                <td><?php echo $original; ?></td>
-                <td><?php echo $translation; ?></td>
+                <td><?=  $original; ?></td>
+                <td><?=  $translation; ?></td>
             </tr>
             <?php $i++; ?>
         <?php endforeach ?>

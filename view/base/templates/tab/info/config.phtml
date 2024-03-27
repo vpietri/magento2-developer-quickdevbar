@@ -1,10 +1,11 @@
 <?php
+/** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
 ?>
 <p>
-<?php echo __('List config for default scope')?>
+<?=  __('List config for default scope')?>
 </p>
-<?php if($this->getConfigValues()):?>
-<table class="qdn_table striped filterable sortable">
+<?php if ($block->getConfigValues()):?>
+<table class="qdb_table striped filterable sortable">
 <thead>
 <tr>
     <th>Path</th>
@@ -12,15 +13,15 @@
 </tr>
 </thead>
 <tbody>
-<?php
-  $i = 0;
-  foreach ($this->getConfigValues() as $config): ?>
+    <?php
+    $i = 0;
+    foreach ($block->getConfigValues() as $config): ?>
   <tr>
-    <td><?php echo $config['path']; ?></td>
-    <td><?php echo $config['value']; ?></td>
+    <td><?=  $config['path']; ?></td>
+    <td><?=  $config['value']; ?></td>
   </tr>
-    <?php $i++; ?>
-  <?php endforeach ?>
+        <?php $i++; ?>
+    <?php endforeach ?>
 </tbody>
 </table>
 <?php endif;?>

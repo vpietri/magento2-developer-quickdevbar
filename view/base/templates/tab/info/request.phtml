@@ -1,10 +1,20 @@
 <?php
+/** @var \ADM\QuickDevBar\Block\Tab\Content\Request $block */
 ?>
-<table class="qdn_table_2col">
+
+<?php if(!$block->getRequestData()) {
+
+    echo 'An error occurred generating toolbar data';
+    return;
+}
+?>
+
+
+<table class="qdb_table_2col">
 <?php foreach ($block->getRequestData() as $data):?>
     <tr>
-        <th><?php echo $data['name'];?></th>
-        <td><?php echo $block->formatValue($data);?>
+        <th><?=  $data['name'];?></th>
+        <td><?=  $block->formatValue($data);?>
     </td>
 <?php endforeach;?>
 </table>

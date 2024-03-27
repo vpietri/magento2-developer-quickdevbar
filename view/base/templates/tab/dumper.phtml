@@ -1,0 +1,10 @@
+<?php
+/** @var  $block \ADM\QuickDevBar\Block\Tab\Content\Dumper */
+?>
+
+<?php foreach ($block->getDumps() as $dump):?>
+<p>
+    <?= $block->formatTrace($dump['bt']) ?>
+    <?= $dump['dump'] ?>
+</p>
+<?php endforeach;?>

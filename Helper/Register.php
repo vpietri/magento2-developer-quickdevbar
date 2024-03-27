@@ -1,158 +1,174 @@
 <?php
 namespace ADM\QuickDevBar\Helper;
 
-use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\Helper\Context;
+use Magento\Framework\Exception\LocalizedException;
 
+use Magento\Framework\DataObjectFactory;
 
 class Register extends \Magento\Framework\App\Helper\AbstractHelper
 {
+    protected $pullDataFromService = true;
+
+    /** @var \Magento\Framework\DataObject $registeredData */
+    protected $registeredData;
+    /**
+     * @var DataObjectFactory
+     */
+    private $objectFactory;
+    /**
+     * @var Data
+     */
+    private $qdbHelper;
     /**
      * @var array
      */
-    protected $_events=[];
-
-    /**
-     * @var array
-     */
-    protected $_observers=[];
-
-    /**
-     * @var array
-     */
-    protected $_collections=[];
-
-    /**
-     * @var array
-     */
-    protected $_models=[];
-
-    /**
-     * @var array
-     */
-    protected $_blocks=[];
+    private $services;
 
 
-    public function addObserver($observerConfig, $wrapper)
+    public function __construct(Context $context,
+                                DataObjectFactory $objectFactory,
+                                Data $qdbHelper,
+                                array $services = []
+    )
     {
-        $data = $observerConfig;
+        parent::__construct($context);
+        $this->objectFactory = $objectFactory;
+        $this->qdbHelper = $qdbHelper;
+        $this->services = $services;
+        file_put_contents('/tmp/debug.log', __METHOD__.__LINE__.PHP_EOL, FILE_APPEND);
 
-        if (isset($data['disabled']) && true === $data['disabled']) {
-            return;
-        }
+        if($this->qdbHelper->isToolbarAccessAllowed() && $this->qdbHelper->isAjaxLoading()) {
+            file_put_contents('/tmp/debug.log', __METHOD__.__LINE__.PHP_EOL, FILE_APPEND);
 
-        $data['event'] = $wrapper->getEvent()->getName();
-
-        $key = md5(serialize($data));
-        if (isset($this->_observers[$key])) {
-            $this->_observers[$key]['call_number']++;
-        } else {
-            $data['call_number']=1;
-            $this->_observers[$key] = $data;
+            register_shutdown_function([$this, 'dumpToFile']);
         }
     }
 
+
     /**
-     * @return array
+     * @return bool
+     */
+    public function dumpToFile()
+    {
+
+        file_put_contents('/tmp/debug.log', __METHOD__.__LINE__.PHP_EOL, FILE_APPEND);
+
+        if($this->_getRequest() && $this->_getRequest()->getModuleName()=='quickdevbar') {
+           file_put_contents('/tmp/debug.log', __METHOD__.__LINE__.PHP_EOL, FILE_APPEND);
+            return false;
+        }
+        file_put_contents('/tmp/debug.log', __METHOD__.__LINE__.PHP_EOL, FILE_APPEND);
+
+        foreach ($this->services as $serviceKey => $serviceObj) {
+            $this->setRegisteredData($serviceKey, $serviceObj->pullData());
+        }
+        file_put_contents('/tmp/debug.log', __METHOD__.__LINE__.PHP_EOL, FILE_APPEND);
+        $content = $this->registeredData->convertToJson();
+        file_put_contents('/tmp/debug.log', __METHOD__.__LINE__.PHP_EOL, FILE_APPEND);
+        $this->qdbHelper->setWrapperContent($content);
+    }
+
+    /**
+     *
+     */
+    public function loadDataFromFile()
+    {
+        $wrapperContent = $this->qdbHelper->getWrapperContent();
+        $this->setRegisteredJsonData($wrapperContent);
+        $this->pullDataFromService = false;
+    }
+
+
+    /**
+     * @param $data
+     */
+    public function setRegisteredJsonData($data)
+    {
+        $serializer = new \Magento\Framework\Serialize\Serializer\Json();
+        $this->setRegisteredData($serializer->unserialize($data));
+    }
+
+    /**
+     * @param null $key
+     * @return \Magento\Framework\DataObject|null
+     */
+    public function getRegisteredData($key = '')
+    {
+        if($this->pullDataFromService && !empty($this->services[$key])) {
+            return $this->services[$key]->pullData();
+        } elseif (empty($this->registeredData)) {
+            $this->registeredData = $this->objectFactory->create();
+        }
+        return $this->registeredData->getData($key);
+    }
+
+    public function setRegisteredData($key, $value = null)
+    {
+        if(is_null($this->registeredData)) {
+            $this->registeredData = $this->objectFactory->create();
+        }
+
+        $this->registeredData->setData($key, $value);
+    }
+
+    public function getContextData()
+    {
+        return $this->getRegisteredData('request_data');
+    }
+
+    /**
+     * @return mixed
      */
     public function getObservers()
     {
-        return $this->_observers;
-    }
-
-
-
-    public function addEvent($eventName, $data)
-    {
-        if (!isset($this->_events[$eventName])) {
-            $this->_events[$eventName] = ['event'=>$eventName,
-                    'nbr'=>0,
-                    'args'=>array_keys($data)
-                    ];
-        }
-        $this->_events[$eventName]['nbr']++;
-
-
-        switch ($eventName) {
-            case 'core_collection_abstract_load_before':
-                $this->addCollection($data['collection']);
-                break;
-
-            case 'model_load_before':
-                $this->addModel($data['object']);
-                break;
-
-            case 'core_layout_block_create_after':
-                $this->addBlock($data['block']);
-                break;
-
-            default:
-                break;
-
-        }
+        return $this->getRegisteredData('observers');
     }
 
     /**
-     * @return array
+     * @return mixed
      */
     public function getEvents()
     {
-        return $this->_events;
-    }
-
-    public function addCollection($collection)
-    {
-        $class = get_class($collection);
-        if (empty($this->_collections[$class])) {
-            $this->_collections[$class] = ['class'=>$class, 'nbr'=>0];
-        }
-        $this->_collections[$class]['nbr']++;
+        return $this->getRegisteredData('events');
     }
 
     /**
-     * @return array
+     * @return mixed
      */
     public function getCollections()
     {
-        return $this->_collections;
-    }
-
-
-    public function addModel($model)
-    {
-        $class = get_class($model);
-        if (empty($this->_models[$class])) {
-            $this->_models[$class] = ['class'=>$class, 'nbr'=>0];
-        }
-        $this->_models[$class]['nbr']++;
+        return $this->getRegisteredData('collections');
     }
     /**
      * @return array
      */
 
+    /**
+     * @return mixed
+     */
     public function getModels()
     {
-        return $this->_models;
-    }
-
-
-
-    public function addBlock($block)
-    {
-        $class = get_class($block);
-        if (empty($this->_blocks[$class])) {
-//             $reflection = new \ReflectionClass($block);
-//             $this->_blocks[$class] = ['class'=>$class, 'file'=>$reflection->getFileName() ,  'nbr'=>0];
-            $this->_blocks[$class] = ['class'=>$class, 'nbr'=>0];
-        }
-        $this->_blocks[$class]['nbr']++;
+        return $this->getRegisteredData('models');
     }
 
     /**
-     * @return array
+     * @return mixed
      */
     public function getBlocks()
     {
-        return $this->_blocks;
+        return $this->getRegisteredData('blocks');
+    }
+
+    public function getLayoutHandles()
+    {
+        return $this->getRegisteredData('layout_handles');
+    }
+
+    public function getLayoutHierarchy()
+    {
+        return $this->getRegisteredData('layout_tree_blocks_hierarchy');
     }
 
 }
+

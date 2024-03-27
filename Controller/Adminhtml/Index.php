@@ -26,11 +26,9 @@ abstract class Index extends \Magento\Backend\App\Action
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\View\LayoutFactory $layoutFactory,
         \Magento\Framework\Controller\Result\RawFactory $resultRawFactory
-
     ) {
         $this->_layoutFactory = $layoutFactory;
         $this->_resultRawFactory = $resultRawFactory;
         parent::__construct($context);
     }
-
 }

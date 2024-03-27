@@ -1,24 +1,26 @@
-<div class="qdb-container <?php echo $block->getUiTabClass() ?>"
-data-qdbtabs-option='<?php echo $block->getJsonTabConfig(); ?>'
+<?php
+/** @var \ADM\QuickDevBar\Block\Tab\Wrapper $block */
+?>
+<div class="qdb-container <?=  $block->getUiTabClass() ?>"
 style="display: block;">
     <ul class="ui-tabs-nav">
-        <?php foreach($block->getTabBlocks() as $tabBlock): ?>
-            <li id="<?php echo $tabBlock->getId() ?>" class="<?php echo $tabBlock->getClass() ?>">
-                <a href="<?php echo '#'.$tabBlock->getId('panel-') ?>"  data-ajax="<?php echo $tabBlock->isAjax() ? $tabBlock->getTabUrl() : '';?>">
-                <?php if($tabBlock->getTitleImage()):?>
-                    <img  class="qdb-img" src="<?php echo $block->getViewFileUrl($tabBlock->getTitleImage()) ?>">
+        <?php foreach ($block->getTabBlocks() as $tabBlock): ?>
+            <li id="<?=  $tabBlock->getId() ?>" class="<?=  $tabBlock->getClass() ?>">
+                <a href="<?=  '#'.$tabBlock->getId('panel-') ?>"  data-ajax="<?=  $tabBlock->isAjax() ? $tabBlock->getTabUrl() : '';?>">
+                <?php if ($tabBlock->getTitleImage()):?>
+                    <img  class="qdb-img" src="<?=  $block->getViewFileUrl($tabBlock->getTitleImage()) ?>">
                 <?php endif;?>
-                <?php echo $tabBlock->getTitle() ?>
-                <?php if($tabBlock->getTitleBadge()):?>
-                    <span class="qdb-tab-badge"><?php echo $tabBlock->getTitleBadge();?></span>
+                <?=  $tabBlock->getTitle() ?>
+                <?php if ($tabBlock->getTitleBadge()):?>
+                    <span class="qdb-tab-badge"><?=  $tabBlock->getTitleBadge();?></span>
                 <?php endif;?>
                 </a>
             </li>
         <?php endforeach; ?>
     </ul>
-    <?php foreach($block->getTabBlocks() as $tabBlock): ?>
-        <div id="<?php echo $tabBlock->getId('panel-') ?>" class="qdb-panel">
-            <?php echo ($tabBlock->isAjax(false)) ? $tabBlock->getHtmlBigLoader() : $tabBlock->toHtml(); ?>
+    <?php foreach ($block->getTabBlocks() as $tabBlock): ?>
+        <div id="<?=  $tabBlock->getId('panel-') ?>" class="qdb-panel">
+            <?=  ($tabBlock->isAjax(false)) ? $tabBlock->getHtmlLoader('big') : $tabBlock->toHtml(); ?>
         </div>
     <?php endforeach; ?>
 </div>

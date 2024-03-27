@@ -19,7 +19,7 @@ class Cache extends \ADM\QuickDevBar\Controller\Index
 
             $output = 'Cache cleaned';
 
-        } catch ( \Exception $e) {
+        } catch (\Exception $e) {
             $output = $e->getMessage();
             $error = true;
         }
@@ -28,7 +28,6 @@ class Cache extends \ADM\QuickDevBar\Controller\Index
             $output = $ctrlMsg . ' (' . $output .')';
         }
 
-        $this->_view->loadLayout();
         $resultRaw = $this->_resultRawFactory->create();
         return $resultRaw->setContents($output);
     }

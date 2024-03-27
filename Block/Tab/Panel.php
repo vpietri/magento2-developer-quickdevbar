@@ -6,18 +6,92 @@ use Magento\Framework\App\ObjectManager;
 
 class Panel extends \Magento\Framework\View\Element\Template
 {
+    protected $_mainTabs;
     protected $_frontUrl;
+
+
+    protected $helper;
+
+    protected $qdbHelperRegister;
+
+
+    public function __construct(
+        \Magento\Framework\View\Element\Template\Context $context,
+        \ADM\QuickDevBar\Helper\Data $helper,
+        \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
+        array $data = []
+    ) {
+        $data['show_badge'] = true;
+        parent::__construct($context, $data);
+
+        $this->helper = $helper;
+        $this->qdbHelperRegister = $qdbHelperRegister;
+    }
+
+    /**
+     * Used only in phtml
+     *
+     * @param $key
+     * @param $index
+     * @return array|\Magento\Framework\DataObject|mixed|string|null
+     * @throws \Exception
+     */
+    public function getData($key = '', $index = null)
+    {
+        if(!isset($this->_data[$key]) && $key==$this->getDataKey()) {
+            return $this->getQdbData();
+        }
+        return parent::getData($key, $index);
+    }
+
+    public function getDataKey()
+    {
+        return $this->_data['data_key'] ?? null;
+    }
+
+
+
+    public function getTitleBadge()
+    {
+        $qdbData = $this->getQdbData();
+        return $this->count($qdbData);
+    }
+
+    protected function count($registeredData)
+    {
+        return is_countable($registeredData) ? count($registeredData) : 0;
+    }
+
+
+    protected function getQdbData()
+    {
+        if(!$this->getDataKey()) {
+            return '';
+        }
+
+        if(!$this->getDataKey()) {
+            throw new \Exception('property qdbDataKey is not defined.');
+        }
+
+        return $this->qdbHelperRegister->getRegisteredData($this->getDataKey());
+    }
+
 
     public function getTitle()
     {
-        return ($this->getData('title')) ? $this->getData('title') : $this->getNameInLayout();
+        $title = $this->getData('title');
+        if(!$title && $title = $this->getDataKey()) {
+            return ucfirst($title);
+        }
+        return $title ?? $this->getNameInLayout();
     }
 
-    public function getId($prefix='')
+
+    public function getId($prefix = '')
     {
         $id = ($this->getData('id')) ? $this->getData('id') : $this->getNameInLayout();
         $id = str_replace('.', '-', $id);
-        if($prefix) {
+        if ($prefix) {
             $id = $prefix . $id;
         }
         return $id;
@@ -33,7 +107,7 @@ class Panel extends \Magento\Framework\View\Element\Template
         return $class;
     }
 
-    public function isAjax($asString=true)
+    public function isAjax($asString = true)
     {
         $return = (($this->hasData('ajax_url') || $this->hasData('is_ajax'))? true : false);
         if ($asString) {
@@ -52,7 +126,7 @@ class Panel extends \Magento\Framework\View\Element\Template
             if ($this->getData('ajax_url')) {
                 $tabUrl = $this->getFrontUrl($this->getData('ajax_url'));
             } elseif ($this->getData('is_ajax')) {
-                $tabUrl = $this->getFrontUrl('quickdevbar/tab/index', ['block'=>$this->getNameInLayout(), '_query'=>['isAjax'=>1]]);
+                $tabUrl = $this->getFrontUrl('quickdevbar/tab/ajax', ['block'=>$this->getNameInLayout(), '_query'=>['isAjax'=>1]]);
             }
         }
 
@@ -69,46 +143,29 @@ class Panel extends \Magento\Framework\View\Element\Template
      */
     public function getFrontUrl($route = '', $params = [])
     {
-        if(is_null($this->_frontUrl)) {
+        if ($this->_frontUrl === null) {
             $this->_frontUrl = ObjectManager::getInstance()->get('Magento\Framework\Url');
         }
 
         return $this->_frontUrl->getUrl($route, $params);
     }
 
-    public function getHtmlBigLoader($showText = true)
+    public function getHtmlLoader($class='')
     {
-        return $this->getHtmlLoader($this->getViewFileUrl('ADM_QuickDevBar::images/loader-64.gif'), 'big', $showText);
-    }
-
-
-    public function getHtmlSmallLoader($showText)
-    {
-        return $this->getHtmlLoader($this->getViewFileUrl('ADM_QuickDevBar::images/loader-32.gif'), 'small', $showText);
-    }
-
-    public function getHtmlLoader($imgSrc, $class, $showText = true)
-    {
-        $html = '<div class="qdn-loading-mask ' . $class . '">';
-        $html .= $showText  ? '<p>' . __('Please wait.') . '</p>' : '';
-        $html .= '<img src="' . $imgSrc .'">';
-        $html .= $showText  ? '<p>' . __('Content is loading ...') . '</p>' : '';
-        $html .= '</div>';
+        $html = '<div class="qdb-loader '.$class.'"></div>';
 
         return $html;
     }
 
 
-    protected $_mainTabs;
-
-    public function getTabBlocks()
-    {
-        if (is_null($this->_mainTabs)) {
-            $this->_mainTabs = $this->getLayout()->getChildBlocks($this->getNameInLayout());
-        }
-
-        return $this->_mainTabs;
-    }
+//    public function getTabBlocks()
+//    {
+//        if ($this->_mainTabs === null) {
+//            $this->_mainTabs = $this->getLayout()->getChildBlocks($this->getNameInLayout());
+//        }
+//
+//        return $this->_mainTabs;
+//    }
 
     public function getStore()
     {
@@ -143,25 +200,44 @@ class Panel extends \Magento\Framework\View\Element\Template
 
     /**
      * @see http://stackoverflow.com/a/6225706
-     * @param unknown_type $buffer
+     * @param $buffer
+     * @return array|string|string[]|null
      */
-    protected function sanitizeOutput($buffer) {
+    protected function sanitizeOutput($buffer)
+    {
+        if($this->getDoNotMinify()) {
+            return $buffer;
+        }
 
-        $search = array(
+        $search = [
                 '/\>[^\S ]+/s',  // strip whitespaces after tags, except space
                 '/[^\S ]+\</s',  // strip whitespaces before tags, except space
                 '/(\s)+/s'       // shorten multiple whitespace sequences
-        );
+        ];
 
-        $replace = array(
+        $replace = [
                 '>',
                 '<',
                 '\\1'
-        );
+        ];
 
         $buffer = preg_replace($search, $replace, $buffer);
 
         return $buffer;
+    }
+
+    public function htmlFormatClass(mixed $class)
+    {
+        return $this->helper->getIDELinkForClass($class);
+    }
+
+    /**
+     * @param array $bt
+     * @return string
+     */
+    public function formatTrace(array $bt)
+    {
+        return $this->helper->getIDELinkForFile($bt['file'], $bt['line']);
     }
 
 }

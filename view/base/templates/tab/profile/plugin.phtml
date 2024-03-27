@@ -1,6 +1,7 @@
 <?php
+/** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
 ?>
-<table class="qdn_plugin qdn_table striped filterable sortable tablesorter">
+<table class="qdb_plugin qdb_table striped filterable sortable tablesorter">
 <thead>
 <tr>
     <th>Types</th>
@@ -11,13 +12,13 @@
 </thead>
 <tbody>
 <?php
-  foreach ($block->getPluginsList() as $type): ?>
+foreach ($block->getPluginList() as $type): ?>
     <tr>
-      <td class="type"><?php echo $type['type']; ?></td>
-      <td class="plugin"><?php echo $type['plugin']; ?></td>
-      <td class="sort_order"><?php echo $type['sort_order']; ?></td>
-      <td class="methods"><?php echo $type['method']; ?></td>
+      <td class="type"><?=  $block->htmlFormatClass($type['type']); ?></td>
+      <td class="plugin"><?=  $block->htmlFormatClass($type['plugin']); ?></td>
+      <td class="sort_order"><?=  $type['sort_order']; ?></td>
+      <td class="methods"><?=  $type['method']; ?></td>
     </tr>
-  <?php endforeach ?>
+    <?php endforeach ?>
 </tbody>
 </table>

@@ -1,0 +1,23 @@
+<?php
+/** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
+?>
+<table class="qdb_module qdb_table striped filterable sortable tablesorter">
+<thead>
+<tr>
+<!--    <th>Order</th>-->
+    <th>Name</th>
+    <th>Version</th>
+    <th>Sequence</th>
+</tr>
+</thead>
+<tbody>
+<?php foreach ($block->getModuleList() as $index => $module): ?>
+    <tr>
+        <!--<td class="index"><?/*=  $index; */?></td>-->
+        <td class="name"><?=  $module['name']; ?></td>
+        <td class="setup_version"><?=  $module['setup_version']; ?></td>
+        <td class="sequence"><?=  json_encode($module['sequence']); ?></td>
+    </tr>
+    <?php endforeach ?>
+</tbody>
+</table>

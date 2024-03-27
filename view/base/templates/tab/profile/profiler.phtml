@@ -1,8 +1,11 @@
 <?php
+/** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
 ?>
 <div id="qdn-profiler-container">
-<?php echo __('Cannot find profiler table or profiler is not enabled.'); ?>
+<?=  __('Cannot find profiler table or profiler is not enabled.'); ?>
 <br/>
+Since 2.3 you can enable the profiler with the following command
+<pre>bin/magento dev:profiler:enable html</pre>
 You have to add a SetEnv MAGE_PROFILER "html" to your .htaccess (do not use "csvfile" nor "firebug" to have profiler displayed in tab).<br/>
 Be careful with .htacces directives an redirection you can have <br/>
 <pre>$_SERVER['REDIRECT_MAGE_PROFILER']</pre>
@@ -28,14 +31,14 @@ require([
           $(this).prepend("<thead><th>#</th>" + header.html() +"</thead>");
           header.remove();
           $(this).find('tbody tr').each(function(i, tr) {
-          	$(tr).prepend("<td>"+i+"</td>");
+              $(tr).prepend("<td>"+i+"</td>");
           });
 
           $('#qdn-profiler-container').html('');
           $(this).removeAttr('border')
                        .removeAttr('cellspacing')
                        .removeAttr('cellpadding');
-          $(this).addClass('qdn_table')
+          $(this).addClass('qdb_table')
                        .addClass('filterable')
                        .addClass('sortable')
                        .addClass('striped');

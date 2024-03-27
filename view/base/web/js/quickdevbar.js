@@ -1,12 +1,17 @@
 
 /* */
 define(["jquery",
-        "jqueryTabs",
+        "mage/url",
+        "jquery/ui-modules/widgets/tabs",
          "filtertable",
          "metadata",
          "tablesorter",
          'mage/cookies'
-], function($){
+], function($,url){
+
+    url.setBaseUrl(window.BASE_URL);
+    //let link = url.build('foo/bar')
+
 
     /**
      *
@@ -25,16 +30,25 @@ define(["jquery",
 
     $.widget('mage.quickDevBarTabs', $.ui.tabs, {
         _create: function() {
-            var qdbOption = this.element.attr('data-qdbtabs-option');
-            if (qdbOption) {
-                $.extend( this.options, JSON.parse(qdbOption) );
-            }
+            // this.options.active=true;
+            this.options.active=false;
+            this.options.collapsible=true;
+            this.options.activate=this.activate;
             this._super();
         },
-
+        activate: function( event, eventData ) {
+            let toShow = eventData.newPanel;
+            //Look for sub tab widget, to activate first tab
+            if ( toShow.length ) {
+                let firstSubTabs = toShow.find('div.qdb-container');
+                if(firstSubTabs.length && firstSubTabs.quickDevBarTabs('option', 'active') === false) {
+                    firstSubTabs.quickDevBarTabs('option', 'active', 0);
+                }
+            }
+        },
         load: function( index, event ) {
             index = this._getIndex( index );
-            var that = this,
+            let that = this,
                 tab = this.tabs.eq( index ),
                 anchor = tab.find( ".ui-tabs-anchor" ),
                 panel = this._getPanelForTab( tab ),
@@ -43,25 +57,29 @@ define(["jquery",
                     panel: panel
                 };
 
-            var anchorUrl = $( anchor ).attr( "data-ajax" );
-            var rhash = /#.*$/;
+            let anchorUrl = $( anchor ).attr( "data-ajax" );
+            let rhash = /#.*$/;
 
-            // not remote
-            if ( typeof anchorUrl =='undefined' || anchorUrl.length < 1 ||  anchorUrl.replace( rhash, "" ).length<1) {
+            // If not an explicit click on tab
+            // If not an anchorUrl with http
+            if ( typeof anchorUrl =='undefined'
+                || typeof event =='undefined'
+                || anchorUrl.length < 1
+                ||  anchorUrl.replace( rhash, "" ).length<1
+            ) {
                 return;
             }
 
             this.xhr = $.ajax( this._ajaxSettings( anchorUrl, event, eventData ) );
-
             // support: jQuery <1.8
             // jQuery <1.8 returns false if the request is canceled in beforeSend,
             // but as of 1.8, $.ajax() always returns a jqXHR object.
-            if ( this.xhr && this.xhr.statusText !== "canceled" ) {
-                tab.addClass( "ui-tabs-loading" );
+            if (this.xhr && this.xhr.statusText !== "canceled" ) {
+                this._addClass( tab, "ui-tabs-loading" );
                 panel.attr( "aria-busy", "true" );
 
                 this.xhr
-                    .done(function( response ) {
+                    .done( function( response, status, jqXHR ) {
                         // support: jQuery <1.8
                         // http://bugs.jquery.com/ticket/11778
                         setTimeout(function() {
@@ -72,7 +90,7 @@ define(["jquery",
                             $( anchor ).removeAttr( "data-ajax" );
                         }, 1 );
                     })
-                    .always(function( jqXHR, status ) {
+                    .always( function( jqXHR, status ) {
                         // support: jQuery <1.8
                         // http://bugs.jquery.com/ticket/11778
                         setTimeout(function() {
@@ -90,9 +108,9 @@ define(["jquery",
                     });
             }
         },
-
+        /* */
         _ajaxSettings: function( anchorUrl, event, eventData ) {
-            var that = this;
+            let that = this;
             return {
                 url: anchorUrl,
                 beforeSend: function( jqXHR, settings ) {
@@ -114,17 +132,17 @@ define(["jquery",
         _create: function() {
           this.element.addClass(this.options.treeClass);
 
-          var self = this;
+          let self = this;
 
 
           this.element.find('li').each(function() {
-            var li = $(this);
+            let li = $(this);
             li.prepend('<div class="node"></div>');
             li.contents().filter(function() {
               return this.nodeName=='UL';
             }).each(function() {
-              var liParent = $(this).parent();
-              var liNode = liParent.children('div.node')
+              let liParent = $(this).parent();
+              let liNode = liParent.children('div.node')
               if (!liParent.data('ul')) {
                 liNode.data('li', liParent);
                 liNode.data('ul', liParent.find('ul').first());
@@ -136,7 +154,7 @@ define(["jquery",
         },
 
         _toggle: function(node, expand) {
-          var sub = node.data('ul') ? $(node.data('ul')) : false;
+          let sub = node.data('ul') ? $(node.data('ul')) : false;
           if (sub) {
               if(typeof expand == 'undefined') {
                   sub.toggle();
@@ -145,7 +163,7 @@ define(["jquery",
               } else {
                   sub.hide();
               }
-            var subVisibility = sub.is(":visible");
+            let subVisibility = sub.is(":visible");
             node.toggleClass('expanded', subVisibility);
             node.toggleClass('collapsed', !subVisibility);
           }
@@ -153,7 +171,7 @@ define(["jquery",
 
         _handleNodeClick: function(event) {
           event.stopPropagation();
-          var node = $(event.target);
+          let node = $(event.target);
           if(event.target.nodeName=='DIV') {
               this._toggle(node)
               this._trigger("nodePostClick", event);
@@ -170,26 +188,52 @@ define(["jquery",
             appearance: "collapsed",
             toggleEffect: "drop",
             stripedClassname: "striped",
-            classToStrip: "qdn_table.striped",
-            classToFilter: "qdn_table.filterable",
-            classToSort: "qdn_table.sortable"
+            classToStrip: "qdb_table.striped",
+            classToFilter: "qdb_table.filterable",
+            classToSort: "qdb_table.sortable",
+            ajaxUrl: url.build('quickdevbar/index/ajax'),
+            ajaxLoading: false
         },
 
         _create: function() {
+            if(this.options.ajaxLoading){
+                let that = this;
+                $.ajax({
+                        url: that.options.ajaxUrl,
+                        success: function (data, textStatus, xhr) {
+                            if(xhr.status===200) {
+                                $('#qdb-bar').html(data).trigger('contentUpdated');
+                                that._initQdb();
+                            } else {
+                                //console.error(xhr.status, 'QDB Error');
+                                console.error(data, 'QDB Error');
+                            }
+                        }
+                    }
+                );
+            } else {
+                this._initQdb();
+            }
+        },
 
+
+        _initQdb: function() {
             $('<link/>', {
                 rel: 'stylesheet',
                 type: 'text/css',
                 href: this.options.css
             }).appendTo('head');
-
-
             /* Manage toggling toolbar */
             if(this.getVisibility()) {
                 this.element.toggle(this.options.toggleEffect);
             }
 
-            $('#qdb-bar-anchor').on('click', $.proxy(function(event) {
+            let qdbTheme = $.mage.cookies.get('qdb_theme');
+            if(qdbTheme) {
+                this.element.attr('data-theme', qdbTheme);
+            }
+
+            $('#qdb-bar-anchor').show().on('click', $.proxy(function(event) {
                 event.preventDefault();
                 this.setVisibility(!this.element.is(":visible"));
                 this.element.toggle(this.options.toggleEffect);
@@ -197,6 +241,8 @@ define(["jquery",
             }, this));
 
             /* Apply ui.tabs widget */
+            //$('div.qdb-container').quickDevBarTabs();
+
             $('div.qdb-container').quickDevBarTabs({load:$.proxy(function(event, data){
                 if($(data.panel)) {
                     this.applyTabPlugin('#' + $(data.panel).attr( "id" ));
@@ -208,15 +254,22 @@ define(["jquery",
 
             /* Manage ajax tabs */
             $('div.qdb-container').addClass('qdb-container-collapsed');
+
+            //$('#qdb-bar').tabs( "load", 5);
+
+
         },
 
         setVisibility: function(visible) {
-            $.mage.cookies.set('qdb_visibility', visible);
+            options = {
+                secure: window.cookiesConfig ? window.cookiesConfig.secure : false
+            };
+
+            $.mage.cookies.set('qdb_visibility', visible ? 'true' : 'false', options);
         },
 
-
         getVisibility: function() {
-            var visible = false;
+            let visible = false;
             if(this.options.appearance == 'memorize') {
                 visible = $.mage.cookies.get('qdb_visibility') === "true";
             } else if(this.options.appearance == 'expanded') {
@@ -245,27 +298,20 @@ define(["jquery",
 
             /* classToSort: Set sort on thead */
             $(selector + ' table.' + this.options.classToSort).tablesorter();
-        },
 
-        /**
-         * https://wiki.eclipse.org/Eclipse_Web_Interface
-         */
-        callJsEclipseSocEWI: function(file, line)
-        {
-            var url= 'http://localhost:34567/?command=org.eclipse.soc.ewi.examples.commands.openfile&path='+file+'&line='+line;
-            try
-            {
-              var xhr_object = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
-              xhr_object.open("post", url, false);
-              xhr_object.send();
-            }
-            catch(e)
-            {
-              //uncaught exception: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIXMLHttpRequest.send]
-              //console.log(e);
-              if( e.name!='NS_ERROR_FAILURE' && e.result!=2147500037)
-                window.location = url;
-            }
-        }
+            /* Add hyperlink on file path */
+            $(selector + ' span[data-ide-file]:not([data-ide-file=""])').each(function() {
+                let span = $(this);
+                $(this).on('click', function (event) {
+                    let ideFile = $(event.target).attr('data-ide-file');
+                    $.get({
+                        url: ideFile,
+                        fail: function (data, textStatus, xhr) {
+                            console.error(data, 'QDB Error');
+                        },
+                    });
+                });
+            });
+        },
     });
 });
