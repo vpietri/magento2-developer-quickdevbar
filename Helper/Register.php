@@ -36,11 +36,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
         $this->objectFactory = $objectFactory;
         $this->qdbHelper = $qdbHelper;
         $this->services = $services;
-        file_put_contents('/tmp/debug.log', __METHOD__.__LINE__.PHP_EOL, FILE_APPEND);
-
         if($this->qdbHelper->isToolbarAccessAllowed() && $this->qdbHelper->isAjaxLoading()) {
-            file_put_contents('/tmp/debug.log', __METHOD__.__LINE__.PHP_EOL, FILE_APPEND);
-
             register_shutdown_function([$this, 'dumpToFile']);
         }
     }
@@ -51,21 +47,14 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function dumpToFile()
     {
-
-        file_put_contents('/tmp/debug.log', __METHOD__.__LINE__.PHP_EOL, FILE_APPEND);
-
         if($this->_getRequest() && $this->_getRequest()->getModuleName()=='quickdevbar') {
-           file_put_contents('/tmp/debug.log', __METHOD__.__LINE__.PHP_EOL, FILE_APPEND);
             return false;
         }
-        file_put_contents('/tmp/debug.log', __METHOD__.__LINE__.PHP_EOL, FILE_APPEND);
 
         foreach ($this->services as $serviceKey => $serviceObj) {
             $this->setRegisteredData($serviceKey, $serviceObj->pullData());
         }
-        file_put_contents('/tmp/debug.log', __METHOD__.__LINE__.PHP_EOL, FILE_APPEND);
         $content = $this->registeredData->convertToJson();
-        file_put_contents('/tmp/debug.log', __METHOD__.__LINE__.PHP_EOL, FILE_APPEND);
         $this->qdbHelper->setWrapperContent($content);
     }
 
