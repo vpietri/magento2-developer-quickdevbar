@@ -76,8 +76,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function getIdeRegex()
     {
-        if($ide = $this->getConfig('dev/quickdevbar/ide')) {
-            if (strtolower($ide) == 'custom' && $ideCustom = $this->getConfig('dev/quickdevbar/ide_custom')) {
+        if($ide = $this->getQdbConfig('ide')) {
+            if (strtolower($ide) == 'custom' && $ideCustom = $this->getQdbConfig('ide_custom')) {
                 return $ideCustom;
             }
 
@@ -91,6 +91,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $this->cacheFrontendPool;
     }
 
+    public function getQdbConfig($key, $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $scopeCode = null)
+    {
+        return $this->getConfig('dev/quickdevbar/'.$key, $scopeType, $scopeCode);
+    }
 
     public function getConfig($path, $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $scopeCode = null)
     {
@@ -99,13 +103,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function defaultAppearance()
     {
-        return $this->getConfig('dev/quickdevbar/appearance');
+        return $this->getQdbConfig('appearance');
     }
 
     public function isToolbarAccessAllowed($testWithRestriction=false)
     {
         $allow = false;
-        $enable = $this->getConfig('dev/quickdevbar/enable');
+        $enable = $this->getQdbConfig('enable');
 
         if ($enable || $testWithRestriction) {
 
@@ -125,7 +129,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function isToolbarAreaAllowed($area)
     {
-        $areaEnabled = $this->getConfig('dev/quickdevbar/area');
+        $areaEnabled = $this->getQdbConfig('area');
 
         return ($areaEnabled == \Magento\Framework\App\Area::AREA_GLOBAL)
                 || ($area == $areaEnabled);
@@ -145,7 +149,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function getAllowedIps($separator = false)
     {
-        $allowedIps = $this->getConfig('dev/quickdevbar/allow_ips');
+        $allowedIps = $this->getQdbConfig('allow_ips');
         if($allowedIps) {
             $allowedIps = preg_split('#\s*,\s*#', $allowedIps, -1, PREG_SPLIT_NO_EMPTY);
         } else {
@@ -165,7 +169,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function isUserAgentAuthorized()
     {
-        $toolbarHeader = $this->getConfig('dev/quickdevbar/toolbar_header');
+        $toolbarHeader = $this->getQdbConfig('toolbar_header');
 
         return !empty($toolbarHeader) ? preg_match('/' . preg_quote($toolbarHeader, '/') . '/', $this->getUserAgent()) : false;
     }

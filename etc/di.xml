@@ -20,11 +20,11 @@
                 type="ADM\QuickDevBar\Plugin\Framework\App\Cache" sortOrder="1" />
     </type>
 
-    <type name="Magento\Framework\App\Http">
+    <!-- Plugin on Magento\Framework\App\Http should be better but to early to access config-->
+    <type name="Magento\Framework\App\FrontControllerInterface">
         <plugin name="qdb-dumper"
-                type="ADM\QuickDevBar\Plugin\Framework\App\Http" sortOrder="1" />
+                type="ADM\QuickDevBar\Plugin\Framework\App\FrontController" sortOrder="1" />
     </type>
-
 
     <type name="Magento\PageCache\Model\Cache\Type">
         <plugin name="qdb-trace-cache"
