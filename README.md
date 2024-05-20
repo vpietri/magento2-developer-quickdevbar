@@ -118,7 +118,14 @@ https://plugins.jetbrains.com/plugin/19991-ide-remote-control
 
 ![](doc/images/phpstorm_debugger.png)
 
+# Sponsors
+
+[![Sansec.io](https://warden.dev/img/sponsors/sansec.svg)](https://www.sansec.io/)  
+
+Add your logo on <a href="https://github.com/sponsors/vpietri" rel="me" class="link">Github Sponsors</a>
+
 # Documentation
 
 - [Changelog](doc/Changelog.md)
 - ~~You can extend this toolbar with your own tabs, a [sample module](https://github.com/vpietri/magento2-brandnew_quikdevsample) is available.~~ (refactoring coming soon)
+
