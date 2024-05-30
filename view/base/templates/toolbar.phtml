@@ -12,19 +12,142 @@
 
 
  -->
-<div>
-<div id="qdb-bar"
-     style="display: none;"
-     data-mage-init='{"quickDevBar":{"css":"<?=  $block->getViewFileUrl('ADM_QuickDevBar::css/quickdevbar.css'); ?>",
-                                     "ajaxLoading": <?=  $block->isAjaxLoading() ? 'true' : 'false' ?>,
-                                     "appearance":"<?=  $block->getAppearance() ?>"}}'>
-<?=  $block->getChildHtml(); ?>
-</div>
-<div style="display: none;"
+<div id="qdb-bar" style="display: none;"></div>
+<div
      id="qdb-bar-anchor">
-<img src="<?=  $block->getViewFileUrl('ADM_QuickDevBar::images/qdb-icon.png') ?>"
-     alt="<?=  __('QuickDevBar'); ?>"
-     title="<?=  __('Click to toggle the Quick Development Toolbar'); ?>"/>&nbsp;
+    <img src="<?=  $block->getViewFileUrl('ADM_QuickDevBar::images/qdb-icon.png') ?>"
+         alt="<?=  __('QuickDevBar'); ?>"
+         title="<?=  __('Click to toggle the Quick Development Toolbar'); ?>"/>&nbsp;
 </div>
-</div>
+
+
+<script>
+    (function () {
+        "use strict";
+
+        window.quickDevBar = {
+            options: {
+                etTabWrapper: "qdb-bar",
+                elAnchor: "qdb-bar-anchor",
+                baseUrl: "<?= 'https://magento2.laptop-vpietri.tbdgroup.dev/' ?>",
+                assetsScript: {
+                    filtertable: "<?= $block->getViewFileUrl('ADM_QuickDevBar::js/sunnywalker/jquery.filtertable.min.js') ?>",
+                    tablesorter: "<?= $block->getViewFileUrl('ADM_QuickDevBar::js/tablesorter/jquery.tablesorter.min.js') ?>",
+                    tab: "<?= $block->getViewFileUrl('ADM_QuickDevBar::js/tabbis/assets/js/src/tabbis.es6.js') ?>",
+                },
+                assetsCss: {
+                    default: "<?= $block->getViewFileUrl('ADM_QuickDevBar::css/quickdevbar.css') ?>",
+                }
+            },
+            tabsObj: null,
+            addAssets: function () {
+                //TODO: Add foreach
+                //TODO: Add ID
+                //TODO: Add css
+                this.addScript(this.options.assetsScript.filtertable);
+                this.addScript(this.options.assetsScript.tablesorter);
+                this.addScript(this.options.assetsScript.tab);
+                this.addCss(this.options.assetsCss.default);
+            },
+            //https://stackoverflow.com/a/69616316
+            addScript: (async src => new Promise((resolve, reject) => {
+                const el = document.createElement('script');
+                el.src = src;
+                el.addEventListener('load', resolve);
+                el.addEventListener('error', reject);
+                document.body.append(el);
+            })),
+            addCss: function (href) {
+                //<link rel="stylesheet" type="text/css" media="all" href="">
+                const el = document.createElement('link');
+                el.href = href;
+                el.rel = "stylesheet";
+                el.type = "text/css";
+                document.body.append(el);
+            },
+            eventClickAnchor: function () {
+                const $qdbBar = document.getElementById(this.options.etTabWrapper);
+                const $qdbBarAnchor = document.getElementById(this.options.elAnchor);
+                $qdbBarAnchor.addEventListener("click", (event) => {
+                    if ($qdbBar.style.display == 'none') {
+                        $qdbBar.style.display = '';
+                    } else {
+                        $qdbBar.style.display = 'none';
+                    }
+                });
+            },
+            initTabs: function () {
+                this.tabsObj = new tabbisClass({memory: true});
+            },
+            run: function () {
+                this.addAssets();
+                this.eventClickAnchor();
+                this.qdbFetch("quickdevbar/index/ajax",
+                    this.options.etTabWrapper,
+                    this.initTabs
+                );
+
+            },
+            qdbFetch: function (routePath, forElement, callback = () => {
+            }) {
+                const url = this.options.baseUrl + routePath;
+                fetch(url, {
+                        //To be compliant with \Laminas\Http\Request::isXmlHttpRequest
+                        headers: {
+                            "X-Requested-With": "XMLHttpRequest",
+                        }
+                    }
+                ).then(response => {
+                    if (!response.ok) {
+                        throw new Error(response.status + " Failed Fetch ");
+                    }
+                    return response.text()
+                }).then(html => {
+                    document.getElementById(forElement).innerHTML = html;
+                }).then(html => {
+                    callback();
+                }).catch((err) => console.log("Can’t access " + url + " response. Blocked by browser?" + err));
+            },
+            applyTabPlugin: function (selector) {
+
+                /* Apply enhancement on table */
+
+                /* classToStrip: Set odd even class on tr */
+                $(selector + ' table.' + this.options.classToStrip + ' tr:even').addClass(this.options.stripedClassname);
+
+                /* classToFilter: Set filter input */
+                $(selector + ' table.' + this.options.classToFilter).filterTable({
+                    label: 'Search filter:',
+                    minRows: 10,
+                    visibleClass: '',
+                    callback: $.proxy(function (term, table) {
+                        table.find('tr').removeClass(this.options.stripedClassname).filter(':visible:even').addClass(this.options.stripedClassname);
+                    }, this)
+                });
+
+                /* classToSort: Set sort on thead */
+                $(selector + ' table.' + this.options.classToSort).tablesorter();
+
+                /* Add hyperlink on file path */
+                $(selector + ' span[data-ide-file]:not([data-ide-file=""])').each(function () {
+                    let span = $(this);
+                    $(this).on('click', function (event) {
+                        let ideFile = $(event.target).attr('data-ide-file');
+                        $.get({
+                            url: ideFile,
+                            fail: function (data, textStatus, xhr) {
+                                console.error(data, 'QDB Error');
+                            },
+                        });
+                    });
+                });
+            },
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            window.quickDevBar.run();
+        });
+    }());
+</script>
+
 <!-- End:ADM_QuickDevBar -->
