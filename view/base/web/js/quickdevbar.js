@@ -113,6 +113,7 @@ define(["jquery",
             let that = this;
             return {
                 url: anchorUrl,
+                global: false,
                 beforeSend: function( jqXHR, settings ) {
                     return that._trigger( "beforeLoad", event,
                         $.extend( { jqXHR : jqXHR, ajaxSettings: settings }, eventData ) );
@@ -121,65 +122,65 @@ define(["jquery",
         },
     });
 
-    $.widget("mage.treeView", {
-        // default options
-        options: {
-          expandAll: true,
-          treeClass: "qdbTree",
-        },
-
-        // The constructor
-        _create: function() {
-          this.element.addClass(this.options.treeClass);
-
-          let self = this;
-
-
-          this.element.find('li').each(function() {
-            let li = $(this);
-            li.prepend('<div class="node"></div>');
-            li.contents().filter(function() {
-              return this.nodeName=='UL';
-            }).each(function() {
-              let liParent = $(this).parent();
-              let liNode = liParent.children('div.node')
-              if (!liParent.data('ul')) {
-                liNode.data('li', liParent);
-                liNode.data('ul', liParent.find('ul').first());
-                self._toggle(liNode, self.options.expandAll);
-              }
-            });
-          });
-          this.element.on('click', "div.node", $.proxy(this._handleNodeClick, this));
-        },
-
-        _toggle: function(node, expand) {
-          let sub = node.data('ul') ? $(node.data('ul')) : false;
-          if (sub) {
-              if(typeof expand == 'undefined') {
-                  sub.toggle();
-              } else if(expand) {
-                  sub.show();
-              } else {
-                  sub.hide();
-              }
-            let subVisibility = sub.is(":visible");
-            node.toggleClass('expanded', subVisibility);
-            node.toggleClass('collapsed', !subVisibility);
-          }
-        },
-
-        _handleNodeClick: function(event) {
-          event.stopPropagation();
-          let node = $(event.target);
-          if(event.target.nodeName=='DIV') {
-              this._toggle(node)
-              this._trigger("nodePostClick", event);
-          }
-
-        },
-
-      });
+    // $.widget("mage.treeView", {
+    //     // default options
+    //     options: {
+    //       expandAll: true,
+    //       treeClass: "qdbTree",
+    //     },
+    //
+    //     // The constructor
+    //     _create: function() {
+    //       this.element.addClass(this.options.treeClass);
+    //
+    //       let self = this;
+    //
+    //
+    //       this.element.find('li').each(function() {
+    //         let li = $(this);
+    //         li.prepend('<div class="node"></div>');
+    //         li.contents().filter(function() {
+    //           return this.nodeName=='UL';
+    //         }).each(function() {
+    //           let liParent = $(this).parent();
+    //           let liNode = liParent.children('div.node')
+    //           if (!liParent.data('ul')) {
+    //             liNode.data('li', liParent);
+    //             liNode.data('ul', liParent.find('ul').first());
+    //             self._toggle(liNode, self.options.expandAll);
+    //           }
+    //         });
+    //       });
+    //       this.element.on('click', "div.node", $.proxy(this._handleNodeClick, this));
+    //     },
+    //
+    //     _toggle: function(node, expand) {
+    //       let sub = node.data('ul') ? $(node.data('ul')) : false;
+    //       if (sub) {
+    //           if(typeof expand == 'undefined') {
+    //               sub.toggle();
+    //           } else if(expand) {
+    //               sub.show();
+    //           } else {
+    //               sub.hide();
+    //           }
+    //         let subVisibility = sub.is(":visible");
+    //         node.toggleClass('expanded', subVisibility);
+    //         node.toggleClass('collapsed', !subVisibility);
+    //       }
+    //     },
+    //
+    //     _handleNodeClick: function(event) {
+    //       event.stopPropagation();
+    //       let node = $(event.target);
+    //       if(event.target.nodeName=='DIV') {
+    //           this._toggle(node)
+    //           this._trigger("nodePostClick", event);
+    //       }
+    //
+    //     },
+    //
+    //   });
 
 
     $.widget('mage.quickDevBar', {
@@ -191,7 +192,7 @@ define(["jquery",
             classToStrip: "qdb_table.striped",
             classToFilter: "qdb_table.filterable",
             classToSort: "qdb_table.sortable",
-            ajaxUrl: url.build('quickdevbar/index/ajax'),
+            qdpContentUrl: url.build('quickdevbar/index/ajax'),
             ajaxLoading: false
         },
 
@@ -199,7 +200,8 @@ define(["jquery",
             if(this.options.ajaxLoading){
                 let that = this;
                 $.ajax({
-                        url: that.options.ajaxUrl,
+                        url: that.options.qdpContentUrl,
+                        global: false,
                         success: function (data, textStatus, xhr) {
                             if(xhr.status===200) {
                                 $('#qdb-bar').html(data).trigger('contentUpdated');
@@ -255,9 +257,6 @@ define(["jquery",
             /* Manage ajax tabs */
             $('div.qdb-container').addClass('qdb-container-collapsed');
 
-            //$('#qdb-bar').tabs( "load", 5);
-
-
         },
 
         setVisibility: function(visible) {
@@ -265,6 +264,7 @@ define(["jquery",
                 secure: window.cookiesConfig ? window.cookiesConfig.secure : false
             };
 
+            //TODO: Fix cookie mix domain admin/front
             $.mage.cookies.set('qdb_visibility', visible ? 'true' : 'false', options);
         },
 
@@ -299,13 +299,19 @@ define(["jquery",
             /* classToSort: Set sort on thead */
             $(selector + ' table.' + this.options.classToSort).tablesorter();
 
+            this.addIdeClickEvent(selector);
+
+        },
+
+        addIdeClickEvent: function(selector) {
             /* Add hyperlink on file path */
             $(selector + ' span[data-ide-file]:not([data-ide-file=""])').each(function() {
                 let span = $(this);
-                $(this).on('click', function (event) {
+                $(this).off('click').on('click', function (event) {
                     let ideFile = $(event.target).attr('data-ide-file');
                     $.get({
                         url: ideFile,
+                        global: false,
                         fail: function (data, textStatus, xhr) {
                             console.error(data, 'QDB Error');
                         },
@@ -313,5 +319,6 @@ define(["jquery",
                 });
             });
         },
+
     });
 });

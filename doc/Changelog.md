@@ -1,5 +1,17 @@
 Changelog: Quick Developer Toolbar for Magento2
 ====================================
+0.2.3
+* Catch VarDumper in ajax calls
+* Code refactoring
+
+0.2.2
+* Use config to handle VarDumper
+* Move handler for VarDumper
+* Do not catch dd()
+
+0.2.1
+* Remove hard log /tmp/debug.log
+
 0.2.0
 * Full compatibility with FPC
 * Full code refactoring

@@ -148,14 +148,14 @@
                 </action>
             </block>
 
-            <block class="ADM\QuickDevBar\Block\Tab\Panel" name="qdb.tab.dumper" as="qdb.tab.dumper" template="ADM_QuickDevBar::tab/dumper.phtml">
+            <block class="ADM\QuickDevBar\Block\Tab\Panel" name="qdb.tab.dumper" as="qdb.tab.dumper" ifconfig="dev/quickdevbar/handle_vardumper" template="ADM_QuickDevBar::tab/dumper.phtml">
                 <!-- Set a title with the basic class  Content -->
                 <arguments>
                     <argument name="title" xsi:type="string">Debug</argument>
                     <argument name="title_image" xsi:type="string">ADM_QuickDevBar::images/dump.png</argument>
                     <argument name="do_not_minify" xsi:type="boolean">true</argument>
                     <argument name="data_key" xsi:type="string">dumps</argument>
-                    <argument name="visible_on_content" xsi:type="boolean">true</argument>
+                    <argument name="need_load_data" xsi:type="boolean">true</argument>
                 </arguments>
             </block>
 

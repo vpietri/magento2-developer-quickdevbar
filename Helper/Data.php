@@ -310,18 +310,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return !empty($moduleInfo['setup_version']) ? $moduleInfo['setup_version'] : '???';
     }
 
-    protected function getWrapperFilename($ajax = false)
+    protected function getWrapperBaseFilename($ajax = false)
     {
         $sessionId = $this->session->getSessionId();
-
-        $fileName = 'qdb_register_'.$sessionId.'.json';
-        if($ajax) {
-            $fileName = $this->_getRequest()->isAjax()
-                ? 'qdb_ajax_register_'.$sessionId.'_'.time().'.json'
-                : 'qdb_unknown_register_'.$sessionId.'_'.time().'.json';
-        }
-
-        return  $this->getQdbTempDir() . $fileName;
+        return  'qdb_register_' . (!$ajax ? 'std' : 'xhr') . '_' . $sessionId;
     }
 
 
@@ -335,22 +327,51 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function getWrapperContent($ajax = false)
     {
-        //Clean old files
-        /** @var \SplFileInfo $fileInfo */
+//Clean old files
+//        /** @var \SplFileInfo $fileInfo */
+//        foreach (new \DirectoryIterator($this->getQdbTempDir()) as $fileInfo) {
+//            if($fileInfo->isFile() && time() - $fileInfo->getMTime() > 20) {
+//                //TODO: unlink only files starting with 'qdb_register_' . $sessionId
+//                unlink($fileInfo->getPathname());
+//            }
+//        }
+
+        $wrapperFiles = [];
+        $filename = $this->getWrapperBaseFilename($ajax);
         foreach (new \DirectoryIterator($this->getQdbTempDir()) as $fileInfo) {
-            if($fileInfo->isFile() && time() - $fileInfo->getMTime() > 20) {
-                unlink($fileInfo->getPathname());
+            if($fileInfo->isFile() && strpos($fileInfo->getFilename(), $filename)===0) {
+                $wrapperFiles[] = $fileInfo->getPathname();
             }
         }
 
-        $filename = $this->getWrapperFilename($ajax);
-        if(!file_exists($filename)) {
-            throw new LocalizedException(__('No file for wrapper'));
+        if(empty($wrapperFiles)) {
+            throw new LocalizedException(__('No files for wrapper'));
         }
 
-        $content = file_get_contents($filename);
+        $serializer = new \Magento\Framework\Serialize\Serializer\Json();
+
+        $content = [];
+        foreach ($wrapperFiles as $wrapperContent) {
+            $jsonContent = file_get_contents($wrapperContent);
+            if($jsonContent) {
+                foreach ($serializer->unserialize($jsonContent) as $contentKey => $contentValue) {
+                    $content[$contentKey] =  empty($content[$contentKey]) ? $contentValue : array_merge($content[$contentKey], $contentValue);
+                }
+            }
+            //TODO: remove foreach
+            break;
+        }
+
         if(empty($content)) {
             throw new LocalizedException(__('No data registered'));
+        }
+
+        /** @var \SplFileInfo $fileInfo */
+        foreach (new \DirectoryIterator($this->getQdbTempDir()) as $fileInfo) {
+            if($fileInfo->isFile()) {
+                //TODO: unlink only files starting with 'qdb_register_' . $sessionId
+                unlink($fileInfo->getPathname());
+            }
         }
 
         return $content;
@@ -359,10 +380,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function setWrapperContent($content, $ajax = false)
     {
-        file_put_contents($this->getWrapperFilename($ajax), $content);
+        $filename = $this->getWrapperBaseFilename($ajax);
+        if($ajax) {
+            $filename .= time();
+        }
+        file_put_contents($this->getQdbTempDir() . $filename . '.json', $content);
     }
 
     /**
+     * TODO: To removed
+     * Asymmetric behavior frontend/admin is no more necessary
+     *
      * @return bool
      * @throws LocalizedException
      */

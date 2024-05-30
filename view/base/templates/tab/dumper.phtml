@@ -1,10 +1,55 @@
 <?php
-/** @var  $block \ADM\QuickDevBar\Block\Tab\Content\Dumper */
+/** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
 ?>
 
-<?php foreach ($block->getDumps() as $dump):?>
-<p>
-    <?= $block->formatTrace($dump['bt']) ?>
-    <?= $dump['dump'] ?>
-</p>
-<?php endforeach;?>
+<?php if(!$block->getDumps()): ?>
+    <div class="qdb-dump"></div>
+<?php else: ?>
+    <?php foreach ($block->getDumps() as $dump):?>
+        <div class="qdb-dump">
+            <?= $block->formatTrace($dump['bt']) ?>
+            <?= $dump['dump'] ?>
+        </div>
+    <?php endforeach;?>
+<?php endif; ?>
+
+
+
+<?php if(!$block->getIsUpdateCall() && $block->getQdbConfig('handle_vardumper')>1): ?>
+<script type="text/javascript">
+require([
+    'jquery',
+    "mage/url",
+], function($, url){
+    'use strict';
+
+    let callForUpdate= function () {
+        $.ajax({
+            url: url.build('quickdevbar/tab/ajax') + '?block=qdb.tab.dumper',
+                // Prevent fire global events
+                global: false,
+                success: function (data, textStatus, xhr) {
+                    if(xhr.status===200) {
+                        $('div.qdb-dump').last().append(data);
+                        $('#qdb-bar').data("mageQuickDevBar").addIdeClickEvent('div.qdb-dump')
+                    } else {
+                        console.error(data, 'QDB Error');
+                    }
+                }
+            }
+        );
+    }
+
+    $(document).on('ajaxComplete', function (event, xhr, settings) {
+        if(settings.url.indexOf(url.build(''))===0
+            && settings.url.indexOf('/quickdevbar/')<0
+            && xhr.readyState === 4
+        ) {
+            // console.log(event, 'event');
+            // event['qdb'] = true;
+            callForUpdate();
+        }
+    });
+});
+</script>
+<?php endif; ?>

@@ -36,9 +36,6 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
         $this->objectFactory = $objectFactory;
         $this->qdbHelper = $qdbHelper;
         $this->services = $services;
-        if($this->qdbHelper->isToolbarAccessAllowed() && $this->qdbHelper->isAjaxLoading()) {
-            register_shutdown_function([$this, 'dumpToFile']);
-        }
     }
 
 
@@ -47,36 +44,35 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function dumpToFile()
     {
+        $isAjax = $this->_getRequest()->isAjax();
         if($this->_getRequest() && $this->_getRequest()->getModuleName()=='quickdevbar') {
             return false;
         }
 
         foreach ($this->services as $serviceKey => $serviceObj) {
+            //TODO: Filter keys on $isAjax
+            if($isAjax && $serviceKey!='dumps') {
+                continue;
+            }
+
             $this->setRegisteredData($serviceKey, $serviceObj->pullData());
         }
         $content = $this->registeredData->convertToJson();
-        $this->qdbHelper->setWrapperContent($content);
+
+        $this->qdbHelper->setWrapperContent($content, $isAjax);
     }
 
     /**
      *
      */
-    public function loadDataFromFile()
+    public function loadDataFromFile($ajax = false)
     {
-        $wrapperContent = $this->qdbHelper->getWrapperContent();
-        $this->setRegisteredJsonData($wrapperContent);
+        $wrapperContent = $this->qdbHelper->getWrapperContent($ajax);
+        $this->setRegisteredData($wrapperContent);
         $this->pullDataFromService = false;
     }
 
 
-    /**
-     * @param $data
-     */
-    public function setRegisteredJsonData($data)
-    {
-        $serializer = new \Magento\Framework\Serialize\Serializer\Json();
-        $this->setRegisteredData($serializer->unserialize($data));
-    }
 
     /**
      * @param null $key

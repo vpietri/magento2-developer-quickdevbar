@@ -68,7 +68,7 @@
 <!--                ///http://localhost:63342/api/about-->
                 <field id="handle_vardumper" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Handle VarDumper</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <source_model>ADM\QuickDevBar\Model\Config\Source\DumperHandler</source_model>
                     <depends>
                         <field id="enable" separator=",">1,2</field>
                     </depends>
