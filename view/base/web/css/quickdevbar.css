@@ -130,11 +130,11 @@
         margin: 0px;
     }
 
-    div.qdb-ui-tabs > div.qdb-panel, div.qdb-ui-subtabs > div.qdb-panel {
+    div.qdb-ui-tabs  div.qdb-panel, div.qdb-ui-subtabs > div.qdb-panel {
         background: none repeat scroll 0 0 var(--qdb-bck)
     }
 
-    div.qdb-ui-tabs > div.qdb-panel {
+    div.qdb-ui-tabs  div.qdb-panel {
         max-height: 90vh;
         overflow: auto;
         /*height: 100%;*/
@@ -330,19 +330,19 @@
       * Sortable
       */
 
-    table.sortable th.header.headerSortUp:after {
+    table.sortable th[aria-sort="ascending"]:after {
         content: url(../images/asc.gif);
     }
 
-    table.sortable th.header.headerSortDown:after {
+    table.sortable th[aria-sort="descending"]:after {
         content: url(../images/desc.gif);
     }
 
-    table.sortable th.header:after {
+    table.sortable th:after {
         content: url(../images/bg.gif);
     }
 
-    table.sortable th.header {
+    table.sortable th {
         cursor: pointer;
     }
 

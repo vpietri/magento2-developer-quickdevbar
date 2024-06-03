@@ -31,13 +31,17 @@
                 elAnchor: "qdb-bar-anchor",
                 baseUrl: "<?= 'https://magento2.laptop-vpietri.tbdgroup.dev/' ?>",
                 assetsScript: {
-                    filtertable: "<?= $block->getViewFileUrl('ADM_QuickDevBar::js/sunnywalker/jquery.filtertable.min.js') ?>",
-                    tablesorter: "<?= $block->getViewFileUrl('ADM_QuickDevBar::js/tablesorter/jquery.tablesorter.min.js') ?>",
+                    filtertable: "<?= $block->getViewFileUrl('ADM_QuickDevBar::js/filter-table.js') ?>",
+                    tablesorter: "<?= $block->getViewFileUrl('ADM_QuickDevBar::js/sortable-table.js') ?>",
                     tab: "<?= $block->getViewFileUrl('ADM_QuickDevBar::js/tabbis/assets/js/src/tabbis.es6.js') ?>",
                 },
                 assetsCss: {
                     default: "<?= $block->getViewFileUrl('ADM_QuickDevBar::css/quickdevbar.css') ?>",
-                }
+                },
+                stripedClassname: "striped",
+                classToStrip: "qdb_table.striped",
+                classToFilter: "qdb_table.filterable",
+                classToSort: "qdb_table.sortable",
             },
             tabsObj: null,
             addAssets: function () {
@@ -76,8 +80,21 @@
                     }
                 });
             },
-            initTabs: function () {
-                this.tabsObj = new tabbisClass({memory: true});
+            initTabs: function (tab) {
+                //TODO: Manage specific tab init
+
+                //qdb_table striped filterable
+
+                console.log('Init tabs');
+                new tabbisClass({memory: true});
+
+                console.log('Init sortable');
+                document.querySelectorAll('table.qdb_table.sortable').forEach((table)=> new SortableTable(table))
+                document.querySelectorAll('table.qdb_table.filterable').forEach((table)=> new FilterTable(table))
+
+                //this.tabsObj = new tabbisClass({memory: true});
+                //this.applyTabPlugin(this.options.etTabWrapper)
+
             },
             run: function () {
                 this.addAssets();
@@ -106,30 +123,30 @@
                     document.getElementById(forElement).innerHTML = html;
                 }).then(html => {
                     callback();
-                }).catch((err) => console.log("Can’t access " + url + " response. Blocked by browser?" + err));
+                }).catch((err) => console.error("Can’t access " + url + " response. Blocked by browser?" + err, 'QDB Error'));
             },
-            applyTabPlugin: function (selector) {
+            applyTabPlugin: function (tab) {
 
                 /* Apply enhancement on table */
 
                 /* classToStrip: Set odd even class on tr */
-                $(selector + ' table.' + this.options.classToStrip + ' tr:even').addClass(this.options.stripedClassname);
+                document.querySelector(selector + ' table.' + this.options.classToStrip + ' tr:even').addClass(this.options.stripedClassname);
 
                 /* classToFilter: Set filter input */
-                $(selector + ' table.' + this.options.classToFilter).filterTable({
-                    label: 'Search filter:',
-                    minRows: 10,
-                    visibleClass: '',
-                    callback: $.proxy(function (term, table) {
-                        table.find('tr').removeClass(this.options.stripedClassname).filter(':visible:even').addClass(this.options.stripedClassname);
-                    }, this)
-                });
+                // document.querySelector((selector + ' table.' + this.options.classToFilter).filterTable({
+                //     label: 'Search filter:',
+                //     minRows: 10,
+                //     visibleClass: '',
+                //     callback: $.proxy(function (term, table) {
+                //         table.find('tr').removeClass(this.options.stripedClassname).filter(':visible:even').addClass(this.options.stripedClassname);
+                //     }, this)
+                // });
 
                 /* classToSort: Set sort on thead */
-                $(selector + ' table.' + this.options.classToSort).tablesorter();
+                //document.querySelector((selector + ' table.' + this.options.classToSort).tablesorter();
 
                 /* Add hyperlink on file path */
-                $(selector + ' span[data-ide-file]:not([data-ide-file=""])').each(function () {
+                document.querySelector(selector + ' span[data-ide-file]:not([data-ide-file=""])').forEach(function () {
                     let span = $(this);
                     $(this).on('click', function (event) {
                         let ideFile = $(event.target).attr('data-ide-file');
