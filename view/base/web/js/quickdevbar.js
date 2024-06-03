@@ -121,66 +121,6 @@ define(["jquery",
         },
     });
 
-    $.widget("mage.treeView", {
-        // default options
-        options: {
-          expandAll: true,
-          treeClass: "qdbTree",
-        },
-
-        // The constructor
-        _create: function() {
-          this.element.addClass(this.options.treeClass);
-
-          let self = this;
-
-
-          this.element.find('li').each(function() {
-            let li = $(this);
-            li.prepend('<div class="node"></div>');
-            li.contents().filter(function() {
-              return this.nodeName=='UL';
-            }).each(function() {
-              let liParent = $(this).parent();
-              let liNode = liParent.children('div.node')
-              if (!liParent.data('ul')) {
-                liNode.data('li', liParent);
-                liNode.data('ul', liParent.find('ul').first());
-                self._toggle(liNode, self.options.expandAll);
-              }
-            });
-          });
-          this.element.on('click', "div.node", $.proxy(this._handleNodeClick, this));
-        },
-
-        _toggle: function(node, expand) {
-          let sub = node.data('ul') ? $(node.data('ul')) : false;
-          if (sub) {
-              if(typeof expand == 'undefined') {
-                  sub.toggle();
-              } else if(expand) {
-                  sub.show();
-              } else {
-                  sub.hide();
-              }
-            let subVisibility = sub.is(":visible");
-            node.toggleClass('expanded', subVisibility);
-            node.toggleClass('collapsed', !subVisibility);
-          }
-        },
-
-        _handleNodeClick: function(event) {
-          event.stopPropagation();
-          let node = $(event.target);
-          if(event.target.nodeName=='DIV') {
-              this._toggle(node)
-              this._trigger("nodePostClick", event);
-          }
-
-        },
-
-      });
-
 
     $.widget('mage.quickDevBar', {
         options: {
