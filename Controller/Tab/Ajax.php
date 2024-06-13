@@ -3,6 +3,21 @@ namespace ADM\QuickDevBar\Controller\Tab;
 
 class Ajax extends \ADM\QuickDevBar\Controller\Index
 {
+
+    protected \ADM\QuickDevBar\Helper\Register $qdbHelperRegister;
+
+    public function __construct(\Magento\Framework\App\Action\Context           $context,
+                                \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
+                                \Magento\Framework\View\LayoutFactory           $layoutFactory,
+                                \ADM\QuickDevBar\Helper\Data                    $qdbHelper,
+                                \ADM\QuickDevBar\Helper\Register                $qdbHelperRegister
+    )
+    {
+        parent::__construct($context, $qdbHelper, $resultRawFactory, $layoutFactory);
+        $this->qdbHelperRegister = $qdbHelperRegister;
+    }
+
+
     /**
      *
      * @return \Magento\Backend\Model\View\Result\Page
@@ -14,8 +29,13 @@ class Ajax extends \ADM\QuickDevBar\Controller\Index
         try {
             $this->_view->loadLayout('quickdevbar');
 
-            if ($this->_view->getLayout()->getBlock($blockName)) {
-                $output = $this->_view->getLayout()->getBlock($blockName)->toHtml();
+            $block = $this->_view->getLayout()->getBlock($blockName);
+            if ($block) {
+                if($block->getNeedLoadData()) {
+                    $this->qdbHelperRegister->loadDataFromFile(true);
+                }
+                $block->setIsUpdateCall(true);
+                $output = $block->toHtml();
             } else {
                 $output = 'Cannot found block: '. $blockName;
             }

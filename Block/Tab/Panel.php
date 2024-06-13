@@ -2,6 +2,7 @@
 
 namespace ADM\QuickDevBar\Block\Tab;
 
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\ObjectManager;
 
 class Panel extends \Magento\Framework\View\Element\Template
@@ -238,6 +239,12 @@ class Panel extends \Magento\Framework\View\Element\Template
     public function formatTrace(array $bt)
     {
         return $this->helper->getIDELinkForFile($bt['file'], $bt['line']);
+    }
+
+    public function getQdbConfig($key, $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $scopeCode = null)
+
+    {
+        return $this->helper->getQdbConfig($key, $scopeType, $scopeCode);
     }
 
 }

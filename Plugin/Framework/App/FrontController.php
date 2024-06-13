@@ -2,6 +2,10 @@
 
 namespace ADM\QuickDevBar\Plugin\Framework\App;
 
+use ADM\QuickDevBar\Helper\Data;
+use ADM\QuickDevBar\Helper\Register;
+use ADM\QuickDevBar\Service\Dumper;
+use Magento\Framework\App\RequestInterface;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
@@ -9,28 +13,56 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 
 class FrontController
 {
+    private $request;
+
     private  $qdbHelper;
 
     private  $dumper;
 
+    private Register $register;
+
     /**
-     * @param \ADM\QuickDevBar\Service\Dumper $dumper
+     * @param RequestInterface $request
+     * @param Data $qdbHelper
+     * @param Register $register
+     * @param Dumper $dumper
      */
-    public function __construct(\ADM\QuickDevBar\Helper\Data $qdbHelper,
-                                \ADM\QuickDevBar\Service\Dumper $dumper
+    public function __construct(RequestInterface $request,
+                                Data $qdbHelper,
+                                Register $register,
+                                Dumper $dumper
     )
     {
+        $this->request = $request;
         $this->qdbHelper = $qdbHelper;
+        $this->register = $register;
         $this->dumper = $dumper;
     }
 
     /**
+     * Be careful, two usage:
+     * - dumpToFile
+     * - VarDumper::setHandler
+     *
      * @param \Magento\Framework\AppInterface $subject
      * @return void
      */
     public function beforeDispatch(\Magento\Framework\App\FrontControllerInterface $subject)
     {
-        if($this->qdbHelper->getQdbConfig('handle_vardumper')) {
+
+
+        if(!$this->qdbHelper->isToolbarAccessAllowed()) {
+            return;
+        }
+
+        if($this->qdbHelper->isAjaxLoading()) {
+            register_shutdown_function([$this->register, 'dumpToFile']);
+        }
+
+        if($enabledHandler = $this->qdbHelper->getQdbConfig('handle_vardumper')) {
+            if($this->request->isAjax() && $enabledHandler<2) {
+                return;
+            }
             $prevHandler = VarDumper::setHandler($this->dumperHandler(...));
         }
     }
@@ -47,11 +79,12 @@ class FrontController
         $dumper->setTheme('dark');
         $dumpBt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)[2];
 
+        $ajaxReq = $this->request->isAjax() ? $this->request->getActionName() : null;
+
         $output = $dumpBt['function'] != 'dd';
         $dumpOutput = $dumper->dump($cloner->cloneVar($var), $output);
         if($output) {
-            $this->dumper->addDump($dumpOutput, $dumpBt);
+            $this->dumper->addDump($dumpOutput, $dumpBt, $ajaxReq);
         }
-
     }
 }

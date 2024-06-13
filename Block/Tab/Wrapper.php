@@ -33,16 +33,8 @@ class Wrapper extends Panel
         if ($this->_mainTabs === null) {
             $this->_mainTabs=[];
             foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $alias => $block) {
-                if(!$block->getTitleBadge() && $block->getVisibleOnContent()) {
-                    continue;
-                }
-
-
                 $this->_mainTabs[$alias]=$block;
             }
-
-
-
         }
 
         return $this->_mainTabs;

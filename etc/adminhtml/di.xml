@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <type name="Magento\Framework\Data\Form\Element\AbstractElement">
+    <type name="Magento\Config\Model\Config\Structure\Element\Field">
         <plugin name="qdb-trace-es"
                 type="ADM\QuickDevBar\Plugin\Framework\Form\Element"
                 sortOrder="1"
