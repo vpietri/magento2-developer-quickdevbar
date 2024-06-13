@@ -36,6 +36,14 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
         $this->objectFactory = $objectFactory;
         $this->qdbHelper = $qdbHelper;
         $this->services = $services;
+
+
+        //dump($this->_getRequest()->getModuleName());
+
+        if($this->_getRequest() && $this->_getRequest()->getModuleName()=='quickdevbar') {
+            return false;
+        }
+
         if($this->qdbHelper->isToolbarAccessAllowed() && $this->qdbHelper->isAjaxLoading()) {
             register_shutdown_function([$this, 'dumpToFile']);
         }
@@ -45,12 +53,8 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @return bool
      */
-    public function dumpToFile()
+    protected function dumpToFile()
     {
-        if($this->_getRequest() && $this->_getRequest()->getModuleName()=='quickdevbar') {
-            return false;
-        }
-
         foreach ($this->services as $serviceKey => $serviceObj) {
             $this->setRegisteredData($serviceKey, $serviceObj->pullData());
         }

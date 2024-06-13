@@ -12,13 +12,16 @@
 
 
  -->
-<div id="qdb-bar" style="display: none;"></div>
+<div id="qdb-bar" style="display: none;">
+    <?=  $block->getChildHtml(); ?>
+</div>
 <div
      id="qdb-bar-anchor">
     <img src="<?=  $block->getViewFileUrl('ADM_QuickDevBar::images/qdb-icon.png') ?>"
          alt="<?=  __('QuickDevBar'); ?>"
          title="<?=  __('Click to toggle the Quick Development Toolbar'); ?>"/>&nbsp;
 </div>
+<div id='qdb-action-loader' style="display:none"><?=  $block->getHtmlLoader()?></div>
 
 
 <script>
@@ -29,12 +32,14 @@
             options: {
                 etTabWrapper: "qdb-bar",
                 elAnchor: "qdb-bar-anchor",
-                baseUrl: "<?= 'https://magento2.laptop-vpietri.tbdgroup.dev/' ?>",
+                baseUrl: "<?= $block->getBaseUrl() ?>",
+                ajaxLoading:  <?= $block->isAjaxLoading() ?>,
                 assetsScript: {
                     filtertable: "<?= $block->getViewFileUrl('ADM_QuickDevBar::js/filter-table.js') ?>",
                     tablesorter: "<?= $block->getViewFileUrl('ADM_QuickDevBar::js/sortable-table.js') ?>",
                     tab: "<?= $block->getViewFileUrl('ADM_QuickDevBar::js/tabbis/assets/js/src/tabbis.es6.js') ?>",
                 },
+                awaitScript: {},
                 assetsCss: {
                     default: "<?= $block->getViewFileUrl('ADM_QuickDevBar::css/quickdevbar.css') ?>",
                 },
@@ -44,17 +49,8 @@
                 classToSort: "qdb_table.sortable",
             },
             tabsObj: null,
-            addAssets: function () {
-                //TODO: Add foreach
-                //TODO: Add ID
-                //TODO: Add css
-                this.addScript(this.options.assetsScript.filtertable);
-                this.addScript(this.options.assetsScript.tablesorter);
-                this.addScript(this.options.assetsScript.tab);
-                this.addCss(this.options.assetsCss.default);
-            },
-            //https://stackoverflow.com/a/69616316
-            addScript: (async src => new Promise((resolve, reject) => {
+            /** @see https://stackoverflow.com/a/69616316 */
+            addScript: ((src) => new Promise((resolve, reject) => {
                 const el = document.createElement('script');
                 el.src = src;
                 el.addEventListener('load', resolve);
@@ -62,7 +58,6 @@
                 document.body.append(el);
             })),
             addCss: function (href) {
-                //<link rel="stylesheet" type="text/css" media="all" href="">
                 const el = document.createElement('link');
                 el.href = href;
                 el.rel = "stylesheet";
@@ -72,95 +67,125 @@
             eventClickAnchor: function () {
                 const $qdbBar = document.getElementById(this.options.etTabWrapper);
                 const $qdbBarAnchor = document.getElementById(this.options.elAnchor);
-                $qdbBarAnchor.addEventListener("click", (event) => {
-                    if ($qdbBar.style.display == 'none') {
-                        $qdbBar.style.display = '';
-                    } else {
-                        $qdbBar.style.display = 'none';
-                    }
+                $qdbBarAnchor.addEventListener("click", () => {
+                    $qdbBar.style.display = ($qdbBar.style.display === 'none') ? '': 'none';
                 });
             },
-            initTabs: function (tab) {
-                //TODO: Manage specific tab init
-
-                //qdb_table striped filterable
-
-                console.log('Init tabs');
-                new tabbisClass({memory: true});
-
-                console.log('Init sortable');
-                document.querySelectorAll('table.qdb_table.sortable').forEach((table)=> new SortableTable(table))
-                document.querySelectorAll('table.qdb_table.filterable').forEach((table)=> new FilterTable(table))
-
-                //this.tabsObj = new tabbisClass({memory: true});
-                //this.applyTabPlugin(this.options.etTabWrapper)
-
-            },
             run: function () {
-                this.addAssets();
                 this.eventClickAnchor();
-                this.qdbFetch("quickdevbar/index/ajax",
-                    this.options.etTabWrapper,
-                    this.initTabs
-                );
+                document.addEventListener('tabbis_pane_ajax_loaded', (event) => {
+                    this.applyTabPlugin(event.detail.pane);
+                });
+
+                this.addCss(this.options.assetsCss.default);
+
+                /** @see https://usefulangle.com/post/343/javascript-load-multiple-script-by-order */
+                let scriptPromises = [];
+                for (let scriptKey in this.options.assetsScript) {
+                    scriptPromises.push(this.addScript(this.options.assetsScript[scriptKey]));
+                }
+
+                Promise.all(scriptPromises)
+                    .then(function() {
+                        if(this.options.ajaxLoading) {
+                            this.qdbFetchPromise("quickdevbar/index/ajax").then(html => {
+                                const wrapperElem =  document.getElementById(this.options.etTabWrapper);
+                                wrapperElem.innerHTML = html;
+                                this.executeScriptElements(wrapperElem);
+                            }).then(()=>{
+                                this.tabsObj= new tabbisClass({memory: true});
+                                this.applyTabPlugin(document);
+                            });
+                        } else {
+                            this.tabsObj= new tabbisClass({memory: true});
+                            this.applyTabPlugin(document);
+                        }
+                    }.bind(this))
+                    .catch((err) => console.error("Error loading js scripts", 'QDB Error'));
+
+                //TODO: Theme
+                // let qdbTheme = $.mage.cookies.get('qdb_theme');
+                // if(qdbTheme) {
+                //     this.element.attr('data-theme', qdbTheme);
+                // }
 
             },
-            qdbFetch: function (routePath, forElement, callback = () => {
-            }) {
+            showLoader:function(target, type) {
+                document.getElementById(target).innerHTML= document.getElementById('qdb-action-loader').innerHTML;
+            },
+            saveUserData:function(key, value) {
+                localStorage.setItem(this.options.memory, JSON.stringify(this.memory));
+            },
+            loadUserData:function(key) {
+                localStorage.getItem(this.options.memory, JSON.stringify(this.memory));
+            },
+            /**
+             * @see https://stackoverflow.com/a/69190644
+             * @param containerElement
+             */
+            executeScriptElements:function (containerElement) {
+                const scriptElements = containerElement.querySelectorAll("script");
+
+                Array.from(scriptElements).forEach((scriptElement) => {
+                    const clonedElement = document.createElement("script");
+
+                    Array.from(scriptElement.attributes).forEach((attribute) => {
+                        clonedElement.setAttribute(attribute.name, attribute.value);
+                    });
+
+                    clonedElement.text = scriptElement.text;
+
+                    scriptElement.parentNode.replaceChild(clonedElement, scriptElement);
+                });
+            },
+            qdbFetchPromise: function (routePath) {
                 const url = this.options.baseUrl + routePath;
-                fetch(url, {
+                return fetch(url, {
                         //To be compliant with \Laminas\Http\Request::isXmlHttpRequest
                         headers: {
                             "X-Requested-With": "XMLHttpRequest",
                         }
                     }
                 ).then(response => {
-                    if (!response.ok) {
+                    if (!response.ok || response.status !==200) {
                         throw new Error(response.status + " Failed Fetch ");
                     }
                     return response.text()
-                }).then(html => {
-                    document.getElementById(forElement).innerHTML = html;
-                }).then(html => {
-                    callback();
-                }).catch((err) => console.error("Can’t access " + url + " response. Blocked by browser?" + err, 'QDB Error'));
+                }).catch((err) => console.error("Can’t access " + url + ". Error " + err, 'QDB Error'));
             },
-            applyTabPlugin: function (tab) {
-
-                /* Apply enhancement on table */
+            /**
+             *  Apply enhancement on table
+             */
+            applyTabPlugin: function (ref) {
+                //Sort
+                ref.querySelectorAll('table.qdb_table.sortable').forEach((table)=> new SortableTable(table))
+                //Filter
+                ref.querySelectorAll('table.qdb_table.filterable').forEach((table)=> new FilterTable(table))
 
                 /* classToStrip: Set odd even class on tr */
-                document.querySelector(selector + ' table.' + this.options.classToStrip + ' tr:even').addClass(this.options.stripedClassname);
+                ref.querySelectorAll('table.' + this.options.classToStrip + ' :nth-of-type(odd)').forEach(function (tr) {
+                    tr.classList.add(this.options.stripedClassname);
+                }.bind(this));
 
-                /* classToFilter: Set filter input */
-                // document.querySelector((selector + ' table.' + this.options.classToFilter).filterTable({
-                //     label: 'Search filter:',
-                //     minRows: 10,
-                //     visibleClass: '',
-                //     callback: $.proxy(function (term, table) {
-                //         table.find('tr').removeClass(this.options.stripedClassname).filter(':visible:even').addClass(this.options.stripedClassname);
-                //     }, this)
-                // });
+                this.addIdeClickEvent(ref);
 
-                /* classToSort: Set sort on thead */
-                //document.querySelector((selector + ' table.' + this.options.classToSort).tablesorter();
-
-                /* Add hyperlink on file path */
-                document.querySelector(selector + ' span[data-ide-file]:not([data-ide-file=""])').forEach(function () {
-                    let span = $(this);
-                    $(this).on('click', function (event) {
-                        let ideFile = $(event.target).attr('data-ide-file');
-                        $.get({
-                            url: ideFile,
-                            fail: function (data, textStatus, xhr) {
-                                console.error(data, 'QDB Error');
-                            },
-                        });
-                    });
-                });
             },
+            /**
+             *  Add hyperlink to IDE on file path
+             */
+            addIdeClickEvent: function(ref) {
+                ref.querySelectorAll('span[data-ide-file]:not([data-ide-file=""])').forEach(function (span) {
+                    span.addEventListener(
+                        "click",
+                        (event) => {
+                            let ideFile = event.target.getAttribute('data-ide-file');
+                            fetch(ideFile).catch((err) => console.error("Can’t access " + url + " response. Blocked by browser?" + err, 'QDB Error'));
+                        },
+                        false,
+                    );
+                });
+            }
         }
-
         document.addEventListener('DOMContentLoaded', (event) => {
             window.quickDevBar.run();
         });

@@ -312,7 +312,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     protected function getWrapperFilename($ajax = false)
     {
-        $sessionId = $this->session->getSessionId();
+        $sessionId = $this->appState->getAreaCode().$this->session->getSessionId();
 
         $fileName = 'qdb_register_'.$sessionId.'.json';
         if($ajax) {
@@ -335,23 +335,24 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function getWrapperContent($ajax = false)
     {
-        //Clean old files
-        /** @var \SplFileInfo $fileInfo */
-        foreach (new \DirectoryIterator($this->getQdbTempDir()) as $fileInfo) {
-            if($fileInfo->isFile() && time() - $fileInfo->getMTime() > 20) {
-                unlink($fileInfo->getPathname());
-            }
-        }
-
         $filename = $this->getWrapperFilename($ajax);
         if(!file_exists($filename)) {
-            throw new LocalizedException(__('No file for wrapper'));
+            throw new LocalizedException(__('No file for wrapper: '. $filename));
         }
 
         $content = file_get_contents($filename);
         if(empty($content)) {
             throw new LocalizedException(__('No data registered'));
         }
+
+        //Clean old files
+        /** @var \SplFileInfo $fileInfo */
+        foreach (new \DirectoryIterator($this->getQdbTempDir()) as $fileInfo) {
+            if($fileInfo->isFile() && time() - $fileInfo->getMTime() > 200) {
+                unlink($fileInfo->getPathname());
+            }
+        }
+
 
         return $content;
     }
@@ -371,8 +372,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if($this->appState->getAreaCode() != 'frontend') {
             return false;
         }
-        //TODO: save Register Data to use Ajax
-        // see: \ADM\QuickDevBar\Helper\Register::__construct
         return true;
     }
 

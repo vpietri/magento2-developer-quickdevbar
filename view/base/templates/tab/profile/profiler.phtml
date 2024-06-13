@@ -17,34 +17,19 @@ You can read the official documentation <a href="http://devdocs.magento.com/guid
 </div>
 
 <script type="text/javascript">
-require([
-         'jquery',
-         'domReady!'
-     ], function($){
-    'use strict';
+        [...document.querySelectorAll('caption')].forEach(elem => {
+            if (elem.firstChild.data.match(/Code Profiler \(Memory usage: real - \d+, emalloc - \d+\)/)) {
 
-    $('table').each(function(table){
-        var captionProfiler = $(this).find('caption').html();
+                const qdnProfilerContainer = document.getElementById('qdn-profiler-container');
+                qdnProfilerContainer.innerHTML = '';
 
-        if (captionProfiler && captionProfiler.match(/Code Profiler \(Memory usage: real - \d+, emalloc - \d+\)/)) {
-          var header = $(this).find('tr').first();
-          $(this).prepend("<thead><th>#</th>" + header.html() +"</thead>");
-          header.remove();
-          $(this).find('tbody tr').each(function(i, tr) {
-              $(tr).prepend("<td>"+i+"</td>");
-          });
+                let profilerTable = elem.parentNode;
+                profilerTable.removeAttribute('border');
+                profilerTable.removeAttribute('cellspacing');
+                profilerTable.removeAttribute('cellpadding');
+                profilerTable.classList.add("qdb_table", "filterable", "sortable", "striped");
 
-          $('#qdn-profiler-container').html('');
-          $(this).removeAttr('border')
-                       .removeAttr('cellspacing')
-                       .removeAttr('cellpadding');
-          $(this).addClass('qdb_table')
-                       .addClass('filterable')
-                       .addClass('sortable')
-                       .addClass('striped');
-          $(this).appendTo($('#qdn-profiler-container'));
-          return false;
-        }
-    });
-});
+                qdnProfilerContainer.appendChild(profilerTable);
+            }
+        })
 </script>

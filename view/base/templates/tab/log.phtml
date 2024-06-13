@@ -12,57 +12,46 @@
     <br/>
 <?php endforeach;?>
 <div id='log-loader' style="display:none"><?=  $block->getHtmlLoader()?></div>
+
 <script type="text/javascript">
-<!--
-require([
-         'jquery'
-     ], function($){
 
-        var logFiles = <?=  $block->getJsonLogFiles() ?>;
-        var loaded = false;
+    const logFiles = <?=  $block->getJsonLogFiles() ?>;
+    let loaded = false;
 
-        $('div.qdb-container').on( "quickdevbartabsbeforeactivate", function(event, data) {
-            var tabId = data.newPanel ? data.newPanel.attr( "id" ) : false;
-            if (!loaded && tabId=='panel-qdb-tab-log') {
-                $.each(logFiles, function(key, logfile){
-                    if (logfile.size>0) {
-                        loadLogContent(key);
-                    }
-                });
-                loaded = true;
+    document.addEventListener('tabbis_pane_activate', (event) => {
+        if (!loaded && event.detail.tab.getAttribute('id')=='qdb-tab-log') {
+            for (let key in logFiles) {
+                if (logFiles[key].size>0) {
+                    loadLogContent(key);
+                }
             }
+            loaded = true;
+        }
+    });
+
+    loadLogContent = function(key)
+    {
+        let target =  'content-' +  key ;
+        let params = new URLSearchParams({isAjax:1,log_key:key,tail:<?=  $block->getTailLines(); ?>});
+        window.quickDevBar.qdbFetchPromise('quickdevbar/log/view/?' + params.toString()).then(html => {
+            document.getElementById(target).innerHTML = html;
         });
+    };
 
-        showLoader = function(target) {
-            target.html($('#log-loader').html());
-        };
+    resetAllLogs = function()
+    {
+        for (let key in logFiles) {
+            resetLog(key);
+        }
+    };
 
-        loadLogContent = function(key)
-        {
-            var target =  $('#content-' +  key );
-            var jqxhr = $.get('<?=  $block->getUrlLog('view') ?>', {isAjax:1,log_key:key,tail:<?=  $block->getTailLines(); ?>});
-            jqxhr.beforeSend= showLoader(target);
-            jqxhr.done(function(response) {
-                target.html(response);
-          });
-        };
+    resetLog = function(key)
+    {
+        let target =  'content-' +  key ;
+        let params = new URLSearchParams({isAjax:1,log_key:key});
+        window.quickDevBar.qdbFetchPromise('quickdevbar/log/reset/?' + params.toString()).then(html => {
+            document.getElementById(target).innerHTML = html;
+        });
+    };
 
-        resetAllLogs = function()
-        {
-            $.each(logFiles, function(key, logfile){
-                resetLog(key);
-            });
-        };
-
-        resetLog = function(key)
-        {
-            var target =  $('#content-' +  key );
-            var jqxhr = $.get('<?=  $block->getUrlLog('reset') ?>', {isAjax:1,log_key:key});
-            jqxhr.beforeSend= showLoader(target);
-            jqxhr.done(function(response) {
-                target.html(response);
-            });
-        };
-});
-//-->
 </script>

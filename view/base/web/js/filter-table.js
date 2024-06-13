@@ -36,7 +36,6 @@ class  FilterTable {
         }
     }
 
-
     filter(row) {
         var text = row.textContent.toLowerCase();
         var val = this.input.value.toLowerCase();

@@ -47,14 +47,21 @@ class Toolbar extends \Magento\Framework\View\Element\Template
 
 
 
-    public function getAjaxUrl()
+//    public function getAjaxUrl()
+//    {
+//        return $this->getUrl('quickdevbar/index/ajax');
+//    }
+
+    public function getBaseUrl()
     {
-        return $this->getUrl('quickdevbar/index/ajax');
+        //TODO: Need to be fixed for backend calls
+        //return 'https://magento2.laptop-vpietri.tbdgroup.dev/';
+        return $this->getUrl();
     }
 
     public function isAjaxLoading()
     {
-        return $this->_qdnHelper->isAjaxLoading();
+        return $this->_qdnHelper->isAjaxLoading() ? "true" : "false";
     }
 
     public function toHtml()

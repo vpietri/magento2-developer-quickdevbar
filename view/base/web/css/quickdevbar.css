@@ -66,8 +66,14 @@
     font-size: 12px;
     color:var(--qdb-ft);
 
-    input {
-        width: auto;
+    p {
+        margin-bottom: 6px;
+    }
+    select, input {
+        font-size: 14px;
+        height: 24px;
+        padding: 0 30px 0 5px;
+        color: var(--qdb-tab-bg);
     }
 
     span[data-ide-file]:not([data-ide-file=""]){
