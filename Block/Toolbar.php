@@ -3,12 +3,17 @@
 namespace ADM\QuickDevBar\Block;
 
 use ADM\QuickDevBar\Block\Tab;
+use Magento\Framework\App\ObjectManager;
 
 class Toolbar extends \Magento\Framework\View\Element\Template
 {
     protected $_mainTabs;
 
     protected $_qdnHelper;
+    /**
+     * @var \Magento\Framework\Url|mixed
+     */
+    private  $_frontUrl;
 
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
@@ -54,9 +59,11 @@ class Toolbar extends \Magento\Framework\View\Element\Template
 
     public function getBaseUrl()
     {
-        //TODO: Need to be fixed for backend calls
-        //return 'https://magento2.laptop-vpietri.tbdgroup.dev/';
-        return $this->getUrl();
+        if ($this->_frontUrl === null) {
+            $this->_frontUrl = ObjectManager::getInstance()->get('Magento\Framework\Url');
+        }
+
+        return $this->_frontUrl->getUrl();
     }
 
     public function isAjaxLoading()
