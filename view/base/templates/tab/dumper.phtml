@@ -1,10 +1,66 @@
 <?php
-/** @var  $block \ADM\QuickDevBar\Block\Tab\Content\Dumper */
+/** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
 ?>
 
-<?php foreach ($block->getDumps() as $dump):?>
-<p>
-    <?= $block->formatTrace($dump['bt']) ?>
-    <?= $dump['dump'] ?>
-</p>
-<?php endforeach;?>
+<?php if(!$block->getDumps()): ?>
+    <div class="qdb-dump"></div>
+<?php else: ?>
+    <?php foreach ($block->getDumps() as $dump):?>
+        <div class="qdb-dump">
+            <?= $block->formatTrace($dump['bt']) ?>
+            <?= $dump['dump'] ?>
+        </div>
+    <?php endforeach;?>
+<?php endif; ?>
+
+
+
+<?php if(!$block->getIsUpdateCall() && $block->getQdbConfig('handle_vardumper')>1): ?>
+<script type="text/javascript">
+
+let callForUpdate= function (url) {
+    if( url.indexOf('/quickdevbar/')<0)
+    {
+        window.quickDevBar.qdbFetchPromise('quickdevbar/tab/ajax/?' + 'block=qdb.tab.dumper').then(html => {
+            let lastSpan = [... document.querySelectorAll('div.qdb-dump')].pop();
+            if( lastSpan) {
+                lastSpan.insertAdjacentHTML('beforeend', html);
+                window.quickDevBar.addIdeClickEvent([... document.querySelectorAll('div.qdb-dump')].pop())
+            }
+        });
+    }
+};
+
+    <?php if($block->getQdbConfig('handle_vardumper')==2): ?>
+    /** With jQuery we can listen on the ajaxComplete event */
+    (async() => {
+        let countCheck = 0;
+        while(!window.hasOwnProperty("jQuery") && countCheck<10) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            countCheck++;
+        }
+
+        if(countCheck<10) {
+            jQuery(document).on('ajaxComplete', function (event, xhr, settings) {
+                if(xhr.readyState === 4 ) {
+                    callForUpdate(settings.url);
+                }
+            });
+        }
+    })();
+    <?php else: ?>
+    /**
+     *
+     * @see: https://www.reddit.com/r/GoogleTagManager/comments/155ou5w/comment/jt6zzjm/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+     */
+    let qdbOriginalFetch = window.fetch;
+    window.fetch = function () {
+        return qdbOriginalFetch.apply(this, arguments).then((response) => {
+            callForUpdate(response.url);
+            return response;
+        });
+    }
+    <?php endif; ?>
+
+</script>
+<?php endif; ?>

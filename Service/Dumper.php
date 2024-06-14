@@ -16,8 +16,8 @@ class Dumper implements ServiceInterface
         return $this->dumps;
     }
 
-    public function addDump(string $output, array $bt)
+    public function addDump(string $output, array $bt, $ajaxReq = null)
     {
-        $this->dumps[] = ['dump'=>$output, 'bt'=> $bt];
+        $this->dumps[] = ['dump'=>$output, 'bt'=> $bt, 'ajaxReq'=> $ajaxReq];
     }
 }

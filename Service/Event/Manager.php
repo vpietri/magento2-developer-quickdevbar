@@ -27,7 +27,6 @@ class Manager implements ServiceInterface
      */
     public function addEvent($eventName, $data)
     {
-        //$events = $this->getRegisteredData('events') ? $this->getRegisteredData('events') : [];
         if (!isset($this->events[$eventName])) {
             $this->events[$eventName] = ['event'=>$eventName,
                 'nbr'=>0,
