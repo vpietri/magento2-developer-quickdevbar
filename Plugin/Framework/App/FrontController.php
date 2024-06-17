@@ -63,7 +63,7 @@ class FrontController
             if($this->request->isAjax() && $enabledHandler<2) {
                 return;
             }
-            $prevHandler = VarDumper::setHandler($this->dumperHandler(...));
+            //$prevHandler = VarDumper::setHandler($this->dumperHandler(...));
         }
     }
 
