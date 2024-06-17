@@ -437,7 +437,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 return $this->getIDELinkForFile($file, 1, $class);
             }
 
-        } catch (\ReflectionException) {
+        } catch (\ReflectionException $e) {
 
         }
         return $class;
