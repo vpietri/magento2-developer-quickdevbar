@@ -6,10 +6,6 @@ use ADM\QuickDevBar\Helper\Data;
 use ADM\QuickDevBar\Helper\Register;
 use ADM\QuickDevBar\Service\Dumper;
 use Magento\Framework\App\RequestInterface;
-use Symfony\Component\VarDumper\Dumper\HtmlDumper;
-use Symfony\Component\VarDumper\VarDumper;
-use Symfony\Component\VarDumper\Cloner\VarCloner;
-
 
 class FrontController
 {
@@ -63,7 +59,7 @@ class FrontController
             if($this->request->isAjax() && $enabledHandler<2) {
                 return;
             }
-            //$prevHandler = VarDumper::setHandler($this->dumperHandler(...));
+            $prevHandler = \Symfony\Component\VarDumper\VarDumper::setHandler($this->dumperHandler(...));
         }
     }
 
@@ -73,8 +69,8 @@ class FrontController
      */
     protected function dumperHandler($var)
     {
-        $cloner = new VarCloner();
-        $dumper = new HtmlDumper();
+        $cloner = new \Symfony\Component\VarDumper\Cloner\VarCloner();
+        $dumper = new \Symfony\Component\VarDumper\Dumper\HtmlDumper();
 
         $dumper->setTheme('dark');
         $dumpBt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)[2];

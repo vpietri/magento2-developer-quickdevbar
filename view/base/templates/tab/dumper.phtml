@@ -1,6 +1,11 @@
 <?php
 /** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
 ?>
+<?php if(!$block->getQdbConfig('handle_vardumper')):?>
+<p>You need to activate admin configuration and having VarDumper Component installed, see <a href="https://github.com/symfony/var-dumper">github.com/symfony/var-dumper</a></p>
+<?php endif; ?>
+
+
 
 <?php if(!$block->getDumps()): ?>
     <div class="qdb-dump"></div>

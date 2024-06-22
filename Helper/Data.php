@@ -93,6 +93,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function getQdbConfig($key, $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $scopeCode = null)
     {
+        // Backward compatibility
+        if($key=='handle_vardumper' && !class_exists(\Symfony\Component\VarDumper\VarDumper::class)) {
+            return false;
+        }
+
         return $this->getConfig('dev/quickdevbar/'.$key, $scopeType, $scopeCode);
     }
 
