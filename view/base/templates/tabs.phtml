@@ -6,10 +6,10 @@
  style="display: block;"
  "
 >
-    <ul class="ui-tabs-nav" data-tabs>
+    <ul class="ui-tabs-nav" data-tabs tabbis-options='{"collapsible":<?=  $block->getIsMainTab() ? 'true' : 'false' ?>}'>
         <?php foreach ($block->getTabBlocks() as $tabBlock): ?>
             <li id="<?=  $tabBlock->getId() ?>" class="<?=  $tabBlock->getClass() ?>" data-ajax="<?=  $tabBlock->isAjax(false) ? $tabBlock->getTabUrl() : '';?>" >
-                <a href="<?=  '#'.$tabBlock->getId('panel-') ?>"  >
+                <a href="#"  >
                     <?php if ($tabBlock->getTitleImage()):?>
                         <img  class="qdb-img" src="<?=  $block->getViewFileUrl($tabBlock->getTitleImage()) ?>">
                     <?php endif;?>

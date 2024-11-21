@@ -6,5 +6,21 @@
                 <value id="githubusercontent_images" type="host">github.blog</value>
             </values>
         </policy>
+        <policy id="connect-src">
+            <values>
+                <!-- TODO: Find plugin so add this values, depdning onconfiguration -->
+                <value id="local_ide_developer_phpstorm" type="host">http://127.0.0.1:63342</value>
+                <value id="local_ide_developer_eclipse" type="host">http://127.0.0.1:34567</value>
+            </values>
+        </policy>
+        <policy id="script-src">
+            <values>
+                <value id="qdb-toolbar" type="hash" algorithm="sha256">0fqYNhUtZIYTsPCEUp6+TqBwz891zD/z5qOUNwssEHQ=</value>
+                <value id="qdb-profiler" type="hash" algorithm="sha256">hnovV8f+WhZ9ebCoXRqdN5AB0kK8XLdG0m1A1iJwEnY=</value>
+                <value id="qdb-log" type="hash" algorithm="sha256">bK2tLWn1REuSqdwXKlTb8ee0km8CvwgWaHJ0NByeYo0=</value>
+                <value id="qdb-ide" type="hash" algorithm="sha256">s3d0Et84iP59KGMgbHHnfRJXkPiVf9x4JFtVB9HgwIc=</value>
+                <value id="qdb-action" type="hash" algorithm="sha256">Max76aG+G+IwaO1GZzazlinNaPtn0FcGv1sqzIVqsWI=</value>
+            </values>
+        </policy>
     </policies>
 </csp_whitelist>

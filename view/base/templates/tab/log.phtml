@@ -1,11 +1,11 @@
 <?php
 /** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
 ?>
-<button type="button" onClick="javascript:resetAllLogs();return false;" class="qdb-action">Reset all Logs</button>
+<button type="button" id="qdb-log-clearall" class="qdb-action">Reset all Logs</button>
 <br/>
 <br/>
 <?php foreach ($block->getLogFiles() as $logKey => $logFile):?>
-    <h3><?=  $logFile['name'] ?>&nbsp;<button type="button" onClick="javascript:resetLog('<?=  $logKey ?>');return false;" class="qdb-action">Reset</button></h3>
+    <h3><?=  $logFile['name'] ?>&nbsp;<button type="button" data-logKey="<?= $logKey ?>" class="qdb-action">Reset</button></h3>
     Tail the <?=  $block->getTailLines() ?> last lines
     <pre id= "content-<?=  $logKey ?>">
     </pre>
@@ -17,17 +17,15 @@
 
     const logFiles = <?=  $block->getJsonLogFiles() ?>;
     let loaded = false;
-
-    document.addEventListener('tabbis_pane_activate', (event) => {
-        if (!loaded && event.detail.tab.getAttribute('id')=='qdb-tab-log') {
-            for (let key in logFiles) {
-                if (logFiles[key].size>0) {
-                    loadLogContent(key);
-                }
-            }
-            loaded = true;
-        }
-    });
+    resetLog = function()
+    {
+        let key = this.getAttribute('data-logKey');
+        let target =  'content-' +  key ;
+        let params = new URLSearchParams({isAjax:1,log_key:key});
+        window.quickDevBar.qdbFetchPromise('quickdevbar/log/reset/?' + params.toString()).then(html => {
+            document.getElementById(target).innerHTML = html;
+        });
+    };
 
     loadLogContent = function(key)
     {
@@ -38,20 +36,23 @@
         });
     };
 
-    resetAllLogs = function()
-    {
-        for (let key in logFiles) {
-            resetLog(key);
-        }
-    };
+    document.querySelectorAll('button[data-logKey]').forEach((button)=> button.addEventListener('click', resetLog)
+    );
 
-    resetLog = function(key)
-    {
-        let target =  'content-' +  key ;
-        let params = new URLSearchParams({isAjax:1,log_key:key});
-        window.quickDevBar.qdbFetchPromise('quickdevbar/log/reset/?' + params.toString()).then(html => {
-            document.getElementById(target).innerHTML = html;
-        });
-    };
+    document.getElementById('qdb-log-clearall').addEventListener('click', () =>
+        document.querySelectorAll('button[data-logKey]').forEach((button)=> button.click())
+    );
+
+    document.addEventListener('tabbis_pane_activate', (event) => {
+        if (!loaded && event.detail.tab.getAttribute('id')=='qdb-tab-log') {
+            for (let key in logFiles) {
+                if (logFiles[key].load) {
+                    loadLogContent(key);
+                }
+            }
+            loaded = true;
+        }
+    });
+
 
 </script>

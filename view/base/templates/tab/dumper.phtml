@@ -1,6 +1,11 @@
 <?php
 /** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
 ?>
+<?php if(!$block->getQdbConfig('handle_vardumper')):?>
+<p>You need to install VarDumper Component, see <a href="https://github.com/symfony/var-dumper">github.com/symfony/var-dumper</a></p>
+<?php endif; ?>
+
+
 
 <?php if(!$block->getDumps()): ?>
     <div class="qdb-dump"></div>
@@ -19,7 +24,10 @@
 <script type="text/javascript">
 
 let callForUpdate= function (url) {
-    if( url.indexOf('/quickdevbar/')<0)
+    if( url.indexOf('/quickdevbar/')<0
+        && url.indexOf('127.0.0.1:63342')<0
+        && url.indexOf('127.0.0.1:34567')<0
+    )
     {
         window.quickDevBar.qdbFetchPromise('quickdevbar/tab/ajax/?' + 'block=qdb.tab.dumper').then(html => {
             let lastSpan = [... document.querySelectorAll('div.qdb-dump')].pop();

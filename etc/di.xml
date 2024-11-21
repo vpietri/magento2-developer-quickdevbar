@@ -11,10 +11,6 @@
                 type="ADM\QuickDevBar\Plugin\Framework\Event\Invoker" sortOrder="1"/>
     </type>
 
-    \Magento\Framework\Cache\Frontend\Decorator\TagScope
-<!--
-    <type name="Magento\Framework\App\CacheInterface">
--->
     <type name="Magento\Framework\App\CacheInterface">
         <plugin name="qdb-trace-cache"
                 type="ADM\QuickDevBar\Plugin\Framework\App\Cache" sortOrder="1" />
@@ -23,7 +19,7 @@
     <!-- Plugin on Magento\Framework\App\Http should be better but to early to access config-->
     <type name="Magento\Framework\App\FrontControllerInterface">
         <plugin name="qdb-dumper"
-                type="ADM\QuickDevBar\Plugin\Framework\App\FrontController" sortOrder="1" />
+                type="ADM\QuickDevBar\Plugin\Framework\App\FrontController" sortOrder="0" />
     </type>
 
     <type name="Magento\PageCache\Model\Cache\Type">
@@ -31,6 +27,10 @@
                 type="ADM\QuickDevBar\Plugin\PageCache\FrontController\BuiltinPlugin" sortOrder="1" />
     </type>
 
+    <type name="Magento\OpenSearch\Model\SearchClient">
+        <plugin name="qdb-trace-opensearch"
+                type="ADM\QuickDevBar\Plugin\Search\SearchClient" sortOrder="1" />
+    </type>
 
     <type name="Magento\Elasticsearch\Elasticsearch5\Model\Client\Elasticsearch">
         <plugin name="qdb-trace-es"
@@ -88,8 +88,9 @@
     <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="enableDebugToolbar" xsi:type="object">ADM\QuickDevBar\Console\Command\EnableToolBar</item>
-                <item name="disableDebugToolbar" xsi:type="object">ADM\QuickDevBar\Console\Command\DisableToolBar</item>
+                <item name="qdb_enableDebugToolbar" xsi:type="object">ADM\QuickDevBar\Console\Command\EnableToolBar</item>
+                <item name="qdb_disableDebugToolbar" xsi:type="object">ADM\QuickDevBar\Console\Command\DisableToolBar</item>
+                <item name="qdb_database" xsi:type="object">ADM\QuickDevBar\Console\Command\Database</item>
             </argument>
         </arguments>
     </type>

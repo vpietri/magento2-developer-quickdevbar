@@ -1,5 +1,8 @@
 <?php
-/** @var \ADM\QuickDevBar\Block\Toolbar $block */
+/** @var \ADM\QuickDevBar\Block\Toolbar $block
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+
 ?>
 <!-- Start:ADM_QuickDevBar -->
 <!--
@@ -24,29 +27,27 @@
 <div id='qdb-action-loader' style="display:none"><?=  $block->getHtmlLoader()?></div>
 
 
-<script>
+<script type="text/javascript">
     (function () {
         "use strict";
 
         window.quickDevBar = {
             options: {
+                debugCsp: false,
                 etTabWrapper: "qdb-bar",
                 elAnchor: "qdb-bar-anchor",
-                baseUrl: "<?= $block->getBaseUrl() ?>",
-                ajaxLoading:  <?= $block->isAjaxLoading() ?>,
-                assetsScript: {
-                    filtertable: "<?= $block->getViewFileUrl('ADM_QuickDevBar::js/filter-table.js') ?>",
-                    tablesorter: "<?= $block->getViewFileUrl('ADM_QuickDevBar::js/sortable-table.js') ?>",
-                    tab: "<?= $block->getViewFileUrl('ADM_QuickDevBar::js/tabbis/assets/js/src/tabbis.es6.js') ?>",
-                },
+                baseUrl: "",
+                ajaxLoading:  true,
+                assetsScript: {},
                 awaitScript: {},
-                assetsCss: {
-                    default: "<?= $block->getViewFileUrl('ADM_QuickDevBar::css/quickdevbar.css') ?>",
-                },
+                assetsCss: {},
                 stripedClassname: "striped",
                 classToStrip: "qdb_table.striped",
                 classToFilter: "qdb_table.filterable",
                 classToSort: "qdb_table.sortable",
+                tabbisOptions: {memory: 'qdb_tabbis',
+                    tabActiveFallback: false
+                }
             },
             tabsObj: null,
             /** @see https://stackoverflow.com/a/69616316 */
@@ -65,10 +66,14 @@
                 document.body.append(el);
             },
             eventClickAnchor: function () {
-                const $qdbBar = document.getElementById(this.options.etTabWrapper);
-                const $qdbBarAnchor = document.getElementById(this.options.elAnchor);
-                $qdbBarAnchor.addEventListener("click", () => {
-                    $qdbBar.style.display = ($qdbBar.style.display === 'none') ? '': 'none';
+                const qdbBar = document.getElementById(this.options.etTabWrapper);
+                const qdbBarAnchor = document.getElementById(this.options.elAnchor);
+
+                qdbBar.style.display = this.loadUserData('qdb_display');
+
+                qdbBarAnchor.addEventListener("click", () => {
+                    qdbBar.style.display = (qdbBar.style.display === 'none') ? '': 'none';
+                    this.saveUserData('qdb_display', qdbBar.style.display);
                 });
             },
             run: function () {
@@ -80,12 +85,12 @@
                 this.addCss(this.options.assetsCss.default);
 
                 /** @see https://usefulangle.com/post/343/javascript-load-multiple-script-by-order */
-                let scriptPromises = [];
+                let tabScriptPromises = [];
                 for (let scriptKey in this.options.assetsScript) {
-                    scriptPromises.push(this.addScript(this.options.assetsScript[scriptKey]));
+                    tabScriptPromises.push(this.addScript(this.options.assetsScript[scriptKey]));
                 }
 
-                Promise.all(scriptPromises)
+                Promise.all(tabScriptPromises)
                     .then(function() {
                         if(this.options.ajaxLoading) {
                             this.qdbFetchPromise("quickdevbar/index/ajax").then(html => {
@@ -93,49 +98,56 @@
                                 wrapperElem.innerHTML = html;
                                 this.executeScriptElements(wrapperElem);
                             }).then(()=>{
-                                this.tabsObj= new tabbisClass({memory: true});
+                                this.tabsObj= new tabbisClass(this.options.tabbisOptions);
                                 this.applyTabPlugin(document);
                             });
                         } else {
-                            this.tabsObj= new tabbisClass({memory: true});
+                            this.tabsObj= new tabbisClass(this.options.tabbisOptions);
                             this.applyTabPlugin(document);
                         }
                     }.bind(this))
                     .catch((err) => console.error("Error loading js scripts", 'QDB Error'));
 
-                //TODO: Theme
-                // let qdbTheme = $.mage.cookies.get('qdb_theme');
-                // if(qdbTheme) {
-                //     this.element.attr('data-theme', qdbTheme);
-                // }
+                this.switchTheme(this.loadUserData('qdb_theme'))
 
+
+            },
+            switchTheme:function(qdbTheme) {
+                window.quickDevBar.saveUserData('qdb_theme', qdbTheme);
+                document.getElementById('qdb-bar').setAttribute('data-theme', qdbTheme);
             },
             showLoader:function(target, type) {
                 document.getElementById(target).innerHTML= document.getElementById('qdb-action-loader').innerHTML;
             },
             saveUserData:function(key, value) {
-                localStorage.setItem(this.options.memory, JSON.stringify(this.memory));
+                localStorage.setItem(key, value);
             },
             loadUserData:function(key) {
-                localStorage.getItem(this.options.memory, JSON.stringify(this.memory));
+                return localStorage.getItem(key);
             },
             /**
              * @see https://stackoverflow.com/a/69190644
              * @param containerElement
              */
             executeScriptElements:function (containerElement) {
+
+
                 const scriptElements = containerElement.querySelectorAll("script");
 
-                Array.from(scriptElements).forEach((scriptElement) => {
+                Array.from(scriptElements).forEach((scptElement) => {
                     const clonedElement = document.createElement("script");
 
-                    Array.from(scriptElement.attributes).forEach((attribute) => {
+                    Array.from(scptElement.attributes).forEach((attribute) => {
                         clonedElement.setAttribute(attribute.name, attribute.value);
                     });
 
-                    clonedElement.text = scriptElement.text;
+                    clonedElement.text = scptElement.text;
 
-                    scriptElement.parentNode.replaceChild(clonedElement, scriptElement);
+                    if(this.options.debugCsp) {
+                        console.log(scptElement);
+                    }
+                    // May cause a csp violation
+                    scptElement.parentNode.replaceChild(clonedElement, scptElement);
                 });
             },
             qdbFetchPromise: function (routePath) {
@@ -169,6 +181,7 @@
 
                 this.addIdeClickEvent(ref);
 
+                document.dispatchEvent(new CustomEvent("QDBBarLoaded", {}));
             },
             /**
              *  Add hyperlink to IDE on file path
@@ -186,10 +199,31 @@
                 });
             }
         }
-        document.addEventListener('DOMContentLoaded', (event) => {
-            window.quickDevBar.run();
-        });
+
     }());
 </script>
 
+<?php
+$qdbScripttLoader = "
+document.addEventListener('DOMContentLoaded', (event) => {
+    dynamicConfig={
+        debugCsp: false,
+        baseUrl: \"" . $block->getBaseUrl(). "\",
+        ajaxLoading:  ". $block->isAjaxLoading() . ",
+        assetsScript: {
+            filtertable: \"" . $block->getViewFileUrl('ADM_QuickDevBar::js/filter-table.js') . "\",
+            tablesorter: \"" . $block->getViewFileUrl('ADM_QuickDevBar::js/sortable-table.js') . "\",
+            tab: \"" . $block->getViewFileUrl('ADM_QuickDevBar::js/tabbis/assets/js/src/tabbis.es6.js') . "\",
+        },
+        awaitScript: {},
+        assetsCss: {
+            default: \"" . $block->getViewFileUrl('ADM_QuickDevBar::css/quickdevbar.css') . "\",
+        }
+};
+    window.quickDevBar.options = { ...window.quickDevBar.options, ...dynamicConfig };
+    window.quickDevBar.run();
+});
+";
+?>
+<?= $secureRenderer->renderTag('script', ['type' => 'text/javascript'], $qdbScripttLoader, false); ?>
 <!-- End:ADM_QuickDevBar -->

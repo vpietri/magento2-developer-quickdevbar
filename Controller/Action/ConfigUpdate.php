@@ -61,33 +61,24 @@ class ConfigUpdate extends \ADM\QuickDevBar\Controller\Index
                 $configKey = $config['key'];
             }
 
-            $scopeList = ['default', 'websites', 'stores', 'auto'];
-            if (empty($config['scope']) or !in_array($config['scope'], $scopeList)) {
-                throw new \Exception('Scope is missing');
-            } else {
-                $configScope = $config['scope'];
 
-                if ($configScope=='auto') {
-                    switch ($configKey) {
-                        case 'template_hints_admin':
-                        case 'template_hints_storefront':
-                        case 'template_hints_blocks':
-                        case 'translate':
-                            $configScope = 'stores';
-                            break;
-                        default:
-                            throw new \Exception('Scope auto is unrecognized');
-                            break;
-                    }
-                }
+            switch ($configKey) {
+                case 'template_hints_admin':
+                case 'template_hints_storefront':
+                case 'template_hints_blocks':
+                case 'translate':
+                    $configScope = 'stores';
+                    break;
+                case 'devadmin':
+                    $configScope = 'default';
+                    break;
+                default:
+                    throw new \Exception('Scope auto is unrecognized');
+                    break;
             }
 
-            if (empty($config['value'])) {
-                $configValue = 1;
-            } else {
-                $configValue = $config['value'];
-            }
 
+            $configValue = 'toggle';
             switch ($configScope) {
                 case 'stores':
                     $configScopeId = $this->_storeManager->getStore()->getId();

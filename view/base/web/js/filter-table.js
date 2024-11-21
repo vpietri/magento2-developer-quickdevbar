@@ -1,4 +1,5 @@
 /**
+ * Vanilla JS table filter
  * https://blog.pagesd.info/2019/10/01/search-filter-table-javascript/
  *
  */

@@ -69,6 +69,12 @@
     p {
         margin-bottom: 6px;
     }
+
+    a {
+        color: #006bb4;
+        text-decoration: underline;
+    }
+
     select, input {
         font-size: 14px;
         height: 24px;
@@ -201,18 +207,18 @@
         box-shadow: none;
     }
 
-    div.qdb-ui-tabs > div, div.qdb-ui-subtabs > div {
+    div.qdb-ui-tabs  div.qdb-panel, div.qdb-ui-subtabs  div.qdb-panel {
         position: relative;
         border: 1px solid var(--qdb-tab-bg);
         z-index: 99;
     }
 
-    div.qdb-ui-tabs > div {
+    div.qdb-ui-tabs  div.qdb-panel {
         padding: 10px;
         box-shadow: -1px 10px 15px 0 rgba(0, 0, 0, 0.7);
     }
 
-    div.qdb-ui-subtabs > div {
+    div.qdb-ui-subtabs  div.qdb-panel {
         padding: 10px;
         margin-top: -1px;
     }

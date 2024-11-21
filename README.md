@@ -129,3 +129,6 @@ Add your logo on <a href="https://github.com/sponsors/vpietri" rel="me" class="l
 - [Changelog](doc/Changelog.md)
 - ~~You can extend this toolbar with your own tabs, a [sample module](https://github.com/vpietri/magento2-brandnew_quikdevsample) is available.~~ (refactoring coming soon)
 
+# Credits
+
+- [Jens Törnell](https://github.com/jenstornell)
