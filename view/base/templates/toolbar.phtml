@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         assetsScript: {
             filtertable: \"" . $block->getViewFileUrl('ADM_QuickDevBar::js/filter-table.js') . "\",
             tablesorter: \"" . $block->getViewFileUrl('ADM_QuickDevBar::js/sortable-table.js') . "\",
-            tab: \"" . $block->getViewFileUrl('ADM_QuickDevBar::js/tabbis/assets/js/src/tabbis.es6.js') . "\",
+            tab: \"" . $block->getViewFileUrl('ADM_QuickDevBar::js/tabbis.js') . "\",
         },
         awaitScript: {},
         assetsCss: {
@@ -227,3 +227,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
 ?>
 <?= $secureRenderer->renderTag('script', ['type' => 'text/javascript'], $qdbScripttLoader, false); ?>
 <!-- End:ADM_QuickDevBar -->
+<?php echo 'qdbdate:' . date('c'); ?>
+
