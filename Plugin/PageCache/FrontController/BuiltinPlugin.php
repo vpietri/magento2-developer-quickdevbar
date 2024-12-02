@@ -16,11 +16,13 @@ class BuiltinPlugin
      */
     private $cacheService;
 
+    /**
+     * @param \ADM\QuickDevBar\Service\App\Cache $cacheService
+     */
     public function __construct(\ADM\QuickDevBar\Service\App\Cache $cacheService)
     {
         $this->cacheService = $cacheService;
     }
-
 
     /**
      * @param PageCache $subject
@@ -31,14 +33,13 @@ class BuiltinPlugin
         $this->cacheService->addCache('load', $identifier);
     }
 
-
     /**
      * @param PageCache $subject
      * @param string $data
      * @param string $identifier
      * @param array $tags
      * @param $lifeTime
-     * @return mixed
+     * @return void
      */
     public function beforeSave(
         PageCache $subject,

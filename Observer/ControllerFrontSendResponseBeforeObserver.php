@@ -21,7 +21,7 @@ class ControllerFrontSendResponseBeforeObserver implements ObserverInterface
 
 
     public function __construct(\ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
-                                Data $qdbHelper,)
+                                Data $qdbHelper)
     {
         $this->qdbHelperRegister = $qdbHelperRegister;
         $this->qdbHelper = $qdbHelper;

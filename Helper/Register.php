@@ -103,7 +103,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @return mixed
+     * @return \Magento\Framework\DataObject|null
      */
     public function getObservers()
     {
@@ -111,7 +111,7 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @return mixed
+     * @return \Magento\Framework\DataObject|null
      */
     public function getEvents()
     {
@@ -119,18 +119,15 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @return mixed
+     * @return \Magento\Framework\DataObject|null
      */
     public function getCollections()
     {
         return $this->getRegisteredData('collections');
     }
-    /**
-     * @return array
-     */
 
     /**
-     * @return mixed
+     * @return \Magento\Framework\DataObject|null
      */
     public function getModels()
     {
@@ -138,18 +135,24 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @return mixed
+     * @return \Magento\Framework\DataObject|null
      */
     public function getBlocks()
     {
         return $this->getRegisteredData('blocks');
     }
 
+    /**
+     * @return \Magento\Framework\DataObject|null
+     */
     public function getLayoutHandles()
     {
         return $this->getRegisteredData('layout_handles');
     }
 
+    /**
+     * @return \Magento\Framework\DataObject|null
+     */
     public function getLayoutHierarchy()
     {
         return $this->getRegisteredData('layout_tree_blocks_hierarchy');

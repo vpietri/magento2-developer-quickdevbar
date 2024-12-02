@@ -112,7 +112,7 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
         return $this->getSqlProfiler()->getShowBacktrace();
     }
 
-    public function formatSqlTrace(mixed $bt)
+    public function formatSqlTrace($bt)
     {
         $traceFormated = [];
         foreach ($bt as $i=>$traceLine) {
