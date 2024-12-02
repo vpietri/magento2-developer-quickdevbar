@@ -227,7 +227,7 @@ class Panel extends \Magento\Framework\View\Element\Template
         return $buffer;
     }
 
-    public function htmlFormatClass(mixed $class)
+    public function htmlFormatClass($class)
     {
         return $this->helper->getIDELinkForClass($class);
     }
