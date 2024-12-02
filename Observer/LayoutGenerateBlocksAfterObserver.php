@@ -47,7 +47,7 @@ class LayoutGenerateBlocksAfterObserver implements ObserverInterface
 
     /**
      * @param \Magento\Framework\View\LayoutInterface $layout
-     * @return mixed
+     * @return array
      */
     protected function getHandles($layout)
     {

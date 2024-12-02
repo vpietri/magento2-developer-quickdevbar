@@ -30,11 +30,9 @@ class Panel extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * Used only in phtml
-     *
      * @param $key
      * @param $index
-     * @return array|\Magento\Framework\DataObject|mixed|string|null
+     * @return array|\Magento\Framework\DataObject|string|null
      * @throws \Exception
      */
     public function getData($key = '', $index = null)

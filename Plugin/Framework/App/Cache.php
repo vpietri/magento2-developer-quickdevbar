@@ -25,14 +25,13 @@ class Cache
         $this->cacheService->addCache('load', $identifier);
     }
 
-
     /**
      * @param CacheInterface $subject
      * @param string $data
      * @param string $identifier
      * @param array $tags
      * @param $lifeTime
-     * @return mixed
+     * @return void
      */
     public function beforeSave(
         CacheInterface $subject,
