@@ -39,8 +39,4 @@ class Log extends \ADM\QuickDevBar\Block\Tab\Panel
         return $this->_jsonHelper->jsonEncode($this->helper->getLogFiles());
     }
 
-    public function getUrlLog($action)
-    {
-        return $this->getFrontUrl('quickdevbar/log/'. $action . '/');
-    }
 }

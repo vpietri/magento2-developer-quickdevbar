@@ -14,7 +14,8 @@ class DumperHandler implements \Magento\Framework\Option\ArrayInterface
         return [
             ['value' => 0, 'label' => __('No')],
             ['value' => 1, 'label' => __('Current page')],
-            ['value' => 2, 'label' => __('Current page and ajax calls')]
+            ['value' => 2, 'label' => __('Current page and ajax calls (jQuery)')],
+            ['value' => 3, 'label' => __('Current page and ajax calls (experimental, with fetch hack, for Hyva)')]
         ];
     }
 }

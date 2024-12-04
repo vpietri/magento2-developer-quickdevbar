@@ -1,5 +1,10 @@
 Changelog: Quick Developer Toolbar for Magento2
 ====================================
+0.3.0
+* Compatibility Magento 2.4.7
+* Hyva compatibility
+* Code refactoring
+
 0.2.3
 * Catch VarDumper in ajax calls
 * Code refactoring

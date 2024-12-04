@@ -1,26 +1,34 @@
 <?php
 /** @var \ADM\QuickDevBar\Block\Tab\Wrapper $block */
 ?>
+
 <div class="qdb-container <?=  $block->getUiTabClass() ?>"
-style="display: block;">
-    <ul class="ui-tabs-nav">
+ style="display: block;"
+ "
+>
+    <ul class="ui-tabs-nav" data-tabs tabbis-options='{"collapsible":<?=  $block->getIsMainTab() ? 'true' : 'false' ?>}'>
         <?php foreach ($block->getTabBlocks() as $tabBlock): ?>
-            <li id="<?=  $tabBlock->getId() ?>" class="<?=  $tabBlock->getClass() ?>">
-                <a href="<?=  '#'.$tabBlock->getId('panel-') ?>"  data-ajax="<?=  $tabBlock->isAjax() ? $tabBlock->getTabUrl() : '';?>">
-                <?php if ($tabBlock->getTitleImage()):?>
-                    <img  class="qdb-img" src="<?=  $block->getViewFileUrl($tabBlock->getTitleImage()) ?>">
-                <?php endif;?>
-                <?=  $tabBlock->getTitle() ?>
-                <?php if ($tabBlock->getTitleBadge()):?>
-                    <span class="qdb-tab-badge"><?=  $tabBlock->getTitleBadge();?></span>
-                <?php endif;?>
+            <li id="<?=  $tabBlock->getId() ?>" class="<?=  $tabBlock->getClass() ?>" data-ajax="<?=  $tabBlock->isAjax(false) ? $tabBlock->getTabUrl() : '';?>" >
+                <a href="#"  >
+                    <?php if ($tabBlock->getTitleImage()):?>
+                        <img  class="qdb-img" src="<?=  $block->getViewFileUrl($tabBlock->getTitleImage()) ?>">
+                    <?php endif;?>
+                    <?=  $tabBlock->getTitle() ?>
+                    <?php if ($tabBlock->getTitleBadge()):?>
+                        <span class="qdb-tab-badge"><?=  $tabBlock->getTitleBadge();?></span>
+                    <?php endif;?>
                 </a>
             </li>
         <?php endforeach; ?>
     </ul>
+    <div data-panes>
+    <?php $tabIndice = 0; ?>
     <?php foreach ($block->getTabBlocks() as $tabBlock): ?>
         <div id="<?=  $tabBlock->getId('panel-') ?>" class="qdb-panel">
             <?=  ($tabBlock->isAjax(false)) ? $tabBlock->getHtmlLoader('big') : $tabBlock->toHtml(); ?>
         </div>
+        <?php $tabIndice++; ?>
     <?php endforeach; ?>
+    </div>
 </div>
+

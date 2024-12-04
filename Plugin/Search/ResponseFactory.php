@@ -1,9 +1,8 @@
 <?php
 namespace ADM\QuickDevBar\Plugin\Elasticsearch;
 
-use Magento\AdvancedSearch\Model\Client\ClientInterface;
 
-class Client
+class ResponseFactory
 {
     /**
      * @var ADM\QuickDevBar\Service\Elasticsearch
@@ -16,14 +15,15 @@ class Client
     }
 
     /**
-     * @param ClientInterface $subject
-     * @param array $result
-     * @param array $query
-     * @return array
+     * @param \Magento\Elasticsearch\SearchAdapter\ResponseFactory $subject
+     * @param $result
+     * @param $response
+     * @return mixed
      */
-    public function afterQuery(ClientInterface $subject, $result, $query)
+    public function afterCreate(\Magento\Elasticsearch\SearchAdapter\ResponseFactory $subject, $result, $response)
     {
-        $this->elasticsearchService->addQuery($query, $result);
+
+        //dd($result);
 
         return $result;
     }

@@ -193,8 +193,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $logFiles[$fileKey] = ['id'=>$fileName
                     , 'name' => $fileName
                     , 'path' => $filepath
-                    , 'reset' => $this->canResetFile($filepath)
-                    , 'size' => $this->getFileSize($filepath)
+                    , 'load' => $this->getFileSize($filepath)>1
                     ];
         }
 
@@ -317,7 +316,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     protected function getWrapperBaseFilename($ajax = false)
     {
-        $sessionId = $this->session->getSessionId();
+        $sessionId = $this->appState->getAreaCode().$this->session->getSessionId();
         return  'qdb_register_' . (!$ajax ? 'std' : 'xhr') . '_' . $sessionId;
     }
 

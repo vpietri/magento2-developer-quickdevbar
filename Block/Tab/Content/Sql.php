@@ -116,14 +116,7 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
     {
         $traceFormated = [];
         foreach ($bt as $i=>$traceLine) {
-//            $traceFormated[] = preg_replace_callback('/^(#\d+\s)(.*)(\s+\.\s+):(\d+)\s/', function ($matches) {
-//                return $matches[1] . $this->helper->getIDELinkForFile($matches[2],$matches[3]).' ';
-//            },$traceLine);
-
-            //basename($traceLine['file'])
             $traceFormated[] = sprintf('#%d %s %s->%s()', $i, $this->helper->getIDELinkForFile($traceLine['file'],$traceLine['line']) , $traceLine['class'], $traceLine['function']);
-
-
         }
         return '<div class="qdbTrace">'.implode('<br/>', $traceFormated).'</div>';
     }
