@@ -1,5 +1,6 @@
 <?php
-/** @var \ADM\QuickDevBar\Block\Toolbar $block
+/**
+ * @var \ADM\QuickDevBar\Block\Toolbar $block
  * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
  */
 
@@ -15,9 +16,7 @@
 
 
  -->
-<div id="qdb-bar" style="display: none;">
-    <?=  $block->getChildHtml(); ?>
-</div>
+<div id="qdb-bar" style="display: none;"></div>
 <div
      id="qdb-bar-anchor">
     <img src="<?=  $block->getViewFileUrl('ADM_QuickDevBar::images/qdb-icon.png') ?>"
@@ -227,5 +226,3 @@ document.addEventListener('DOMContentLoaded', (event) => {
 ?>
 <?= $secureRenderer->renderTag('script', ['type' => 'text/javascript'], $qdbScripttLoader, false); ?>
 <!-- End:ADM_QuickDevBar -->
-<?php echo 'qdbdate:' . date('c'); ?>
-

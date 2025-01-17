@@ -27,15 +27,15 @@
                 type="ADM\QuickDevBar\Plugin\PageCache\FrontController\BuiltinPlugin" sortOrder="1" />
     </type>
 
-    <type name="Magento\OpenSearch\Model\SearchClient">
-        <plugin name="qdb-trace-opensearch"
-                type="ADM\QuickDevBar\Plugin\Search\SearchClient" sortOrder="1" />
-    </type>
+<!--    <type name="Magento\OpenSearch\Model\SearchClient">-->
+<!--        <plugin name="qdb-trace-opensearch"-->
+<!--                type="ADM\QuickDevBar\Plugin\Search\SearchClient" sortOrder="1" />-->
+<!--    </type>-->
 
-    <type name="Magento\Elasticsearch\Elasticsearch5\Model\Client\Elasticsearch">
-        <plugin name="qdb-trace-es"
-                type="ADM\QuickDevBar\Plugin\Elasticsearch\Client" sortOrder="1" />
-    </type>
+<!--    <type name="Magento\Elasticsearch\Elasticsearch5\Model\Client\Elasticsearch">-->
+<!--        <plugin name="qdb-trace-es"-->
+<!--                type="ADM\QuickDevBar\Plugin\Elasticsearch\Client" sortOrder="1" />-->
+<!--    </type>-->
 
     <type name="ADM\QuickDevBar\Helper\Register">
         <arguments>
