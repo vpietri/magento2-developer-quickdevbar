@@ -48,7 +48,7 @@ let callForUpdate= function (url) {
             countCheck++;
         }
 
-        if(countCheck<10) {
+        if(window.hasOwnProperty("jQuery") && countCheck<10 && typeof jQuery !== "undefined") {
             jQuery(document).on('ajaxComplete', function (event, xhr, settings) {
                 if(xhr.readyState === 4 ) {
                     callForUpdate(settings.url);
@@ -59,7 +59,7 @@ let callForUpdate= function (url) {
     <?php else: ?>
     /**
      *
-     * @see: https://www.reddit.com/r/GoogleTagManager/comments/155ou5w/comment/jt6zzjm/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+     * @see: https://www.reddit.com/r/GoogleTagManager/comments/155ou5w/comment/jt6zzjm/
      */
     let qdbOriginalFetch = window.fetch;
     window.fetch = function () {

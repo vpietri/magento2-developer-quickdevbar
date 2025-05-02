@@ -11,12 +11,19 @@ class Sql implements ServiceInterface
      */
     private $sqlProfilerData;
 
+    /**
+     * @var \Zend_Db_Profiler
+     */
     private $sqlProfiler;
 
     /**
      * @var \Magento\Framework\App\ResourceConnection
      */
     private $resource;
+
+    /**
+     * @var bool
+     */
     private $useQdbProfiler = false;
 
     public function __construct(\Magento\Framework\App\ResourceConnection $resource)
@@ -95,7 +102,7 @@ class Sql implements ServiceInterface
                 'num_queries_per_second' => floor($totalNumQueries/$totalElapsedSecs),
                 'average' => $average,
                 'total_num_queries_by_type' => $numQueriesByType,
-                'show_backtrace' => $this->useQdbProfiler
+//                'show_backtrace' => $this->useQdbProfiler
                 ];
     }
 

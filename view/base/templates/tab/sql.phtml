@@ -1,5 +1,9 @@
 <?php
 /** @var ADM\QuickDevBar\Block\Tab\Content\Sql $block */
+
+use ADM\QuickDevBar\Helper\Cookie;
+use ADM\QuickDevBar\Plugin\Zend\DbAdapter;
+
 ?>
 <?php if ($block->getAllQueries()): ?>
 <table class="qdb_table_2col">
@@ -41,6 +45,16 @@
       <span>(<?=   $block->formatSqlTime($block->getLongestQueryTime()); ?>)</span>
     </td>
   </tr>
+    <tr>
+        <th>
+            <button type="button" data-qdbAction='{"path":"action/cookie", "params":{"qdbName":"<?= Cookie::COOKIE_NAME_PROFILER_ENABLED?>","qdbToggle":true}}' class="qdb-action"><?= $block->getButtonProfilerLabel() ?></button>
+        </th>
+        <td>
+            <?php if($block->getProfilerEnabled()):?>
+                <button type="button" data-qdbAction='{"path":"action/cookie", "params":{"qdbName":"<?= Cookie::COOKIE_NAME_PROFILER_BACKTRACE_ENABLED?>","qdbToggle":true}}' class="qdb-action"><?= $block->getButtonProfilerBactraceLabel() ?></button>
+            <?php endif;?>
+        </td>
+    </tr>
 </table>
 
 <div class="qdb-panel">
@@ -50,7 +64,7 @@
         <th>#</th>
         <th class="{sorter: false}">SQL</th>
         <th class="{sorter: 'text'}">Args</th>
-        <?php if($block->useQdbProfiler()): ?>
+        <?php if($block->getProfilerBacktraceEnabled()): ?>
             <th class="{sorter: false}">Bt</th>
         <?php endif; ?>
         <th class="{sorter: 'digit'}">Time</th>
@@ -66,7 +80,7 @@
           <td class="sqlquery"><?php echo $block->formatSql($query['sql']); ?></td>
           <td class="sqlargs"><?php echo $block->formatParams($query['params']); ?></td>
 
-            <?php if($block->useQdbProfiler()): ?>
+            <?php if($block->getProfilerBacktraceEnabled()): ?>
                 <td><?php echo  $block->formatSqlTrace($query['bt'])  ?></td>
             <?php endif; ?>
             <td class="sqltimer"><?php echo  $block->formatSqlTime($query['time']); ?></td>
@@ -83,6 +97,11 @@ You can use command line
 <pre>bin/magento dev:quickdevbar:enable</pre>
 and use a specific profiler with backtrace
 <pre>bin/magento dev:quickdevbar:enable --sql-profiler</pre>
-or set a new key for $config array in file app/etc/env.php<br/>
+<strong>OR</strong><br/>
+set a new key for $config array in file app/etc/env.php<br/>
 <pre>$config[db][connection][default][profiler] = 1</pre>
+<strong>OR</strong><br/>
+Dynamically enable profiler for your session (cookie qdb_db_profiler_ebnabled)<br/>
+<button type="button" data-qdbAction='{"path":"action/cookie", "params":{"qdbName":"<?= Cookie::COOKIE_NAME_PROFILER_ENABLED?>","qdbToggle":true}}' class="qdb-action"><?= $block->getButtonProfilerLabel() ?></button><br/>
+Page need to be refresh
 <?php  endif ?>

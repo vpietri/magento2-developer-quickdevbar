@@ -187,15 +187,19 @@ class tabbisClass {
         this.resetForTab(tab)
 
         const pane = this.getPaneForTab(tab);
+        let memorize = true;
         if(tab.getAttribute('data-ajax')) {
             this.loadPaneContent(tab, pane);
             tab.removeAttribute('data-ajax');
+            memorize = false;
         }
 
 		this.activateTab(tab);
 		this.activatePane(pane);
 
-		this.saveMemory(tab, i);
+        if(memorize) {
+            this.saveMemory(tab, i);
+        }
 
 		this.emitEvent('tabbis', tab, pane);
         this.emitEvent('tabbis_pane_activate', tab, pane);

@@ -331,20 +331,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function getWrapperContent($ajax = false)
     {
-//Clean old files
-//        /** @var \SplFileInfo $fileInfo */
-//        foreach (new \DirectoryIterator($this->getQdbTempDir()) as $fileInfo) {
-//            if($fileInfo->isFile() && time() - $fileInfo->getMTime() > 20) {
-//                //TODO: unlink only files starting with 'qdb_register_' . $sessionId
-//                unlink($fileInfo->getPathname());
-//            }
-//        }
-
         $wrapperFiles = [];
         $filename = $this->getWrapperBaseFilename($ajax);
         foreach (new \DirectoryIterator($this->getQdbTempDir()) as $fileInfo) {
+            $filePath = $fileInfo->getPathname();
+
+            //With ajax in setWrapperContent timestamp is added
             if($fileInfo->isFile() && strpos($fileInfo->getFilename(), $filename)===0) {
-                $wrapperFiles[] = $fileInfo->getPathname();
+                $wrapperFiles[$filePath] = file_get_contents($filePath);
+                unlink($filePath);
             }
         }
 
@@ -352,33 +347,49 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             throw new LocalizedException(__('No files for wrapper'));
         }
 
+        if(count($wrapperFiles)>1 && $ajax) {
+            throw new LocalizedException(__('Error on QDB main file'));
+        }
+
         $serializer = new \Magento\Framework\Serialize\Serializer\Json();
 
         $content = [];
-        foreach ($wrapperFiles as $wrapperContent) {
-            $jsonContent = file_get_contents($wrapperContent);
+        foreach ($wrapperFiles as $jsonContent) {
             if($jsonContent) {
                 foreach ($serializer->unserialize($jsonContent) as $contentKey => $contentValue) {
                     $content[$contentKey] =  empty($content[$contentKey]) ? $contentValue : array_merge($content[$contentKey], $contentValue);
                 }
             }
+            //unlink($wrapperContent);
             //TODO: remove foreach
-            break;
+            //break;
         }
 
         if(empty($content)) {
             throw new LocalizedException(__('No data registered'));
         }
 
+//        /** @var \SplFileInfo $fileInfo */
+//        foreach (new \DirectoryIterator($this->getQdbTempDir()) as $fileInfo) {
+//            if($fileInfo->isFile()) {
+//                //TODO: unlink only files starting with 'qdb_register_' . $sessionId
+//                //unlink($fileInfo->getPathname());
+//            }
+//        }
+
+        return $content;
+    }
+
+    protected function cleanOldFiles()
+    {
+        //Clean old files
         /** @var \SplFileInfo $fileInfo */
         foreach (new \DirectoryIterator($this->getQdbTempDir()) as $fileInfo) {
-            if($fileInfo->isFile()) {
+            if($fileInfo->isFile() && time() - $fileInfo->getMTime() > 20) {
                 //TODO: unlink only files starting with 'qdb_register_' . $sessionId
                 unlink($fileInfo->getPathname());
             }
         }
-
-        return $content;
     }
 
 
@@ -388,7 +399,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if($ajax) {
             $filename .= time();
         }
-        file_put_contents($this->getQdbTempDir() . $filename . '.json', $content);
+
+        $qdbFilename = $this->getQdbTempDir() . $filename . '.json';
+
+        file_put_contents($qdbFilename, $content);
     }
 
     /**

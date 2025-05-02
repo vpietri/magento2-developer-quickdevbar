@@ -106,20 +106,15 @@ abstract class AbstractStatusToolbar extends \Symfony\Component\Console\Command\
         }
 
         $lockTargetPath = ConfigFilePool::APP_ENV;
-        $profilerClass = $this->getProfilerClass($input);
         if(!$this->status) {
             $this->writer->saveConfig(
                 [$lockTargetPath => $this->arrayManager->set('db/connection/default/profiler', [], 0)],
                 false
             );
             $output->writeln("<info>SQL profiler is disabled in env.php</info>");
-        } elseif ($input->getOption(self::ACTIVATE_SQL_PROFILER) || $profilerClass) {
+        } elseif ($input->getOption(self::ACTIVATE_SQL_PROFILER) ) {
 
             $profilerValue = [ 'enabled'=>1];
-            if($profilerClass) {
-                $profilerValue['class']=$profilerClass;
-            }
-
             $this->writer->saveConfig(
                 [$lockTargetPath => $this->arrayManager->set('db/connection/default/profiler', [], $profilerValue)],
                 false
@@ -130,12 +125,6 @@ abstract class AbstractStatusToolbar extends \Symfony\Component\Console\Command\
         $this->cacheManager->clean($cachesToClear);
         $output->writeln("<info>Cache cleared: ".implode(",", $cachesToClear)."</info>");
 
-
         return \Magento\Framework\Console\Cli::RETURN_SUCCESS;
-    }
-
-    protected function getProfilerClass(InputInterface $input)
-    {
-        return '';
     }
 }

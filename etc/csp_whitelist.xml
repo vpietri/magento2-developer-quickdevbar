@@ -8,18 +8,21 @@
         </policy>
         <policy id="connect-src">
             <values>
-                <!-- TODO: Find plugin so add this values, depdning onconfiguration -->
+                <!-- TODO: Find plugin to add thess values, depending on user configuration -->
                 <value id="local_ide_developer_phpstorm" type="host">http://127.0.0.1:63342</value>
                 <value id="local_ide_developer_eclipse" type="host">http://127.0.0.1:34567</value>
             </values>
         </policy>
         <policy id="script-src">
             <values>
-                <value id="qdb-toolbar" type="hash" algorithm="sha256">0fqYNhUtZIYTsPCEUp6+TqBwz891zD/z5qOUNwssEHQ=</value>
+                <!-- Use https://emn178.github.io/online-tools/sha256.html with UTF-8 and Bse64 -->
+
+                -->
+                <value id="qdb-toolbar" type="hash" algorithm="sha256">SgvvFr+EuIbNctHUihu7npbOfmUqDK4M7sA5gSEUN48=</value>
                 <value id="qdb-profiler" type="hash" algorithm="sha256">hnovV8f+WhZ9ebCoXRqdN5AB0kK8XLdG0m1A1iJwEnY=</value>
-                <value id="qdb-log" type="hash" algorithm="sha256">bK2tLWn1REuSqdwXKlTb8ee0km8CvwgWaHJ0NByeYo0=</value>
-                <value id="qdb-ide" type="hash" algorithm="sha256">s3d0Et84iP59KGMgbHHnfRJXkPiVf9x4JFtVB9HgwIc=</value>
-                <value id="qdb-action" type="hash" algorithm="sha256">Max76aG+G+IwaO1GZzazlinNaPtn0FcGv1sqzIVqsWI=</value>
+                <value id="qdb-log" type="hash" algorithm="sha256">qNCjKiE6ytQPnSBywIMEXvzw+Ar3jDurzNb87EqtM5E=</value>
+                <value id="qdb-dumper" type="hash" algorithm="sha256">cGE9z/R3oV10mtE4AQPzTjSc5JWIKk4tMjDOs+W5Y+Q=</value>
+                <value id="qdb-action" type="hash" algorithm="sha256">cGE9z/R3oV10mtE4AQPzTjSc5JWIKk4tMjDOs+W5Y+Q=</value>
             </values>
         </policy>
     </policies>

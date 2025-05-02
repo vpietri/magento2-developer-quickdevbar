@@ -14,8 +14,6 @@ use Magento\Catalog\Api\Data\ProductInterface;
  */
 class EnableToolBar extends AbstractStatusToolbar
 {
-    const ACTIVATE_SQL_QDB_PROFILER="sql-qdb-profiler";
-
     /**
      * @var string
      */
@@ -36,23 +34,5 @@ class EnableToolBar extends AbstractStatusToolbar
      */
     protected $message="Toolbar enabled";
 
-    protected function configure()
-    {
 
-        parent::configure();
-        $this->addOption(
-            self::ACTIVATE_SQL_QDB_PROFILER,
-            null,
-            InputOption::VALUE_NONE,
-            'Use QDB SQL profiler with backtrace'
-        );
-    }
-
-    protected function getProfilerClass(InputInterface $input)
-    {
-        if ($input->getOption(self::ACTIVATE_SQL_QDB_PROFILER)) {
-            return \ADM\QuickDevBar\Profiler\Db::class;
-        }
-        return parent::getProfilerClass($input);
-    }
 }

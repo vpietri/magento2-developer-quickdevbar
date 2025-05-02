@@ -43,17 +43,17 @@
 }
 
 #qdb-bar {
-    --qdb-tab-bg: #004276;
+    --qdb-tab-bg: #1d4ed8;
     --qdb-tab-ft: #FFFFFF;
     --qdb-active: #eb5202;
-    --qdb-button: #006bb4;
+    --qdb-button: #1d4ed8;
     --qdb-bck: #FFFFFF;
-    --qdb-table-th: #004276;
+    --qdb-table-th: #1d4ed8;
     --qdb-table-tr-hover: #e5f7fe;
     --qdb-table-tr-stripped: #f5f5f5;
     --qdb-ft: #000000;
     --qdb-tb-border: #CCCCCC;
-    --qdb-href: #004276;
+    --qdb-href: #1d4ed8;
     --qdb-href-hover: #eb5202;
 
     position: fixed;

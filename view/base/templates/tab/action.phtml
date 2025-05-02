@@ -17,64 +17,33 @@
     </tr>
     <tr>
         <th>Template Path Hints for Storefront</th>
-        <td><button type="button" data-actionKey="template_hints_storefront"   class="qdb-action">Toggle</button></td>
+        <td><button type="button" data-qdbAction='{"path":"action/configUpdate", "params":{"config[key]":"template_hints_storefront"}, "target":"process-template_hints_storefront"}'   class="qdb-action">Toggle</button></td>
         <td id="process-template_hints_storefront"></td>
     </tr>
     <tr>
         <th>Template Path Hints for Admin</th>
-        <td><button type="button" data-actionKey="template_hints_admin"   class="qdb-action">Toggle</button></td>
+        <td><button type="button" data-qdbAction='{"path":"action/configUpdate", "params":{"config[key]":"template_hints_admin"}, "target":"process-template_hints_admin"}'   class="qdb-action">Toggle</button></td>
         <td id="process-template_hints_admin"></td>
     </tr>
     <tr>
         <th>Add Block Names to Hints</th>
-        <td><button type="button" data-actionKey="template_hints_blocks"   class="qdb-action">Toggle</button></td>
+        <td><button type="button" data-qdbAction='{"path":"action/configUpdate", "params":{"config[key]":"template_hints_blocks"}, "target":"process-template_hints_blocks"}'   class="qdb-action">Toggle</button></td>
         <td id="process-template_hints_blocks"></td>
     </tr>
     <tr>
         <th>Translate inline</th>
-        <td><button type="button" data-actionKey="translate"   class="qdb-action">Toggle</button></td>
+        <td><button type="button" data-qdbAction='{"path":"action/configUpdate", "params":{"config[key]":"translate"}, "target":"process-translate"}'   class="qdb-action">Toggle</button></td>
         <td id="process-translate"></td>
     </tr>
     <tr>
         <th>Flush Cache Storage</th>
-        <td><button type="button" data-actionCache="flush"  class="qdb-action">Flush</button></td>
+        <td><button type="button" data-qdbAction='{"path":"action/cache", "target":"process-cache"}'   class="qdb-action">Flush</button></td>
         <td id="process-cache"></td>
-    </tr>
-    <tr>
-        <th>Set developer admin config</th>
-        <td><button type="button" data-actionKey="template_hints_storefront"  class="qdb-action">Set</button></td>
-        <td id="process-devadmin"></td>
     </tr>
 </table>
 
 <script type="text/javascript">
     'use strict';
-
-    function actionConfig() {
-        let key = this.getAttribute('data-actionKey');
-        let target = 'process-' + key;
-
-        window.quickDevBar.showLoader(target);
-
-        let params = new URLSearchParams({isAjax: 1});
-        params.append("config[key]", key);
-
-        window.quickDevBar.qdbFetchPromise('quickdevbar/action/configUpdate?' + params.toString()).then(html => {
-            document.getElementById(target).innerHTML = html;
-            console.log(html);
-        });
-    }
-
-    function actionCache()
-    {
-        var target =  'process-cache';
-        window.quickDevBar.showLoader(target);
-
-        window.quickDevBar.qdbFetchPromise('quickdevbar/action/cache').then(html => {
-            document.getElementById(target).innerHTML = html;
-        });
-    }
-
     document.addEventListener('QDBBarLoaded', (event) => {
         let themeSelector = document.getElementById('qdb-theme-selector');
         let userThemeOption = themeSelector.querySelector('option[value="'+window.quickDevBar.loadUserData('qdb_theme')+'"]');
@@ -83,8 +52,4 @@
         }
         themeSelector.addEventListener('change', () => window.quickDevBar.switchTheme(themeSelector.querySelector('option:checked').value));
     });
-
-    document.querySelectorAll('button[data-actionKey]').forEach((button)=> button.addEventListener('click', actionConfig));
-    document.querySelector('button[data-actionCache]').addEventListener('click', actionCache);
-
 </script>

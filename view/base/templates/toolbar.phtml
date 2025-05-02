@@ -32,7 +32,7 @@
 
         window.quickDevBar = {
             options: {
-                debugCsp: false,
+                debug: false,
                 etTabWrapper: "qdb-bar",
                 elAnchor: "qdb-bar-anchor",
                 baseUrl: "",
@@ -141,10 +141,7 @@
                     });
 
                     clonedElement.text = scptElement.text;
-
-                    if(this.options.debugCsp) {
-                        console.log(scptElement);
-                    }
+                    this.log(scptElement)
                     // May cause a csp violation
                     scptElement.parentNode.replaceChild(clonedElement, scptElement);
                 });
@@ -168,6 +165,7 @@
              *  Apply enhancement on table
              */
             applyTabPlugin: function (ref) {
+
                 //Sort
                 ref.querySelectorAll('table.qdb_table.sortable').forEach((table)=> new SortableTable(table))
                 //Filter
@@ -178,9 +176,40 @@
                     tr.classList.add(this.options.stripedClassname);
                 }.bind(this));
 
+
+                ref.querySelectorAll('button[data-qdbAction]').forEach((button)=> button.addEventListener('click', (event) => {
+                    let actionConfig = JSON.parse(event.target.getAttribute('data-qdbAction'));
+                    if(!actionConfig.path) {
+                        this.log('No path defined for qdbAction');
+                        return;
+                    }
+
+                    let params = new URLSearchParams({isAjax: 1});
+                    if(actionConfig.params) {
+                        for(let paramKey in actionConfig.params)
+                            params.append(paramKey, actionConfig.params[paramKey]);
+                    }
+
+                    if(actionConfig.target) {
+                        this.showLoader(actionConfig.target);
+                    }
+
+                    this.qdbFetchPromise('quickdevbar/'+ actionConfig.path +'/?' + params.toString()).then(html => {
+                        if(actionConfig.target) {
+                            document.getElementById(actionConfig.target).innerHTML = html;
+                        }
+
+                        this.log(html);
+                    });
+                }));
+
+
                 this.addIdeClickEvent(ref);
 
                 document.dispatchEvent(new CustomEvent("QDBBarLoaded", {}));
+            },
+            buttonClickAction: function() {
+
             },
             /**
              *  Add hyperlink to IDE on file path
@@ -196,6 +225,11 @@
                         false,
                     );
                 });
+            },
+            log: function(args) {
+                if(this.options.debug) {
+                    console.log(args)
+                }
             }
         }
 
@@ -206,7 +240,7 @@
 $qdbScripttLoader = "
 document.addEventListener('DOMContentLoaded', (event) => {
     dynamicConfig={
-        debugCsp: false,
+        debug: false,
         baseUrl: \"" . $block->getBaseUrl(). "\",
         ajaxLoading:  ". $block->isAjaxLoading() . ",
         assetsScript: {
@@ -224,5 +258,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 ";
 ?>
-<?= $secureRenderer->renderTag('script', ['type' => 'text/javascript'], $qdbScripttLoader, false); ?>
+<?= $secureRenderer->renderTag('script', [], $qdbScripttLoader, false); ?>
 <!-- End:ADM_QuickDevBar -->
