@@ -1,8 +1,9 @@
 Changelog: Quick Developer Toolbar for Magento2
 ====================================
 0.3.0
-* Compatibility Magento 2.4.7
-* Hyva compatibility
+* Compatibility Magento 2.4.7 with strict CSP policy 
+* Hyva and Breeze compatibility (vanilla JS)
+* Dynamic SQL profiling with backtrace 
 * Code refactoring
 
 0.2.3
