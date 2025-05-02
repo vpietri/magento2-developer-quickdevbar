@@ -44,11 +44,13 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function dumpToFile()
     {
-        $isAjax = $this->_getRequest()->isAjax();
-        if($this->_getRequest() && $this->_getRequest()->getModuleName()=='quickdevbar') {
+        $moduleName = $this->_getRequest()->getModuleName();
+        if($this->_getRequest() && $moduleName=='quickdevbar') {
             return false;
         }
 
+        //Test magewire for Hyva calls
+        $isAjax =  ( $this->_getRequest()->isAjax() || $moduleName=='magewire');
         foreach ($this->services as $serviceKey => $serviceObj) {
             //TODO: Filter keys on $isAjax
             if($isAjax && $serviceKey!='dumps') {
@@ -58,7 +60,6 @@ class Register extends \Magento\Framework\App\Helper\AbstractHelper
             $this->setRegisteredData($serviceKey, $serviceObj->pullData());
         }
         $content = $this->registeredData->convertToJson();
-
         $this->qdbHelper->setWrapperContent($content, $isAjax);
     }
 

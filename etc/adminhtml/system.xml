@@ -31,13 +31,6 @@
                         <field id="enable">2</field>
                     </depends>
                 </field>
-                <field id="appearance" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Appearance</label>
-                    <source_model>ADM\QuickDevBar\Model\Config\Source\Appearance</source_model>
-                    <depends>
-                        <field id="enable" separator=",">1,2</field>
-                    </depends>
-                </field>
                 <field id="area" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Area</label>
                     <source_model>ADM\QuickDevBar\Model\Config\Source\Area</source_model>
@@ -59,7 +52,7 @@
                     <li>%1$s absolute path of magento root</li>
                     <li>%2$s relative file path from magento root (magento may run in a docker and have a mapped path on host)</li>
                     <li>%3$d line number</li></ul>
-                    Sample for phpstorm, with standard path: http://127.0.0.1:63342/api/file/%1$s:%2$d]]></comment>
+                    Sample for phpstorm, with standard path: http://127.0.0.1:63342/api/file/%2$s:%3$d]]></comment>
                     <depends>
                         <field id="enable" separator=",">1,2</field>
                         <field id="ide" separator=",">Custom</field>

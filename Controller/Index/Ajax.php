@@ -21,9 +21,9 @@ class Ajax extends \ADM\QuickDevBar\Controller\Index
         $this->qdbHelperRegister = $qdbHelperRegister;
     }
 
+
     /**
-     *
-     * @return \Magento\Backend\Model\View\Result\Page
+     * @return \Magento\Framework\Controller\Result\Raw|void
      */
     public function execute()
     {

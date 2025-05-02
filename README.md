@@ -1,25 +1,45 @@
-Developer Toolbar for Magento2
-====================================
+# Developer Toolbar for Magento2 🚀
+
+----
 
 [![Code Climate](https://codeclimate.com/github/vpietri/magento2-developer-quickdevbar/badges/gpa.svg)](https://codeclimate.com/github/vpietri/magento2-developer-quickdevbar)
 [![Total Downloads](https://poser.pugx.org/vpietri/adm-quickdevbar/downloads)](https://packagist.org/packages/vpietri/adm-quickdevbar)
 
+## Table of Content
 
-:gift: Currently, the `ADM_QuickDevBar` module has been refactored heavily: The architecture is redesigned to be compatible with Full page cache and fit coding standard :sparkles: 
-New functionalities are plugged: VarDumper handler, SQL backtrace, and more see [Changelog](doc/Changelog.md) . 
-The refactoring has come available under a new major version 0.2.0. 
+* [Overview](#Overview)
+* [Requirement](#Requirement)
+* [About](#About)
+  * [Panels](#Panels)
+  * [Screenshots](#Screenshots)
+* [Installation](#Installation)
+  * [Manual](#Manual)
+  * [Composer](#Composer)
+  * [Modman](#Modman)
+  * [Setup](#Setup)
+  * [URI File to IDE](#URI-File-to-IDE)
+* [Sponsors](#Sponsors)
+* [Documentation](#Documentation)
+* [Credits](#Credits)
 
-# Requirement
+## Overview
 
-Supported versions: Magento 2.4.x till 2.4.6 but should work with lower version.
+✨ With the Magento 2.4.7 compatibility, and the vanilla javascript refactoring comes the compatibility with Hyvä and Breeze themes.
+
+🎁 Till compatible with Full page cache and fit coding standard :sparkles:
+Functionalities like VarDumper are unforced and SQL profiler backtrace is only on demand. See more [Changelog](doc/Changelog.md) .
+
+## Requirement
+
+Supported versions: Magento 2.4.x till 2.4.7 but should work with lower version.
 See composer.json for other requirements.
 
-# About
+## About
 
 Hope this debug toolbar can speed up Magento2 development module. Any feedback and idea to improve this toolbar will be appreciated :beers: so get in touch via the [issue tracker on GitHub](https://github.com/vpietri/magento2-developer-quickdevbar/issues). Feel free to fork and pull request.
 The structure of this toolbar is extremely simple you just need to add a new block in the layout to get your tab running.
 
-## Panels
+### Panels
 
 - Info : Main informations about controller, route, action and store. Search on core config data. Dedicated tab output for local and global phpinfo.
 - Design : List handles called and display layout structure of nested blocks and containers
@@ -31,7 +51,7 @@ The structure of this toolbar is extremely simple you just need to add a new blo
 - Translation : Quickly see module, pack,theme and	DB translations
 - Help : Show module version and link to github
 
-## Screenshots
+### Screenshots
 
 - Info tab
 ![](doc/images/qdb_screen_request.png)
@@ -42,9 +62,9 @@ The structure of this toolbar is extremely simple you just need to add a new blo
 - Theme chooser
 ![](doc/images/qdb_screen_dark.png)
 
-# Installation
+## Installation
 
-## Manual (without composer)
+### Manual
 
 - Download zip file of the last version of this extension under release tab
 - Extract files in the Magento root directory in the folder app/code/ADM/QuickDevBar
@@ -57,7 +77,7 @@ php bin/magento --clear-static-content module:enable ADM_QuickDevBar
 php bin/magento setup:upgrade
 ```
 
-## With Composer
+### Composer
 
 In the Magento root directory
 
@@ -68,7 +88,7 @@ php bin/magento module:enable ADM_QuickDevBar
 php bin/magento setup:upgrade
 ```
 
-## With Modman
+### Modman
 
 In the Magento root directory
 
@@ -79,19 +99,7 @@ php bin/magento module:enable ADM_QuickDevBar
 php bin/magento setup:upgrade
 ```
 
-## Cleaning
-
-- Upgrade Magento setup
-```
-php bin/magento setup:upgrade
-```
-
-- Clear cache
-```
-php bin/magento cache:flush
-```
-
-## Setup
+### Setup
 
 The toolbar is displayed by default if your web server is on your local development environment.
 
@@ -110,7 +118,7 @@ If you do not see the toolbar you should either force activation by filling your
 ![](doc/images/qdb_screen_config_ko.png)
 
 
-### URI File to IDE 
+#### URI File to IDE 
 
 (Beta) In PhpStorm you can use **IDE Remote Control** to open file
 
@@ -118,14 +126,17 @@ https://plugins.jetbrains.com/plugin/19991-ide-remote-control
 
 ![](doc/images/phpstorm_debugger.png)
 
-# Sponsors
+## Sponsors
 
 [![Sansec.io](https://warden.dev/img/sponsors/sansec.svg)](https://www.sansec.io/)  
 
 Add your logo on <a href="https://github.com/sponsors/vpietri" rel="me" class="link">Github Sponsors</a>
 
-# Documentation
+## Documentation
 
 - [Changelog](doc/Changelog.md)
 - ~~You can extend this toolbar with your own tabs, a [sample module](https://github.com/vpietri/magento2-brandnew_quikdevsample) is available.~~ (refactoring coming soon)
 
+## Credits
+
+- [Jens Törnell](https://github.com/jenstornell)

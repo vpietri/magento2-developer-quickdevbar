@@ -43,17 +43,17 @@
 }
 
 #qdb-bar {
-    --qdb-tab-bg: #004276;
+    --qdb-tab-bg: #1d4ed8;
     --qdb-tab-ft: #FFFFFF;
     --qdb-active: #eb5202;
-    --qdb-button: #006bb4;
+    --qdb-button: #1d4ed8;
     --qdb-bck: #FFFFFF;
-    --qdb-table-th: #004276;
+    --qdb-table-th: #1d4ed8;
     --qdb-table-tr-hover: #e5f7fe;
     --qdb-table-tr-stripped: #f5f5f5;
     --qdb-ft: #000000;
     --qdb-tb-border: #CCCCCC;
-    --qdb-href: #004276;
+    --qdb-href: #1d4ed8;
     --qdb-href-hover: #eb5202;
 
     position: fixed;
@@ -66,8 +66,20 @@
     font-size: 12px;
     color:var(--qdb-ft);
 
-    input {
-        width: auto;
+    p {
+        margin-bottom: 6px;
+    }
+
+    a {
+        color: #006bb4;
+        text-decoration: underline;
+    }
+
+    select, input {
+        font-size: 14px;
+        height: 24px;
+        padding: 0 30px 0 5px;
+        color: var(--qdb-tab-bg);
     }
 
     span[data-ide-file]:not([data-ide-file=""]){
@@ -130,11 +142,11 @@
         margin: 0px;
     }
 
-    div.qdb-ui-tabs > div.qdb-panel, div.qdb-ui-subtabs > div.qdb-panel {
+    div.qdb-ui-tabs  div.qdb-panel, div.qdb-ui-subtabs > div.qdb-panel {
         background: none repeat scroll 0 0 var(--qdb-bck)
     }
 
-    div.qdb-ui-tabs > div.qdb-panel {
+    div.qdb-ui-tabs  div.qdb-panel {
         max-height: 90vh;
         overflow: auto;
         /*height: 100%;*/
@@ -195,18 +207,18 @@
         box-shadow: none;
     }
 
-    div.qdb-ui-tabs > div, div.qdb-ui-subtabs > div {
+    div.qdb-ui-tabs  div.qdb-panel, div.qdb-ui-subtabs  div.qdb-panel {
         position: relative;
         border: 1px solid var(--qdb-tab-bg);
         z-index: 99;
     }
 
-    div.qdb-ui-tabs > div {
+    div.qdb-ui-tabs  div.qdb-panel {
         padding: 10px;
         box-shadow: -1px 10px 15px 0 rgba(0, 0, 0, 0.7);
     }
 
-    div.qdb-ui-subtabs > div {
+    div.qdb-ui-subtabs  div.qdb-panel {
         padding: 10px;
         margin-top: -1px;
     }
@@ -330,19 +342,19 @@
       * Sortable
       */
 
-    table.sortable th.header.headerSortUp:after {
+    table.sortable th[aria-sort="ascending"]:after {
         content: url(../images/asc.gif);
     }
 
-    table.sortable th.header.headerSortDown:after {
+    table.sortable th[aria-sort="descending"]:after {
         content: url(../images/desc.gif);
     }
 
-    table.sortable th.header:after {
+    table.sortable th:after {
         content: url(../images/bg.gif);
     }
 
-    table.sortable th.header {
+    table.sortable th {
         cursor: pointer;
     }
 

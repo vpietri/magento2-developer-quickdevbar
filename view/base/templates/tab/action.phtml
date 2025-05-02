@@ -1,106 +1,55 @@
 <?php
 /** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
+
 ?>
+
 <table  class="qdb_table">
     <tr>
         <th>Change QDB theme</th>
         <td>
-            <select onChange="javascript:switchTheme(this);">
+            <select id="qdb-theme-selector">
                 <option value="">Standard</option>
                 <option value="dark">Dark</option>
                 <option value="kawaii">Kawaii UwU</option>
             </select>
         </td>
-
         <td id="process-template_hints_storefront"></td>
     </tr>
     <tr>
         <th>Template Path Hints for Storefront</th>
-        <td><button type="button" onClick="javascript:actionConfig('template_hints_storefront', 'toggle', 'auto');return false;" class="qdb-action">Toggle</button></td>
+        <td><button type="button" data-qdbAction='{"path":"action/configUpdate", "params":{"config[key]":"template_hints_storefront"}, "target":"process-template_hints_storefront"}'   class="qdb-action">Toggle</button></td>
         <td id="process-template_hints_storefront"></td>
     </tr>
     <tr>
         <th>Template Path Hints for Admin</th>
-        <td><button type="button" onClick="javascript:actionConfig('template_hints_admin', 'toggle', 'auto');return false;" class="qdb-action">Toggle</button></td>
+        <td><button type="button" data-qdbAction='{"path":"action/configUpdate", "params":{"config[key]":"template_hints_admin"}, "target":"process-template_hints_admin"}'   class="qdb-action">Toggle</button></td>
         <td id="process-template_hints_admin"></td>
     </tr>
     <tr>
         <th>Add Block Names to Hints</th>
-        <td><button type="button" onClick="javascript:actionConfig('template_hints_blocks', 'toggle', 'auto');return false;" class="qdb-action">Toggle</button></td>
+        <td><button type="button" data-qdbAction='{"path":"action/configUpdate", "params":{"config[key]":"template_hints_blocks"}, "target":"process-template_hints_blocks"}'   class="qdb-action">Toggle</button></td>
         <td id="process-template_hints_blocks"></td>
     </tr>
     <tr>
         <th>Translate inline</th>
-        <td><button type="button" onClick="javascript:actionConfig('translate', 'toggle', 'auto');return false;" class="qdb-action">Toggle</button></td>
+        <td><button type="button" data-qdbAction='{"path":"action/configUpdate", "params":{"config[key]":"translate"}, "target":"process-translate"}'   class="qdb-action">Toggle</button></td>
         <td id="process-translate"></td>
     </tr>
     <tr>
         <th>Flush Cache Storage</th>
-        <td><button type="button" onClick="javascript:actionCache();return false;" class="qdb-action">Flush</button></td>
+        <td><button type="button" data-qdbAction='{"path":"action/cache", "target":"process-cache"}'   class="qdb-action">Flush</button></td>
         <td id="process-cache"></td>
-    </tr>
-    <tr>
-        <th>Set developer admin config</th>
-        <td><button type="button" onClick="javascript:actionConfig('devadmin', 'toggle', 'default');return false;" class="qdb-action">Set</button></td>
-        <td id="process-devadmin"></td>
     </tr>
 </table>
 
-
-<div id='action-loader' style="display:none"><?=  $block->getHtmlLoader()?></div>
 <script type="text/javascript">
-<!--
-require([
-         'jquery'
-     ], function($){
-
-        var baseConfigUrl = '<?=  $block->getFrontUrl('quickdevbar/action/configUpdate/'); ?>';
-        var baseCacheUrl = '<?=  $block->getFrontUrl('quickdevbar/action/cache/'); ?>';
-        var loaded = false;
-
-        switchTheme= function(e)
-        {
-            let qdbTheme = $(e).find('option:selected').val();
-
-            $('#qdb-bar').attr('data-theme', qdbTheme);
-            $.mage.cookies.set('qdb_theme', qdbTheme);
-
-        };
-
-        showLoader = function(target) {
-            target.html($('#action-loader').html());
-        };
-
-        actionConfig = function(key, value, scope)
-        {
-            var target =  $('#process-' +  key );
-            showLoader(target);
-
-            var jqxhr = $.get(baseConfigUrl, {"isAjax":1,"config":{"key":key, "value":value, "scope":scope}});
-            jqxhr.beforeSend= showLoader(target);
-            jqxhr.done(function(response) {
-                target.html(response);
-            });
-            jqxhr.fail(function(response) {
-                target.html('Error');
-            });
-        };
-
-        actionCache = function()
-        {
-            var target =  $('#process-cache');
-            showLoader(target);
-
-            var jqxhr = $.get(baseCacheUrl);
-            jqxhr.beforeSend= showLoader(target);
-            jqxhr.done(function(response) {
-                target.html(response);
-            });
-            jqxhr.fail(function(response) {
-                target.html('Error');
-            });
-        };
-
-});
-//-->
+    'use strict';
+    document.addEventListener('QDBBarLoaded', (event) => {
+        let themeSelector = document.getElementById('qdb-theme-selector');
+        let userThemeOption = themeSelector.querySelector('option[value="'+window.quickDevBar.loadUserData('qdb_theme')+'"]');
+        if(userThemeOption!==null) {
+            userThemeOption.selected="selected"
+        }
+        themeSelector.addEventListener('change', () => window.quickDevBar.switchTheme(themeSelector.querySelector('option:checked').value));
+    });
 </script>

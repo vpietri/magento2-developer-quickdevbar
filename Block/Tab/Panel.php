@@ -118,7 +118,7 @@ class Panel extends \Magento\Framework\View\Element\Template
 
     public function getTabUrl()
     {
-        $tabUrl = '#'.$this->getId();
+        $tabUrl = '';
         if ($this->getData('tab_url')) {
             $tabUrl = $this->getData('tab_url');
         } else {

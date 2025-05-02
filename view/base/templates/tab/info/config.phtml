@@ -18,7 +18,7 @@
     foreach ($block->getConfigValues() as $config): ?>
   <tr>
     <td><?=  $config['path']; ?></td>
-    <td><?=  $config['value']; ?></td>
+    <td><?=  $block->escapeHtml($config['value']); ?></td>
   </tr>
         <?php $i++; ?>
     <?php endforeach ?>

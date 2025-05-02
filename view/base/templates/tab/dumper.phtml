@@ -2,7 +2,7 @@
 /** @var  $block \ADM\QuickDevBar\Block\Tab\Panel */
 ?>
 <?php if(!$block->getQdbConfig('handle_vardumper')):?>
-<p>You need to activate admin configuration and having VarDumper Component installed, see <a href="https://github.com/symfony/var-dumper">github.com/symfony/var-dumper</a></p>
+<p>You need to install VarDumper Component, see <a href="https://github.com/symfony/var-dumper">github.com/symfony/var-dumper</a></p>
 <?php endif; ?>
 
 
@@ -22,39 +22,53 @@
 
 <?php if(!$block->getIsUpdateCall() && $block->getQdbConfig('handle_vardumper')>1): ?>
 <script type="text/javascript">
-require([
-    'jquery',
-    "mage/url",
-], function($, url){
-    'use strict';
 
-    let callForUpdate= function () {
-        $.ajax({
-            url: url.build('quickdevbar/tab/ajax') + '?block=qdb.tab.dumper',
-                // Prevent fire global events
-                global: false,
-                success: function (data, textStatus, xhr) {
-                    if(xhr.status===200) {
-                        $('div.qdb-dump').last().append(data);
-                        $('#qdb-bar').data("mageQuickDevBar").addIdeClickEvent('div.qdb-dump')
-                    } else {
-                        console.error(data, 'QDB Error');
-                    }
-                }
+let callForUpdate= function (url) {
+    if( url.indexOf('/quickdevbar/')<0
+        && url.indexOf('127.0.0.1:63342')<0
+        && url.indexOf('127.0.0.1:34567')<0
+    )
+    {
+        window.quickDevBar.qdbFetchPromise('quickdevbar/tab/ajax/?' + 'block=qdb.tab.dumper').then(html => {
+            let lastSpan = [... document.querySelectorAll('div.qdb-dump')].pop();
+            if( lastSpan) {
+                lastSpan.insertAdjacentHTML('beforeend', html);
+                window.quickDevBar.addIdeClickEvent([... document.querySelectorAll('div.qdb-dump')].pop())
             }
-        );
+        });
     }
+};
 
-    $(document).on('ajaxComplete', function (event, xhr, settings) {
-        if(settings.url.indexOf(url.build(''))===0
-            && settings.url.indexOf('/quickdevbar/')<0
-            && xhr.readyState === 4
-        ) {
-            // console.log(event, 'event');
-            // event['qdb'] = true;
-            callForUpdate();
+    <?php if($block->getQdbConfig('handle_vardumper')==2): ?>
+    /** With jQuery we can listen on the ajaxComplete event */
+    (async() => {
+        let countCheck = 0;
+        while(!window.hasOwnProperty("jQuery") && countCheck<10) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            countCheck++;
         }
-    });
-});
+
+        if(window.hasOwnProperty("jQuery") && countCheck<10 && typeof jQuery !== "undefined") {
+            jQuery(document).on('ajaxComplete', function (event, xhr, settings) {
+                if(xhr.readyState === 4 ) {
+                    callForUpdate(settings.url);
+                }
+            });
+        }
+    })();
+    <?php else: ?>
+    /**
+     *
+     * @see: https://www.reddit.com/r/GoogleTagManager/comments/155ou5w/comment/jt6zzjm/
+     */
+    let qdbOriginalFetch = window.fetch;
+    window.fetch = function () {
+        return qdbOriginalFetch.apply(this, arguments).then((response) => {
+            callForUpdate(response.url);
+            return response;
+        });
+    }
+    <?php endif; ?>
+
 </script>
 <?php endif; ?>

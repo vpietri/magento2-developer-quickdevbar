@@ -11,10 +11,6 @@
                 type="ADM\QuickDevBar\Plugin\Framework\Event\Invoker" sortOrder="1"/>
     </type>
 
-    \Magento\Framework\Cache\Frontend\Decorator\TagScope
-<!--
-    <type name="Magento\Framework\App\CacheInterface">
--->
     <type name="Magento\Framework\App\CacheInterface">
         <plugin name="qdb-trace-cache"
                 type="ADM\QuickDevBar\Plugin\Framework\App\Cache" sortOrder="1" />
@@ -23,7 +19,8 @@
     <!-- Plugin on Magento\Framework\App\Http should be better but to early to access config-->
     <type name="Magento\Framework\App\FrontControllerInterface">
         <plugin name="qdb-dumper"
-                type="ADM\QuickDevBar\Plugin\Framework\App\FrontController" sortOrder="1" />
+                type="ADM\QuickDevBar\Plugin\Framework\App\FrontController" sortOrder="0" />
+        <plugin name="qdb-update-cookie" type="ADM\QuickDevBar\Plugin\Framework\App\UpdateCookies" />
     </type>
 
     <type name="Magento\PageCache\Model\Cache\Type">
@@ -31,11 +28,15 @@
                 type="ADM\QuickDevBar\Plugin\PageCache\FrontController\BuiltinPlugin" sortOrder="1" />
     </type>
 
+<!--    <type name="Magento\OpenSearch\Model\SearchClient">-->
+<!--        <plugin name="qdb-trace-opensearch"-->
+<!--                type="ADM\QuickDevBar\Plugin\Search\SearchClient" sortOrder="1" />-->
+<!--    </type>-->
 
-    <type name="Magento\Elasticsearch\Elasticsearch5\Model\Client\Elasticsearch">
-        <plugin name="qdb-trace-es"
-                type="ADM\QuickDevBar\Plugin\Elasticsearch\Client" sortOrder="1" />
-    </type>
+<!--    <type name="Magento\Elasticsearch\Elasticsearch5\Model\Client\Elasticsearch">-->
+<!--        <plugin name="qdb-trace-es"-->
+<!--                type="ADM\QuickDevBar\Plugin\Elasticsearch\Client" sortOrder="1" />-->
+<!--    </type>-->
 
     <type name="ADM\QuickDevBar\Helper\Register">
         <arguments>
@@ -88,8 +89,9 @@
     <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="enableDebugToolbar" xsi:type="object">ADM\QuickDevBar\Console\Command\EnableToolBar</item>
-                <item name="disableDebugToolbar" xsi:type="object">ADM\QuickDevBar\Console\Command\DisableToolBar</item>
+                <item name="qdb_enableDebugToolbar" xsi:type="object">ADM\QuickDevBar\Console\Command\EnableToolBar</item>
+                <item name="qdb_disableDebugToolbar" xsi:type="object">ADM\QuickDevBar\Console\Command\DisableToolBar</item>
+                <item name="qdb_database" xsi:type="object">ADM\QuickDevBar\Console\Command\Database</item>
             </argument>
         </arguments>
     </type>
@@ -98,9 +100,18 @@
         <arguments>
             <argument name="ideList" xsi:type="array">
                 <item name="PhpStorm" xsi:type="string" ><![CDATA[http://127.0.0.1:63342/api/file/%2$s:%3$d]]></item>
+<!--                <item name="PhpStorm" xsi:type="string" ><![CDATA[phpstorm://open?file=%%f&line=%%l]]></item>-->
                 <item name="Eclipse" xsi:type="string" ><![CDATA[http://127.0.0.1:34567/?command=org.eclipse.soc.ewi.examples.commands.openfile&path=%2$s&line=%3$d]]></item>
                 <item name="VSCode" xsi:type="string" ><![CDATA[vscode://file/%1$s%2$s&line=%3$d]]></item>
+<!--                <item name="textmate" xsi:type="string" ><![CDATA[txmt://open?url=file://%%f&line=%%l]]></item>-->
+<!--                <item name="macvim" xsi:type="string" ><![CDATA[mvim://open?url=file://%%f&line=%%l]]></item>-->
+<!--                <item name="emacs" xsi:type="string" ><![CDATA[emacs://open?url=file://%%f&line=%%l]]></item>-->
+<!--                <item name="sublime" xsi:type="string" ><![CDATA[subl://open?url=file://%%f&line=%%l]]></item>-->
+<!--                <item name="atom" xsi:type="string" ><![CDATA[atom://core/open/file?filename=%%f&line=%%l]]></item>-->
             </argument>
         </arguments>
+    </type>
+    <type name="Zend_Db_Adapter_Abstract">
+        <plugin name="qdb-db-adapter" type="ADM\QuickDevBar\Plugin\Zend\DbAdapter"/>
     </type>
 </config>

@@ -2,22 +2,28 @@
 
 namespace ADM\QuickDevBar\Block\Tab\Content;
 
+use ADM\QuickDevBar\Helper\Cookie;
+use ADM\QuickDevBar\Plugin\Zend\DbAdapter;
 use Magento\Framework\DataObjectFactory;
+use Magento\Framework\Stdlib\CookieManagerInterface;
 
 class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
 {
     private $objectFactory;
+    private Cookie $cookieHelper;
 
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \ADM\QuickDevBar\Helper\Data $qdbHelper,
         \ADM\QuickDevBar\Helper\Register $qdbHelperRegister,
         DataObjectFactory $objectFactory,
+        Cookie $cookieHelper,
         array $data = []
     ) {
         parent::__construct($context, $qdbHelper, $qdbHelperRegister, $data);
         $this->qdbHelperRegister = $qdbHelperRegister;
         $this->objectFactory = $objectFactory;
+        $this->cookieHelper = $cookieHelper;
     }
 
 
@@ -107,25 +113,35 @@ class Sql extends \ADM\QuickDevBar\Block\Tab\Panel
         return number_format(round(1000 * $time, $decimals), $decimals) . 'ms';
     }
 
-    public function useQdbProfiler()
-    {
-        return $this->getSqlProfiler()->getShowBacktrace();
-    }
-
     public function formatSqlTrace($bt)
     {
         $traceFormated = [];
         foreach ($bt as $i=>$traceLine) {
-//            $traceFormated[] = preg_replace_callback('/^(#\d+\s)(.*)(\s+\.\s+):(\d+)\s/', function ($matches) {
-//                return $matches[1] . $this->helper->getIDELinkForFile($matches[2],$matches[3]).' ';
-//            },$traceLine);
-
-            //basename($traceLine['file'])
             $traceFormated[] = sprintf('#%d %s %s->%s()', $i, $this->helper->getIDELinkForFile($traceLine['file'],$traceLine['line']) , $traceLine['class'], $traceLine['function']);
-
-
         }
         return '<div class="qdbTrace">'.implode('<br/>', $traceFormated).'</div>';
+    }
+
+    public function getProfilerEnabled()
+    {
+        return $this->cookieHelper->isProfilerEnabled();
+    }
+
+    public function getProfilerBacktraceEnabled()
+    {
+        return $this->cookieHelper->isProfilerBacktraceEnabled();
+    }
+
+
+    public function getButtonProfilerLabel()
+    {
+        return $this->getProfilerEnabled() ? 'Disable profiler session' : 'Enable profiler session';
+    }
+
+    public function getButtonProfilerBactraceLabel()
+    {
+        return $this->getProfilerBacktraceEnabled() ? 'Disable backtrace' : 'Enable backtrace';
+
     }
 
 }
