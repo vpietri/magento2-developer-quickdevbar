@@ -6,7 +6,7 @@
       "OSL-3.0",
       "AFL-3.0"
     ],
-    "version": "0.3.0",
+    "version": "0.3.1",
     "require": {
       "magento/magento-composer-installer": "*"
     },
