@@ -59,6 +59,9 @@ The structure of this toolbar is extremely simple you just need to add a new blo
 - Queries Tab
 ![](doc/images/qdb_screen_queries.png)
 
+- Profile Tab
+  ![](doc/images/qdb_screen_dispatch.png)
+
 - Theme chooser
 ![](doc/images/qdb_screen_dark.png)
 

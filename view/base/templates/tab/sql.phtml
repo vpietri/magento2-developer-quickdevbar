@@ -7,19 +7,21 @@ use ADM\QuickDevBar\Plugin\Zend\DbAdapter;
 ?>
 <?php if ($block->getAllQueries()): ?>
 <table class="qdb_table_2col">
-  <tr>
-    <th><?php echo __('Statistics'); ?></th>
-    </td>
-    <td>
-      <?=  sprintf(
-          '%s queries in %s (average time: %s) - %s queries/second',
-          $block->getTotalNumQueries(),
-          $block->formatSqlTime($block->getTotalElapsedSecs()),
-          $block->formatSqlTime($block->getAverage()),
-          $block->getNumQueriesPerSecond()
-      ); ?>
-    </td>
-  </tr>
+    <tbody>
+      <tr>
+        <th><?php echo __('Statistics'); ?></th>
+        </td>
+        <td>
+          <?=  sprintf(
+              '%s queries in %s (average time: %s) - %s queries/second',
+              $block->getTotalNumQueries(),
+              $block->formatSqlTime($block->getTotalElapsedSecs()),
+              $block->formatSqlTime($block->getAverage()),
+              $block->getNumQueriesPerSecond()
+          ); ?>
+        </td>
+      </tr>
+
   <tr>
     <th></th>
     <td>
@@ -55,21 +57,22 @@ use ADM\QuickDevBar\Plugin\Zend\DbAdapter;
             <?php endif;?>
         </td>
     </tr>
+    </tbody>
 </table>
 
 <div class="qdb-panel">
     <table class="qdb_table striped filterable sortable tablesorter grade">
     <thead>
-    <tr>
-        <th>#</th>
-        <th class="{sorter: false}">SQL</th>
-        <th class="{sorter: 'text'}">Args</th>
-        <?php if($block->getProfilerBacktraceEnabled()): ?>
-            <th class="{sorter: false}">Bt</th>
-        <?php endif; ?>
-        <th class="{sorter: 'digit'}">Time</th>
+        <tr>
+            <th>#</th>
+            <th class="{sorter: false}">SQL</th>
+            <th class="{sorter: 'text'}">Args</th>
+            <?php if($block->getProfilerBacktraceEnabled()): ?>
+                <th class="{sorter: false}">Bt</th>
+            <?php endif; ?>
+            <th class="{sorter: 'digit'}">Time</th>
 
-    </tr>
+        </tr>
     </thead>
     <tbody>
     <?php

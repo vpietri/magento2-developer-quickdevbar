@@ -16,7 +16,9 @@
 
 
  -->
-<div id="qdb-bar" style="display: none;"></div>
+<div id="qdb-bar" style="display: none;">
+    <?=  $block->getChildHtml(); ?>
+</div>
 <div
      id="qdb-bar-anchor">
     <img src="<?=  $block->getViewFileUrl('ADM_QuickDevBar::images/qdb-icon.png') ?>"

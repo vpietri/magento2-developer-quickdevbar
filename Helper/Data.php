@@ -1,7 +1,8 @@
 <?php
 namespace ADM\QuickDevBar\Helper;
 
-use Magento\Customer\Model\Session;
+
+use Magento\Framework\Session\Generic as QdbSession;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\State;
@@ -42,7 +43,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @var Session
      */
-    private $session;
+    private $qdbSession;
+
     private array $ideList;
 
     /**
@@ -55,7 +57,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Filesystem $filesystem,
         array $ideList,
         State $appState,
-        Session $session
+        QdbSession $qdbSession
     ) {
         parent::__construct($context);
         $this->cacheFrontendPool = $cacheFrontendPool;
@@ -64,7 +66,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $this->filesystem = $filesystem;
         $this->appState = $appState;
-        $this->session = $session;
+        $this->qdbSession = $qdbSession;
         $this->ideList = $ideList;
     }
 
@@ -316,8 +318,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     protected function getWrapperBaseFilename($ajax = false)
     {
-        $sessionId = $this->appState->getAreaCode().$this->session->getSessionId();
-        return  'qdb_register_' . (!$ajax ? 'std' : 'xhr') . '_' . $sessionId;
+        $qdbSessionId = $this->appState->getAreaCode().$this->qdbSession->getSessionId();
+        return  'qdb_register_' . (!$ajax ? 'std' : 'xhr') . '_' . $qdbSessionId;
     }
 
 
@@ -344,7 +346,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         if(empty($wrapperFiles)) {
-            throw new LocalizedException(__('No files for wrapper'));
+            throw new LocalizedException(__('No files for wrapper'.$filename));
         }
 
         if(count($wrapperFiles)>1 && $ajax) {
@@ -372,7 +374,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 //        /** @var \SplFileInfo $fileInfo */
 //        foreach (new \DirectoryIterator($this->getQdbTempDir()) as $fileInfo) {
 //            if($fileInfo->isFile()) {
-//                //TODO: unlink only files starting with 'qdb_register_' . $sessionId
+//                //TODO: unlink only files starting with 'qdb_register_' . $qdbSessionId
 //                //unlink($fileInfo->getPathname());
 //            }
 //        }
@@ -386,7 +388,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         /** @var \SplFileInfo $fileInfo */
         foreach (new \DirectoryIterator($this->getQdbTempDir()) as $fileInfo) {
             if($fileInfo->isFile() && time() - $fileInfo->getMTime() > 20) {
-                //TODO: unlink only files starting with 'qdb_register_' . $sessionId
+                //TODO: unlink only files starting with 'qdb_register_' . $qdbSessionId
                 unlink($fileInfo->getPathname());
             }
         }

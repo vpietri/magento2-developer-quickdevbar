@@ -26,6 +26,7 @@ class UpdateLayoutObserver implements ObserverInterface
     public function execute(Observer $observer)
     {
         if(!$this->qdbHelper->isAjaxLoading()) {
+            /** @var \Magento\Framework\View\Layout $layout */
             $layout = $observer->getData('layout');
             $layout->getUpdate()->addHandle('quickdevbar');
         }

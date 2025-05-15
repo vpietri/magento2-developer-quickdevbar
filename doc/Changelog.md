@@ -1,5 +1,13 @@
 Changelog: Quick Developer Toolbar for Magento2
 ====================================
+0.3.2
+* Fix adminhtml renderer
+* Add doc screenshots
+
+
+0.3.1
+* Fix the typo in the XML closing tag within the comment, thanks to [hgati](https://github.com/vpietri/magento2-developer-quickdevbar/pull/86)
+
 0.3.0
 * Compatibility Magento 2.4.7 with strict CSP policy 
 * Hyva and Breeze compatibility (vanilla JS)
