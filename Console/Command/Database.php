@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class ProductAttributesCleanUp
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-abstract class Database extends \Symfony\Component\Console\Command\Command
+class Database extends \Symfony\Component\Console\Command\Command
 {
     const DDL_COMMENT_TABLE_KEY='CREATE_TABLENAME_COMMENT_KEY';
 
