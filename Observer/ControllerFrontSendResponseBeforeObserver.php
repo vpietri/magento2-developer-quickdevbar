@@ -48,4 +48,7 @@ class ControllerFrontSendResponseBeforeObserver implements ObserverInterface
             $response->setContent($newContent);
         }
     }
+
+
+
 }
