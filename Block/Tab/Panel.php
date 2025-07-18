@@ -15,6 +15,8 @@ class Panel extends \Magento\Framework\View\Element\Template
 
     protected $qdbHelperRegister;
 
+    private $cspNonceProvider;
+
 
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
@@ -27,6 +29,10 @@ class Panel extends \Magento\Framework\View\Element\Template
 
         $this->helper = $helper;
         $this->qdbHelperRegister = $qdbHelperRegister;
+
+        if(class_exists(\Magento\Csp\Helper\CspNonceProvider::class)) {
+            $this->cspNonceProvider = ObjectManager::getInstance()->get(\Magento\Csp\Helper\CspNonceProvider::class);
+        }
     }
 
     /**
@@ -190,7 +196,9 @@ class Panel extends \Magento\Framework\View\Element\Template
     {
         try {
             $buffer = parent::_toHtml();
-            return $this->sanitizeOutput($buffer);
+            $buffer = $this->sanitizeOutput($buffer);
+            $buffer = $this->addNonceOnScript($buffer);
+            return $buffer;
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -225,6 +233,20 @@ class Panel extends \Magento\Framework\View\Element\Template
         return $buffer;
     }
 
+    private function addNonceOnScript($buffer)
+    {
+        //$this->setAutoNonceOnSrciptTag(true);
+        if($this->getAutoNonceOnSrciptTag() && $this->cspNonceProvider) {
+            $openscriptPattern = '/<(script)(.*)>/';
+            $nonceTiInject = 'nonce="' . $this->cspNonceProvider->generateNonce() .'"';
+            if(preg_match($openscriptPattern, $buffer, $matches) ) {
+                $buffer = preg_replace($openscriptPattern, '<${1} ' . $nonceTiInject . '${2}>', $buffer);
+            }
+        }
+
+        return $buffer;
+    }
+
     public function htmlFormatClass($class)
     {
         return $this->helper->getIDELinkForClass($class);
@@ -244,5 +266,7 @@ class Panel extends \Magento\Framework\View\Element\Template
     {
         return $this->helper->getQdbConfig($key, $scopeType, $scopeCode);
     }
+
+
 
 }
