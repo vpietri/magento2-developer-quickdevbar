@@ -2,6 +2,8 @@
 
 namespace ADM\QuickDevBar\Plugin\Framework\Event;
 
+use Magento\Framework\Event\Observer;
+
 class Invoker
 {
     /**
@@ -19,8 +21,11 @@ class Invoker
         $this->serviceObserver = $serviceObserver;
     }
 
-    public function beforeDispatch($class, $observerConfig, $wrapper)
+    public function beforeDispatch(\Magento\Framework\Event\InvokerInterface $class, array $configuration, Observer $observer)
     {
-        $this->serviceObserver->addObserver($observerConfig, $wrapper);
+        if (isset($configuration['disabled']) && true === $configuration['disabled']) {
+            return;
+        }
+        $this->serviceObserver->addObserver($configuration, $observer);
     }
 }

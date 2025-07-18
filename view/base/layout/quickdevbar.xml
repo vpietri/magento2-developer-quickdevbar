@@ -24,6 +24,9 @@
                         <argument name="data_key" xsi:type="string">module_list</argument>
 
                     </arguments>
+                    <action method="setIsAjax">
+                        <argument name="is_ajax" xsi:type="string">1</argument>
+                    </action>
                 </block>
                 <block class="ADM\QuickDevBar\Block\Tab\Content\Config" name="qdb.tab.config" as="qdb.tab.config" template="ADM_QuickDevBar::tab/info/config.phtml">
                     <arguments>

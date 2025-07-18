@@ -19,16 +19,10 @@ class Observer implements ServiceInterface
         return $this->observers;
     }
 
-    public function addObserver($observerConfig, $wrapper)
+    public function addObserver($configuration, $observer)
     {
-        $data = $observerConfig;
-
-        if (isset($data['disabled']) && true === $data['disabled']) {
-            return;
-        }
-
-
-        $data['event'] = $wrapper->getEvent()->getName();
+        $data = $configuration;
+        $data['event'] = $observer->getEvent()->getName();
 
         $key = crc32(json_encode($data));
         if (isset($this->observers[$key])) {

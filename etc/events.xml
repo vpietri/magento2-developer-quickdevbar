@@ -21,4 +21,8 @@
         <observer name="qdb_custom_layout" instance="ADM\QuickDevBar\Observer\UpdateLayoutObserver" />
     </event>
 
+    <event name="view_block_abstract_to_html_after">
+        <observer name="qdb_view_block_abstract_to_html_after" instance="ADM\QuickDevBar\Observer\CheckHtmlObserver" />
+    </event>
+
 </config>
