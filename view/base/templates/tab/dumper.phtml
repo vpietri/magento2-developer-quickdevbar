@@ -12,7 +12,7 @@
 <?php else: ?>
     <?php foreach ($block->getDumps() as $dump):?>
         <div class="qdb-dump">
-            <?= $block->formatTrace($dump['bt']) ?>
+            <?= !empty($dump['bt']) ? $block->formatTrace($dump['bt']) : '' ?>
             <?= $dump['dump'] ?>
         </div>
     <?php endforeach;?>
