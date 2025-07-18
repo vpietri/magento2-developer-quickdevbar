@@ -24,14 +24,14 @@
 
 ## Overview
 
-✨ With the Magento 2.4.7 compatibility, and the vanilla javascript refactoring comes the compatibility with Hyvä and Breeze themes.
+✨ With the vanilla javascript refactoring comes the compatibility with Hyvä and Breeze themes.
 
 🎁 Till compatible with Full page cache and fit coding standard :sparkles:
 Functionalities like VarDumper are unforced and SQL profiler backtrace is only on demand. See more [Changelog](doc/Changelog.md) .
 
 ## Requirement
 
-Supported versions: Magento 2.4.x till 2.4.7 but should work with lower version.
+Supported versions: Magento 2.4.x till 2.4.8 but should work with lower version.
 See composer.json for other requirements.
 
 ## About
@@ -46,7 +46,7 @@ The structure of this toolbar is extremely simple you just need to add a new blo
 - Profile : View current observers, all events dispatched, collections and models loaded, plugins instanciated, preferences, cache hits
 - Queries :  Statistics about executed queries and detailed query listing with syntax highlighting of main SQL keywords
 - Logs : Display log files with ability to reset these files
-- Dump : Catch all dump() in code
+- Dump : Catch all dump() in code, identify inline js script non compliant with CSP
 - Actions : Easily toggle template hints and inline translation and flush cache
 - Translation : Quickly see module, pack,theme and	DB translations
 - Help : Show module version and link to github
