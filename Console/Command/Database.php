@@ -35,7 +35,7 @@ class Database extends \Symfony\Component\Console\Command\Command
     private  $resource;
 
     public function __construct(\Magento\Framework\App\ResourceConnection $resource,
-                                string                $name = null)
+                                ?string                $name = null)
     {
         parent::__construct($name);
 

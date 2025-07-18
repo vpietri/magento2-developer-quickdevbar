@@ -58,7 +58,7 @@ abstract class AbstractStatusToolbar extends \Symfony\Component\Console\Command\
                                 EventManagerInterface $eventManager,
                                 Writer                $writer,
                                 ArrayManager          $arrayManager,
-                                string                $name = null)
+                                ?string                $name = null)
     {
         parent::__construct($name);
         $this->resourceConfig = $resourceConfig;
