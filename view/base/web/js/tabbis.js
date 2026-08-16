@@ -16,15 +16,19 @@ class tabbisClass {
 
 	// Setup
 	setup() {
-		const panes = document.querySelectorAll(this.getOption('paneGroup'));
 		const tabs = document.querySelectorAll(this.getOption('tabGroup'));
 
 		tabs.forEach((tabGroups, groupIndex) => {
-			const paneGroups = panes[groupIndex];
+			const tabContainer = tabGroups.closest('.qdb-container');
+			const paneGroups = tabContainer ? tabContainer.querySelector(this.getOption('paneGroup')) : null;
 			const activeIndex = this.getActiveIndex(tabGroups, groupIndex);
 
+			if (!paneGroups) {
+				return;
+			}
+
 			tabGroups.setAttribute('role', 'tablist');
-            this.tabOptions[groupIndex] = JSON.parse(tabGroups.getAttribute('tabbis-options'));
+			this.tabOptions[groupIndex] = JSON.parse(tabGroups.getAttribute('tabbis-options'));
 
 			// Reset items
 			this.resetTabs([ ...tabGroups.children ]);
@@ -32,6 +36,9 @@ class tabbisClass {
 
 			[ ...tabGroups.children ].forEach((tabItem, tabIndex) => {
 				const paneItem = paneGroups.children[tabIndex];
+				if (!paneItem) {
+					return;
+				}
 
 				// Add attributes
 				this.addTabAttributes(tabItem, groupIndex);
@@ -52,8 +59,9 @@ class tabbisClass {
 				}
 			});
 
-			if (activeIndex !== null) {
-                this.toggle([ ...tabGroups.children ][activeIndex]);
+			const activeTab = [ ...tabGroups.children ][activeIndex];
+			if (activeTab) {
+				this.toggle(activeTab, groupIndex);
 			}
 		});
 	}
@@ -172,15 +180,28 @@ class tabbisClass {
         }
     }
 
-    resetForTab(tab) {
-        const pane = this.getPaneForTab(tab);
-        this.resetTabs([ ...tab.parentNode.children ]);
-        this.resetPanes([ ...pane.parentElement.children ]);
-    }
+	resetForTab(tab) {
+		const pane = this.getPaneForTab(tab);
+		if (!pane) {
+			return;
+		}
+		this.resetTabs([ ...tab.parentNode.children ]);
+		this.resetPanes([ ...pane.parentElement.children ]);
+	}
 
-    getPaneForTab(tab) {
-        return document.querySelector('[aria-controled-by="'+tab.getAttribute('aria-controls')+'"]');
-    }
+	getPaneForTab(tab) {
+		const tabContainer = tab.closest('.qdb-container');
+		const paneSelector = '[aria-controled-by="'+tab.getAttribute('aria-controls')+'"]';
+
+		if (tabContainer) {
+			const pane = tabContainer.querySelector(paneSelector);
+			if (pane) {
+				return pane;
+			}
+		}
+
+		return document.querySelector(paneSelector);
+	}
 
 	// Activate
 	activate(tab, i) {
@@ -206,9 +227,9 @@ class tabbisClass {
 
     }
 
-    isActiveTab(tab) {
-        return tab.getAttribute('aria-selected') === "true";
-    }
+	isActiveTab(tab) {
+		return !!tab && tab.getAttribute('aria-selected') === "true";
+	}
 
 	// Activate tab
 	activateTab(tab) {
